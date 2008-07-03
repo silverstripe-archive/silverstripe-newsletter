@@ -547,10 +547,8 @@ class NewsletterAdmin extends LeftAndMain {
 
 		// Is the template attached to the type, or the newsletter itself?
 		$type = $record->getNewsletterType();
-
-		$record->Subject = $urlParams['Subject'];
-		$record->Content = $urlParams['Content'];
-
+		
+		$form->saveInto($record);
 		$record->write();
 
 		$id = 'draft_'.$record->ParentID.'_'.$record->ID;

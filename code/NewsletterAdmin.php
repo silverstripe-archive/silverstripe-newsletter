@@ -71,7 +71,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 		Requirements::javascript("newsletter/javascript/NewsletterAdmin_left.js");
 		Requirements::javascript("newsletter/javascript/NewsletterAdmin_right.js");
-		Requirements::javascript("sapphire/javascript/ProgressBar.js");
+		Requirements::javascript("newsletter/javascript/ProgressBar.js");
 
 		// We don't want this showing up in every ajax-response, it should always be present in a CMS-environment
 		if(!Director::is_ajax()) {

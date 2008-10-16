@@ -165,7 +165,7 @@ class SubscribeForm extends UserDefinedForm {
  * @package cms
  * @subpackage newsletter
  */
-class SubscribeForm_SubscribeEmail extends Email_Template {
+class SubscribeForm_SubscribeEmail extends Email {
     protected $to = '$Email';
     protected $subject = '$Subject';
     protected $ss_template = 'SubscribeEmail';

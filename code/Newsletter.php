@@ -166,7 +166,7 @@ class Newsletter_Recipient extends DataObject {
  * 
  * @package newsletter
  */
-class Newsletter_Email extends Email_Template {
+class Newsletter_Email extends Email {
 	protected $nlType;
 	
 	function __construct($nlType) {

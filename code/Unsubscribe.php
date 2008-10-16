@@ -147,7 +147,7 @@ class Unsubscribe_MailingListForm extends Form {
         }
         
         if( $lists ) {
-	    $fields->push( new LabelField( _t('Unsubcribe.SUBSCRIBEDTO', 'You are subscribed to the following lists:')) );
+	    $fields->push( new LabelField('SubscribedToLabel', _t('Unsubcribe.SUBSCRIBEDTO', 'You are subscribed to the following lists:')) );
             
             foreach( $lists as $list ) {
                 $fields->push( new CheckboxField( "MailingLists[{$list->ID}]", $list->Title ) );
@@ -155,7 +155,7 @@ class Unsubscribe_MailingListForm extends Form {
             
             $actions->push( new FormAction('unsubscribe', _t('Unsubscribe.UNSUBSCRIBE', 'Unsubscribe') ) );
         } else {
-	    $fields->push( new LabelField(sprintf(_t('Unsubscribe.NOTSUBSCRIBED', 'I\'m sorry, but %s doesn\'t appear to be in any of our mailing lists.'), $email) ) );   
+	    $fields->push( new LabelField('NotSubscribedToLabel',sprintf(_t('Unsubscribe.NOTSUBSCRIBED', 'I\'m sorry, but %s doesn\'t appear to be in any of our mailing lists.'), $email) ) );   
         }
         
         parent::__construct( $controller, $name, $fields, $actions );

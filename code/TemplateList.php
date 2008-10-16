@@ -1,14 +1,9 @@
 <?php
 
 /**
- * @package cms
- * @subpackage newsletter
- */
-
-/**
  * Subclass of DropdownField for showing a list of the newsletter templates available.
- * @package cms
- * @subpackage newsletter
+ * 
+ * @package newsletter
  */
 class TemplateList extends DropdownField {
 	

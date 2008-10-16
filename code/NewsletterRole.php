@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * NewsletterRole provides extensions to the {@link Member}
+ * class, with new database fields and functions specific
+ * to the newsletter module.
+ * 
+ * @package newsletter
+ */
 class NewsletterRole extends DataObjectDecorator {
 	
 	function extraDBFields() {

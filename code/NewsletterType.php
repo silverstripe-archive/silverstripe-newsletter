@@ -1,15 +1,11 @@
 <?php 
 
 /**
- * @package cms
- * @subpackage newsletter
- */
-
-/**
  * Represents a type of newsletter, for example the weekly products update.
- * The NewsletterType is associated with a recipient list and a bunch of Newsletter objects, which are each either Sent or Draft.
- * @package cms
- * @subpackage newsletter
+ * The NewsletterType is associated with a recipient list and a bunch of
+ * Newsletter objects, which are each either Sent or Draft.
+ * 
+ * @package newsletter
  */
 class NewsletterType extends DataObject {
 

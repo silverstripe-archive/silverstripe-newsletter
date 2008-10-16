@@ -1,14 +1,9 @@
 <?php
 
 /**
- * @package cms
- * @subpackage newsletter
- */
-
-/**
  * Single newsletter instance.  Each Newsletter belongs to a NewsletterType.
- * @package cms
- * @subpackage newsletter
+ * 
+ * @package newsletter
  */
 class Newsletter extends DataObject {
 	
@@ -130,8 +125,8 @@ class Newsletter extends DataObject {
 
 /**
  * Database record for recipients that have had the newsletter sent to them.
- * @package cms
- * @subpackage newsletter
+ * 
+ * @package newsletter
  */ 
 class Newsletter_SentRecipient extends DataObject {
 	/**
@@ -154,8 +149,8 @@ class Newsletter_SentRecipient extends DataObject {
 
 /**
  * Single recipient of the newsletter
- * @package cms
- * @subpackage newsletter
+ * 
+ * @package newsletter
  */
 class Newsletter_Recipient extends DataObject {
 	static $db = array(
@@ -168,8 +163,8 @@ class Newsletter_Recipient extends DataObject {
 
 /**
  * Email object for sending newsletters.
- * @package cms
- * @subpackage newsletter
+ * 
+ * @package newsletter
  */
 class Newsletter_Email extends Email_Template {
 	protected $nlType;

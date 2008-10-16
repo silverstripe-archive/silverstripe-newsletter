@@ -1,14 +1,9 @@
 <?php
 
 /**
- * @package cms
- * @subpackage newsletter
- */
-
-/**
  * Newsletter administration section
- * @package cms
- * @subpackage newsletter
+ * 
+ * @package newsletter
  */
 class NewsletterAdmin extends LeftAndMain {
 	static $subitem_class = "Member";

@@ -2,9 +2,10 @@
 /**
  * Displays a progress bar in a form.
  * These are currently only linked to Batch Processes.
+ * 
  * @see BatchProcess
- * @package forms
- * @subpackage fields-dataless
+ * 
+ * @package newsletter
  */
 class ProgressBar extends FormField {
 

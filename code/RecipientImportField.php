@@ -1,14 +1,9 @@
 <?php
 
 /**
- * @package cms
- * @subpackage newsletter
- */
-
-/**
- * Displays a field for importing recipients. 
- * @package cms
- * @subpackage newsletter
+ * Displays a field for importing recipients.
+ * 
+ * @package newsletter
  */
 class RecipientImportField extends FormField {
 	
@@ -184,8 +179,8 @@ class RecipientImportField extends FormField {
 
 /**
  * Single cell of the recipient import field
- * @package cms
- * @subpackage newsletter
+ * 
+ * @package newsletter
  */
 class RecipientImportField_Cell extends ViewableData {
 	protected $value;

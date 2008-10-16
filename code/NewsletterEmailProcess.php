@@ -48,7 +48,7 @@ class NewsletterEmailProcess extends BatchProcess {
 
 	        // check to see if the user has unsubscribed from the mailing list
 	        // TODO Join in the above query first
-	        $unsubscribeRecord = DataObject::get_one('Member_UnsubscribeRecord', "`MemberID`='{$member->ID}' AND `NewsletterTypeID`='{$this->nlType->ID}'");
+	        $unsubscribeRecord = DataObject::get_one('UnsubscribeRecord', "`MemberID`='{$member->ID}' AND `NewsletterTypeID`='{$this->nlType->ID}'");
 	        
 	        if( !$unsubscribeRecord ) {
 	        	

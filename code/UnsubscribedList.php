@@ -1,14 +1,9 @@
 <?php
 
 /**
- * @package cms
- * @subpackage newsletter
- */
-
-/**
  * Displays a list of all members that have unsubscribed from the list
- * @package cms
- * @subpackage newsletter
+ * 
+ * @package newsletter
  */
 class UnsubscribedList extends FormField {
     
@@ -31,7 +26,7 @@ class UnsubscribedList extends FormField {
         
         $id = $this->nlType->ID;
         
-        $unsubscribeRecords = DataObject::get( 'Member_UnsubscribeRecord', "`NewsletterTypeID`='$id'" );
+        $unsubscribeRecords = DataObject::get('UnsubscribeRecord', "`NewsletterTypeID`='$id'" );
         
         // user_error($id, E_USER_ERROR );
         

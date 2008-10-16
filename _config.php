@@ -16,4 +16,6 @@ LeftAndMain::add_menu_item(
 	"NewsletterAdmin"
 );
 
+DataObject::add_extension('Member', 'NewsletterRole');
+
 ?>

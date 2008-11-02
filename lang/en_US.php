@@ -20,36 +20,6 @@ $lang['en_US']['Newsletter']['SINGULARNAME'] = array(
 	'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['en_US']['Newsletter']['SUBJECT'] = 'Subject';
-$lang['en_US']['Newsletter']['db_Content'] = array(
-	'Content',
-	50,
-	'Name of the object property, mainly used for automatically generating forms'
-);
-$lang['en_US']['Newsletter']['db_SentDate'] = array(
-	'SentDate',
-	50,
-	'Name of the object property, mainly used for automatically generating forms'
-);
-$lang['en_US']['Newsletter']['db_Status'] = array(
-	'Status',
-	50,
-	'Name of the object property, mainly used for automatically generating forms'
-);
-$lang['en_US']['Newsletter']['db_Subject'] = array(
-	'Subject',
-	50,
-	'Name of the object property, mainly used for automatically generating forms'
-);
-$lang['en_US']['Newsletter']['has_many_Recipients'] = array(
-	'Recipients',
-	50,
-	'Name of an object relation, mainly used for automatically generating forms'
-);
-$lang['en_US']['Newsletter']['has_many_SentRecipients'] = array(
-	'SentRecipients',
-	50,
-	'Name of an object relation, mainly used for automatically generating forms'
-);
 $lang['en_US']['NewsletterAdmin']['ADDEDTOBL'] = 'was added to blacklist';
 $lang['en_US']['NewsletterAdmin']['BOUNCED'] = 'Bounced';
 $lang['en_US']['NewsletterAdmin']['FROMEM'] = 'From email address';
@@ -138,31 +108,6 @@ $lang['en_US']['NewsletterType']['SINGULARNAME'] = array(
 );
 $lang['en_US']['NewsletterType']['TEMPLATE'] = 'Template';
 $lang['en_US']['NewsletterType']['UNSUBSCRIBED'] = 'Unsubscribed';
-$lang['en_US']['NewsletterType']['db_FromEmail'] = array(
-	'FromEmail',
-	50,
-	'Name of the object property, mainly used for automatically generating forms'
-);
-$lang['en_US']['NewsletterType']['db_Sent'] = array(
-	'Sent',
-	50,
-	'Name of the object property, mainly used for automatically generating forms'
-);
-$lang['en_US']['NewsletterType']['db_Template'] = array(
-	'Template',
-	50,
-	'Name of the object property, mainly used for automatically generating forms'
-);
-$lang['en_US']['NewsletterType']['db_Title'] = array(
-	'Title',
-	50,
-	'Name of the object property, mainly used for automatically generating forms'
-);
-$lang['en_US']['NewsletterType']['has_many_Newsletters'] = array(
-	'Newsletters',
-	50,
-	'Name of an object relation, mainly used for automatically generating forms'
-);
 $lang['en_US']['Newsletter_RecipientImportField.ss']['CHANGED'] = 'Number of details changed:';
 $lang['en_US']['Newsletter_RecipientImportField.ss']['IMPORTED'] = 'New members imported:';
 $lang['en_US']['Newsletter_RecipientImportField.ss']['IMPORTNEW'] = 'Imported new members';
@@ -195,26 +140,6 @@ $lang['en_US']['SubscribeForm']['SINGULARNAME'] = array(
 	'Subscribe Form',
 	50,
 	'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SubscribeForm']['db_AllNewsletters'] = array(
-	'AllNewsletters',
-	50,
-	'Name of the object property, mainly used for automatically generating forms'
-);
-$lang['en_US']['SubscribeForm']['db_Subject'] = array(
-	'Subject',
-	50,
-	'Name of the object property, mainly used for automatically generating forms'
-);
-$lang['en_US']['SubscribeForm']['db_Subscribe'] = array(
-	'Subscribe',
-	50,
-	'Name of the object property, mainly used for automatically generating forms'
-);
-$lang['en_US']['SubscribeForm']['has_many_Newsletters'] = array(
-	'Newsletters',
-	50,
-	'Name of an object relation, mainly used for automatically generating forms'
 );
 $lang['en_US']['TemplateList']['NONE'] = 'None';
 $lang['en_US']['Unsubcribe']['SUBSCRIBEDTO'] = 'You are subscribed to the following lists:';

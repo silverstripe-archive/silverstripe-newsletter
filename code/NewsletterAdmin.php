@@ -35,6 +35,12 @@ class NewsletterAdmin extends LeftAndMain {
 		'showsent',
 	);
 
+	static $url_segment = 'newsletter';
+	
+	static $url_rule = '/$Action/$ID/$OtherID';
+	
+	static $menu_title = 'Newsletter';
+
 	public function init() {
 		// Check permissions
 		// if(!Member::currentUser() || !Member::currentUser()->isAdmin()) Security::permissionFailure($this);
@@ -761,8 +767,7 @@ JS;
 	}
 
 	public function Link($action = null) {
-		if(!$action) $action = "index";
-		return "admin/newsletter/$action/" . $this->currentPageID();
+		return "admin/newsletter";
 	}
 
 	public function displayfilefield() {
@@ -788,6 +793,10 @@ JS;
 		);
 
 		return new RecipientImportField_UploadForm( $this, "UploadForm", $fields, $actions );
+	}
+	
+	function getMenuTitle() {
+		return _t('LeftAndMain.NEWSLETTERS',"Newsletters",PR_HIGH,"Menu title");
 	}
 }
 

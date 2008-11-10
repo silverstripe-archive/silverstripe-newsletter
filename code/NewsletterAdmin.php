@@ -125,45 +125,57 @@ class NewsletterAdmin extends LeftAndMain {
 	}
 
 	/**
+	* Top level call from ajax
 	* Called when a mailing list is clicked on the left menu
 	*/
 	public function showrecipients($params) {
+		$params = $params->allParams();
 		return $this->showWithEditForm( $params, $this->getMailingListEditForm( $params['ID'] ) );
 	}
 
 	/**
+	* Top level call from ajax when click on the left manu
+	* Second level call when create a draft
 	* Called when a draft or sent newsletter is clicked on the left menu and when a new one is added
 	*/
 	public function shownewsletter($params) {
+		if($params instanceof HTTPRequest){
+			$params = $params->allParams();
+		}
 		return $this->showWithEditForm( $params, $this->getNewsletterEditForm( $params['ID'] ) );
 	}
 
 	/**
+	* Top level call from ajax
 	* Called when a newsletter type is clicked on the left menu
 	*/
 	public function showmailtype($params) {
-		//debug::show($params);
-		/*debug::show($params['ID']);
-		die;*/
+		$params = $params->allParams();
 		return $this->showWithEditForm( $params, $this->getNewsletterTypeEditForm( $params['ID'] ) );
 	}
 
 	/**
+	* Top level call from ajax
 	* Called when a 'Drafts' folder is clicked on the left menu
 	*/
 	public function showdrafts($params) {
+		$params = $params->allParams();
 		return $this->ShowNewsletterFolder($params, 'Draft');
 	}
 
 	/**
+	* Top level call from ajax
 	* Called when a 'Sent Items' folder is clicked on the left menu
 	*/
 	public function showsent($params) {
+		$params = $params->allParams();
 		return $this->ShowNewsletterFolder($params, 'Sent');
 	}
 
 	/**
 	* Shows either the 'Sent' or 'Drafts' folder using the NewsletterList template
+	* Didn't see anywhere it is called from top level ajax call or from templete, 
+	* it is only called internally from showdrafts and showsent.
 	*/
 	public function ShowNewsletterFolder($params, $type) {
 		$id = $params['ID'];
@@ -182,15 +194,22 @@ class NewsletterAdmin extends LeftAndMain {
 		return $draftList->renderWith("NewsletterList");
 	}
 
-    public function removenewsletter($params) {
+	/**
+	 * 	Didn't see anywhere it is called from top level ajax call or from templete, 
+	 *  or internally. remove it now.
+	 */
+    /*public function removenewsletter($params) {
         if( !is_numeric( $params['ID'] ) )
             return '';
 
         $newsletter = DataObject::get_by_id( 'Newsletter', $params['ID'] );
         $newsletter->delete();
         return 'letter-' . $params['ID'];
-    }
+    }*/
 
+	/**
+	 * This function is called only internally, so make sure that $params is not a HTTPRequest from caller.
+	 */
     private function showWithEditForm( $params, $editForm ) {
         if(isset($params['ID'])) {
         	Session::set('currentPage', $params['ID']);
@@ -207,7 +226,9 @@ class NewsletterAdmin extends LeftAndMain {
     }
 
     public function getEditForm( $id ) {
-        return $this->getNewsletterTypeEditForm( $id );
+        $form = $this->getNewsletterTypeEditForm( $id );
+		$form->disableDefaultAction();
+		return $form;
     }
 
     /**
@@ -215,15 +236,17 @@ class NewsletterAdmin extends LeftAndMain {
      */
     public function EditForm() {
     	if((isset($_REQUEST['ID']) && isset($_REQUEST['Type']) && $_REQUEST['Type'] == 'Newsletter') || isset($_REQUEST['action_savenewsletter'])) {
-    		return $this->NewsletterEditForm();
+    		$form = $this->NewsletterEditForm();
     	} else {
-		// If a mailing list member is being added to a group, then call the Recipient form
-		if (isset($_REQUEST['fieldName']) && 'Recipients' == $_REQUEST['fieldName']) {
-			return $this->MailingListEditForm();
-		} else {
-			return $this->TypeEditForm();
-		}
+			// If a mailing list member is being added to a group, then call the Recipient form
+			if (isset($_REQUEST['fieldName']) && 'Recipients' == $_REQUEST['fieldName']) {
+				$form = $this->MailingListEditForm();
+			} else {
+				$form = $this->TypeEditForm();
+			}
     	}
+		if($form) $form->disableDefaultAction();
+		return $form;
     }
 
     public function NewsletterEditForm() {
@@ -359,12 +382,14 @@ class NewsletterAdmin extends LeftAndMain {
 
 	/**
 	 * Removes a bounced member from the mailing list
-	 *
+	 * top level call from front-ajax
 	 * @return String
 	 */
-	function removebouncedmember($urlParams) {
+	function removebouncedmember($params) {
+		$params = $params->allParams();
+		
 		// First remove the Bounce entry	
-		$id = Convert::raw2sql($urlParams['ID']);
+		$id = Convert::raw2sql($params['ID']);
 		if (is_numeric($id)) {
 			$bounceObject = DataObject::get_by_id('Email_BounceRecord', $id);
 			if($bounceObject) {
@@ -390,8 +415,10 @@ class NewsletterAdmin extends LeftAndMain {
 
 	/**
 	 * Reloads the "Sent Status Report" tab via ajax
+	 * top level call from ajax
 	 */
 	function getsentstatusreport($params) {
+		$params = $params->allParams();
 		if(Director::is_ajax()) {
 			$newsletter = DataObject::get_by_id( 'Newsletter', $params['ID'] );
 			$sent_status_report = $newsletter->renderWith("Newsletter_SentStatusReport");
@@ -521,10 +548,14 @@ class NewsletterAdmin extends LeftAndMain {
         return $emailProcess->start();
     }
 
-	public function save($urlParams, $form) {
+	/*
+	 * Top level call, $param is a HTTPRequest Object
+	 */
+	public function save($params, $form) {
+		$params = $params->allParams();
 		// Both the Newsletter type and the Newsletter draft call save() when "Save" button is clicked
 		if( isset($_REQUEST['Type']) && $_REQUEST['Type'] == 'Newsletter' )
-			return $this->savenewsletter( $urlParams, $form );
+			return $this->savenewsletter( $params, $form );
 
 		$id = $_REQUEST['ID'];
 		$className = 'NewsletterType';
@@ -543,6 +574,9 @@ class NewsletterAdmin extends LeftAndMain {
 		return FormResponse::respond();
 	}
 
+	/*
+	 * Internal call found so far.
+	 */
 	public function savenewsletter($urlParams, $form) {
 		$id = $_REQUEST['ID'];
 
@@ -679,23 +713,27 @@ JS;
 
 	/**
 	 * Called by AJAX to create a new newsletter type
-	 *
+	 * Top level call
 	 */
 	public function addtype( $params ) {
-		$form = $this->getNewsletterTypeEditForm( $this->newNewsletterType() );
-
-		return $this->showWithEditForm( $_REQUEST, $form );
+		$params = $params->allParams();
+		$params['ID'] = $typeid = $this->newNewsletterType();
+			
+		$form = $this->getNewsletterTypeEditForm($typeid);
+		return $this->showWithEditForm( $params, $form );
 	}
 
 	/**
 	 * Called by AJAX to create a new newsletter draft
-	 *
+	 * Top level call
 	 */
-	public function adddraft( $data) {
+	public function adddraft( $params) {
+		$params = $params->allParams();
+		
 		$draftID = $this->newDraft( $_REQUEST['ParentID'] );
 		// Needed for shownewsletter() to work
-		$_REQUEST['ID'] = $draftID;
-		return $this->shownewsletter($_REQUEST);
+		$params['ID'] = $draftID;
+		return $this->shownewsletter($params);
 	}
 	
     /**

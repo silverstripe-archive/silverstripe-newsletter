@@ -142,6 +142,9 @@ class NewsletterAdmin extends LeftAndMain {
 	* Called when a newsletter type is clicked on the left menu
 	*/
 	public function showmailtype($params) {
+		//debug::show($params);
+		debug::show($params['ID']);
+		die;
 		return $this->showWithEditForm( $params, $this->getNewsletterTypeEditForm( $params['ID'] ) );
 	}
 

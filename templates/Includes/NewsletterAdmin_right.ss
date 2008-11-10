@@ -1,5 +1,3 @@
-<% include Editor_toolbar %>
-
 <div id="form_actions_right" class="ajaxActions">
 </div>
 

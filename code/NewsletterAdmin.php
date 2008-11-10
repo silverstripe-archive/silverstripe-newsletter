@@ -143,8 +143,8 @@ class NewsletterAdmin extends LeftAndMain {
 	*/
 	public function showmailtype($params) {
 		//debug::show($params);
-		debug::show($params['ID']);
-		die;
+		/*debug::show($params['ID']);
+		die;*/
 		return $this->showWithEditForm( $params, $this->getNewsletterTypeEditForm( $params['ID'] ) );
 	}
 

@@ -223,10 +223,6 @@ SiteTreeNode.prototype.getPageFromServer = function() {
 			type = RegExp.$1;
 			otherID = RegExp.$3;
 		}
-		console.log(newPageID);
-		console.log(type);
-		console.log(otherID);
-		console.log(openTabName);
 		$('Form_EditForm').getPageFromServer(newPageID, type, otherID, openTabName);
 };
 

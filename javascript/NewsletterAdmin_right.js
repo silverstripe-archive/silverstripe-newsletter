@@ -109,7 +109,6 @@ Behaviour.register({
 					requestURL = 'admin/newsletter/shownewsletter/' + otherid;
 				}
 				
-				console.log(baseHref() + requestURL);
 				new Ajax.Request(baseHref() + requestURL, {
 					asynchronous : true,
 					method : 'post', 

@@ -141,7 +141,7 @@ Behaviour.register({
 			}
 			statusMessage('');
       
-      onload_init_tabstrip();
+      if(typeof onload_init_tabstrip != 'undefined') onload_init_tabstrip();
             
       if( this.openTab ) {
           openTab( this.openTab );
@@ -192,7 +192,7 @@ Behaviour.register({
 				tinyMCE.onLoad();
 			}
 			
-			onload_init_tabstrip();
+			if(typeof onload_init_tabstrip != 'undefined') onload_init_tabstrip();
 
 			// if(this.prepareForm) this.prepareForm();
 			Behaviour.apply($('Form_EditForm'));

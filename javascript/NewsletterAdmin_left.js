@@ -234,11 +234,20 @@ function draft_sent_ok( newsletterID, draftID, numEmails ) {
     draftsListNode.removeTreeNode( draftNode );
     draftNode.id = 'sent_' + newsletterID + '_' + draftID;
     sentListNode.appendTreeNode( draftNode, null );
-    statusMessage('Sent newsletter to mailing list. Sent ' + numEmails + ' emails successfully.', 'good'); 
+
+    if(numEmails > 0) {
+        statusMessage('Sent newsletter to mailing list. Sent ' + numEmails + ' emails successfully.', 'good'); 
+    } else {
+        statusMessage('Your mailing list is empty, so nothing was sent.  However, this newsletter has been moved from "Drafts" to "Sent Items".', 'bad');
+    }
 }
 
 function resent_ok( newsletterID, sentID, numEmails ) {
-    statusMessage('Resent newsletter to mailing list. Sent ' + numEmails + ' emails successfully.', 'good'); 
+    if(numEmails > 0) {
+        statusMessage('Resent newsletter to mailing list. Sent ' + numEmails + ' emails successfully.', 'good'); 
+    } else {
+        statusMessage('Your mailing list is empty, so nothing was sent.', 'bad');
+    }
 }
 
 function reloadSiteTree() {
@@ -258,7 +267,7 @@ function reloadSiteTree() {
 _HANDLER_FORMS['addtype'] = 'addtype_options';
 _HANDLER_FORMS['deletedrafts'] = 'deletedrafts_options';
 
-AddForm = Class.extend('addpage');
+AddForm = Class.extend('addpageclass');
 AddForm.applyTo('#addtype');
 AddForm.prototype = {
   initialize: function () {

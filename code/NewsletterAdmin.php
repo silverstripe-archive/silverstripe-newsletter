@@ -33,6 +33,9 @@ class NewsletterAdmin extends LeftAndMain {
 		'shownewsletter',
 		'showrecipients',
 		'showsent',
+		'MailingListEditForm',
+		'TypeEditForm',
+		'NewsletterEditForm',
 	);
 
 	static $url_segment = 'newsletter';
@@ -76,6 +79,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 		// We don't want this showing up in every ajax-response, it should always be present in a CMS-environment
 		if(!Director::is_ajax()) {
+			Requirements::javascript(MCE_ROOT . "tiny_mce_src.js");
 			Requirements::javascriptTemplate("cms/javascript/tinymce.template.js", array(
 				"ContentCSS" => project() . "/css/editor.css",
 				"BaseURL" => Director::absoluteBaseURL(),
@@ -83,9 +87,6 @@ class NewsletterAdmin extends LeftAndMain {
 			));
 		}
 
-		// needed for MemberTableField (Requirements not determined before Ajax-Call)
-		Requirements::javascript("cms/javascript/MemberTableField.js");
-		
 		Requirements::css("newsletter/css/NewsletterAdmin.css");
 	}
 
@@ -304,11 +305,14 @@ class NewsletterAdmin extends LeftAndMain {
 
 			$actions = new FieldSet(new FormAction('save', _t('NewsletterAdmin.SAVE', 'Save')));
 
-			$form = new Form($this, "EditForm", $fields, $actions);
+			$form = new Form($this, "TypeEditForm", $fields, $actions);
 			$form->loadDataFrom(array(
 				'Title' => $mailType->Title,
 				'FromEmail' => $mailType->FromEmail
 			));
+			// This saves us from having to change all the JS in response to renaming this form to TypeEditForm
+			$form->setHTMLID('Form_EditForm');
+
 		} else {
 			$form = false;
 		}
@@ -367,11 +371,14 @@ class NewsletterAdmin extends LeftAndMain {
 			// Save button is not used in Mailing List section
 			$actions = new FieldSet(new HiddenField("save"));
 
-			$form = new Form($this, "EditForm", $fields, $actions);
+			$form = new Form($this, "MailingListEditForm", $fields, $actions);
 			$form->loadDataFrom(array(
 				'Title' => $mailType->Title,
 				'FromEmail' => $mailType->FromEmail
 			));
+			// This saves us from having to change all the JS in response to renaming this form to MailingListEditForm
+			$form->setHTMLID('Form_EditForm');
+
 		} else {
 			$form = false;
 		}
@@ -460,8 +467,10 @@ class NewsletterAdmin extends LeftAndMain {
 
 			$actions->push(new FormAction('save',_t('NewsletterAdmin.SAVE')));
 
-			$form = new Form($this, "EditForm", $fields, $actions);
+			$form = new Form($this, "NewsletterEditForm", $fields, $actions);
 			$form->loadDataFrom($email);
+			// This saves us from having to change all the JS in response to renaming this form to NewsletterEditForm
+			$form->setHTMLID('Form_EditForm');
 
 			if($email->Status != 'Draft') {
 				$form->makeReadonly();
@@ -552,7 +561,7 @@ class NewsletterAdmin extends LeftAndMain {
 	 * Top level call, $param is a HTTPRequest Object
 	 */
 	public function save($params, $form) {
-		$params = $params->allParams();
+		if(is_object($params)) $params = $params->allParams();
 		// Both the Newsletter type and the Newsletter draft call save() when "Save" button is clicked
 		if( isset($_REQUEST['Type']) && $_REQUEST['Type'] == 'Newsletter' )
 			return $this->savenewsletter( $params, $form );

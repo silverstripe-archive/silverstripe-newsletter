@@ -132,9 +132,9 @@ class NewsletterEmailProcess extends BatchProcess {
 		
 		// Call the success message JS function with the Newsletter information
 		if( $resent ) {
-			return "resent_ok( '{$this->nlType->ID}', '{$this->newsletter->ID}', '".count( $this->objects )."' )";
+			return "resent_ok( '{$this->nlType->ID}', '{$this->newsletter->ID}', '".count( $this->objects )."' ); ";
 		} else {
-			return "draft_sent_ok( '{$this->nlType->ID}', '{$this->newsletter->ID}', '".count( $this->objects )."' )";
+			return "draft_sent_ok( '{$this->nlType->ID}', '{$this->newsletter->ID}', '".count( $this->objects )."' ); ";
 		}
 	}
 }

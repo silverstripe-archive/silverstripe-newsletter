@@ -15,12 +15,20 @@ class NewsletterType extends DataObject {
     	"FromEmail" => "Varchar",
     	"Sent" => "Datetime"
 	);
+	
 	static $has_one = array(
 		"Parent" => "SiteTree",
 		"Group" => "Group",
 	);
+	
 	static $has_many = array(
 		"Newsletters" => "Newsletter",
+	);
+	
+	static $many_many = array(
+	);
+	
+	static $defaults = array(
 	);
 	
 	function DraftNewsletters() {

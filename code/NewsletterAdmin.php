@@ -286,17 +286,10 @@ class NewsletterAdmin extends LeftAndMain {
 		if(isset($mailType) && is_object($mailType) && $mailType->GroupID) {
 			$group = DataObject::get_one("Group", "ID = $mailType->GroupID");
 		}
-		if(isset($mailType)&&$mailType) {
-			$fields = new FieldSet(
-				new TabSet("Root",
-					new Tab(_t('NewsletterAdmin.NLSETTINGS', 'Newsletter Settings'),
-						new TextField("Title", _t('NewsletterAdmin.NEWSLTYPE','Newsletter Type')),
-						new TextField("FromEmail", _t('NewsletterAdmin.FROMEM','From email address')),
-						$templates = new TemplateList("Template", _t('NewsletterAdmin.TEMPLATE', 'Template'), $mailType->Template, self::template_path())
-					)
-				)
-			);
-
+		if(isset($mailType) && $mailType) {
+			$fields = $mailType->getCMSFields();
+			$templates = $fields->dataFieldByName('Template');
+			
 			$templates->setController($this);
 
 			$fields->push($idField = new HiddenField("ID"));
@@ -306,10 +299,7 @@ class NewsletterAdmin extends LeftAndMain {
 			$actions = new FieldSet(new FormAction('save', _t('NewsletterAdmin.SAVE', 'Save')));
 
 			$form = new Form($this, "TypeEditForm", $fields, $actions);
-			$form->loadDataFrom(array(
-				'Title' => $mailType->Title,
-				'FromEmail' => $mailType->FromEmail
-			));
+			$form->loadDataFrom($mailType);
 			// This saves us from having to change all the JS in response to renaming this form to TypeEditForm
 			$form->setHTMLID('Form_EditForm');
 

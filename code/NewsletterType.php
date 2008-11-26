@@ -54,7 +54,7 @@ class NewsletterType extends DataObject {
 	 * Updates the group so the security section is also in sync with
 	 * the curent newsletters.
 	 */
-	function onBeforeWrite(){
+	function onBeforeWrite() {
 		if($this->ID){
 			$group = $this->Group();
 			if($group->Title != "$this->Title"){
@@ -67,75 +67,25 @@ class NewsletterType extends DataObject {
 		parent::onBeforeWrite();
 	}
 
-    /**
-     * Get the fieldset to display in the administration section
-     */
-    function getCMSFields() {
-       $group = null;
-		if($this->GroupID) {
-			$group = DataObject::get_one("Group", "ID = $this->GroupID");
-        }
-	
+	/**
+	 * Get the fieldset to display in the administration section
+	 */
+	function getCMSFields() {
     	$fields = new FieldSet(
-	    new TextField("Title", _t('NewsletterType.NEWSLETTERTYPE', 'Newsletter Type')),
-            new TextField("FromEmail", _t('NewsletterType.SENDFROM', 'Send newsletters from')),
-            new TabSet("Root",
-		new Tab(_t('NewsletterType.DRAFTS', 'Drafts'),
-		    $draftList = new NewsletterList("Draft", $this, _t('NewsletterType.DRAFT', 'Draft'))
-                ),
-		new TabSet('Sent',
-                    new Tab(_t('NewsletterType.SENT', 'Sent'),
-			$sendList = new NewsletterList("Send", $this, _t('NewsletterType.SEND', 'Send'))
-                    ),
-		    new Tab(_t('NewsletterType.UNSUBSCRIBED', 'Unsubscribed'),
-                        $unsubscribedList = new UnsubscribedList("Unsubscribed", $this)    
-                    ),
-		    new Tab(_t('NewsletterType.BOUNCED', 'Bounced'),
-                        $bouncedList = new BouncedList("Bounced", $this )
-                    )
-                )
-            )
-        );
-        
-        if($this->GroupID) {
-            $fields->addFieldToTab('Root', 
-                new TabSet("Recipients",
-		    new Tab( _t('NewsletterType.RECIPIENTS', 'Recipients'),
-                        $recipients = new MemberTableField(
-                            $this,
-                            "Recipients", 
-                            $group
-                            )
-                    ),
-		    new Tab( _t('NewsletterType.IMPORT', 'Import'),
-			$importField = new RecipientImportField("ImportFile", _t('NewsletterType.IMPORTFROM', 'Import from file'), $group )
-                    )
-                )
-            );
-            
-            $recipients->setController($this);
-            $importField->setController($this);
-            $importField->setTypeID( $this->ID );
-        }
-                
-        $fields->addFieldToTab('Root', 
-	    new Tab(_t('NewsletterType.TEMPLATE', 'Template'),
-                $templates = new TemplateList("Template","Template", $this->Template, NewsletterAdmin::template_path())
-            )
-        );
-        
-        $draftList->setController($this);
-        $sendList->setController($this);
-        
-        $templates->setController($this);
-        $unsubscribedList->setController($this);
-        $bouncedList->setController($this);
-        
-        $fields->push($idField = new HiddenField("ID"));
-        $fields->push( new HiddenField( "executeForm", "", "TypeEditForm" ) );
-        $idField->setValue($this->ID);
-        
-        return $fields;
-    }
+			new TabSet("Root",
+				new Tab(_t('NewsletterAdmin.NLSETTINGS', 'Newsletter Settings'),
+					new TextField("Title", _t('NewsletterAdmin.NEWSLTYPE','Newsletter Type')),
+					new TextField("FromEmail", _t('NewsletterAdmin.FROMEM','From email address')),
+					$templates = new TemplateList("Template", _t('NewsletterAdmin.TEMPLATE', 'Template'), $this->Template, NewsletterAdmin::template_path())
+				)
+			)
+		);
+    	
+		$this->extend('updateCMSFields', $fields);
+		
+		return $fields;    	
+	}
+    
 }
+
 ?>

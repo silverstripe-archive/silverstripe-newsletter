@@ -350,10 +350,10 @@ class NewsletterAdmin extends LeftAndMain {
 
 			$recipients->setController($this);
 			$importField->setController($this);
-	      		$unsubscribedList->setController($this);
+	      	$unsubscribedList->setController($this);
 			$bouncedList->setController($this);
 
-			$importField->setTypeID( $id );
+			$importField->setTypeID($id);
 
 			$fields->push($idField = new HiddenField("ID"));
 			$fields->push( new HiddenField( "executeForm", "", "MailingListEditForm" ) );
@@ -435,7 +435,6 @@ class NewsletterAdmin extends LeftAndMain {
 	*/
 
 	public function getNewsletterEditForm($myId){
-
 		$email = DataObject::get_by_id("Newsletter", $myId);
 		if($email) {
 

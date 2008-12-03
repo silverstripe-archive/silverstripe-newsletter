@@ -7,14 +7,33 @@
  */
 class Newsletter extends DataObject {
 	
+	static $db = array(
+		"Status" => "Enum('Draft, Send', 'Draft')",
+		"Content" => "HTMLText",
+		"Subject" => "Varchar(255)",
+		"SentDate" => "Datetime"
+	);
+	
+	static $has_one = array(
+		"Parent" => "NewsletterType",
+	);
+	
+	static $has_many = array(
+		"Recipients" => "Newsletter_Recipient",
+		"SentRecipients" => "Newsletter_SentRecipient",
+	);
+	
+	
 	/**
 	 * Returns a FieldSet with which to create the CMS editing form.
 	 * You can use the extend() method of FieldSet to create customised forms for your other
 	 * data objects.
+	 * 
+	 * @param Controller 
+	 * @return FieldSet
 	 */
 	function getCMSFields($controller = null) {
 		require_once("forms/Form.php");
-
 		$group = DataObject::get_by_id("Group", $this->Parent()->GroupID);
 		$sent_status_report = $this->renderWith("Newsletter_SentStatusReport");
 		$ret = new FieldSet(
@@ -29,10 +48,9 @@ class Newsletter extends DataObject {
 			)
 		);
 		
-		if( $this->Status != 'Draft' ) {
+		if($this->Status != 'Draft') {
 		        $mailTab->push( new ReadonlyField("SendDate", _t('Newsletter.SENTAT', 'Sent at'), $this->SendDate) );
 		} 
-		
 		
 		return $ret;
 	}
@@ -41,6 +59,7 @@ class Newsletter extends DataObject {
 	 * Returns a DataObject listing the recipients for the given status for this newsletter
 	 *
 	 * @param string $result 3 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE), or "Bounced" ({@see $email_bouncehandler}).
+	 * @return DataObjectSet
 	 */
 	function SentRecipients($result) {
 		$SQL_result = Convert::raw2sql($result);
@@ -50,6 +69,7 @@ class Newsletter extends DataObject {
 	/**
 	 * Returns a DataObjectSet containing the subscribers who have never been sent this Newsletter
 	 *
+	 * @return DataObjectSet
 	 */
 	function UnsentSubscribers() {
 		// Get a list of everyone who has been sent this newsletter
@@ -90,37 +110,19 @@ class Newsletter extends DataObject {
 		return DataObject::get_by_id('NewsletterType', $this->ParentID);
 	}
 
-	static $db = array(
-		"Status" => "Enum('Draft, Send', 'Draft')",
-		"Content" => "HTMLText",
-		"Subject" => "Varchar(255)",
-		"SentDate" => "Datetime",
-
-	);
-	
-	static $has_one = array(
-		"Parent" => "NewsletterType",
-	);
-	
-	static $has_many = array(
-		"Recipients" => "Newsletter_Recipient",
-		"SentRecipients" => "Newsletter_SentRecipient",
-	);
-
-	static function newDraft( $parentID, $subject, $content ) {
-    if( is_numeric( $parentID ) ) {
-        $newsletter = new Newsletter();
-        $newsletter->Status = 'Draft';
-        $newsletter->Title = $newsletter->Subject = $subject;
-        $newsletter->ParentID = $parentID;
-        $newsletter->Content = $content;
-        $newsletter->write();
-    } else {
-        user_error( $parentID, E_USER_ERROR );   
-    }
-        
-    return $newsletter;     
-  }
+	static function newDraft($parentID, $subject, $content) {
+    	if( is_numeric($parentID)) {
+     	   $newsletter = new Newsletter();
+	        $newsletter->Status = 'Draft';
+	        $newsletter->Title = $newsletter->Subject = $subject;
+	        $newsletter->ParentID = $parentID;
+	        $newsletter->Content = $content;
+	        $newsletter->write();
+	    } else {
+	        user_error( $parentID, E_USER_ERROR );   
+	    }  
+    	return $newsletter;     
+  	}
 }
 
 /**
@@ -153,6 +155,7 @@ class Newsletter_SentRecipient extends DataObject {
  * @package newsletter
  */
 class Newsletter_Recipient extends DataObject {
+	
 	static $db = array(
 		"ParentID" => "Int",
 	);
@@ -167,6 +170,7 @@ class Newsletter_Recipient extends DataObject {
  * @package newsletter
  */
 class Newsletter_Email extends Email {
+	
 	protected $nlType;
 	
 	function __construct($nlType) {

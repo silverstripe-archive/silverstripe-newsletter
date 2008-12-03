@@ -32,7 +32,6 @@ class TemplateList extends DropdownField {
 					$templates[$match[1]] = $match[1];
 			}
 		}
-		
 		return $templates;
 	}
 	

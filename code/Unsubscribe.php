@@ -7,6 +7,8 @@
  */
 class Unsubscribe_Controller extends Page_Controller {
 
+	public static $done_message;
+	
 	function __construct($data = null) {
 		parent::__construct($data);
 	}
@@ -47,13 +49,18 @@ class Unsubscribe_Controller extends Page_Controller {
 			$listForm = $this->EmailAddressForm();
 		}
 
- 		if($this->urlParams['Email'] == "done") {
- 			$listForm->sessionMessage(_t('Unsubscribe.SUCCESS', 'Thank you. You have been removed from the selected groups'), "good");
- 		}
-
 		return $this->customise(array(
 			'Content' => $listForm->forTemplate()
 		))->renderWith('Page');           
+    }
+    
+	function done() {
+		$message = self::$done_message ? self::$done_message : _t('Unsubscribe.SUCCESS', 'Thank you. You have been removed from the selected groups');
+		
+    	return $this->customise(array(
+    		'Title' => _t('UNSUBSCRIBEDTITLE', 'Unsubscribed'),
+    		'Content' => $message
+    	))->renderWith('Page');
     }
     
     /**

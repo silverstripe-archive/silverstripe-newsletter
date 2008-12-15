@@ -240,8 +240,9 @@ class NewsletterAdmin extends LeftAndMain {
     	if((isset($_REQUEST['ID']) && isset($_REQUEST['Type']) && $_REQUEST['Type'] == 'Newsletter') || isset($_REQUEST['action_savenewsletter'])) {
     		$form = $this->NewsletterEditForm();
     	} else {
+    		
 			// If a mailing list member is being added to a group, then call the Recipient form
-			if (isset($_REQUEST['fieldName']) && 'Recipients' == $_REQUEST['fieldName']) {
+			if((isset($_REQUEST['fieldName']) && 'Recipients' == $_REQUEST['fieldName']) || (!empty($_REQUEST['MemberSearch']))) {
 				$form = $this->MailingListEditForm();
 			} else {
 				$form = $this->TypeEditForm();

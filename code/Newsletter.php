@@ -185,7 +185,7 @@ class Newsletter_Email extends Email {
 	function UnsubscribeLink(){
 		$emailAddr = $this->To();
 		$nlTypeID = $this->nlType->ID;
-		return Director::absoluteBaseURL()."unsubscribe/$emailAddr/$nlTypeID";
+		return Director::absoluteBaseURL() . "unsubscribe/index/$emailAddr/$nlTypeID";
 	}
 }
 ?>

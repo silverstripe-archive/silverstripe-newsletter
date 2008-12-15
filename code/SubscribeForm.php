@@ -226,7 +226,7 @@ class SubscribeForm_Controller extends UserDefinedForm_Controller {
             'Email' => $member->Email,
             'FirstName' => $member->FirstName,
             'Newsletters' => new DataObjectSet( $newsletters ),
-            'UnsubscribeLink' => Director::baseURL() . 'unsubscribe/' . $member->Email
+            'UnsubscribeLink' => Director::baseURL() . 'unsubscribe/index/' . $member->Email
         );
         
         $email = new SubscribeForm_SubscribeEmail(); 
@@ -239,7 +239,7 @@ class SubscribeForm_Controller extends UserDefinedForm_Controller {
         $parentHTML = parent::process( $data, $form ); 
         
         $templateData['Link'] = $data['Referrer'];
-        $templateData['UnsubscribeLink'] = Director::baseURL() . 'unsubscribe';
+        $templateData['UnsubscribeLink'] = Director::baseURL() . 'unsubscribe/index';
         
 		    $custom = $this->customise(array(
 					"Content" => $this->customise( $templateData )->renderWith('SubscribeSubmission')

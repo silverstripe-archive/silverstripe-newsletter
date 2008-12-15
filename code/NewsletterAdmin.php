@@ -464,7 +464,8 @@ class NewsletterAdmin extends LeftAndMain {
 			$form->setHTMLID('Form_EditForm');
 
 			if($email->Status != 'Draft') {
-				$form->makeReadonly();
+				$readonlyFields = $form->Fields()->makeReadonly();
+				$form->setFields($readonlyFields);
 			}
 
 			// user_error( $form->FormAction(), E_USER_ERROR );

@@ -38,7 +38,7 @@ class Unsubscribe_Controller extends Page_Controller {
 		// then unsubscribe the user
 		if($member && $mailingList && $member->inGroup($mailingList->GroupID)) {
 			$this->unsubscribeFromList($member, $mailingList);
-			$url = '/done/' . $member->Email . '/' . $mailingList->Title;
+			$url = 'done/' . $member->Email . '/' . $mailingList->ID;
 			Director::redirect(Director::absoluteBaseURL() . $this->RelativeLink() . $url);
 			return;
 		} elseif($member) {

@@ -12,7 +12,7 @@ class NewsletterType extends DataObject {
 	static $db = array(
 		"Title" => "Varchar",
 		"Template" => "Varchar",
-    	"FromEmail" => "Varchar",
+    	"FromEmail" => "Varchar(100)",
     	"Sent" => "Datetime"
 	);
 	

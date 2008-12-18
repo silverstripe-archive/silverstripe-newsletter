@@ -186,10 +186,8 @@ Behaviour.register({
 				for(var i=0;i<tabs.length;i++) if(tabs[i].tagName) initTabstrip(tabs[i]);
 			} catch(er) { /*alert('b: '+ er.message + '\n' + er.line); */}
 
-			if((typeof tinyMCE != 'undefined') && tinyMCE.instances) {
-				tinyMCE.instances = [];
-				tinyMCE.isLoaded = false;
-				tinyMCE.onLoad();
+			if((typeof tinymce != 'undefined') && tinymce.EditorManager) {
+				tinymce.EditorManager.editors = [];
 			}
 			
 			if(typeof onload_init_tabstrip != 'undefined') onload_init_tabstrip();

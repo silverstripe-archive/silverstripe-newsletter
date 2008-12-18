@@ -80,13 +80,14 @@ class NewsletterAdmin extends LeftAndMain {
 		// We don't want this showing up in every ajax-response, it should always be present in a CMS-environment
 		if(!Director::is_ajax()) {
 			Requirements::javascript(MCE_ROOT . "tiny_mce_src.js");
-			Requirements::block(SAPPHIRE_DIR . '/javascript/HtmlEditorField.js');
 			Requirements::javascriptTemplate("cms/javascript/tinymce.template.js", array(
 				"ContentCSS" => project() . "/css/editor.css",
 				"BaseURL" => Director::absoluteBaseURL(),
 				"Lang" => i18n::get_tinymce_lang()
 			));
 		}
+		// Always block the HtmlEditorField.js otherwise it will be sent with an ajax request
+		Requirements::block(SAPPHIRE_DIR . '/javascript/HtmlEditorField.js');
 
 		Requirements::css("newsletter/css/NewsletterAdmin.css");
 	}

@@ -22,8 +22,7 @@ class Newsletter extends DataObject {
 		"Recipients" => "Newsletter_Recipient",
 		"SentRecipients" => "Newsletter_SentRecipient",
 	);
-	
-	
+
 	/**
 	 * Returns a FieldSet with which to create the CMS editing form.
 	 * You can use the extend() method of FieldSet to create customised forms for your other
@@ -33,14 +32,16 @@ class Newsletter extends DataObject {
 	 * @return FieldSet
 	 */
 	function getCMSFields($controller = null) {
-		require_once("forms/Form.php");
 		$group = DataObject::get_by_id("Group", $this->Parent()->GroupID);
 		$sent_status_report = $this->renderWith("Newsletter_SentStatusReport");
+		$previewLink = Director::absoluteBaseURL() . 'admin/newsletter/preview/' . $this->ID;
+		
 		$ret = new FieldSet(
 			new TabSet("Root",
 				$mailTab = new Tab(_t('Newsletter.NEWSLETTER', 'Newsletter'),
 					new TextField("Subject", _t('Newsletter.SUBJECT', 'Subject'), $this->Subject),
-					new HtmlEditorField("Content", _t('Newsletter.CONTENT', 'Content'))
+					new HtmlEditorField("Content", _t('Newsletter.CONTENT', 'Content')),
+					new LiteralField('PreviewNewsletter', "<a href=\"$previewLink\" target=\"_blank\">" . _t('PREVIEWNEWSLETTER', 'Preview this newsletter') . "</a>")
 				),
 				$sentToTab = new Tab(_t('Newsletter.SENTREPORT', 'Sent Status Report'),
 					new LiteralField("Sent Status Report", $sent_status_report)
@@ -49,8 +50,8 @@ class Newsletter extends DataObject {
 		);
 		
 		if($this->Status != 'Draft') {
-		        $mailTab->push( new ReadonlyField("SendDate", _t('Newsletter.SENTAT', 'Sent at'), $this->SendDate) );
-		} 
+			$mailTab->push( new ReadonlyField("SendDate", _t('Newsletter.SENTAT', 'Sent at'), $this->SendDate) );
+		}
 		
 		return $ret;
 	}

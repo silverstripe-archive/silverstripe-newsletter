@@ -187,7 +187,7 @@ Behaviour.register({
 			} catch(er) { /*alert('b: '+ er.message + '\n' + er.line); */}
 
 			if((typeof tinymce != 'undefined') && tinymce.EditorManager) {
-				tinymce.EditorManager.editors = [];
+				tinymce.EditorManager.editors = {};
 			}
 			
 			if(typeof onload_init_tabstrip != 'undefined') onload_init_tabstrip();

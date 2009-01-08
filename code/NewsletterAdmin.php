@@ -21,6 +21,7 @@ class NewsletterAdmin extends LeftAndMain {
 		'getsitetree',
 		'memberblacklisttoggle',
 		'newmember',
+		'preview',
 		'remove',
 		'removebouncedmember',
 		'removenewsletter',
@@ -146,6 +147,30 @@ class NewsletterAdmin extends LeftAndMain {
 			$params = $params->allParams();
 		}
 		return $this->showWithEditForm( $params, $this->getNewsletterEditForm( $params['ID'] ) );
+	}
+	
+	/**
+	 * Preview a {@link Newsletter} draft.
+	 *
+	 * @param HTTPRequest $request Request parameters
+	 */
+	public function preview($request) {
+		if(!Permission::check('ADMIN')) {
+			Security::permissionFailure($this, _t('LOGINTOPREVIEW', 'Please log in as an administrator to preview that newsletter'));
+			return false;
+		}
+		
+		$newsletterID = (int) $request->param('ID');
+		$obj = DataObject::get_by_id('Newsletter', $newsletterID);
+		$templateName = ($obj && $obj->Parent()) ? $obj->Parent()->Template : 'GenericEmail';
+		
+		// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
+		Requirements::clear();
+		
+		// Set template specific variables before passing it to the template
+		$obj->Body = $obj->Content;
+		
+		return $this->customise($obj)->renderWith($templateName);
 	}
 
 	/**

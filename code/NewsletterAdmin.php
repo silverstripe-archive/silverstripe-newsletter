@@ -570,14 +570,21 @@ class NewsletterAdmin extends LeftAndMain {
         return $emailProcess->start();
     }
 
-	/*
+	/**
 	 * Top level call, $param is a HTTPRequest Object
+	 * 
+	 * @todo When is $params an object? Typically it's the form request
+	 * data as an array...
 	 */
 	public function save($params, $form) {
 		if(is_object($params)) $params = $params->allParams();
+		
 		// Both the Newsletter type and the Newsletter draft call save() when "Save" button is clicked
-		if( isset($_REQUEST['Type']) && $_REQUEST['Type'] == 'Newsletter' )
-			return $this->savenewsletter( $params, $form );
+		// @todo this is a hack. It needs to be cleaned up. Two different classes shouldn't share the
+		// same submit handler since they have different behaviour!
+		if(isset($_REQUEST['Type']) && $_REQUEST['Type'] == 'Newsletter') {
+			return $this->savenewsletter($params, $form);
+		}
 
 		$id = $_REQUEST['ID'];
 		$className = 'NewsletterType';
@@ -607,7 +614,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 		// Is the template attached to the type, or the newsletter itself?
 		$type = $record->getNewsletterType();
-		
+
 		$form->saveInto($record);
 		$record->write();
 

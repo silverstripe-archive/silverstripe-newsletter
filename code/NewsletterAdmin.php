@@ -155,11 +155,6 @@ class NewsletterAdmin extends LeftAndMain {
 	 * @param HTTPRequest $request Request parameters
 	 */
 	public function preview($request) {
-		if(!Permission::check('ADMIN')) {
-			Security::permissionFailure($this, _t('LOGINTOPREVIEW', 'Please log in as an administrator to preview that newsletter'));
-			return false;
-		}
-		
 		$newsletterID = (int) $request->param('ID');
 		$obj = DataObject::get_by_id('Newsletter', $newsletterID);
 		$templateName = ($obj && $obj->Parent()) ? $obj->Parent()->Template : 'GenericEmail';

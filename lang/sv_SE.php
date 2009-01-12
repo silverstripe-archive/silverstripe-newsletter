@@ -62,6 +62,7 @@ $lang['sv_SE']['Newsletter_RecipientImportField.ss']['CHANGED'] = 'Antal detalje
 $lang['sv_SE']['Newsletter_RecipientImportField.ss']['IMPORTED'] = 'Nya medlemmar importerade:';
 $lang['sv_SE']['Newsletter_RecipientImportField.ss']['IMPORTNEW'] = 'Importera nya medlemmar';
 $lang['sv_SE']['Newsletter_RecipientImportField.ss']['SEC'] = 'sekunder';
+$lang['sv_SE']['Newsletter_RecipientImportField.ss']['SKIPPED'] = 'Överhoppade poster:';
 $lang['sv_SE']['Newsletter_RecipientImportField.ss']['TIME'] = 'Tidsåtgång:';
 $lang['sv_SE']['Newsletter_RecipientImportField.ss']['UPDATED'] = 'Uppdaterade medlemmar:';
 $lang['sv_SE']['Newsletter_RecipientImportField_Table.ss']['CONTENTSOF'] = 'Innehåll';

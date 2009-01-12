@@ -63,7 +63,7 @@ $lang['fr_FR']['Newsletter_RecipientImportField.ss']['IMPORTED'] = 'Nouveaux mem
 $lang['fr_FR']['Newsletter_RecipientImportField.ss']['IMPORTNEW'] = 'Nouveaux membres importés';
 $lang['fr_FR']['Newsletter_RecipientImportField.ss']['SEC'] = 'secondes';
 $lang['fr_FR']['Newsletter_RecipientImportField.ss']['SKIPPED'] = 'Enregistrements sautés :';
-$lang['fr_FR']['Newsletter_RecipientImportField.ss']['TIME'] = 'Temps nécéssité :';
+$lang['fr_FR']['Newsletter_RecipientImportField.ss']['TIME'] = 'Temps nécessité :';
 $lang['fr_FR']['Newsletter_RecipientImportField.ss']['UPDATED'] = 'Membres modifiés :';
 $lang['fr_FR']['Newsletter_RecipientImportField_Table.ss']['CONTENTSOF'] = 'Contenu de';
 $lang['fr_FR']['Newsletter_RecipientImportField_Table.ss']['NO'] = 'Annuler';
@@ -75,7 +75,7 @@ $lang['fr_FR']['Newsletter_SentStatusReport.ss']['FN'] = 'Prénom';
 $lang['fr_FR']['Newsletter_SentStatusReport.ss']['NEWSNEVERSENT'] = 'La news-lettre n\'a jamais été envoyée aux inscrits suivants';
 $lang['fr_FR']['Newsletter_SentStatusReport.ss']['RES'] = 'Résultat';
 $lang['fr_FR']['Newsletter_SentStatusReport.ss']['SENDBOUNCED'] = 'Envois aux Destinataires Suivants Non Reçus';
-$lang['fr_FR']['Newsletter_SentStatusReport.ss']['SENDFAIL'] = 'Envois aux Destinataires Suivants Echoué';
+$lang['fr_FR']['Newsletter_SentStatusReport.ss']['SENDFAIL'] = 'Envois aux Destinataires Suivants Échoué';
 $lang['fr_FR']['Newsletter_SentStatusReport.ss']['SENTOK'] = 'L\'Envoi aux Destinataires Suivants a été Réussi';
 $lang['fr_FR']['Newsletter_SentStatusReport.ss']['SN'] = 'Nom de famille';
 

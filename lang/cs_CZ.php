@@ -16,7 +16,7 @@ if(array_key_exists('cs_CZ', $lang) && is_array($lang['cs_CZ'])) {
 	$lang['cs_CZ'] = $lang['en_US'];
 }
 
-$lang['cs_CZ']['LeftAndMain']['NEWSLETTERS'] = 'Newsletter';
+$lang['cs_CZ']['LeftAndMain']['NEWSLETTERS'] = 'Zasílání novinek';
 $lang['cs_CZ']['NewsletterAdmin']['FROMEM'] = 'Z emailové adresy';
 $lang['cs_CZ']['NewsletterAdmin']['MEWDRAFTMEWSL'] = 'Nový koncept newsletteru';
 $lang['cs_CZ']['NewsletterAdmin']['NEWLIST'] = 'Nový mailing list';

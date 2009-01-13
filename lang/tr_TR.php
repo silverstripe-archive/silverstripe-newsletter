@@ -16,18 +16,18 @@ if(array_key_exists('tr_TR', $lang) && is_array($lang['tr_TR'])) {
 	$lang['tr_TR'] = $lang['en_US'];
 }
 
-$lang['tr_TR']['LeftAndMain']['NEWSLETTERS'] = 'Haber bildirimleri';
+$lang['tr_TR']['LeftAndMain']['NEWSLETTERS'] = 'Haber Listesi';
 $lang['tr_TR']['NewsletterAdmin']['FROMEM'] = 'Gönderen eposta adresi';
-$lang['tr_TR']['NewsletterAdmin']['MEWDRAFTMEWSL'] = 'Yeni taslak haber mektubu';
+$lang['tr_TR']['NewsletterAdmin']['MEWDRAFTMEWSL'] = 'Yeni taslak haber listesi';
 $lang['tr_TR']['NewsletterAdmin']['NEWLIST'] = 'Yeni eposta listesi';
-$lang['tr_TR']['NewsletterAdmin']['NEWNEWSLTYPE'] = 'Yeni haber mektubu türü';
-$lang['tr_TR']['NewsletterAdmin']['NEWSLTYPE'] = 'Haber Mektubu Türü';
+$lang['tr_TR']['NewsletterAdmin']['NEWNEWSLTYPE'] = 'Yeni haber listesi türü';
+$lang['tr_TR']['NewsletterAdmin']['NEWSLTYPE'] = 'Haber Listesi Türü';
 $lang['tr_TR']['NewsletterAdmin']['PLEASEENTERMAIL'] = 'Lütfen bir eposta adresi giriniz';
 $lang['tr_TR']['NewsletterAdmin']['RESEND'] = 'Tekrar gönder';
 $lang['tr_TR']['NewsletterAdmin']['SAVE'] = 'Kaydet';
 $lang['tr_TR']['NewsletterAdmin']['SAVED'] = 'Kaydedildi';
 $lang['tr_TR']['NewsletterAdmin']['SEND'] = 'Gönder...';
-$lang['tr_TR']['NewsletterAdmin']['SENDING'] = 'e-postalar gönderiliyor...';
+$lang['tr_TR']['NewsletterAdmin']['SENDING'] = 'Epostalar gönderiliyor...';
 $lang['tr_TR']['NewsletterAdmin']['SENTTESTTO'] = 'Test postası şu adrese gönderildi:';
 $lang['tr_TR']['NewsletterAdmin']['SHOWCONTENTS'] = 'İçeriği göster';
 $lang['tr_TR']['NewsletterAdmin_BouncedList.ss']['EMADD'] = 'Eposta adresi';
@@ -48,7 +48,7 @@ $lang['tr_TR']['NewsletterAdmin_right.ss']['ONLYNOT'] = 'Sadece daha önceden g�
 $lang['tr_TR']['NewsletterAdmin_right.ss']['SEND'] = 'Haber mektubu gönder';
 $lang['tr_TR']['NewsletterAdmin_right.ss']['SENDTEST'] = 'Deneme mektubunu şu eposta adresine gönder:';
 $lang['tr_TR']['NewsletterAdmin_right.ss']['WELCOME1'] = 'Hoşgeldiniz. Bulunduğunuz yer: ';
-$lang['tr_TR']['NewsletterAdmin_right.ss']['WELCOME2'] = 'Haber mektubu yönetim paneli.  Lütfen sol kısımdan bir klasör seçiniz.';
+$lang['tr_TR']['NewsletterAdmin_right.ss']['WELCOME2'] = 'Haber Listesi yönetim paneli.  Lütfen sol taraftan bir klasör seçiniz.';
 $lang['tr_TR']['NewsletterAdmin_SiteTree.ss']['DRAFTS'] = 'Taslaklar';
 $lang['tr_TR']['NewsletterAdmin_SiteTree.ss']['MAILLIST'] = 'Mektup Listesi';
 $lang['tr_TR']['NewsletterAdmin_SiteTree.ss']['SENT'] = 'Gönderilmiş Öğeler';

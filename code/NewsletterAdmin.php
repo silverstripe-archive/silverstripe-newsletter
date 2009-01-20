@@ -218,19 +218,6 @@ class NewsletterAdmin extends LeftAndMain {
 	}
 
 	/**
-	 * 	Didn't see anywhere it is called from top level ajax call or from templete, 
-	 *  or internally. remove it now.
-	 */
-    /*public function removenewsletter($params) {
-        if( !is_numeric( $params['ID'] ) )
-            return '';
-
-        $newsletter = DataObject::get_by_id( 'Newsletter', $params['ID'] );
-        $newsletter->delete();
-        return 'letter-' . $params['ID'];
-    }*/
-
-	/**
 	 * This function is called only internally, so make sure that $params is not a HTTPRequest from caller.
 	 */
     private function showWithEditForm( $params, $editForm ) {

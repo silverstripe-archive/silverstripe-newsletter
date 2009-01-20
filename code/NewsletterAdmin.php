@@ -729,17 +729,6 @@ JS;
 		return DataObject::get("NewsletterType","");
 	}
 
-	public function addgroup() {
-		$parent = $_REQUEST['ParentID'] ? $_REQUEST['ParentID'] : 0;
-		$p = new Group();
-		$p->Title = "New Group";
-		$p->Code = "new-group";
-		$p->ParentID = $parent;
-		$p->write();
-
-		$this->returnItemToUser($p);
-	}
-
 	/**
 	 * Called by AJAX to create a new newsletter type
 	 * Top level call
@@ -769,16 +758,10 @@ JS;
     * Create a new newsletter type
     */
     private function newNewsletterType() {
-        // create a new group for the newsletter
-        $newGroup = new Group();
-        $newGroup->Title = _t('NewsletterAdmin.NEWLIST','New mailing list');
-        $newGroup->Code = "new-mailing-list";
-        $newGroup->write();
 
         // create the new type
         $newsletterType = new NewsletterType();
         $newsletterType->Title = _t('NewsletterAdmin.NEWNEWSLTYPE','New newsletter type');
-        $newsletterType->GroupID = $newGroup->ID;
         $newsletterType->write();
 
         // BUGFIX: Return only the ID of the new newsletter type

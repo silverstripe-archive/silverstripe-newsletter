@@ -1,5 +1,4 @@
 <?php 
-
 /**
  * Represents a type of newsletter, for example the weekly products update.
  * The NewsletterType is associated with a recipient list and a bunch of
@@ -44,39 +43,30 @@ class NewsletterType extends DataObject {
 	}
 	
 	function delete() {
-		foreach( $this->Newsletters() as $newsletter )
-			$newsletter->delete();
-			
-		parent::delete();
-	}
-	
-	/** 
-	 * Updates the group so the security section is also in sync with
-	 * the curent newsletters.
-	 */
-	function onBeforeWrite() {
-		if($this->ID){
-			$group = $this->Group();
-			if($group->Title != "$this->Title"){
-			        $group->Title = _t('NewsletterType.MAILINGLIST', 'Mailing List:').' '. $this->Title;	
-				// Otherwise the code would have mailing list in it too :-(
-				$group->Code = SiteTree::generateURLSegment($this->Title);
-				$group->write();
+		if($this->Newsletters()) {
+			foreach($this->Newsletters() as $newsletter) {
+				$newsletter->destroy();
+				$newsletter->delete();
 			}
 		}
-		parent::onBeforeWrite();
+			
+		parent::delete();
 	}
 
 	/**
 	 * Get the fieldset to display in the administration section
 	 */
 	function getCMSFields() {
+		$groups = DataObject::get('Group');
+		$groupsMap = ($groups) ? $groups->map('ID', 'Title') : array();
+		
     	$fields = new FieldSet(
 			new TabSet("Root",
 				new Tab(_t('NewsletterAdmin.NLSETTINGS', 'Newsletter Settings'),
-					new TextField("Title", _t('NewsletterAdmin.NEWSLTYPE','Newsletter Type')),
-					new TextField("FromEmail", _t('NewsletterAdmin.FROMEM','From email address')),
-					$templates = new TemplateList("Template", _t('NewsletterAdmin.TEMPLATE', 'Template'), $this->Template, NewsletterAdmin::template_path())
+					new TextField("Title", _t('NewsletterAdmin.NEWSLTYPE', 'Newsletter Type')),
+					new DropdownField('GroupID', _T('NewsletterAdmin.MAILINGGROUP', 'Mailing list group'), $groupsMap, '', null, _t('NewsletterAdmin.CHOOSEMAILINGGROUP', '(Choose mailing group)')),
+					new TextField("FromEmail", _t('NewsletterAdmin.FROMEM', 'From email address')),
+					new TemplateList("Template", _t('NewsletterAdmin.TEMPLATE', 'Template'), $this->Template, NewsletterAdmin::template_path())
 				)
 			)
 		);
@@ -87,5 +77,4 @@ class NewsletterType extends DataObject {
 	}
     
 }
-
 ?>

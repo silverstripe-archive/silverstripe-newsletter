@@ -14,8 +14,8 @@
 	
 	<p class="actions">
 		<ul class="optionset">
-			<li class="cancel"><button id="action_send_cancel"><% _t('CANCEL','Cancel') %></button></li>
-			<li class="submit action"><input type="submit action" value="<% _t('SEND','Send newsletter') %>" /></li>
+			<li class="cancel action"><input type="submit" id="action_send_cancel" value="<% _t('CANCEL', 'Cancel') %>" /></li>
+			<li class="submit action"><input type="submit" value="<% _t('SEND', 'Send newsletter') %>" /></li>
 		</ul>
 	</p>
 </form>

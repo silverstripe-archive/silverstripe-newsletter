@@ -157,8 +157,8 @@ class NewsletterAdmin extends LeftAndMain {
 	public function preview($request) {
 		$newsletterID = (int) $request->param('ID');
 		$obj = DataObject::get_by_id('Newsletter', $newsletterID);
-		$templateName = ($obj && $obj->Parent()) ? $obj->Parent()->Template : 'GenericEmail';
-		
+		$templateName = ($obj && ($obj->Parent()->Template)) ? $obj->Parent()->Template : 'GenericEmail';
+
 		// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
 		Requirements::clear();
 		

@@ -57,7 +57,7 @@ class NewsletterType extends DataObject {
 	 * Get the fieldset to display in the administration section
 	 */
 	function getCMSFields() {
-		$groups = DataObject::get('Group');
+		$groups = DataObject::get('Group', '', 'Sort');
 		$groupsMap = ($groups) ? $groups->map('ID', 'Title') : array();
 		
     	$fields = new FieldSet(

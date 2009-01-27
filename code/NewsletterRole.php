@@ -21,6 +21,16 @@ class NewsletterRole extends DataObjectDecorator {
 	}
 	
 	/**
+	 * Hide the UnsubscribedRecords relation field
+	 * that was scaffolded for this decorator.
+	 * 
+	 * @param FieldSet $fields CMS fields to update
+	 */
+	function updateCMSFields($fields) {
+		$fields->removeByName('UnsubscribedRecords');
+	}
+	
+	/**
 	 * Factory method for the member validator.
 	 * 
 	 * @TODO It's unclear where this is used.

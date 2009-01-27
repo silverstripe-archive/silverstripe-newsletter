@@ -21,13 +21,14 @@ class NewsletterRole extends DataObjectDecorator {
 	}
 	
 	/**
-	 * Hide the UnsubscribedRecords relation field
-	 * that was scaffolded for this decorator.
+	 * Update the CMS fields specifically for Member
+	 * decorated by this NewsletterRole decorator.
 	 * 
 	 * @param FieldSet $fields CMS fields to update
 	 */
 	function updateCMSFields($fields) {
 		$fields->removeByName('UnsubscribedRecords');
+		$fields->removeByName('BlacklistedEmail');
 	}
 	
 	/**

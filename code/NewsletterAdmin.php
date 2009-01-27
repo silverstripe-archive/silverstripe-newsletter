@@ -1,12 +1,11 @@
 <?php
-
 /**
  * Newsletter administration section
  * 
  * @package newsletter
  */
 class NewsletterAdmin extends LeftAndMain {
-	static $subitem_class = "Member";
+	static $subitem_class = 'Member';
 
 	static $template_path = null; // defaults to (project)/templates/email
 	
@@ -46,51 +45,38 @@ class NewsletterAdmin extends LeftAndMain {
 	static $menu_title = 'Newsletter';
 
 	public function init() {
-		// Check permissions
-		// if(!Member::currentUser() || !Member::currentUser()->isAdmin()) Security::permissionFailure($this);
-
 		parent::init();
-		/*
-		if(!$this->can('AdminCMS')) {
-			$messageSet = array(
-				'default' => "Please choose an authentication method and enter your credentials to access the CMS.",
-				'alreadyLoggedIn' => "I'm sorry, but you can't access that part of the CMS.  If you want to log in as someone else, do so below",
-				'logInAgain' => "You have been logged out of the CMS.  If you would like to log in again, enter a username and password below.",
-			);
 
-			Security::permissionFailure($this, $messageSet);
-			return;
-		}*/
+		Requirements::javascript(MCE_ROOT . 'tiny_mce_src.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/tiny_mce_improvements.js');
 
-		Requirements::javascript(MCE_ROOT . "tiny_mce_src.js");
-		Requirements::javascript("jsparty/tiny_mce_improvements.js");
+		Requirements::javascript(THIRDPARTY_DIR . '/hover.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/scriptaculous/controls.js');
 
-		Requirements::javascript("jsparty/hover.js");
-		Requirements::javascript("jsparty/scriptaculous/controls.js");
+		Requirements::javascript(CMS_DIR . '/javascript/SecurityAdmin.js');
+		
+		Requirements::javascript(CMS_DIR . '/javascript/LeftAndMain_left.js');
+		Requirements::javascript(CMS_DIR . '/javascript/LeftAndMain_right.js');
+		Requirements::javascript(CMS_DIR . '/javascript/CMSMain_left.js');
 
-		Requirements::javascript("cms/javascript/SecurityAdmin.js");
-
-        Requirements::javascript("cms/javascript/LeftAndMain_left.js");
-		Requirements::javascript("cms/javascript/LeftAndMain_right.js");
-        Requirements::javascript("cms/javascript/CMSMain_left.js");
-
-		Requirements::javascript("newsletter/javascript/NewsletterAdmin_left.js");
-		Requirements::javascript("newsletter/javascript/NewsletterAdmin_right.js");
-		Requirements::javascript("newsletter/javascript/ProgressBar.js");
+		Requirements::javascript('newsletter/javascript/NewsletterAdmin_left.js');
+		Requirements::javascript('newsletter/javascript/NewsletterAdmin_right.js');
+		Requirements::javascript('newsletter/javascript/ProgressBar.js');
 
 		// We don't want this showing up in every ajax-response, it should always be present in a CMS-environment
 		if(!Director::is_ajax()) {
-			Requirements::javascript(MCE_ROOT . "tiny_mce_src.js");
-			Requirements::javascriptTemplate("cms/javascript/tinymce.template.js", array(
-				"ContentCSS" => project() . "/css/editor.css",
-				"BaseURL" => Director::absoluteBaseURL(),
-				"Lang" => i18n::get_tinymce_lang()
+			Requirements::javascript(MCE_ROOT . 'tiny_mce_src.js');
+			Requirements::javascriptTemplate(CMS_DIR . '/javascript/tinymce.template.js', array(
+				'ContentCSS' => (SSViewer::current_theme() ? THEMES_DIR . '/' . SSViewer::current_theme() : project()) . '/css/editor.css',
+				'BaseURL' => Director::absoluteBaseURL(),
+				'Lang' => i18n::get_tinymce_lang()
 			));
 		}
+		
 		// Always block the HtmlEditorField.js otherwise it will be sent with an ajax request
 		Requirements::block(SAPPHIRE_DIR . '/javascript/HtmlEditorField.js');
 
-		Requirements::css("newsletter/css/NewsletterAdmin.css");
+		Requirements::css('newsletter/css/NewsletterAdmin.css');
 	}
 
 	public function remove() {
@@ -121,17 +107,22 @@ class NewsletterAdmin extends LeftAndMain {
 	public function getformcontent(){
 		Session::set('currentPage', $_REQUEST['ID']);
 		Session::set('currentType', $_REQUEST['type']);
-		if($_REQUEST['otherID'])
+		
+		if($_REQUEST['otherID']) {
 			Session::set('currentOtherID', $_REQUEST['otherID']);
+		}
+		
 		SSViewer::setOption('rewriteHashlinks', false);
-		$result = $this->renderWith($this->class . "_right");
+		
+		$result = $this->renderWith($this->class . '_right');
+		
 		return $this->getLastFormIn($result);
 	}
 
 	/**
-	* Top level call from ajax
-	* Called when a mailing list is clicked on the left menu
-	*/
+	 * Top level call from ajax
+	 * Called when a mailing list is clicked on the left menu
+	 */
 	public function showrecipients($params) {
 		$params = $params->allParams();
 		return $this->showWithEditForm( $params, $this->getMailingListEditForm( $params['ID'] ) );

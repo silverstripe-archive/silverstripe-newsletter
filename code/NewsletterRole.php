@@ -11,6 +11,9 @@ class NewsletterRole extends DataObjectDecorator {
 	
 	function extraDBFields() {
 		return array(
+			'db' => array(
+				'BlacklistedEmail' => 'Boolean'
+			),
 			'has_many' => array(
 				'UnsubscribedRecords' => 'UnsubscribeRecord'
 			)
@@ -79,7 +82,30 @@ class NewsletterRole extends DataObjectDecorator {
 				}
 			}
 		}
-	}	
+	}
+	
+	/**
+	 * Add the members email address to the blacklist
+	 *
+	 * With this method the blacklisted email table is updated to ensure that
+	 * no promotional material is sent to the member (newsletters).
+	 * Standard system messages are still sent such as receipts.
+	 *
+	 * @param bool $val Set to TRUE if the address should be added to the
+	 *                  blacklist, otherwise to FALSE.
+	 */
+	function setBlacklistedEmail($val) {
+		if($val && $this->owner->Email) {
+			$blacklisting = new NewsletterEmailBlacklist();
+	 		$blacklisting->BlockedEmail = $this->owner->Email;
+	 		$blacklisting->MemberID = $this->owner->ID;
+	 		$blacklisting->write();
+		}
+
+		$this->owner->setField("BlacklistedEmail", $val);
+		// Save the BlacklistedEmail field to the Member table
+		$this->owner->write();
+	}
 	
 }
 

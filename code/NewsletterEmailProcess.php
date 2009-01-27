@@ -52,7 +52,7 @@ class NewsletterEmailProcess extends BatchProcess {
 	    		/**
 	    		 * Email Blacklisting Support
 	    		 */
-				if($member->BlacklistedEmail && Email_BlackList::isBlocked($address)){
+				if($member->BlacklistedEmail && NewsletterEmailBlacklist::isBlocked($address)){
 					$bounceRecord = new Email_BounceRecord();
 					$bounceRecord->BounceEmail = $member->Email;
 					$bounceRecord->BounceTime = date("Y-m-d H:i:s",time());

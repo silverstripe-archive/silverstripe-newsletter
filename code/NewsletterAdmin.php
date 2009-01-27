@@ -619,7 +619,7 @@ class NewsletterAdmin extends LeftAndMain {
 	}
 
 	/*
-	 * Saves the settings on the 'Bounced' tab of the 'Mailing List' allowing members to be added to Email_BlackList
+	 * Saves the settings on the 'Bounced' tab of the 'Mailing List' allowing members to be added to NewsletterEmailBlacklist
 	 *
 	 */
 	public function memberblacklisttoggle($urlParams) {

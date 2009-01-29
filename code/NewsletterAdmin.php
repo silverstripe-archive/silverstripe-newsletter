@@ -798,7 +798,7 @@ JS;
 	}
 
 	public function Link($action = null) {
-		return "admin/newsletter";
+		return "admin/newsletter/";
 	}
 
 	public function displayfilefield() {

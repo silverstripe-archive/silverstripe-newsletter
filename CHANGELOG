@@ -1,0 +1,65 @@
+
+0.1.1
+
+Enhancements
+[64365] Pulled out Newsletter specific stuff from Member.php in sapphire core into the newsletter module. This includes Member_UnsubscribeRecord which is now just UnsubscribeRecord, and member fields and methods that can now be found in NewsletterRole
+[66757] Added static properties to NewsletterType for allowing decoration
+[66760] Encapsulated the NewsletterType CMS fields into NewsletterType->getCMSFields(), removing the old unused getCMSFields()
+[68929] Made tree items collapsed instead of expanded by default to avoid insanity
+[68996] Added ability to choose message in unsubscribe
+[69336] Allow for longer FromEmail in the DB
+[69898] Allow preview of a Newsletter object by going to the URL admin/newsletter/preview/(ID) where (ID) is a valid ID of a Newsletter record in the database
+[69904] Added link to preview the newsletter (opens a new tab or window)
+[70406] Allow manual selection of group to send newsletters to instead of hardcoded group automagically created when new newsletter type is created
+[70809] Removed blacklist newsletter specific code out of core and into newsletter module
+
+
+API Changes
+[62309] Moved ProgressBar and support files to newsletter/trunk module, as this is the module where it's used
+[65554] Tidy up NewsletterAdmin
+
+Bugfixes
+[64434] Fixing usage of deprecated APIs
+[65098] Adjusted NewsletterAdmin to new CMS Menu generation (see #2872)
+[65554] a lot of methods in this class now passed $params as HTTPRequest object, rather than as a array if the function is called from Ajax or top-level of front-end, some method is called in both manner, ie. called from Ajax and called internally as well, so we need to check $params type and do further process. This is a partial fix of open source ticket #3035
+[66703] Fix newsletter module to work with the 2.3 URL handler
+[66760] Allow loading data from the NewsletterType for all fields, not just 2
+[68703] Updated newsletter admin to support HtmlEditorField changes in r68701
+[68936] Fixed member search in Mailing List in CMS
+[68967] Fixed resend and save buttons greyed out when viewing a draft
+[68987] fixed bugs in URL for unsubscribe
+[68989] updated URL handler for unsubscribe controller
+[69461] Fixed TinyMCE 3.2 in newsletter
+[69920] #3322: Fixed newsletter html editor saving
+[70599] styling newsletter send button to match
+[70668] Fixed error in preview if no template is discovered (falls back to GenericEmail)
+[70672] Fixed newsletter cancel/send actions to be styled consistent - removed button and used consistent input type submit tag instead
+
+
+Minor Changes
+[62487] Added or updated README information (mostly with maintainer contact)
+[62514] MINOR Added or edited README files, added LICENSE and CHANGELOG files
+[63872] Updated entities from translate.silverstripe.com
+[64367] Updated phpDoc @package comments for newsletter module
+[64388] Misc deprecation fixes
+[64434] Added language strings
+[65042] Collecting entities for language master table with new i18nTextCollector functionality. The table is now sorted alphabetically by namespace and entity. Entities now include more translatable statics from DataObject subclasses like $db, $has_one etc.
+[65084] Updated master language tables
+[65496] type enviroment -> environment, post-Payment polishing, receipt, email template polishing
+[65499] remove debug information
+[66388] delete Debug information from the js code
+[66760] Code formatting
+[67267] formatting improvements
+[69900] Remove unncessary Permission::check() in NewsletterAdmin->preview()
+[69903] Added notes about a hack
+[69998] Updated translations
+[70112] Updated translations
+[70420] Removed redundant code from NewsletterAdmin
+[70737] Fixed sorting of groups in dropdown
+[70813] Fixed calls of Requirements to use constants instead of hardcoded "cms" and "jsparty" for NewsletterAdmin
+[70813] Ensure ContentCSS uses theme CSS, falling back to project if not available
+[70820] Hide the UnsubscribedRecords relation field in NewsletterRole
+[70821] Ensure "BlacklistedEmail" field is hidden from CMS fields
+
+0.1.0
+Initial release

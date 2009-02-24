@@ -9,6 +9,7 @@ Normann Lou (Nickname: nlou)
 
 Requirements
 -----------------------------------------------
+SilverStripe 2.3
 
 Documentation
 -----------------------------------------------
@@ -16,6 +17,6 @@ http://doc.silverstripe.com/doku.php?id=modules:newsletter
 
 Installation Instructions
 -----------------------------------------------
+Extract the newsletter folder into the top level of your site, and visit
+http://www.mysite.com/dev/build to rebuild the database.
 
-Usage Overview
------------------------------------------------

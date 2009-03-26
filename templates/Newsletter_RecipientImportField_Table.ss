@@ -16,7 +16,7 @@
 </head>
 <body onload="">
 <h1><% _t('CONTENTSOF','Contents of') %> $FileName</h1>
-<form method="post" action="admin/newsletter/?executeForm=UploadForm" name="UploadForm">
+<form method="post" action="admin/newsletter/UploadForm" name="UploadForm">
 	<% control CustomSetFields %>
 		$FieldHolder
 	<% end_control %>

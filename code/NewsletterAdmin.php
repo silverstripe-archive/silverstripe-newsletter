@@ -35,6 +35,7 @@ class NewsletterAdmin extends LeftAndMain {
 		'showsent',
 		'MailingListEditForm',
 		'TypeEditForm',
+		'UploadForm',
 		'NewsletterEditForm',
 	);
 

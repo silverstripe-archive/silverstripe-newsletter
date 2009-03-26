@@ -83,10 +83,12 @@ class RecipientImportField extends FormField {
 	function displaytable() {
 		
 		// Check that a file was uploaded
-		
 		$tempFile = fopen( $_FILES['ImportFile']['tmp_name'], 'r' );
 		
-		// display some error if the file cannot be opened
+	  // display some error if the file cannot be opened
+		if(!$tempFile) {
+		  return 'The selected file did not arrive at the server';
+		}
 		
 		$this->clientFileName = $_FILES['ImportFile']['name'];
 		

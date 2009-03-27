@@ -630,13 +630,22 @@ class NewsletterAdmin extends LeftAndMain {
 		return FormResponse::respond();
 	}
 
-  function NewsletterAdminSiteTree() {
+  	function NewsletterAdminSiteTree() {
       return $this->getsitetree();
-  }
+  	}
 
-  function getsitetree() {
+  	function getsitetree() {
       return $this->renderWith('NewsletterAdmin_SiteTree');
-  }
+  	}
+
+	/**
+	 * This method is called when a user changes subsite in the dropdownfield. 
+	 * It is added temporarily to prevent error when changing subsite in newsletter admin
+	 * TODO: fully implement it to display the newsletter tree 
+	 */
+	public function SiteTreeAsUL() {
+		return "Please refresh the page";
+	}
 
 	public function AddRecordForm() {
 		$m = new MemberTableField($this,"Members", $this->currentPageID());

@@ -324,7 +324,8 @@ class NewsletterAdmin extends LeftAndMain {
 	    		$mailType = DataObject::get_by_id( 'NewsletterType', $id );
 	    	}
 	    }
-
+		$group = null;
+		
 		if(isset($mailType) && is_object($mailType) && $mailType->GroupID) {
 			$group = DataObject::get_one("Group", "ID = $mailType->GroupID");
 		}

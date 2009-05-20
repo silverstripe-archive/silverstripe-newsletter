@@ -9,7 +9,7 @@
  */
 class NewsletterRole extends DataObjectDecorator {
 	
-	function extraDBFields() {
+	function extraStatics() {
 		return array(
 			'db' => array(
 				'BlacklistedEmail' => 'Boolean'

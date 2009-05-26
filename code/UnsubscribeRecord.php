@@ -3,10 +3,10 @@
 /**
  * Record to keep track of when a {@link Member} has
  * unsubscribed from a newsletter.
- * 
+ *
  * @TODO Check if that email stuff ($from, $to, $subject, $body) is needed
  *       here! (Markus)
- * 
+ *
  * @package newsletter
  */
 class UnsubscribeRecord extends DataObject {
@@ -22,16 +22,25 @@ class UnsubscribeRecord extends DataObject {
 	 */
 	function requireDefaultRecords() {
 		parent::requireDefaultRecords();
-		
-		$exist = DB::query("SHOW TABLES LIKE 'Member_UnsubscribeRecord'")->numRecords();
+
+		if(defined('Database::USE_ANSI_SQL')) {
+			$exist = DB::query("SELECT * FROM sys.Tables WHERE \"name\" = 'Member_UnsubscribeRecord'")->numRecords();
+		} else {
+			$exist = DB::query("SHOW TABLES LIKE 'Member_UnsubscribeRecord'")->numRecords();
+		}
 		if($exist > 0) {
-			DB::query("INSERT INTO `UnsubscribeRecord` SELECT * FROM `Member_UnsubscribeRecord`");
-			DB::query("RENAME TABLE `Member_UnsubscribeRecord` TO `_obsolete_Member_UnsubscribeRecord`");
-			
+			if(defined('Database::USE_ANSI_SQL')) {
+				DB::query("INSERT INTO \"UnsubscribeRecord\" SELECT * FROM \"Member_UnsubscribeRecord\"");
+				DB::query("RENAME TABLE \"Member_UnsubscribeRecord\" TO \"_obsolete_Member_UnsubscribeRecord\"");
+			} else {
+				DB::query("INSERT INTO `UnsubscribeRecord` SELECT * FROM `Member_UnsubscribeRecord`");
+				DB::query("RENAME TABLE `Member_UnsubscribeRecord` TO `_obsolete_Member_UnsubscribeRecord`");
+			}
+
 			echo("<div style=\"padding:5px; color:white; background-color:blue;\">Data in Member_UnsubscribeRecord has been moved to the new UnsubscribeRecord table. To drop the obsolete table, issue this SQL command: \"DROP TABLE '_obsolete_Member_UnsubscribeRecord'\".</div>");
 		}
 	}
-	
+
 	/**
 	 * Unsubscribe the member from a specific newsletter type
 	 *
@@ -62,10 +71,10 @@ class UnsubscribeRecord extends DataObject {
 		$to = '$Email',
 		$subject = '',
 		$body = '';
-			
+
 		function __construct($record = null, $isSingleton = false) {
 			$this->subject = _t('Member.SUBJECTPASSWORDCHANGED');
-			
+
 			$this->body = '
 				<h1>' . _t('Member.EMAILPASSWORDINTRO', "Here's your new password") . '</h1>
 				<p>
@@ -73,7 +82,7 @@ class UnsubscribeRecord extends DataObject {
 					<strong>' . _t('Member.PASSWORD') . ':</strong> $Password
 				</p>
 				<p>' . _t('Member.EMAILPASSWORDAPPENDIX', 'Your password has been changed. Please keep this email, for future reference.') . '</p>';
-				
+
 			parent::__construct($record, $isSingleton);
 		}
 }

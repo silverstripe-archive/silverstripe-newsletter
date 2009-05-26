@@ -2,25 +2,25 @@
 
 /**
  * Batch process for sending newsletters.
- * 
+ *
  * @package newsletter
  */
 class NewsletterEmailProcess extends BatchProcess {
-	
+
 	protected $subject;
 	protected $body;
 	protected $from;
 	protected $newsletter;
 	protected $nlType;
 	protected $messageID;
-	
-	/** 
+
+	/**
 	 * Set up a Newsletter Email Process
 	 *
 	 * @param $recipients DataObjectSet The recipients of this newsletter
 	 */
 	function __construct( $subject, $body, $from, $newsletter, $nlType, $messageID = null, $recipients) {
-		
+
 		$this->subject = $subject;
 		$this->body = $body;
 		$this->from = $from;
@@ -29,26 +29,30 @@ class NewsletterEmailProcess extends BatchProcess {
 		$this->messageID = $messageID;
 
 		parent::__construct( $recipients );
-	
+
 	}
-	
+
 	function next( $count = 10 ) {
 		$max = $this->current + $count;
-		
+
 		$max = $max < count( $this->objects ) ? $max : count( $this->objects );
-		
+
 		while($this->current < $max) {
 			$index = $this->current++;
 			$member = $this->objects[$index];
 
 	        // check to see if the user has unsubscribed from the mailing list
 	        // TODO Join in the above query first
-	        $unsubscribeRecord = DataObject::get_one('UnsubscribeRecord', "`MemberID`='{$member->ID}' AND `NewsletterTypeID`='{$this->nlType->ID}'");
-	        
+			if(defined('Database::USE_ANSI_SQL')) {
+				$unsubscribeRecord = DataObject::get_one('UnsubscribeRecord', "\"MemberID\"='{$member->ID}' AND \"NewsletterTypeID\"='{$this->nlType->ID}'");
+			} else {
+	        	$unsubscribeRecord = DataObject::get_one('UnsubscribeRecord', "`MemberID`='{$member->ID}' AND `NewsletterTypeID`='{$this->nlType->ID}'");
+			}
+
 	        if( !$unsubscribeRecord ) {
-	        	
-	    		$address = $member->Email;   
-	    		
+
+	    		$address = $member->Email;
+
 	    		/**
 	    		 * Email Blacklisting Support
 	    		 */
@@ -68,31 +72,31 @@ class NewsletterEmailProcess extends BatchProcess {
 					$newsletter->ParentID = $this->newsletter->ID;
 					$newsletter->write();
 
-				} else {		
+				} else {
 					$e = new Newsletter_Email($this->nlType);
 					$e->setBody( $this->body );
 					$e->setSubject( $this->subject );
 					$e->setFrom( $this->from );
 					$e->setTemplate( $this->nlType->Template );
-		
+
 					$nameForEmail = (method_exists($member, "getNameForEmail")) ? $member->getNameForEmail() : false;
-			
+
 					$e->populateTemplate(array(
-						'Member' => $member, 
-						'FirstName' => $member->FirstName, 
+						'Member' => $member,
+						'FirstName' => $member->FirstName,
 						'NameForEmail'=> $nameForEmail
 					));
 					$this->sendToAddress($e, $address, $this->messageID, $member);
 				}
 	        }
     	}
-    
+
 	    if( $this->current >= count( $this->objects ) )
 	    	return $this->complete();
-	    else	
+	    else
 	    	return parent::next();
 	}
-	
+
 	/*
 	 * Sends a Newsletter email to the specified address
 	 *
@@ -116,20 +120,20 @@ class NewsletterEmailProcess extends BatchProcess {
 		// Adding a pause between email sending can be useful for debugging purposes
 		// sleep(10);
 	}
-	
+
 	function complete() {
 		parent::complete();
-		
+
 		if( $this->newsletter->SentDate ) {
 			$resent = true;
 		} else {
 			$resent = false;
 		}
-		
+
 		$this->newsletter->SentDate = 'now';
 		$this->newsletter->Status = 'Send';
 		$this->newsletter->write();
-		
+
 		// Call the success message JS function with the Newsletter information
 		if( $resent ) {
 			return "resent_ok( '{$this->nlType->ID}', '{$this->newsletter->ID}', '".count( $this->objects )."' ); ";

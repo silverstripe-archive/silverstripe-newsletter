@@ -1,14 +1,14 @@
 <?php
 /**
  * Newsletter administration section
- * 
+ *
  * @package newsletter
  */
 class NewsletterAdmin extends LeftAndMain {
 	static $subitem_class = 'Member';
 
 	static $template_path = null; // defaults to (project)/templates/email
-	
+
 	static $allowed_actions = array(
 		'adddraft',
 		'addgroup',
@@ -40,9 +40,9 @@ class NewsletterAdmin extends LeftAndMain {
 	);
 
 	static $url_segment = 'newsletter';
-	
+
 	static $url_rule = '/$Action/$ID/$OtherID';
-	
+
 	static $menu_title = 'Newsletter';
 
 	public function init() {
@@ -55,7 +55,7 @@ class NewsletterAdmin extends LeftAndMain {
 		Requirements::javascript(THIRDPARTY_DIR . '/scriptaculous/controls.js');
 
 		Requirements::javascript(CMS_DIR . '/javascript/SecurityAdmin.js');
-		
+
 		Requirements::javascript(CMS_DIR . '/javascript/LeftAndMain_left.js');
 		Requirements::javascript(CMS_DIR . '/javascript/LeftAndMain_right.js');
 		Requirements::javascript(CMS_DIR . '/javascript/CMSMain_left.js');
@@ -70,7 +70,7 @@ class NewsletterAdmin extends LeftAndMain {
 			HtmlEditorConfig::get('cms')->setOption('ContentCSS', project() . '/css/editor.css');
 			HtmlEditorConfig::get('cms')->setOption('Lang', i18n::get_tinymce_lang());
 		}
-		
+
 		// Always block the HtmlEditorField.js otherwise it will be sent with an ajax request
 		Requirements::block(SAPPHIRE_DIR . '/javascript/HtmlEditorField.js');
 
@@ -105,15 +105,15 @@ class NewsletterAdmin extends LeftAndMain {
 	public function getformcontent(){
 		Session::set('currentPage', $_REQUEST['ID']);
 		Session::set('currentType', $_REQUEST['type']);
-		
+
 		if($_REQUEST['otherID']) {
 			Session::set('currentOtherID', $_REQUEST['otherID']);
 		}
-		
+
 		SSViewer::setOption('rewriteHashlinks', false);
-		
+
 		$result = $this->renderWith($this->class . '_right');
-		
+
 		return $this->getLastFormIn($result);
 	}
 
@@ -137,7 +137,7 @@ class NewsletterAdmin extends LeftAndMain {
 		}
 		return $this->showWithEditForm( $params, $this->getNewsletterEditForm( $params['ID'] ) );
 	}
-	
+
 	/**
 	 * Preview a {@link Newsletter} draft.
 	 *
@@ -150,10 +150,10 @@ class NewsletterAdmin extends LeftAndMain {
 
 		// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
 		Requirements::clear();
-		
+
 		// Set template specific variables before passing it to the template
 		$obj->Body = $obj->Content;
-		
+
 		return $this->customise($obj)->renderWith($templateName);
 	}
 
@@ -186,7 +186,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 	/**
 	* Shows either the 'Sent' or 'Drafts' folder using the NewsletterList template
-	* Didn't see anywhere it is called from top level ajax call or from templete, 
+	* Didn't see anywhere it is called from top level ajax call or from templete,
 	* it is only called internally from showdrafts and showsent.
 	*/
 	public function ShowNewsletterFolder($params, $type) {
@@ -237,7 +237,7 @@ class NewsletterAdmin extends LeftAndMain {
     	if((isset($_REQUEST['ID']) && isset($_REQUEST['Type']) && $_REQUEST['Type'] == 'Newsletter') || isset($_REQUEST['action_savenewsletter'])) {
     		$form = $this->NewsletterEditForm();
     	} else {
-    		
+
 			// If a mailing list member is being added to a group, then call the Recipient form
 			if((isset($_REQUEST['fieldName']) && 'Recipients' == $_REQUEST['fieldName']) || (!empty($_REQUEST['MemberSearch']))) {
 				$form = $this->MailingListEditForm();
@@ -288,7 +288,7 @@ class NewsletterAdmin extends LeftAndMain {
 		if(isset($mailType) && $mailType) {
 			$fields = $mailType->getCMSFields();
 			$templates = $fields->dataFieldByName('Template');
-			
+
 			$templates->setController($this);
 
 			$fields->push($idField = new HiddenField("ID"));
@@ -308,7 +308,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 		return $form;
 	}
-	
+
 	public function getMailingListEditForm($id) {
         if(!is_numeric($id)) {
         		$id = Session::get('currentPage');
@@ -322,7 +322,7 @@ class NewsletterAdmin extends LeftAndMain {
 	    	}
 	    }
 		$group = null;
-		
+
 		if(isset($mailType) && is_object($mailType) && $mailType->GroupID) {
 			$group = DataObject::get_one("Group", "ID = $mailType->GroupID");
 		}
@@ -384,15 +384,15 @@ class NewsletterAdmin extends LeftAndMain {
 	 */
 	function removebouncedmember($params) {
 		$params = $params->allParams();
-		
-		// First remove the Bounce entry	
+
+		// First remove the Bounce entry
 		$id = Convert::raw2sql($params['ID']);
 		if (is_numeric($id)) {
 			$bounceObject = DataObject::get_by_id('Email_BounceRecord', $id);
 			if($bounceObject) {
 				// Remove this bounce record
 				$bounceObject->delete();
-	
+
 				$memberObject = DataObject::get_by_id('Member', $bounceObject->MemberID);
 				$groupID = Convert::raw2sql($_REQUEST['GroupID']);
 				if(is_numeric($groupID) && is_object($memberObject)) {
@@ -427,8 +427,8 @@ class NewsletterAdmin extends LeftAndMain {
 		if(self::$template_path) return self::$template_path;
 		else return self::$template_path = project() . '/templates/email';
 	}
-    
-	/* Does not seem to be used 
+
+	/* Does not seem to be used
 	public function showdraft( $params ) {
         	return $this->showWithEditForm( $params, $this->getNewsletterEditForm( $params['ID'] ) );
 	}
@@ -501,7 +501,7 @@ class NewsletterAdmin extends LeftAndMain {
 			$e->From = $from = $nlType->FromEmail;
 		else
 			$e->From = $from = Email::getAdminEmail();
-			
+
 		if(isset($_REQUEST['TestEmail'])) $e->To = $_REQUEST['TestEmail'];
 		$e->setTemplate( $nlType->Template );
 
@@ -522,9 +522,15 @@ class NewsletterAdmin extends LeftAndMain {
 			case "List":
 				// Send to the entire mailing list.
 				$groupID = $nlType->GroupID;
-				echo self::sendToList( $subject, $body, $from, $newsletter, $nlType, $messageID,
-					DataObject::get( 'Member', "`GroupID`='$groupID'", null, "INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" )
-				);
+				if(defined('Database::USE_ANSI_SQL')) {
+					echo self::sendToList( $subject, $body, $from, $newsletter, $nlType, $messageID,
+						DataObject::get( 'Member', "\"GroupID\"='$groupID'", null, "INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" )
+					);
+				} else {
+					echo self::sendToList( $subject, $body, $from, $newsletter, $nlType, $messageID,
+						DataObject::get( 'Member', "`GroupID`='$groupID'", null, "INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" )
+					);
+				}
 				break;
 			case "Unsent":
 				// Send to only those who have not already been sent this newsletter.
@@ -549,13 +555,13 @@ class NewsletterAdmin extends LeftAndMain {
 
 	/**
 	 * Top level call, $param is a HTTPRequest Object
-	 * 
+	 *
 	 * @todo When is $params an object? Typically it's the form request
 	 * data as an array...
 	 */
 	public function save($params, $form) {
 		if(is_object($params)) $params = $params->allParams();
-		
+
 		// Both the Newsletter type and the Newsletter draft call save() when "Save" button is clicked
 		// @todo this is a hack. It needs to be cleaned up. Two different classes shouldn't share the
 		// same submit handler since they have different behaviour!
@@ -565,8 +571,12 @@ class NewsletterAdmin extends LeftAndMain {
 
 		$id = $_REQUEST['ID'];
 		$className = 'NewsletterType';
-		$record = DataObject::get_one($className, "`$className`.ID = $id");
-		
+
+		if(defined('Database::USE_ANSI_SQL')) {
+			$record = DataObject::get_one($className, "\"$className\".ID = $id");
+		} else {
+			$record = DataObject::get_one($className, "`$className`.ID = $id");
+		}
 		// Is the template attached to the type, or the newsletter itself?
 
 		$record->Template = addslashes( $_REQUEST['Template'] );
@@ -587,7 +597,11 @@ class NewsletterAdmin extends LeftAndMain {
 		$id = $_REQUEST['ID'];
 
 		$className = 'Newsletter';
-		$record = DataObject::get_one($className, "`$className`.ID = $id");
+		if(defined('Database::USE_ANSI_SQL')) {
+			$record = DataObject::get_one($className, "\"$className\".ID = $id");
+		} else {
+			$record = DataObject::get_one($className, "`$className`.ID = $id");
+		}
 
 		// Is the template attached to the type, or the newsletter itself?
 		$type = $record->getNewsletterType();
@@ -637,9 +651,9 @@ class NewsletterAdmin extends LeftAndMain {
   	}
 
 	/**
-	 * This method is called when a user changes subsite in the dropdownfield. 
+	 * This method is called when a user changes subsite in the dropdownfield.
 	 * It is added temporarily to prevent error when changing subsite in newsletter admin
-	 * TODO: fully implement it to display the newsletter tree 
+	 * TODO: fully implement it to display the newsletter tree
 	 */
 	public function SiteTreeAsUL() {
 		return "Please refresh the page";
@@ -680,7 +694,11 @@ class NewsletterAdmin extends LeftAndMain {
 		if($id == 'new') $id = null;
 
 		if($id) {
-			$record = DataObject::get_one($className, "`$className`.ID = $id");
+			if(defined('Database::USE_ANSI_SQL')) {
+				$record = DataObject::get_one($className, "\"$className\".ID = $id");
+			} else {
+				$record = DataObject::get_one($className, "`$className`.ID = $id");
+			}
 		} else {
             // send out an email to notify the user that they have been subscribed
 			$record = new $className();
@@ -722,7 +740,7 @@ JS;
 	public function addtype( $params ) {
 		$params = $params->allParams();
 		$params['ID'] = $typeid = $this->newNewsletterType();
-			
+
 		$form = $this->getNewsletterTypeEditForm($typeid);
 		return $this->showWithEditForm( $params, $form );
 	}
@@ -733,13 +751,13 @@ JS;
 	 */
 	public function adddraft( $params) {
 		$params = $params->allParams();
-		
+
 		$draftID = $this->newDraft( $_REQUEST['ParentID'] );
 		// Needed for shownewsletter() to work
 		$params['ID'] = $draftID;
 		return $this->shownewsletter($params);
 	}
-	
+
     /**
     * Create a new newsletter type
     */
@@ -833,7 +851,7 @@ JS;
 
 		return new RecipientImportField_UploadForm( $this, "UploadForm", $fields, $actions );
 	}
-	
+
 	function getMenuTitle() {
 		return _t('LeftAndMain.NEWSLETTERS',"Newsletters",PR_HIGH,"Menu title");
 	}

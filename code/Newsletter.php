@@ -2,22 +2,22 @@
 
 /**
  * Single newsletter instance.  Each Newsletter belongs to a NewsletterType.
- * 
+ *
  * @package newsletter
  */
 class Newsletter extends DataObject {
-	
+
 	static $db = array(
 		"Status" => "Enum('Draft, Send', 'Draft')",
 		"Content" => "HTMLText",
 		"Subject" => "Varchar(255)",
 		"SentDate" => "Datetime"
 	);
-	
+
 	static $has_one = array(
 		"Parent" => "NewsletterType",
 	);
-	
+
 	static $has_many = array(
 		"Recipients" => "Newsletter_Recipient",
 		"SentRecipients" => "Newsletter_SentRecipient",
@@ -27,15 +27,15 @@ class Newsletter extends DataObject {
 	 * Returns a FieldSet with which to create the CMS editing form.
 	 * You can use the extend() method of FieldSet to create customised forms for your other
 	 * data objects.
-	 * 
-	 * @param Controller 
+	 *
+	 * @param Controller
 	 * @return FieldSet
 	 */
 	function getCMSFields($controller = null) {
 		$group = DataObject::get_by_id("Group", $this->Parent()->GroupID);
 		$sent_status_report = $this->renderWith("Newsletter_SentStatusReport");
 		$previewLink = Director::absoluteBaseURL() . 'admin/newsletter/preview/' . $this->ID;
-		
+
 		$ret = new FieldSet(
 			new TabSet("Root",
 				$mailTab = new Tab(_t('Newsletter.NEWSLETTER', 'Newsletter'),
@@ -48,11 +48,11 @@ class Newsletter extends DataObject {
 				)
 			)
 		);
-		
+
 		if($this->Status != 'Draft') {
 			$mailTab->push( new ReadonlyField("SendDate", _t('Newsletter.SENTAT', 'Sent at'), $this->SendDate) );
 		}
-		
+
 		return $ret;
 	}
 
@@ -66,7 +66,7 @@ class Newsletter extends DataObject {
 		$SQL_result = Convert::raw2sql($result);
 		return DataObject::get("Newsletter_SentRecipient",array("ParentID='".$this->ID."'", "Result='".$SQL_result."'"));
 	}
-	
+
 	/**
 	 * Returns a DataObjectSet containing the subscribers who have never been sent this Newsletter
 	 *
@@ -78,16 +78,20 @@ class Newsletter extends DataObject {
 		// If this Newsletter has not been sent to anyone yet, $sent_recipients will be null
 		if ($sent_recipients != null) {
 			$sent_recipients_array = $sent_recipients->toNestedArray('MemberID');
-		} else { 
+		} else {
 			$sent_recipients_array = array();
 		}
 
 		// Get a list of all the subscribers to this newsletter
-		$subscribers = DataObject::get( 'Member', "`GroupID`='".$this->Parent()->GroupID."'", null, "INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" );
+        if(defined('Database::USE_ANSI_SQL')) {
+			$subscribers = DataObject::get( 'Member', "\"GroupID\"='".$this->Parent()->GroupID."'", null, "INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" );
+        } else {
+        	$subscribers = DataObject::get( 'Member', "`GroupID`='".$this->Parent()->GroupID."'", null, "INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" );
+        }
 		// If this Newsletter has no subscribers, $subscribers will be null
 		if ($subscribers != null) {
 			$subscribers_array = $subscribers->toNestedArray();
-		} else { 
+		} else {
 			$subscribers_array = array();
 		}
 
@@ -99,8 +103,8 @@ class Newsletter extends DataObject {
 		foreach($unsent_subscribers_array as $key => $data) {
 			$unsent_subscribers->push(new ArrayData($data));
 		}
-	
-		return $unsent_subscribers;	
+
+		return $unsent_subscribers;
 	}
 
 	function getTitle() {
@@ -120,24 +124,24 @@ class Newsletter extends DataObject {
 	        $newsletter->Content = $content;
 	        $newsletter->write();
 	    } else {
-	        user_error( $parentID, E_USER_ERROR );   
-	    }  
-    	return $newsletter;     
+	        user_error( $parentID, E_USER_ERROR );
+	    }
+    	return $newsletter;
   	}
 }
 
 /**
  * Database record for recipients that have had the newsletter sent to them.
- * 
+ *
  * @package newsletter
- */ 
+ */
 class Newsletter_SentRecipient extends DataObject {
 	/**
 	 * The DB schema for Newsletter_SentRecipient.
 	 *
 	 * ParentID is the the Newsletter
 	 * Email and MemberID keep track of the recpients information
-	 * Result has 4 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE), 
+	 * Result has 4 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE),
 	 * 	"Bounced" ({@see $email_bouncehandler}), or "BlackListed" (sending to is disabled).
 	 */
 	static $db = array(
@@ -152,11 +156,11 @@ class Newsletter_SentRecipient extends DataObject {
 
 /**
  * Single recipient of the newsletter
- * 
+ *
  * @package newsletter
  */
 class Newsletter_Recipient extends DataObject {
-	
+
 	static $db = array(
 		"ParentID" => "Int",
 	);
@@ -167,22 +171,22 @@ class Newsletter_Recipient extends DataObject {
 
 /**
  * Email object for sending newsletters.
- * 
+ *
  * @package newsletter
  */
 class Newsletter_Email extends Email {
-	
+
 	protected $nlType;
-	
+
 	function __construct($nlType) {
 		$this->nlType = $nlType;
 		parent::__construct();
 	}
-	
+
 	function setTemplate( $template ) {
 		$this->ss_template = $template;
 	}
-	
+
 	function UnsubscribeLink(){
 		$emailAddr = $this->To();
 		$nlTypeID = $this->nlType->ID;

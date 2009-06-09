@@ -234,6 +234,9 @@ class NewsletterAdmin extends LeftAndMain {
      * Get the EditForm
      */
     public function EditForm() {
+		// Include JavaScript to ensure HtmlEditorField works.
+		HtmlEditorField::include_js();
+		
     	if((isset($_REQUEST['ID']) && isset($_REQUEST['Type']) && $_REQUEST['Type'] == 'Newsletter') || isset($_REQUEST['action_savenewsletter'])) {
     		$form = $this->NewsletterEditForm();
     	} else {

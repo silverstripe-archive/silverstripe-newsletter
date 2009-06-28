@@ -24,20 +24,23 @@ class UnsubscribeRecord extends DataObject {
 		parent::requireDefaultRecords();
 
 		if(defined('Database::USE_ANSI_SQL')) {
-			$exist = DB::query("SELECT * FROM sys.Tables WHERE \"name\" = 'Member_UnsubscribeRecord'")->numRecords();
-		} else {
-			$exist = DB::query("SHOW TABLES LIKE 'Member_UnsubscribeRecord'")->numRecords();
-		}
-		if($exist > 0) {
-			if(defined('Database::USE_ANSI_SQL')) {
+			$exist = DB::query("SELECT name FROM sys.Tables WHERE name = 'Member_UnsubscribeRecord'");
+
+			if($exist && $exist->nextRecord()) {
 				DB::query("INSERT INTO \"UnsubscribeRecord\" SELECT * FROM \"Member_UnsubscribeRecord\"");
 				DB::query("RENAME TABLE \"Member_UnsubscribeRecord\" TO \"_obsolete_Member_UnsubscribeRecord\"");
-			} else {
+
+				echo("<div style=\"padding:5px; color:white; background-color:blue;\">Data in Member_UnsubscribeRecord has been moved to the new UnsubscribeRecord table. To drop the obsolete table, issue this SQL command: \"DROP TABLE '_obsolete_Member_UnsubscribeRecord'\".</div>");
+			}
+		} else {
+			$exist = DB::query("SHOW TABLES LIKE 'Member_UnsubscribeRecord'")->numRecords();
+
+			if($exist && $exist > 0) {
 				DB::query("INSERT INTO `UnsubscribeRecord` SELECT * FROM `Member_UnsubscribeRecord`");
 				DB::query("RENAME TABLE `Member_UnsubscribeRecord` TO `_obsolete_Member_UnsubscribeRecord`");
-			}
 
-			echo("<div style=\"padding:5px; color:white; background-color:blue;\">Data in Member_UnsubscribeRecord has been moved to the new UnsubscribeRecord table. To drop the obsolete table, issue this SQL command: \"DROP TABLE '_obsolete_Member_UnsubscribeRecord'\".</div>");
+				echo("<div style=\"padding:5px; color:white; background-color:blue;\">Data in Member_UnsubscribeRecord has been moved to the new UnsubscribeRecord table. To drop the obsolete table, issue this SQL command: \"DROP TABLE '_obsolete_Member_UnsubscribeRecord'\".</div>");
+			}
 		}
 	}
 

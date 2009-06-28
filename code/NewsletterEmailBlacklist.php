@@ -37,20 +37,19 @@ class NewsletterEmailBlacklist extends DataObject{
 		parent::requireDefaultRecords();
 
 		if(defined('Database::USE_ANSI_SQL')) {
-			$exist = DB::query("SELECT * FROM sys.Tables WHERE \"name\" = 'Email_BlackList'")->numRecords();
-		} else {
-			$exist = DB::query("SHOW TABLES LIKE 'Email_BlackList'")->numRecords();
-		}
-		if($exist > 0) {
-			if(defined('Database::USE_ANSI_SQL')) {
+			$exist = DB::query("SELECT name FROM sys.Tables WHERE name = 'Email_BlackList'");
+			if($exist && $exist->nextRecord()) {
 				DB::query("INSERT INTO \"NewsletterEmailBlacklist\" SELECT * FROM \"Email_BlackList\"");
 				DB::query("RENAME TABLE \"Email_BlackList\" TO \"_obsolete_Email_BlackList\"");
-			} else {
+				echo("<div style=\"padding:5px; color:white; background-color:blue;\">Data in Email_BlackList has been moved to the new NewsletterEmailBlacklist table. To drop the obsolete table, issue this SQL command: \"DROP TABLE '_obsolete_Email_BlackList'\".</div>");
+			}
+		} else {
+			$exist = DB::query("SHOW TABLES LIKE 'Email_BlackList'")->numRecords();
+			if($exist && $exist > 0) {
 				DB::query("INSERT INTO `NewsletterEmailBlacklist` SELECT * FROM `Email_BlackList`");
 				DB::query("RENAME TABLE `Email_BlackList` TO `_obsolete_Email_BlackList`");
+				echo("<div style=\"padding:5px; color:white; background-color:blue;\">Data in Email_BlackList has been moved to the new NewsletterEmailBlacklist table. To drop the obsolete table, issue this SQL command: \"DROP TABLE '_obsolete_Email_BlackList'\".</div>");
 			}
-
-			echo("<div style=\"padding:5px; color:white; background-color:blue;\">Data in Email_BlackList has been moved to the new NewsletterEmailBlacklist table. To drop the obsolete table, issue this SQL command: \"DROP TABLE '_obsolete_Email_BlackList'\".</div>");
 		}
 	}
 

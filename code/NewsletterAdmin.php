@@ -7,7 +7,8 @@
 class NewsletterAdmin extends LeftAndMain {
 	static $subitem_class = 'Member';
 
-	static $template_path = null; // defaults to (project)/templates/email
+	static $template_path = null; // deprecated, use template_paths instead.
+	static $template_paths = null; //could be customised in _config 
 
 	static $allowed_actions = array(
 		'adddraft',
@@ -290,9 +291,6 @@ class NewsletterAdmin extends LeftAndMain {
 		}
 		if(isset($mailType) && $mailType) {
 			$fields = $mailType->getCMSFields();
-			$templates = $fields->dataFieldByName('Template');
-
-			$templates->setController($this);
 
 			$fields->push($idField = new HiddenField("ID"));
 			$fields->push( new HiddenField( "executeForm", "", "TypeEditForm" ) );
@@ -426,9 +424,79 @@ class NewsletterAdmin extends LeftAndMain {
 		}
 	}
 
+	/**
+	 * this function is only used once and only works for the class TemplateteList DropdownField,
+	 * due to the TemplateList is also used only once and not necessarily be there, we will make this function
+	 * deprecated, meanwhile TemplateList.php will be removed.
+	 *
+	 * @deprecated 2.4 Please use NewsletterAdmin::template_paths() and NewsletterAdmin::templateSource(). @see NewsletterType::getCMSFields();
+	 */
 	public static function template_path() {
+		user_error("NewsletterAdmin::template_path() is deprecated; use NewsletterAdmin::template_paths() and NewsletterAdmin::templateSource()", E_USER_NOTICE);
 		if(self::$template_path) return self::$template_path;
 		else return self::$template_path = project() . '/templates/email';
+	}
+	
+	/**
+	 * looked-up the email template_paths. 
+	 * if not set, will look up both theme folder and project folder
+	 * in both cases, email folder exsits or Email folder exists
+	 * return an array containing all folders pointing to the bunch of email templates
+	 *
+	 * @return array
+	 */
+	public static function template_paths() {
+		if(!isset(self::$template_paths)) {
+			if(file_exists("../".THEMES_DIR."/".SSViewer::current_theme()."/templates/email")){
+				self::$template_paths[] = THEMES_DIR."/".SSViewer::current_theme()."/templates/email";
+			}
+			
+			if(file_exists("../".THEMES_DIR."/".SSViewer::current_theme()."/templates/Email")){
+				self::$template_paths[] = THEMES_DIR."/".SSViewer::current_theme()."/templates/Email";
+			}
+			
+			if(file_exists("../".project() . '/templates/email')){
+				self::$template_paths[] = project() . '/templates/email';
+			}
+			
+			if(file_exists("../".project() . '/templates/Email')){
+				self::$template_paths[] = project() . '/templates/Email';
+			}
+		}
+		
+		return self::$template_paths;
+	}
+	
+	/**
+	 * return array containing all possible email templates file name 
+	 * under the folders of both theme and project specific folder.
+	 * @return array
+	 */
+	public function templateSource(){
+		$paths = self::template_paths();
+		$templates = array( "" => _t('TemplateList.NONE', 'None') );
+
+		if(isset($paths) && count($paths)){
+			$absPath = Director::baseFolder();
+			if( $absPath{strlen($absPath)-1} != "/" )
+				$absPath .= "/";
+				
+			foreach($paths as $path){
+				$path = $absPath.$path;
+				if(is_dir($path)) {
+					$templateDir = opendir( $path );
+
+					// read all files in the directory
+					while( ( $templateFile = readdir( $templateDir ) ) !== false ) {
+						// *.ss files are templates
+						if( preg_match( '/(.*)\.ss$/', $templateFile, $match ) ){
+							$templates[$match[1]] = $match[1];
+						}
+					}
+				}
+			}
+		}
+		return $templates;
 	}
 
 	/* Does not seem to be used

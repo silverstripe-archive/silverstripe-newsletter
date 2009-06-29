@@ -60,13 +60,15 @@ class NewsletterType extends DataObject {
 		$groups = DataObject::get('Group', '', 'Sort');
 		$groupsMap = ($groups) ? $groups->map('ID', 'Title') : array();
 		
+		$templateSource = singleton("NewsletterAdmin")->templateSource();
+		
     	$fields = new FieldSet(
 			new TabSet("Root",
 				new Tab(_t('NewsletterAdmin.NLSETTINGS', 'Newsletter Settings'),
 					new TextField("Title", _t('NewsletterAdmin.NEWSLTYPE', 'Newsletter Type')),
 					new DropdownField('GroupID', _T('NewsletterAdmin.MAILINGGROUP', 'Mailing list group'), $groupsMap, '', null, _t('NewsletterAdmin.CHOOSEMAILINGGROUP', '(Choose mailing group)')),
 					new TextField("FromEmail", _t('NewsletterAdmin.FROMEM', 'From email address')),
-					new TemplateList("Template", _t('NewsletterAdmin.TEMPLATE', 'Template'), $this->Template, NewsletterAdmin::template_path())
+					new DropdownField("Template", _t('NewsletterAdmin.TEMPLATE', 'Template'), $templateSource)
 				)
 			)
 		);

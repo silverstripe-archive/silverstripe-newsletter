@@ -24,7 +24,9 @@ class BatchProcess extends Object {
 
 		  } else
 			  $this->objects = array( $collection );
-	    }		
+	    }
+
+	   parent::__construct();
   }
 	
 	function runToCompletion() {

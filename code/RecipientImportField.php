@@ -189,6 +189,7 @@ class RecipientImportField_Cell extends ViewableData {
 
 	function __construct( $value ) {
 		$this->value = $value;
+		parent::__construct();
 	}
 
 	function Value() {

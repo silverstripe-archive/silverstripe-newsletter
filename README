@@ -9,7 +9,8 @@ Normann Lou (Nickname: nlou)
 
 Requirements
 -----------------------------------------------
-SilverStripe 2.3
+SilverStripe 2.3+
+userforms 0.2+
 
 Documentation
 -----------------------------------------------

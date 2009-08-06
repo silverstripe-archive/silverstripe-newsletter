@@ -258,15 +258,43 @@ class SubscribeForm_Controller extends UserDefinedForm_Controller {
         
         $newsletters = array();
         
-        // get the newsletter types to display on the form
-        foreach( $newsletterList as $newsletter )
-            $newsletters[$newsletter->ID] = $newsletter->Title;
-        
-        $form->Fields()->push( new CheckboxSetField( 'Newsletters', 'Subscribe to lists', $newsletters ) );
-        
-        $validator = $form->getValidator();
-       	$validator->addRequiredField( 'Newsletters' );
-       	$form->setValidator( $validator );
+		// To provent this page from unexpected break, we need to check if a newsletter list is available.
+		// If no newsletters available, we need to display proper content and make the subscriber
+		// contact with the site administrator.
+		if(!empty($newsletterList)) {
+	        // get the newsletter types to display on the form
+	        foreach( $newsletterList as $newsletter )
+	            $newsletters[$newsletter->ID] = $newsletter->Title;
+
+	        $form->Fields()->push( new CheckboxSetField( 'Newsletters', 'Subscribe to lists', $newsletters ) );
+		}else{
+			$this->Title = "Sorry, no newsletters!";
+			$this->Content = <<<HTML
+There aren't currently any newsletters available to subscribe to.
+HTML;
+			// Try to get an system-recognised in order of preferences:
+			// default AdminEmail, Email of an Admin account, the recipient email address of this UserDefinedForm.
+			if(!$mailto = Email::getAdminEmail()){
+				$member = Security::findAnAdministrator();
+				if($member && $member->Email) {
+					$mailto = $member->Email;
+				}
+				if(!$mailto){
+					$recipient = $this->EmailRecipients()->First();
+					$mailto = $recipient?$recipient->EmailAddress?$recipient->EmailAddress:null:null;
+				}
+			}
+			if($mailto) {
+				$this->Content .= <<<HTML
+<br />Please contact <a href="mailto:$mailto">the site administrators</a> for more information.
+HTML;
+			}
+			return null;
+		}
+   
+		$validator = $form->getValidator();
+		$validator->addRequiredField( 'Newsletters' );
+		$form->setValidator( $validator );
        
         return $form;
     }   

@@ -10,20 +10,22 @@ class SubscribeForm extends UserDefinedForm {
 	static $add_action = "a newsletter subscription form";
 
     static $required_fields = array(
-      'Email address' => 'EditableEmailField(CustomParameter=Email,CanDelete=0)',
-      'First name' => 'EditableTextField(CustomParameter=FirstName)',
-      'Last name' => 'EditableTextField(CustomParameter=Surname)',
-      'Address' => 'EditableTextField(Rows=3,CustomParameter=Address)',
-      'Job title' => 'EditableTextField(CustomParameter=JobTitle)',
-      'Organisation' => 'EditableTextField(CustomParameter=Organisation)',
-      'Mail format' => 'EditableRadioField(Options=1:HTML,Options=0:Text__only,CustomParameter=HTMLEmail)'
+      'Email address' => 'EditableEmailField(CanDelete=0)',
+      'First name' => 'EditableTextField',
+      'Last name' => 'EditableTextField',
     );
-    
+  
     static $db = array(
       'Subscribe' => 'Boolean',
       'AllNewsletters' => 'Boolean',
       'Subject' => 'Varchar'
     );
+
+	static $obj_field_map = array(
+		'Email address' => 'Email',
+		'First name' => 'FirstName',
+		'Last name' => 'Surname',
+	);
 
 	static $defaults = array(
 		"OnCompleteMessage" => "<p>Thanks, you have been added to our mailing list.</p>",
@@ -32,15 +34,11 @@ class SubscribeForm extends UserDefinedForm {
     static $has_many = array(
       'Newsletters' => 'NewsletterType'
     );
-    
-    function __construct( $data = null, $isSingleton = false ) {
-        parent::__construct( $data, $isSingleton );
-        
-        if( $data || $isSingleton )
-            return;
-                
-        $this->addDefaultFields(); 
-    } 
+
+	function getObjFieldMap(){
+		$map = self::$obj_field_map;
+		return $map;
+	}
     
     private function addDefaultFields() {
         $f = $this->Fields();       
@@ -56,7 +54,6 @@ class SubscribeForm extends UserDefinedForm {
             $newField->Title = $defaultName;
             
             // TODO Map the field to a particular action
-            
             if( !empty( $typeValue ) )  {
                 $newField->prepopulate( $typeValue );  
             }
@@ -186,9 +183,9 @@ class SubscribeForm_Controller extends UserDefinedForm_Controller {
         // $_REQUEST['showqueries'] = 1;
         
         // map the editables to the data
-        
+        $obj_field_map = $this->owner->getObjFieldMap();
         foreach( $this->Fields() as $editable ) {
-            $field = $editable->CustomParameter;
+            $field =  $obj_field_map[$editable->Title];
             if( !$field )
                 continue;
             
@@ -229,7 +226,8 @@ class SubscribeForm_Controller extends UserDefinedForm_Controller {
             'UnsubscribeLink' => Director::baseURL() . 'unsubscribe/index/' . $member->Email
         );
         
-        $email = new SubscribeForm_SubscribeEmail(); 
+        $email = new SubscribeForm_SubscribeEmail();
+		$email->setTo($member->Email);
         $email->setFrom( Email::getAdminEmail() );
         $email->setSubject( $this->Subject );
         

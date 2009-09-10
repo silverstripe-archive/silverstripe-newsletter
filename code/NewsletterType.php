@@ -45,8 +45,8 @@ class NewsletterType extends DataObject {
 	function delete() {
 		if($this->Newsletters()) {
 			foreach($this->Newsletters() as $newsletter) {
-				$newsletter->destroy();
 				$newsletter->delete();
+				$newsletter->destroy();
 			}
 		}
 			

@@ -2,7 +2,19 @@
 
 global $lang;
 
+$lang['en_US']['NewsletterAdmin']['MENUTITLE'] = array(
+	'Newsletter',
+	100,
+	'Menu title'
+);
+$lang['en_US']['']['PREVIEWNEWSLETTER'] = 'Preview this newsletter';
+$lang['en_US']['']['UNSUBSCRIBEDTITLE'] = 'Unsubscribed';
 $lang['en_US']['BatchProcess_Controller']['ERROR'] = 'ERROR: Could not continue process';
+$lang['en_US']['LeftAndMain']['NEWSLETTERS'] = array(
+	'Newsletters',
+	PR_HIGH,
+	'Menu title'
+);
 $lang['en_US']['Member']['EMAILPASSWORDAPPENDIX'] = 'Your password has been changed. Please keep this email, for future reference.';
 $lang['en_US']['Member']['EMAILPASSWORDINTRO'] = 'Here\'s your new password';
 $lang['en_US']['Newsletter']['CONTENT'] = 'Content';
@@ -22,11 +34,11 @@ $lang['en_US']['Newsletter']['SINGULARNAME'] = array(
 $lang['en_US']['Newsletter']['SUBJECT'] = 'Subject';
 $lang['en_US']['NewsletterAdmin']['ADDEDTOBL'] = 'was added to blacklist';
 $lang['en_US']['NewsletterAdmin']['BOUNCED'] = 'Bounced';
+$lang['en_US']['NewsletterAdmin']['CHOOSEMAILINGGROUP'] = '(Choose mailing group)';
 $lang['en_US']['NewsletterAdmin']['FROMEM'] = 'From email address';
 $lang['en_US']['NewsletterAdmin']['IMPORT'] = 'Import';
 $lang['en_US']['NewsletterAdmin']['IMPORTFROM'] = 'Import from file';
 $lang['en_US']['NewsletterAdmin']['MEWDRAFTMEWSL'] = 'New draft newsletter';
-$lang['en_US']['NewsletterAdmin']['NEWLIST'] = 'New mailing list';
 $lang['en_US']['NewsletterAdmin']['NEWNEWSLTYPE'] = 'New newsletter type';
 $lang['en_US']['NewsletterAdmin']['NEWSLTYPE'] = 'Newsletter Type';
 $lang['en_US']['NewsletterAdmin']['NLSETTINGS'] = 'Newsletter Settings';
@@ -82,32 +94,39 @@ $lang['en_US']['NewsletterAdmin_right.ss']['WELCOME2'] = array(
 	'newsletter admininistration section.  Please choose a folder from the left.',
 	50
 );
+$lang['en_US']['NewsletterEmailBlacklist']['PLURALNAME'] = array(
+	'Newsletter Email Blacklists',
+	50,
+	'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
+);
+$lang['en_US']['NewsletterEmailBlacklist']['SINGULARNAME'] = array(
+	'Newsletter Email Blacklist',
+	50,
+	'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
+);
 $lang['en_US']['NewsletterList.ss']['CHOOSEDRAFT1'] = 'Please choose a draft on the left, or';
 $lang['en_US']['NewsletterList.ss']['CHOOSEDRAFT2'] = 'add one';
 $lang['en_US']['NewsletterList.ss']['CHOOSESENT'] = 'Please choose a sent item on the left.';
-$lang['en_US']['NewsletterType']['BOUNCED'] = 'Bounced';
-$lang['en_US']['NewsletterType']['DRAFT'] = 'Draft';
-$lang['en_US']['NewsletterType']['DRAFTS'] = 'Drafts';
-$lang['en_US']['NewsletterType']['IMPORT'] = 'Import';
-$lang['en_US']['NewsletterType']['IMPORTFROM'] = 'Import from file';
-$lang['en_US']['NewsletterType']['MAILINGLIST'] = 'Mailing List:';
-$lang['en_US']['NewsletterType']['NEWSLETTERTYPE'] = 'Newsletter Type';
 $lang['en_US']['NewsletterType']['PLURALNAME'] = array(
 	'Newsletter Typs',
 	50,
 	'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
-$lang['en_US']['NewsletterType']['RECIPIENTS'] = 'Recipients';
-$lang['en_US']['NewsletterType']['SEND'] = 'Send';
-$lang['en_US']['NewsletterType']['SENDFROM'] = 'Send newsletters from';
-$lang['en_US']['NewsletterType']['SENT'] = 'Sent';
 $lang['en_US']['NewsletterType']['SINGULARNAME'] = array(
 	'Newsletter Type',
 	50,
 	'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['en_US']['NewsletterType']['TEMPLATE'] = 'Template';
-$lang['en_US']['NewsletterType']['UNSUBSCRIBED'] = 'Unsubscribed';
+$lang['en_US']['Newsletter_Recipient']['PLURALNAME'] = array(
+	'Newsletter Recipients',
+	50,
+	'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
+);
+$lang['en_US']['Newsletter_Recipient']['SINGULARNAME'] = array(
+	'Newsletter Recipient',
+	50,
+	'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
+);
 $lang['en_US']['Newsletter_RecipientImportField.ss']['CHANGED'] = 'Number of details changed:';
 $lang['en_US']['Newsletter_RecipientImportField.ss']['IMPORTED'] = 'New members imported:';
 $lang['en_US']['Newsletter_RecipientImportField.ss']['IMPORTNEW'] = 'Imported new members';
@@ -121,6 +140,16 @@ $lang['en_US']['Newsletter_RecipientImportField_Table.ss']['CONTENTSOF'] = 'Cont
 $lang['en_US']['Newsletter_RecipientImportField_Table.ss']['NO'] = 'Cancel';
 $lang['en_US']['Newsletter_RecipientImportField_Table.ss']['RECIMPORTED'] = 'Recipients imported from';
 $lang['en_US']['Newsletter_RecipientImportField_Table.ss']['YES'] = 'Confirm';
+$lang['en_US']['Newsletter_SentRecipient']['PLURALNAME'] = array(
+	'Newsletter Sent Recipients',
+	50,
+	'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
+);
+$lang['en_US']['Newsletter_SentRecipient']['SINGULARNAME'] = array(
+	'Newsletter Sent Recipient',
+	50,
+	'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
+);
 $lang['en_US']['Newsletter_SentStatusReport.ss']['DATE'] = 'Date';
 $lang['en_US']['Newsletter_SentStatusReport.ss']['EMAIL'] = 'Email';
 $lang['en_US']['Newsletter_SentStatusReport.ss']['FAILEDBL'] = 'Sending to the Following Recipients Did Not Occur Because They Are BlackListed';

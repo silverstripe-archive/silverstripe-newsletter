@@ -18,7 +18,8 @@ class SubscribeForm extends UserDefinedForm {
     static $db = array(
       'Subscribe' => 'Boolean',
       'AllNewsletters' => 'Boolean',
-      'Subject' => 'Varchar'
+      'Subject' => 'Varchar',
+	  'NewletterListTitle' => 'Varchar',
     );
 
 	static $obj_field_map = array(
@@ -100,12 +101,11 @@ class SubscribeForm extends UserDefinedForm {
         $fields->push( new OptionsetField( 'AllNewsletters', '', array( 
           	1 => 'All newsletters',
           	0 => 'Specific newsletters'
-          	),
-		$this->AllNewsletters
-	));
+         ),	$this->AllNewsletters));
+		$fields->push( new TextField('NewletterListTitle', 'The lable or the title before the newsletter list', "Subscribe to the lists"));
           
         $fields->push( new CompositeField( $nlCheckboxes ));
-        $fields->push( new TextField( 'Subject', 'Subject line on confirmation', $this->Subject ) );
+        $fields->push( new TextField( 'Subject', 'Subject line on confirmation', $this->Subject) );
 
         return $fields;
     }
@@ -134,6 +134,7 @@ class SubscribeForm extends UserDefinedForm {
         $this->Subscribe = !empty( $data['Subscribe'] );
         $this->AllNewsletters = !empty( $data['AllNewsletters'] );
         $this->Subject = $data['Subject'];
+		$this->NewletterListTitle = $data['NewletterListTitle'];
         // Note: $data['CustomNewsletters'] was changed to $_REQUEST['CustomNewsletters'] in order to fix
         // to fix "'Specific newsletters' option in 'newsletter subscription form' page type does not work" bug
         // See: http://www.silverstripe.com/bugs/flat/1675
@@ -264,7 +265,7 @@ class SubscribeForm_Controller extends UserDefinedForm_Controller {
 	        foreach( $newsletterList as $newsletter )
 	            $newsletters[$newsletter->ID] = $newsletter->Title;
 
-	        $form->Fields()->push( new CheckboxSetField( 'Newsletters', 'Subscribe to lists', $newsletters ) );
+	        $form->Fields()->push( new CheckboxSetField( 'Newsletters', $this->owner->NewletterListTitle, $newsletters ) );
 		}else{
 			$this->Title = "Sorry, no newsletters!";
 			$this->Content = <<<HTML

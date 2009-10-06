@@ -254,7 +254,7 @@ class NewsletterAdmin extends LeftAndMain {
     }
 
     public function NewsletterEditForm() {
-    	$id = $_REQUEST['ID'] ? $_REQUEST['ID'] : $this->currentPageID();
+    	$id = isset($_REQUEST['ID']) ? $_REQUEST['ID'] : $this->currentPageID();
     	if(!is_numeric($id)) {
     		$id = 0;
     	}

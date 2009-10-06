@@ -92,7 +92,7 @@ Behaviour.register({
 		 * Request a page from the server via Ajax
 		 */
 		getPageFromServer : function(id, type, otherid,openTabName) {
-			
+			if(!id || !type) return true;
             this.openTab = openTabName;
             
 			if(id && parseInt(id) == id) {

@@ -6,6 +6,8 @@
  */
 class NewsletterAdmin extends LeftAndMain {
 	static $subitem_class = 'Member';
+	
+	static $most_recent_seperator = 5; // an int which will be used to seperator "send items" into 2 groups, e.g. "most recent number 5", "older".
 
 	static $template_path = null; // deprecated, use template_paths instead.
 	static $template_paths = null; //could be customised in _config 

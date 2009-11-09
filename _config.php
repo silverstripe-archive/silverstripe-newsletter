@@ -2,8 +2,10 @@
 /**
  * URL rules for the CMS module
  * 
- * @package cms
+ * @package newsletter
  */
+
+define('NEWSLETTER_DIR', 'newsletter');
 Director::addRules(50, array(
 	'unsubscribe//$Action/$Email/$MailingList' => 'Unsubscribe_Controller'
 ));

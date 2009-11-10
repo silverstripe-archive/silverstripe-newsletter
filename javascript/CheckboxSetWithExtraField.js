@@ -11,7 +11,6 @@
 					$(row).append(indicator);
 				},
 				onDrop:function(table, row){
-					console.log(row)
 					jQuery($(row).children(".dragHandle")[0]).empty();
 				}
 				

@@ -1,11 +1,11 @@
 table.checkboxsetwithextrafield thead tr,
 table.checkboxsetwithextrafield tfoot tr {
-	background-color: #000000;
-	color: #ffffff;
+	background-color: #CCDEF3;
+	color: #2F383F;
 }
 
 table.checkboxsetwithextrafield tbody tr.even {
-	background-color: #7A7A7A
+	background-color: #AAAAAA;
 }
 
 table.checkboxsetwithextrafield tr td,
@@ -14,7 +14,7 @@ table.checkboxsetwithextrafield tr th{
 }
 
 table.checkboxsetwithextrafield tbody tr td{
-	border: 1px solid #000000;
+	/*border: 1px solid #000000;*/
 }
 
 table.checkboxsetwithextrafield tr td,

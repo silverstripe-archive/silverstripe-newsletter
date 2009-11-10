@@ -2,6 +2,7 @@
 	$(document).ready(function() {
     	$("table.checkboxsetwithextrafield").livequery(function(){
 			$(this).tableDnD({
+				//TODO: refresh odd/even class for each row after drop action.				
 				onDragClass: "DnD_whiledragging",
 				dragHandle: "dragHandle",
 				onDragStart: function(table, row) {

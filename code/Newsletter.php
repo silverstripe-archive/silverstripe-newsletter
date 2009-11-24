@@ -128,6 +128,10 @@ class Newsletter extends DataObject {
 	    }
     	return $newsletter;
   	}
+	
+	function PreviewLink(){
+		return Controller::curr()->AbsoluteLink()."preview/".$this->ID;
+	}
 }
 
 /**

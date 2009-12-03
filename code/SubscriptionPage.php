@@ -214,7 +214,7 @@ class SubscriptionPage_Controller extends Page_Controller{
 		// set the custom script for this form
 		Requirements::customScript(<<<JS
 			(function($) {
-				$(document).ready(function() {
+				jQuery(document).ready(function() {
 					jQuery("#$FormName").validate({
 						errorClass: "required",
 						focusCleanup: true,

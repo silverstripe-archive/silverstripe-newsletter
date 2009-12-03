@@ -132,14 +132,15 @@ class SubscriptionPage_Controller extends Page_Controller{
 	 * validation 
 	 */
 	public function init() {
+		
+		parent::init();
+		
 		// block prototype validation
 		Validator::set_javascript_validation_handler('none');
 		
 		// load the jquery
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/plugins/validate/jquery.validate.min.js');
-
-		parent::init();
 	}
 	
 	function Form(){

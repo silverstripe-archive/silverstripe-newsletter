@@ -139,7 +139,7 @@ class SubscriptionPage_Controller extends Page_Controller{
 		
 		// load the jquery
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
-		Requirements::javascript(THIRDPARTY_DIR . '/jquery/plugins/validate/jquery.validate.min.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery-validate/jquery.validate.min.js');
 	}
 	
 	function Form(){

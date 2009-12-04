@@ -10,8 +10,8 @@
 class ProgressBar extends FormField {
 
 	function FieldHolder() {
-		Requirements::javascript('newsletter/javascript/ProgressBar.js');
-		Requirements::css('newsletter/css/ProgressBar.css');
+		Requirements::javascript(NEWSLETTER_DIR . '/javascript/ProgressBar.js');
+		Requirements::css(NEWSLETTER_DIR . '/css/ProgressBar.css');
 		
 		return $this->renderWith('ProgressBar');
 	}

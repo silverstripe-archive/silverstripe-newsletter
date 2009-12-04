@@ -33,7 +33,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	 */
 	function FieldHolder() {
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
-		Requirements::javascript(THIRDPARTY_DIR . '/jquery/plugins/livequery/jquery.livequery.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery-livequery/jquery.livequery.js');
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/jquery.tablednd_0_5.js');
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/CheckboxSetWithExtraField.js');
 		

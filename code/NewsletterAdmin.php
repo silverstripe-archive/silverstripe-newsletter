@@ -52,20 +52,22 @@ class NewsletterAdmin extends LeftAndMain {
 		parent::init();
 
 		Requirements::javascript(MCE_ROOT . 'tiny_mce_src.js');
-		Requirements::javascript(THIRDPARTY_DIR . '/tiny_mce_improvements.js');
+		Requirements::javascript(SAPPHIRE_DIR . '/javascript/tiny_mce_improvements.js');
 
+		//TODO what is going on here? where did that hover.js go? can't find it. 
+		//TODO We need to reimplement a hover.js?
 		Requirements::javascript(THIRDPARTY_DIR . '/hover.js');
 		Requirements::javascript(THIRDPARTY_DIR . '/scriptaculous/controls.js');
-
-		Requirements::javascript(CMS_DIR . '/javascript/SecurityAdmin.js');
 
 		Requirements::javascript(CMS_DIR . '/javascript/LeftAndMain_left.js');
 		Requirements::javascript(CMS_DIR . '/javascript/LeftAndMain_right.js');
 		Requirements::javascript(CMS_DIR . '/javascript/CMSMain_left.js');
+		
+		Requirements::javascript(CMS_DIR . '/javascript/SecurityAdmin.js');
 
-		Requirements::javascript('newsletter/javascript/NewsletterAdmin_left.js');
-		Requirements::javascript('newsletter/javascript/NewsletterAdmin_right.js');
-		Requirements::javascript('newsletter/javascript/ProgressBar.js');
+		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterAdmin_left.js');
+		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterAdmin_right.js');
+		Requirements::javascript(NEWSLETTER_DIR . '/javascript/ProgressBar.js');
 
 		// We don't want this showing up in every ajax-response, it should always be present in a CMS-environment
 		if(!Director::is_ajax()) {
@@ -77,7 +79,7 @@ class NewsletterAdmin extends LeftAndMain {
 		// Always block the HtmlEditorField.js otherwise it will be sent with an ajax request
 		Requirements::block(SAPPHIRE_DIR . '/javascript/HtmlEditorField.js');
 
-		Requirements::css('newsletter/css/NewsletterAdmin.css');
+		Requirements::css(NEWSLETTER_DIR . '/css/NewsletterAdmin.css');
 	}
 
 	public function remove() {

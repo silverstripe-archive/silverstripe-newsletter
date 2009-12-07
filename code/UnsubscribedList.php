@@ -26,7 +26,7 @@ class UnsubscribedList extends FormField {
 
         $id = $this->nlType->ID;
 
-        if(defined('Database::USE_ANSI_SQL')) {
+        if(defined('DB::USE_ANSI_SQL')) {
         	$unsubscribeRecords = DataObject::get('UnsubscribeRecord', "\"NewsletterTypeID\"='$id'" );
         } else {
 			$unsubscribeRecords = DataObject::get('UnsubscribeRecord', "`NewsletterTypeID`='$id'" );

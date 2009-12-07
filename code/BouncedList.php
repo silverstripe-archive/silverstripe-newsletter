@@ -30,7 +30,7 @@ class BouncedList extends FormField {
 
         $id = $this->nlType->GroupID;
 
-        if(defined('Database::USE_ANSI_SQL')) {
+        if(defined('DB::USE_ANSI_SQL')) {
         	//$bounceRecords = DataObject::get( 'Email_BounceRecord', "\"GroupID\"=\"$id\"", null, "INNER JOIN \"Group_Members\" USING(\"MemberID\")" );
         	$bounceRecords = DataObject::get( 'Email_BounceRecord', "\"GroupID\"='$id'", null, "INNER JOIN \"Group_Members\" ON \"Email_BounceRecord\".\"MemberID\" = \"Group_Members\".\"MemberID\"" );
         } else {

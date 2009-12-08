@@ -15,6 +15,9 @@ Bugfixes
 [85749] the first version which works after the userform has been separated as an individual module and changed
 [86086]	Simplified requireDefaultRecords() data migration on NewsletterEmailBlackList and UnsubscribeRecord to use the db abstraction layer for inspecting tables, and avoid using sys.tables in direct SQL, which breaks some MySQL versions, and is non-standard.
 [86070] reorder an object delete and destroy order, so that destroy() function will get called first.
+[94279] using jQuery which works for both jQuery and prototype instead of $ sign which has different definition between jQuery and prototype
+[94307] using jQuery which works for both jQuery instead of $ sign which has different definition between jQuery and prototype
+[94309] parent::init() should be called before customised code in SubscriptionPage
 
 Features
 [86122] customise the label or title before the newsletter list checkbox set.

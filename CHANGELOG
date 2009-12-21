@@ -22,7 +22,6 @@ Bugfixes
 Features
 [86122] customise the label or title before the newsletter list checkbox set.
 [91112] decoupling the 'newsletter' module from 'userform' module, re-implementing the SubscriptionPage which contains a SubscritionForm.
-[94818] Added a heading field to the subscription form and removed hardcoded heading field
 
 Enhancements
 [78078] Added translation for Arabic (Saudi Arabia) - thanks to Talal Al Asmari, added translation for Estonian (Estonia) - thanks to Marti, Tanel, Tiit and Teet, added translation for Malay (Malaysia) - thanks to castd, Su Yin and Emil

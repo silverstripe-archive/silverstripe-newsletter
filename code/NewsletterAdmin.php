@@ -137,7 +137,7 @@ class NewsletterAdmin extends LeftAndMain {
 	* Called when a draft or sent newsletter is clicked on the left menu and when a new one is added
 	*/
 	public function shownewsletter($params) {
-		if($params instanceof HTTPRequest){
+		if($params instanceof SS_HTTPRequest){
 			$params = $params->allParams();
 		}
 		return $this->showWithEditForm( $params, $this->getNewsletterEditForm( $params['ID'] ) );
@@ -146,7 +146,7 @@ class NewsletterAdmin extends LeftAndMain {
 	/**
 	 * Preview a {@link Newsletter} draft.
 	 *
-	 * @param HTTPRequest $request Request parameters
+	 * @param SS_HTTPRequest $request Request parameters
 	 */
 	public function preview($request) {
 		$newsletterID = (int) $request->param('ID');
@@ -212,7 +212,7 @@ class NewsletterAdmin extends LeftAndMain {
 	}
 
 	/**
-	 * This function is called only internally, so make sure that $params is not a HTTPRequest from caller.
+	 * This function is called only internally, so make sure that $params is not a SS_HTTPRequest from caller.
 	 */
     private function showWithEditForm( $params, $editForm ) {
         if(isset($params['ID'])) {
@@ -597,7 +597,7 @@ class NewsletterAdmin extends LeftAndMain {
 			case "List":
 				// Send to the entire mailing list.
 				$groupID = $nlType->GroupID;
-				if(defined('Database::USE_ANSI_SQL')) {
+				if(defined('DB::USE_ANSI_SQL')) {
 					echo self::sendToList( $subject, $body, $from, $newsletter, $nlType, $messageID,
 						DataObject::get( 'Member', "\"GroupID\"='$groupID'", null, "INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" )
 					);
@@ -629,7 +629,7 @@ class NewsletterAdmin extends LeftAndMain {
     }
 
 	/**
-	 * Top level call, $param is a HTTPRequest Object
+	 * Top level call, $param is a SS_HTTPRequest Object
 	 *
 	 * @todo When is $params an object? Typically it's the form request
 	 * data as an array...
@@ -647,7 +647,7 @@ class NewsletterAdmin extends LeftAndMain {
 		$id = $_REQUEST['ID'];
 		$className = 'NewsletterType';
 
-		if(defined('Database::USE_ANSI_SQL')) {
+		if(defined('DB::USE_ANSI_SQL')) {
 			$record = DataObject::get_one($className, "\"$className\".ID = $id");
 		} else {
 			$record = DataObject::get_one($className, "`$className`.ID = $id");
@@ -672,7 +672,7 @@ class NewsletterAdmin extends LeftAndMain {
 		$id = $_REQUEST['ID'];
 
 		$className = 'Newsletter';
-		if(defined('Database::USE_ANSI_SQL')) {
+		if(defined('DB::USE_ANSI_SQL')) {
 			$record = DataObject::get_one($className, "\"$className\".ID = $id");
 		} else {
 			$record = DataObject::get_one($className, "`$className`.ID = $id");
@@ -769,7 +769,7 @@ class NewsletterAdmin extends LeftAndMain {
 		if($id == 'new') $id = null;
 
 		if($id) {
-			if(defined('Database::USE_ANSI_SQL')) {
+			if(defined('DB::USE_ANSI_SQL')) {
 				$record = DataObject::get_one($className, "\"$className\".ID = $id");
 			} else {
 				$record = DataObject::get_one($className, "`$className`.ID = $id");

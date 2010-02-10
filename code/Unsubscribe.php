@@ -31,7 +31,7 @@ class Unsubscribe_Controller extends Page_Controller {
 
 		// try to find the member with the email specified
 		if($emailAddress) {
-			if(defined('Database::USE_ANSI_SQL')) {
+			if(defined('DB::USE_ANSI_SQL')) {
 				$member = DataObject::get_one('Member', "\"Email\" = '$emailAddress'");
 			} else {
 				$member = DataObject::get_one('Member', "`Email` = '$emailAddress'");
@@ -86,7 +86,7 @@ class Unsubscribe_Controller extends Page_Controller {
     * Show the lists for the user with the given email address
     */
     function showlists( $data, $form ) {
-    	if(defined('Database::USE_ANSI_SQL')) {
+    	if(defined('DB::USE_ANSI_SQL')) {
         	$member = DataObject::get_one( 'Member', "\"Email\"='{$data['Email']}'" );
     	} else {
     		$member = DataObject::get_one( 'Member', "`Email`='{$data['Email']}'" );
@@ -102,13 +102,13 @@ class Unsubscribe_Controller extends Page_Controller {
     */
     function unsubscribe($data, $form) {
         $email = $this->urlParams['Email'];
-        if(defined('Database::USE_ANSI_SQL')) {
+        if(defined('DB::USE_ANSI_SQL')) {
         	$member = DataObject::get_one( 'Member', "\"Email\"='$email'" );
         } else  {
         	$member = DataObject::get_one( 'Member', "`Email`='$email'" );
         }
         if(!$member){
-        	if(defined('Database::USE_ANSI_SQL')) {
+        	if(defined('DB::USE_ANSI_SQL')) {
         		$member = DataObject::get_one('Member', "\"EmailAddress\" = '$email'");
         	} else {
         		$member = DataObject::get_one('Member', "`EmailAddress` = '$email'");
@@ -189,7 +189,7 @@ class Unsubscribe_MailingListForm extends Form {
 
     protected function getMailingLists( $member ) {
         // get all the newsletter types that the member is subscribed to
-    	if(defined('Database::USE_ANSI_SQL')) {
+    	if(defined('DB::USE_ANSI_SQL')) {
     		return DataObject::get( 'NewsletterType', "\"MemberID\"='{$member->ID}'", null, "LEFT JOIN \"Group_Members\" USING(\"GroupID\")" );
     	} else {
     		return DataObject::get( 'NewsletterType', "`MemberID`='{$member->ID}'", null, "LEFT JOIN `Group_Members` USING(`GroupID`)" );

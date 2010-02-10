@@ -369,7 +369,7 @@ class RecipientImportField_UploadForm extends Form {
 
 	function findMember( $email ) {
 		$email = addslashes( $email );
-		if(defined('Database::USE_ANSI_SQL')) {
+		if(defined('DB::USE_ANSI_SQL')) {
 			return DataObject::get_one( 'Member', "\"Email\"='$email'" );
 		} else {
 			return DataObject::get_one( 'Member', "`Email`='$email'" );

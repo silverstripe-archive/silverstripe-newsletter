@@ -196,5 +196,11 @@ class Newsletter_Email extends Email {
 		$nlTypeID = $this->nlType->ID;
 		return Director::absoluteBaseURL() . "unsubscribe/index/$emailAddr/$nlTypeID";
 	}
+	
+	function Body(){
+		$body = parent::Body();
+		$this->extend('extraContent', $body);
+		return $body;
+	}
 }
 ?>

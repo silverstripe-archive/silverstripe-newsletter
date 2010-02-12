@@ -114,6 +114,12 @@ class Newsletter extends DataObject {
 	function getNewsletterType() {
 		return DataObject::get_by_id('NewsletterType', $this->ParentID);
 	}
+	
+	function getContentBody(){
+		$content = $this->Content;
+		$this->extend("updateContentBody", $content);
+		return $content;
+	}
 
 	static function newDraft($parentID, $subject, $content) {
     	if( is_numeric($parentID)) {
@@ -195,12 +201,6 @@ class Newsletter_Email extends Email {
 		$emailAddr = $this->To();
 		$nlTypeID = $this->nlType->ID;
 		return Director::absoluteBaseURL() . "unsubscribe/index/$emailAddr/$nlTypeID";
-	}
-	
-	function Body(){
-		$body = parent::Body();
-		$this->extend('extraContent', $body);
-		return $body;
 	}
 }
 ?>

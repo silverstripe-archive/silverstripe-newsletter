@@ -567,7 +567,7 @@ class NewsletterAdmin extends LeftAndMain {
 		$nlType = $newsletter->getNewsletterType();
 
 		$e = new Newsletter_Email($nlType);
-		$e->Body = $body = $newsletter->Content;
+		$e->Body = $body = $newsletter->getContentBody();
 		$e->Subject = $subject = $newsletter->Subject;
 
 		// TODO Make this dynamic

@@ -13,8 +13,8 @@
 					</ul>
 				<% end_if %>
 				</li>
-				<% if SentNewsletters %>
 				<li id="sent_$ID" class="SentFolder nodelete closed"><a href="$baseURL/admin/showtype/$ID"><% _t('SENT','Sent Items') %></a>
+				<% if SentNewsletters %>
                     <ul>
 						<% if MostRecentSentNewsletters %>
 						<li class="SentFolder MostRecentFolder nodelete closed" id="mostrecent_$ID"><a href="$baseURL/admin/showtype/$ID">-- Most Recent $RecentSeperator</a>
@@ -35,8 +35,8 @@
 						</li>
 						<% end_if %>
                     </ul>
-                </li>
                 <% end_if %>
+                </li>
                 <li id="recipients_$ID" class="Recipients nodelete closed"><a href="$baseURL/admin/newsletter/showtype/$ID"><% _t('MAILLIST','Mailing List') %></a></li>
             </ul>
 		</li>

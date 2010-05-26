@@ -234,7 +234,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 		}
 	}
 	
-	function setValue($val, $data){
+	function setValue($val, $data = false){
 		if(is_string($val)) {
 			$val = explode(",", $val);
 		}

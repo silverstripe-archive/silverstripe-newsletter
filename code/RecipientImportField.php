@@ -233,7 +233,12 @@ class RecipientImportField_UploadForm extends Form {
 		if($mailType->GroupID)
 			$group = DataObject::get_one("Group", "ID = $mailType->GroupID");
 		// @TODO Look into seeing if $data['Set'] should be removed since it seems to be undefined
-		return $this->importMembers( $id, $group, $data['ImportFileColumns'], $data['Set'] );
+		if(isset($data['Set'])){
+			$setFields = $data['Set'];
+		}else{
+			$setFields = null;
+		}
+		return $this->importMembers( $id, $group, $data['ImportFileColumns'], $setFields );
 	}
 
 	function cancel( $data, $form ) {

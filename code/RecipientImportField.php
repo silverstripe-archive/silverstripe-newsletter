@@ -91,9 +91,9 @@ class RecipientImportField extends FormField {
 		}
 
 		$this->clientFileName = $_FILES['ImportFile']['name'];
-
+		
+		$table = $sessionTable = array();
 		while( ( $row = fgetcsv( $tempFile ) ) !== false ) {
-
 			if( !$this->tableColumns ) {
 				$this->parseTableHeader( $row );
 			} else {

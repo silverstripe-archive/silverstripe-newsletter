@@ -193,8 +193,18 @@ class Newsletter_Email extends Email {
 
 	function UnsubscribeLink(){
 		$emailAddr = $this->To();
-		$nlTypeID = $this->nlType->ID;
-		return Director::absoluteBaseURL() . "unsubscribe/index/$emailAddr/$nlTypeID";
+		$member=DataObject::get_one("Member", "Email = '".$emailAddr."'");
+		if($member){
+			if($member->AutoLoginHash){
+				$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2));
+				$member->write();
+			}else{
+				$member->generateAutologinHash();
+			}
+			$nlTypeID = $this->nlType->ID;
+			return Director::absoluteBaseURL() . "unsubscribe/index/".$member->AutoLoginHash."/$nlTypeID";
+		}
+
 	}
 }
 ?>

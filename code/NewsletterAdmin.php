@@ -49,8 +49,16 @@ class NewsletterAdmin extends LeftAndMain {
 	static $menu_title = 'Newsletter';
 
 	public function init() {
+		// In LeftAndMain::init() the current theme is unset.
+		// we need to restore the current theme here for make the dropdown of template list.
+		$theme = SSViewer::current_theme();
+		
 		parent::init();
-
+		
+		if(isset($theme) && $theme){
+			SSViewer::set_theme($theme);
+		}
+		
 		Requirements::javascript(MCE_ROOT . 'tiny_mce_src.js');
 		Requirements::javascript(SAPPHIRE_DIR . '/javascript/tiny_mce_improvements.js');
 

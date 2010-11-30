@@ -1,0 +1,22 @@
+Group:
+    newsletter1:
+        Title: newsletter 1
+    newsletter2:
+        Title: newsletter 2
+        
+NewsletterType:
+    daily:
+        Title: Daily Newsletter
+        Group: =>Group.newsletter1
+    monthly:
+        Title: Monthly Newsletter
+        Group: =>Group.newsletter2
+        
+Member:
+    normann1:
+        Email: normann1@silverstripe.com
+        AutoLoginHash: 94l4ee9ib8kkw3s08k8wwcs4g
+        Groups: =>Group.newsletter1,=>Group.newsletter2
+    normann2:
+        Email: normann2@silverstripe.com
+

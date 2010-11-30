@@ -16,128 +16,189 @@ class UnsubscribeController extends Page_Controller {
 	function RelativeLink($action = null) {
 		return "unsubscribe/$action";
 	}
+	
+	private function getMember(){
+		$autoLoginHash = Convert::raw2sql($this->urlParams['AutoLoginHash']);
+		if($autoLoginHash) {
+			$member = DataObject::get_one('Member', "\"AutoLoginHash\" = '$autoLoginHash'");
+			return $member;
+		}
+	}
+	
+	private function getMailingList(){
+		$mailingListID = (int)$this->urlParams['MailingList'];
+
+		if($mailingListID) {
+			return $mailingList = DataObject::get_by_id("NewsletterType", $mailingListID);
+		}else{
+			if(isset($_GET['MailingLists']) && !empty($_GET['MailingLists']) && is_array($_GET['MailingLists'])){
+				return DataObject::get("NewsletterType", "ID IN (".implode(",", $_GET['MailingLists']).")");
+			};
+		}
+	}
+	
 
 	function index() {
 		Session::clear("loggedInAs");
 		Requirements::themedCSS("form");
 
-		// if the email address is given
-		$emailAddress = Convert::raw2sql($this->urlParams['Email']);
-		$mailingListID = (int)$this->urlParams['MailingList'];
-
-		if($mailingListID) {
-			$mailingList = DataObject::get_by_id("NewsletterType", $mailingListID);
-		}
-
-		// try to find the member with the email specified
-		if($emailAddress) {
-			if(defined('DB::USE_ANSI_SQL')) {
-				$member = DataObject::get_one('Member', "\"Email\" = '$emailAddress'");
-			} else {
-				$member = DataObject::get_one('Member', "`Email` = '$emailAddress'");
-			}
-		} else {
-			$member = false;
-		}
+		$member = $this->getMember();
+		$mailingList = $this->getMailingList();
 
 		// if the email address and mailing list is given in the URL and both are valid,
 		// then unsubscribe the user
-		if($member && $mailingList && $member->inGroup($mailingList->GroupID)) {
+		if($member && isset($mailingList) && $mailingList->exists() && $member->inGroup($mailingList->GroupID)) {
 			$this->unsubscribeFromList($member, $mailingList);
-			$url = 'done/' . $member->Email . '/' . $mailingList->ID;
-			Director::redirect(Director::absoluteBaseURL() . $this->RelativeLink() . $url);
-			return;
+			$url = Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $member->AutoLoginHash . "/" . $mailingList->ID;
+			Director::redirect($url);
+			return $url;
 		} elseif($member) {
-			$listForm = $this->MailingListForm($member);
+			$listForm = $this->MailingListForm();
 		} else {
 			$listForm = $this->EmailAddressForm();
 		}
-
 		return $this->customise(array(
 			'Content' => $listForm->forTemplate()
 		))->renderWith('Page');
     }
 
 	function done() {
-		$message = self::$done_message ? self::$done_message : _t('Unsubscribe.SUCCESS', 'Thank you. You have been removed from the selected groups');
-
+		$form = new Form($this, "UnsubscribeSuccess", new FieldSet(), new FieldSet);
+		
+		if(!self::$done_message){
+			$email = $this->getMember()->Email;
+			$mailingList = $this->getMailingList();
+			if(is_a($mailingList, "DataObjectSet")){
+				$nlTitles = array();
+				foreach($mailingList as $nlType) $nlTitles[] = $nlType->Title;
+				$nlTypes = implode(", ", $nlTitles);
+			}elseif(is_a($mailingList, "NewsletterType")){
+				$nlTypes = $mailingList->Title;
+			}
+			self::$done_message = sprintf(_t('Unsubscribe.REMOVESUCCESS', 'Thank you. %s will no longer receive the %s.'), $email, $nlTypes);
+		}
+		$form -> setMessage(self::$done_message, 'good');
+		self::$done_message = null;
     	return $this->customise(array(
     		'Title' => _t('UNSUBSCRIBEDTITLE', 'Unsubscribed'),
-    		'Content' => $message
+    		'Form' => $form
     	))->renderWith('Page');
-    }
+	}
+
+	function linksent(){
+		$form = new Form($this, "UnsubscribeLinkSent", new FieldSet(), new FieldSet);
+		
+		if(isset($_GET['SendEmail']) && $_GET['SendEmail']){
+			$form -> setMessage(sprintf(_t('Unsubscribe.LINKSENTTO', "The unsubscribe link has been sent to %s"), $_GET['SendEmail']), "good");
+			return $this->customise(array(
+	    		'Title' => _t('Unsubscribe.LINKSENT', 'Unsubscrib Link Sent'),
+	    		'Form' => $form
+	    	))->renderWith('Page');
+		}elseif(isset($_GET['SendError']) && $_GET['SendError']){
+			$form -> setMessage(sprintf(_t('Unsubscribe.LINKSENDERR', "Sorry, currently we have internal error, and can't send the unsubscribe link to %s"), $_GET['SendError']), "good");
+			return $this->customise(array(
+	    		'Title' => _t('Unsubscribe.LINKNOTSEND', 'Unsubscrib Link Can\'t Be Sent'),
+	    		'Form' => $form
+	    	))->renderWith('Page');
+		}
+	}
 
     /**
     * Display a form with all the mailing lists that the user is subscribed to
     */
-    function MailingListForm( $member = null ) {
-    	$email = $this->urlParams['Email'];
-       return new Unsubscribe_MailingListForm($this, 'MailingListForm', $member, $email);
+    function MailingListForm() {
+		$member = $this->getMember();
+		return new Unsubscribe_MailingListForm($this, 'MailingListForm', $member);
     }
 
-    /**
-    * Display a form allowing the user to input their email address
-    */
-    function EmailAddressForm() {
-        return new Unsubscribe_EmailAddressForm( $this, 'EmailAddressForm' );
-    }
-
+	/**
+	 * Display a form allowing the user to input their email address
+	 *
+	 * @return Form
+	 */
+	function EmailAddressForm() {
+		return new Unsubscribe_EmailAddressForm( $this, 'EmailAddressForm' );
+	}
+	
     /**
     * Show the lists for the user with the given email address
     */
-    function showlists( $data, $form ) {
-    	if(defined('DB::USE_ANSI_SQL')) {
-        	$member = DataObject::get_one( 'Member', "\"Email\"='{$data['Email']}'" );
-    	} else {
-    		$member = DataObject::get_one( 'Member', "`Email`='{$data['Email']}'" );
-    	}
-
-         $mailingListForm = new Unsubscribe_MailingListForm( $this, 'MailingListForm', $member, $data['Email']);
-
-         return $this->customise( array( 'Content' => $mailingListForm->forTemplate() ) )->renderWith('Page');
-    }
-
+    function sendmeunsubscribelink( $data) {
+		if(isset($data['Email']) && $data['Email']) {
+			$member = DataObject::get_one("Member", "Email = '".$data['Email']."'");
+			if($member){
+				if(!$from = Email::getAdminEmail()){
+					$from = 'noreply@'.Director::BaseURL();
+				}
+				$to = $member->Email;
+				$subject = "Unsubscribe Link";
+				if($member->AutoLoginHash){
+					$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2));
+					$member->write();
+				}else{
+					$member->generateAutologinHash();
+				}
+				$link = Director::absoluteBaseURL() . $this->RelativeLink('index') ."/" . $member->AutoLoginHash;
+				$membername = $member->getName();
+				$body = $this->customise(array(
+		    		'Content' => <<<HTML
+Dear $membername,<br />
+<p>Please click the link below to unsubscribe from our newsletters<br />
+$link<br />
+<br >
+<br >
+Thanks
+</p>
+HTML
+		    	))->renderWith('Page');
+				$email = new Email($from, $to, $subject, $body);
+				$result = $email -> send();
+				if($result){
+					Director::redirect(Director::absoluteBaseURL() . $this->RelativeLink('linksent') . "?SendEmail=".$data['Email']);
+				}else{
+					Director::redirect(Director::absoluteBaseURL() . $this->RelativeLink('linksent') . "?SendError=".$data['Email']);
+				}
+			}else{
+				$form = $this->EmailAddressForm();
+				$message = sprintf(_t("Unsubscribe.NOTSIGNUP", "Sorry, '%s' doesn't appear to be an sign-up member with us"), $data['Email']);
+				$form->sessionMessage($message, 'bad');
+				Director::redirectBack();
+			}
+		} else {
+			$form = $this->EmailAddressForm();
+			$message = _t("Unsubscribe.NOEMAILGIVEN", "Sorry, please type in a valid email address");
+			$form->sessionMessage($message, 'bad');
+			Director::redirectBack();
+		}
+	}
+	
     /**
     * Unsubscribe the user from the given lists.
     */
-    function unsubscribe($data, $form) {
-        $email = $this->urlParams['Email'];
-        if(defined('DB::USE_ANSI_SQL')) {
-        	$member = DataObject::get_one( 'Member', "\"Email\"='$email'" );
-        } else  {
-        	$member = DataObject::get_one( 'Member', "`Email`='$email'" );
-        }
-        if(!$member){
-        	if(defined('DB::USE_ANSI_SQL')) {
-        		$member = DataObject::get_one('Member', "\"EmailAddress\" = '$email'");
-        	} else {
-        		$member = DataObject::get_one('Member', "`EmailAddress` = '$email'");
-        	}
-        }
+	function unsubscribe($data) {
+		$member = $this->getMember();
+		if( $data['MailingLists'] ) {
+			$mailingLists = array();
+			foreach( array_keys( $data['MailingLists'] ) as $listID ){
+				$list = DataObject::get_by_id( 'NewsletterType', $listID );
+				$this->unsubscribeFromList( $member, $list);
+				$mailingLists[] = "MailingLists[]=".$listID;
+			}
+			$liststring = implode("&", $mailingLists);
+			Director::redirect(Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $member->AutoLoginHash . "?" . $liststring);
+			return;
+		} else {
+			$form->addErrorMessage('MailingLists', _t('Unsubscribe.NOMLSELECTED', 'You need to select at least one mailing list to unsubscribe from.'), 'bad');
+			Director::redirectBack();
+		}
+	}
 
-        if( $data['MailingLists'] ) {
-           foreach( array_keys( $data['MailingLists'] ) as $listID ){
 
-           		$nlType = DataObject::get_by_id( 'NewsletterType', $listID );
-           		$nlTypeTitles[]= $nlType->Title;
-              $this->unsubscribeFromList( $member, DataObject::get_by_id( 'NewsletterType', $listID ) );
-           }
 
-           $sORp = (sizeof($nlTypeTitles)>1)?"newsletters ":"newsletter ";
-           //means single or plural
-           $nlTypeTitles = $sORp.implode(", ", $nlTypeTitles);
-	         $url = "unsubscribe/done/".$member->Email."/".$nlTypeTitles;
-	      	 Director::redirect($url);
-        } else {
-	        $form->addErrorMessage('MailingLists', _t('Unsubscribe.NOMLSELECTED', 'You need to select at least one mailing list to unsubscribe from.'), 'bad');
-        	Director::redirectBack();
-        }
-      }
-
-    protected function unsubscribeFromList( $member, $list ) {
-        // track unsubscriptions
-        $member->Groups()->remove( $list->GroupID );
-        $unsubscribeRecord = new UnsubscribeRecord();
-        $unsubscribeRecord->unsubscribe($member, $list);
+	protected function unsubscribeFromList( $member, $list ) {
+		// track unsubscriptions
+		$member->Groups()->remove( $list->GroupID );
+		$unsubscribeRecord = new UnsubscribeRecord();
+		$unsubscribeRecord->unsubscribe($member, $list);
     }
 }

@@ -8,41 +8,34 @@
  */
 class Unsubscribe_MailingListForm extends Form {
 
-    protected $memberEmail;
+    protected $autohash; 
 
-    function __construct( $controller, $name, $member, $email ) {
+	function __construct( $controller, $name, $member) {
+		$this->autohash = $member->AutoLoginHash;
 
-    	if($member) {
-        $this->memberEmail = $member->Email;
-    	}
+		$fields = new FieldSet();
+		$actions = new FieldSet();
 
-        $fields = new FieldSet();
-        $actions = new FieldSet();
+		// get all the mailing lists for this user
+		$lists = $this->getMailingLists( $member );
 
-        if($member) {
-	        // get all the mailing lists for this user
-	        $lists = $this->getMailingLists( $member );
-        } else {
-        	$lists = false;
-        }
-
-        if( $lists ) {
-	    $fields->push( new LabelField('SubscribedToLabel', _t('Unsubcribe.SUBSCRIBEDTO', 'You are subscribed to the following lists:')) );
-
-            foreach( $lists as $list ) {
-                $fields->push( new CheckboxField( "MailingLists[{$list->ID}]", $list->Title ) );
-            }
-
-            $actions->push( new FormAction('unsubscribe', _t('Unsubscribe.UNSUBSCRIBE', 'Unsubscribe') ) );
-        } else {
-	    $fields->push( new LabelField('NotSubscribedToLabel',sprintf(_t('Unsubscribe.NOTSUBSCRIBED', 'I\'m sorry, but %s doesn\'t appear to be in any of our mailing lists.'), $email) ) );
-        }
-
-        parent::__construct( $controller, $name, $fields, $actions );
-    }
+		if( $lists ) {
+			$fields->push( new LabelField('SubscribedToLabel', _t('Unsubcribe.CHECKTOUNSUBSCRIBE', 'Check the newsletter(s) you want to unsubscribe')) );
+			$fields->push( new CheckboxSetField("MailingLists", "", $lists));
+			$actions->push( new FormAction('unsubscribe', _t('Unsubscribe.UNSUBSCRIBE', 'Unsubscribe') ) );
+			
+			$validator = new RequiredFields(array('MailingLists'));
+			parent::__construct( $controller, $name, $fields, $actions, $validator);
+		} else {
+			parent::__construct( $controller, $name, $fields, $actions);
+			$this->setMessage(_t('Unsubscribe.NOTINMAILINGLISTS', 'Sorry, your don\'t appear to be in any of our mailing lists.'), 'warning');
+		}
+		
+		$this->disableSecurityToken();
+	}
 
     function FormAction() {
-        return $this->controller->RelativeLink() . "{$this->memberEmail}?executeForm=" . $this->name;
+        return $this->controller->RelativeLink('unsubscribe') . "/{$this->autohash}?executeForm=" . $this->name; 
     }
 
     protected function getMailingLists( $member ) {
@@ -67,35 +60,18 @@ class Unsubscribe_EmailAddressForm extends Form {
     function __construct( $controller, $name ) {
 
         $fields = new FieldSet(
-	    new EmailField( 'Email', _t('Unsubscribe.EMAILADDR', 'Email address') )
+			new EmailField( 'Email', _t('Unsubscribe.EMAILADDR', 'Email address') )
         );
 
         $actions = new FieldSet(
-	    new FormAction( 'showlists', _t('Unsubscribe.SHOWLISTS', 'Show lists') )
+			new FormAction( 'sendmeunsubscribelink', _t('Unsubscribe.SENDMEUNSUBSCRIBELINK', 'Send me unsubscribe link'))
         );
 
-        parent::__construct( $controller, $name, $fields, $actions );
+        parent::__construct( $controller, $name, $fields, $actions, new RequiredFields(array('Email')));
+		$this->disableSecurityToken();
     }
 
     function FormAction() {
-        return parent::FormAction() . ( isset($_REQUEST['showqueries']) ? '&showqueries=1' : '' );
+        return $this->controller->RelativeLink('sendmeunsubscribelink') . "/?executeForm=" . $this->name; 
     }
-}
-
-/**
- * Final stage form for the Unsubcribe page.
- * The form just gives you a success message.
- *
- * @package newsletter
- */
-class Unsubscribe_Successful extends Form {
-	function __construct($controller, $name){
-		$fields = new FieldSet();
-		$actions = new FieldSet();
-		parent::__construct($controller, $name, $fields, $actions);
-	}
-	function setSuccessfulMessage($email, $newsletterTypes) {
-		Requirements::themedCSS("form");
-		$this->setMessage(sprintf(_t('Unsubscribe.REMOVESUCCESS', 'Thank you. %s will no longer receive the %s.'), $email, $newsletterTypes), "good");
-	}
 }

@@ -176,7 +176,6 @@ $lang['en_US']['Unsubscribe']['EMAILADDR'] = 'Email address';
 $lang['en_US']['Unsubscribe']['NOMLSELECTED'] = 'You need to select at least one mailing list to unsubscribe from.';
 $lang['en_US']['Unsubscribe']['NOTSUBSCRIBED'] = 'I\'m sorry, but %s doesn\'t appear to be in any of our mailing lists.';
 $lang['en_US']['Unsubscribe']['REMOVESUCCESS'] = 'Thank you. %s will no longer receive the %s.';
-$lang['en_US']['Unsubscribe']['SHOWLISTS'] = 'Show lists';
 $lang['en_US']['Unsubscribe']['SUCCESS'] = 'Thank you. You have been removed from the selected groups';
 $lang['en_US']['Unsubscribe']['UNSUBSCRIBE'] = 'Unsubscribe';
 $lang['en_US']['UnsubscribeRecord']['PLURALNAME'] = array(

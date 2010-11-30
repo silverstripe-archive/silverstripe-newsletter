@@ -4,17 +4,36 @@
  * Record to keep track of when a {@link Member} has
  * unsubscribed from a newsletter.
  *
- * @TODO Check if that email stuff ($from, $to, $subject, $body) is needed
- *       here! (Markus)
- *
  * @package newsletter
  */
 class UnsubscribeRecord extends DataObject {
+
+	protected $from = '';
+	
+	protected $to = '$Email';
+	
+	protected $subject = '';
+	
+	protected $body = '';
 
 	static $has_one = array(
 		'NewsletterType' => 'NewsletterType',
 		'Member' => 'Member'
 	);
+
+	function __construct($record = null, $isSingleton = false) {
+		$this->subject = _t('Member.SUBJECTPASSWORDCHANGED');
+		
+		$this->body = '
+			<h1>' . _t('Member.EMAILPASSWORDINTRO', "Here's your new password") . '</h1>
+			<p>
+				<strong>' . _t('Member.EMAIL') . ':</strong> $Email<br />
+				<strong>' . _t('Member.PASSWORD') . ':</strong> $Password
+			</p>
+			<p>' . _t('Member.EMAILPASSWORDAPPENDIX', 'Your password has been changed. Please keep this email, for future reference.') . '</p>';
+
+		parent::__construct($record, $isSingleton);
+	}
 
 	/**
 	 * Migrate data from Member_UnsubscribeRecord (the obsolete table)
@@ -54,27 +73,4 @@ class UnsubscribeRecord extends DataObject {
 
 		$this->write();
 	}
-
-
-	protected
-		$from = '',  // setting a blank from address uses the site's default administrator email
-		$to = '$Email',
-		$subject = '',
-		$body = '';
-
-		function __construct($record = null, $isSingleton = false) {
-			$this->subject = _t('Member.SUBJECTPASSWORDCHANGED');
-
-			$this->body = '
-				<h1>' . _t('Member.EMAILPASSWORDINTRO', "Here's your new password") . '</h1>
-				<p>
-					<strong>' . _t('Member.EMAIL') . ':</strong> $Email<br />
-					<strong>' . _t('Member.PASSWORD') . ':</strong> $Password
-				</p>
-				<p>' . _t('Member.EMAILPASSWORDAPPENDIX', 'Your password has been changed. Please keep this email, for future reference.') . '</p>';
-
-			parent::__construct($record, $isSingleton);
-		}
 }
-
-?>

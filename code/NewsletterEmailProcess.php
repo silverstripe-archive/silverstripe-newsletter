@@ -8,7 +8,6 @@
 class NewsletterEmailProcess extends BatchProcess {
 
 	protected $subject;
-	protected $body;
 	protected $from;
 	protected $newsletter;
 	protected $nlType;
@@ -19,10 +18,9 @@ class NewsletterEmailProcess extends BatchProcess {
 	 *
 	 * @param $recipients DataObjectSet The recipients of this newsletter
 	 */
-	function __construct( $subject, $body, $from, $newsletter, $nlType, $messageID = null, $recipients) {
+	function __construct( $subject, $from, $newsletter, $nlType, $messageID = null, $recipients) {
 
 		$this->subject = $subject;
-		$this->body = $body;
 		$this->from = $from;
 		$this->newsletter = $newsletter;
 		$this->nlType = $nlType;
@@ -73,8 +71,7 @@ class NewsletterEmailProcess extends BatchProcess {
 					$newsletter->write();
 
 				} else {
-					$e = new Newsletter_Email($this->nlType);
-					$e->setBody( $this->body );
+					$e = new Newsletter_Email($this->newsletter, $this->nlType);
 					$e->setSubject( $this->subject );
 					$e->setFrom( $this->from );
 					$e->setTemplate( $this->nlType->Template );
@@ -142,4 +139,3 @@ class NewsletterEmailProcess extends BatchProcess {
 		}
 	}
 }
-?>

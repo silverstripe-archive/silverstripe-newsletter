@@ -1,4 +1,5 @@
 <?php 
+
 /**
  * Represents a type of newsletter, for example the weekly products update.
  * The NewsletterType is associated with a recipient list and a bunch of
@@ -24,11 +25,9 @@ class NewsletterType extends DataObject {
 		"Newsletters" => "Newsletter",
 	);
 	
-	static $many_many = array(
-	);
+	static $many_many = array();
 	
-	static $defaults = array(
-	);
+	static $defaults = array();
 	
 	function DraftNewsletters() {
 		return DataObject::get("Newsletter","ParentID={$this->ID} AND Status ='Draft'");
@@ -96,6 +95,4 @@ class NewsletterType extends DataObject {
 		
 		return $fields;    	
 	}
-    
 }
-?>

@@ -1,9 +1,11 @@
 <?php
+
 /**
  * Newsletter administration section
  *
  * @package newsletter
  */
+
 class NewsletterAdmin extends LeftAndMain {
 	static $subitem_class = 'Member';
 	
@@ -158,24 +160,30 @@ class NewsletterAdmin extends LeftAndMain {
 	 */
 	public function preview($request) {
 		$newsletterID = (int) $request->param('ID');
-		$obj = DataObject::get_by_id('Newsletter', $newsletterID);
-		$templateName = ($obj && ($obj->Parent()->Template)) ? $obj->Parent()->Template : 'GenericEmail';
+		$newsletter = DataObject::get_by_id('Newsletter', $newsletterID);
+		$templateName = ($newsletter && ($newsletter->Parent()->Template)) ? $newsletter->Parent()->Template : 'GenericEmail';
 
 		// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
 		Requirements::clear();
 
 		// Set template specific variables before passing it to the template
-		$obj->Body = $obj->Content;
-
-		return $this->customise($obj)->renderWith($templateName);
+		$obj = new DataObject();
+		$obj->Newsletter = $newsletter;
+		
+		// create a new body field and copy contents
+		$obj->Body = new HTMLText();
+		$obj->Body->setValue($newsletter->getContentBody()->RAW());
+		
+		return HTTP::absoluteURLs($this->customise($obj)->renderWith($templateName));
 	}
 
 	/**
-	* Top level call from ajax
-	* Called when a newsletter type is clicked on the left menu
-	*/
+	 * Top level call from ajax
+	 * Called when a newsletter type is clicked on the left menu
+	 */
 	public function showmailtype($params) {
 		$params = $params->allParams();
+		
 		return $this->showWithEditForm( $params, $this->getNewsletterTypeEditForm( $params['ID'] ) );
 	}
 
@@ -475,6 +483,11 @@ class NewsletterAdmin extends LeftAndMain {
 				self::$template_paths[] = project() . '/templates/Email';
 			}
 		}
+		else {
+			if(is_string(self::$template_paths)) {
+				self::$template_paths = array(self::$template_paths);
+			}
+		}
 		
 		return self::$template_paths;
 	}
@@ -482,13 +495,14 @@ class NewsletterAdmin extends LeftAndMain {
 	/**
 	 * return array containing all possible email templates file name 
 	 * under the folders of both theme and project specific folder.
+	 *
 	 * @return array
 	 */
 	public function templateSource(){
 		$paths = self::template_paths();
 		$templates = array( "" => _t('TemplateList.NONE', 'None') );
 
-		if(isset($paths) && count($paths)){
+		if(isset($paths) && is_array($paths)){
 			$absPath = Director::baseFolder();
 			if( $absPath{strlen($absPath)-1} != "/" )
 				$absPath .= "/";
@@ -499,15 +513,17 @@ class NewsletterAdmin extends LeftAndMain {
 					$templateDir = opendir( $path );
 
 					// read all files in the directory
-					while( ( $templateFile = readdir( $templateDir ) ) !== false ) {
+					while(($templateFile = readdir($templateDir)) !== false) {
 						// *.ss files are templates
-						if( preg_match( '/(.*)\.ss$/', $templateFile, $match ) ){
-							$templates[$match[1]] = $match[1];
+						if( preg_match( '/(.*)\.ss$/', $templateFile, $match )){
+							// change a 
+							$templates[$match[1]] = preg_replace('/_?([A-Z])/', " $1", $match[1]);
 						}
 					}
 				}
 			}
 		}
+		
 		return $templates;
 	}
 
@@ -537,7 +553,7 @@ class NewsletterAdmin extends LeftAndMain {
 			else
 				$actions->push(new FormAction('send',_t('NewsletterAdmin.SEND','Send...')));
 
-			$actions->push(new FormAction('save',_t('NewsletterAdmin.SAVE')));
+			$actions->push(new FormAction('save',_t('NewsletterAdmin.SAVE', 'Save')));
 
 			$form = new Form($this, "NewsletterEditForm", $fields, $actions);
 			$form->loadDataFrom($email);
@@ -574,8 +590,7 @@ class NewsletterAdmin extends LeftAndMain {
 		$newsletter = DataObject::get_by_id("Newsletter", $id);
 		$nlType = $newsletter->getNewsletterType();
 
-		$e = new Newsletter_Email($nlType);
-		$e->Body = $body = $newsletter->getContentBody();
+		$e = new Newsletter_Email($newsletter, $nlType);
 		$e->Subject = $subject = $newsletter->Subject;
 
 		// TODO Make this dynamic
@@ -618,7 +633,8 @@ class NewsletterAdmin extends LeftAndMain {
 			case "Unsent":
 				// Send to only those who have not already been sent this newsletter.
 				$only_to_unsent = 1;
-      				echo self::sendToList( $subject, $body, $from, $newsletter, $nlType, $messageID, $newsletter->UnsentSubscribers());
+      		
+				echo self::sendToList( $subject, $from, $newsletter, $nlType, $messageID, $newsletter->UnsentSubscribers());
 				break;
 		}
 
@@ -631,8 +647,8 @@ class NewsletterAdmin extends LeftAndMain {
         $email->send();
     }
 
-    static function sendToList( $subject, $body, $from, $newsletter, $nlType, $messageID = null, $recipients) {
-        $emailProcess = new NewsletterEmailProcess( $subject, $body, $from, $newsletter, $nlType, $messageID, $recipients);
+    static function sendToList( $subject, $from, $newsletter, $nlType, $messageID = null, $recipients) {
+        $emailProcess = new NewsletterEmailProcess( $subject, $from, $newsletter, $nlType, $messageID, $recipients);
         return $emailProcess->start();
     }
 
@@ -939,5 +955,3 @@ JS;
 		return _t('LeftAndMain.NEWSLETTERS',"Newsletters",PR_HIGH,"Menu title");
 	}
 }
-
-?>

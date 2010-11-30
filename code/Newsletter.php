@@ -52,7 +52,8 @@ class Newsletter extends DataObject {
 		if($this->Status != 'Draft') {
 			$mailTab->push( new ReadonlyField("SendDate", _t('Newsletter.SENTAT', 'Sent at'), $this->SendDate) );
 		}
-
+		
+		$this->extend("updateCMSFields", $ret);
 		return $ret;
 	}
 
@@ -114,9 +115,10 @@ class Newsletter extends DataObject {
 	function getNewsletterType() {
 		return DataObject::get_by_id('NewsletterType', $this->ParentID);
 	}
-	
+
 	function getContentBody(){
-		$content = $this->Content;
+		$content = $this->obj('Content');
+		
 		$this->extend("updateContentBody", $content);
 		return $content;
 	}
@@ -187,20 +189,31 @@ class Newsletter_Recipient extends DataObject {
 class Newsletter_Email extends Email {
 
 	protected $nlType;
-
-	function __construct($nlType) {
-		$this->nlType = $nlType;
+	protected $newsletter;
+	
+	/**
+	 * @param Newsletter $newsletter
+	 */
+	function __construct($newsletter, $nlType = null) {
+		$this->newsletter = $newsletter;
+		$this->nlType = $nlType ? $nlType : $newsletter->getNewsletterType();
+		
 		parent::__construct();
+		$this->body = $newsletter->getContentBody();
 	}
 
-	function setTemplate( $template ) {
+	function setTemplate($template) {
 		$this->ss_template = $template;
 	}
-
+	
+	function Newsletter() {
+		return $this->newsletter;
+	}
+	
 	function UnsubscribeLink(){
 		$emailAddr = $this->To();
 		$nlTypeID = $this->nlType->ID;
+		
 		return Director::absoluteBaseURL() . "unsubscribe/index/$emailAddr/$nlTypeID";
 	}
 }
-?>

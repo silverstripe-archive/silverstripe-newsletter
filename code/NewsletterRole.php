@@ -117,7 +117,4 @@ class NewsletterRole extends DataObjectDecorator {
 		// Save the BlacklistedEmail field to the Member table
 		$this->owner->write();
 	}
-	
 }
-
-?>

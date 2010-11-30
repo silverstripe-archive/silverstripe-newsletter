@@ -199,8 +199,8 @@ class RecipientImportField_Cell extends ViewableData {
 
 /**
  * Upload form that appears in the iframe
- * @package cms
- * @subpackage newsletter
+ *
+ * @package newsletter
  */
 class RecipientImportField_UploadForm extends Form {
 	function import( $data, $form ) {
@@ -390,4 +390,3 @@ class RecipientImportField_UploadForm extends Form {
 		$email->send();
 	}
 }
-?>

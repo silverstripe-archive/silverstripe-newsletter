@@ -241,5 +241,3 @@ class Unsubscribe_Successful extends Form {
 		$this->setMessage(sprintf(_t('Unsubscribe.REMOVESUCCESS', 'Thank you. %s will no longer receive the %s.'), $email, $newsletterTypes), "good");
 	}
 }
-
-?>

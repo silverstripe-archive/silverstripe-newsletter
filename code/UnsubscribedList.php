@@ -54,4 +54,3 @@ class UnsubscribedList extends FormField {
 		$this->controller = $controller;
 	}
 }
-?>

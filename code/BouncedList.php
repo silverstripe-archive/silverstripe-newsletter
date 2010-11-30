@@ -55,4 +55,3 @@ class BouncedList extends FormField {
         return new DataObjectSet( $bouncedUsers );
     }
 }
-?>

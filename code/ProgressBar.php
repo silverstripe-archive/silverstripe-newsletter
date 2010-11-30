@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Displays a progress bar in a form.
  * These are currently only linked to Batch Processes.
@@ -15,6 +16,4 @@ class ProgressBar extends FormField {
 		
 		return $this->renderWith('ProgressBar');
 	}
-
 }
-?>

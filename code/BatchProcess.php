@@ -100,4 +100,3 @@ class BatchProcess_Controller extends Controller {
 			return $process->next();
 	}	
 }
-?>

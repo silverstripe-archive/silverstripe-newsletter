@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * @package newsletter
+ */
 class CheckboxSetWithExtraField extends CheckboxSetField{
 	
 	public $extra = array();
@@ -21,6 +25,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	function __construct($name, $title = "", $source = array(), $extra=array(), $value = "", $extraValue=array(), $form = null) {
 		if(!empty($extra)) $this->extra = $extra;
 		if(!empty($extraValue)) $this->extraValue = $extraValue;
+		
 		parent::__construct($name, $title, $source, $value, $form);
 	}
 
@@ -234,6 +239,9 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	}
 	
 	function setValue($val, $data = false){
+		
+		if(!$data) return;
+		
 		if(is_string($val)) {
 			$val = explode(",", $val);
 		}
@@ -260,4 +268,3 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 		}
 	}
 }
-?>

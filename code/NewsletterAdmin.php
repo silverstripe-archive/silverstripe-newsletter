@@ -56,7 +56,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 		//TODO what is going on here? where did that hover.js go? can't find it. 
 		//TODO We need to reimplement a hover.js?
-		Requirements::javascript(THIRDPARTY_DIR . '/hover.js');
+		Requirements::javascript(CMS_DIR . '/javascript/hover.js');
 		Requirements::javascript(THIRDPARTY_DIR . '/scriptaculous/controls.js');
 
 		Requirements::javascript(CMS_DIR . '/javascript/LeftAndMain_left.js');

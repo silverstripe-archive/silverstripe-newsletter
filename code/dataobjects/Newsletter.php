@@ -1,8 +1,7 @@
 <?php
 
 /**
- * Single newsletter instance.  Each Newsletter belongs to a NewsletterType.
- *
+ * Single newsletter instance.  Each {@link Newsletter} belongs to a {@link NewsletterType}. 
  * @package newsletter
  */
 class Newsletter extends DataObject {
@@ -21,6 +20,7 @@ class Newsletter extends DataObject {
 	static $has_many = array(
 		"Recipients" => "Newsletter_Recipient",
 		"SentRecipients" => "Newsletter_SentRecipient",
+		"TrackedLinks" => "Newsletter_TrackedLink"
 	);
 
 	/**
@@ -33,8 +33,9 @@ class Newsletter extends DataObject {
 	 */
 	function getCMSFields($controller = null) {
 		$group = DataObject::get_by_id("Group", $this->Parent()->GroupID);
-		$sent_status_report = $this->renderWith("Newsletter_SentStatusReport");
+		$sentReport = $this->renderWith("Newsletter_SentStatusReport");
 		$previewLink = Director::absoluteBaseURL() . 'admin/newsletter/preview/' . $this->ID;
+		$trackedLinks = $this->renderWith("Newsletter_TrackedLinksReport");
 
 		$ret = new FieldSet(
 			new TabSet("Root",
@@ -44,7 +45,10 @@ class Newsletter extends DataObject {
 					new LiteralField('PreviewNewsletter', "<a href=\"$previewLink\" target=\"_blank\">" . _t('PREVIEWNEWSLETTER', 'Preview this newsletter') . "</a>")
 				),
 				$sentToTab = new Tab(_t('Newsletter.SENTREPORT', 'Sent Status Report'),
-					new LiteralField("Sent Status Report", $sent_status_report)
+					new LiteralField("SentStatusReport", $sentReport)
+				),
+				$trackLink = new Tab(_t('Newsletter.TRACKEDLINKS', 'Tracked Links'),
+					new LiteralField("TrackedLinks", $trackedLinks)
 				)
 			)
 		);
@@ -140,6 +144,21 @@ class Newsletter extends DataObject {
 	function PreviewLink(){
 		return Controller::curr()->AbsoluteLink()."preview/".$this->ID;
 	}
+	/** 
+	 * Returns a list of all the {@link Newsletter_TrackedLink} objects attached 
+	 * to this newsletter and sorts them in desc order 
+	 * 
+	 * @return DataObjectSet|false 
+	 */ 
+	function NewsletterLinks() { 
+		$links = $this->TrackedLinks(); 
+		
+ 		if($links) { 
+			$links->sort("\"Visits\"", "DESC"); 
+			
+			return $links; 
+		} 
+	}
 }
 
 /**
@@ -149,20 +168,16 @@ class Newsletter extends DataObject {
  */
 class Newsletter_SentRecipient extends DataObject {
 	/**
-	 * The DB schema for Newsletter_SentRecipient.
-	 *
-	 * ParentID is the the Newsletter
-	 * Email and MemberID keep track of the recpients information
-	 * Result has 4 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE),
+	 *	Result has 4 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE),
 	 * 	"Bounced" ({@see $email_bouncehandler}), or "BlackListed" (sending to is disabled).
 	 */
 	static $db = array(
-		"ParentID" => "Int",
 		"Email" => "Varchar(255)",
 		"Result" => "Enum('Sent, Failed, Bounced, BlackListed', 'Sent')",
 	);
 	static $has_one = array(
 		"Member" => "Member",
+		"Parent" => "Newsletter" 
 	);
 }
 
@@ -182,38 +197,40 @@ class Newsletter_Recipient extends DataObject {
 }
 
 /**
- * Email object for sending newsletters.
+ * Tracked link is a record of a link from the {@link Newsletter}
  *
  * @package newsletter
  */
-class Newsletter_Email extends Email {
-
-	protected $nlType;
-	protected $newsletter;
+class Newsletter_TrackedLink extends DataObject {
+	
+	static $db = array(
+		'Original' => 'Varchar(255)',
+		'Hash' => 'Varchar(100)',
+		'Visits' => 'Int'
+	);
+	
+	static $has_one = array(
+		'Newsletter' => 'Newsletter'
+	);
 	
 	/**
-	 * @param Newsletter $newsletter
+	 * Generate a unique hash
 	 */
-	function __construct($newsletter, $nlType = null) {
-		$this->newsletter = $newsletter;
-		$this->nlType = $nlType ? $nlType : $newsletter->getNewsletterType();
+	function onBeforeWrite() {
+		parent::onBeforeWrite();
 		
-		parent::__construct();
-		$this->body = $newsletter->getContentBody();
-	}
-
-	function setTemplate($template) {
-		$this->ss_template = $template;
+		if(!$this->Hash) $this->Hash = md5(time() + rand());
 	}
 	
-	function Newsletter() {
-		return $this->newsletter;
-	}
-	
-	function UnsubscribeLink(){
-		$emailAddr = $this->To();
-		$nlTypeID = $this->nlType->ID;
+	/**
+	 * Return the full link to the hashed url, not the
+	 * actual link location
+	 *
+	 * @return String
+	 */
+	function Link() {
+		if(!$this->Hash) $this->write();
 		
-		return Director::absoluteBaseURL() . "unsubscribe/index/$emailAddr/$nlTypeID";
+		return 'newsletterlinks/'. $this->Hash;
 	}
 }

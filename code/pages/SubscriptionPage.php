@@ -7,7 +7,8 @@
  * @package newsletter
  */
 
-class SubscriptionPage extends Page{
+class SubscriptionPage extends Page {
+	
 	static $db = array(
 		'Fields' => 'Text',
 		'Required' => 'Text',
@@ -116,17 +117,20 @@ class SubscriptionPage extends Page{
 		return $fields;
 	}
 	
-	//Since Email field is the member's identifier, and newsletters subscription is non-sence if no email is given by the user, we should force that email to be checked and required.
+	/**
+	 * Email field is the member's identifier, and newsletters subscription is non-sense if no email is given 
+	 * by the user, we should force that email to be checked and required.
+	 */
 	function getRequired(){
-		if(!$this->getField('Required')){
-			return '{"Email":"1"}';
-		}else{
-			return $this->getField('Required');
-		}
+		return (!$this->getField('Required')) ? '{"Email":"1"}' : $this->getField('Required');
 	}
 }
 
-class SubscriptionPage_Controller extends Page_Controller{
+/**
+ * @package newsletter
+ */
+class SubscriptionPage_Controller extends Page_Controller {
+	
 	/**
 	 * Load all the custom jquery needed to run the custom 
 	 * validation 
@@ -228,27 +232,48 @@ JS
 		return $form;
 	}
 	
+	/**
+	 * Subscribes a given email address to the {@link NewsletterType} associated
+	 * with this page
+	 *
+	 * @param array
+	 * @param Form
+	 * @param SS_HTTPRequest
+	 *
+	 * @return Redirection
+	 */
 	function doSubscribe($data, $form, $request){
-		$member = new Member();
-		$form->saveInto($member);
-		$member->write();
+		
+		// check to see if member already exists
+		$member = false; 
+		
+		if(isset($data['Email'])) {
+			$member = DataObject::get_one('Member', "\"Email\" = '". Convert::raw2sql($data['Email']) . "'");
+		}
+		
+		if(!$member) {
+			$member = new Member();
+			$form->saveInto($member);
+			$member->write();
+		}
 		
 		$newsletters = array();
+		
 		if(isset($data["NewsletterSelection"])){
 			foreach($data["NewsletterSelection"] as $n){
 				$newsletterType = DataObject::get_by_id("NewsletterType", $n);
+				
 				if($newsletterType->exists()){
 					$newsletters[] = $newsletterType;
 					$groupID = $newsletterType->GroupID;
 					$member->Groups()->add($groupID);
 				}
 			}
-		}else{
-			$types = explode(",",$this->NewsletterTypes);
-			
+		} else {
 			// if the page has associate with one newsletter type, it won't appear in front form, but the 
 			// member needs to be added to the related group.
-			if(count($types)==1){
+			
+			if($this->NewsletterTypes && ($types = explode(",",$this->NewsletterTypes))) {
 				foreach($types as $type){
 					$newsletterType = DataObject::get_by_id("NewsletterType", $type);
 					if($newsletterType->exists()){
@@ -258,7 +283,11 @@ JS
 					}	
 				}
 			}
+			else {
+				user_error('No Newsletter type selected to subscribe to', E_USER_WARNING);
+			}
 		}
+		
 		$memberInfoFields = $form->Fields()->fieldByName('MemberInfoSection')->FieldSet();
 		$emailableFields = new FieldSet();
 		if($memberInfoFields){
@@ -282,10 +311,11 @@ JS
         );
 
 		if($this->SendNotification){
-			$email = new SubscriptionEmail();
+			$email = new Email();
 			$email->setTo($member->Email);
 			$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
 	        $email->setFrom($from);
+			$email->setTemplate('SubscriptionEmail'); 
 	        $email->setSubject( $this->NotificationEmailSubject );
 
 	        $email->populateTemplate( $templateData );
@@ -293,7 +323,7 @@ JS
 		}
 		
 		$url = $this->Link()."complete/".$member->ID;
-		Director::redirect($url);
+		$this->redirect($url);
 	}
 	
 	function complete(){
@@ -306,12 +336,3 @@ JS
     	))->renderWith('Page');
 	}
 }
-
-class SubscriptionEmail extends Email{
-	    protected $to = '$Email';
-	    protected $subject = '$Subject';
-	    protected $ss_template = 'SubscriptionEmail';
-	    protected $from = '';   
-	}
-
-?>

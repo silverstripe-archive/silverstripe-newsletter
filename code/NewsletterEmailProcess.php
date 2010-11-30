@@ -71,7 +71,7 @@ class NewsletterEmailProcess extends BatchProcess {
 					$newsletter->write();
 
 				} else {
-					$e = new Newsletter_Email($this->newsletter, $this->nlType);
+					$e = new NewsletterEmail($this->newsletter, $this->nlType);
 					$e->setSubject( $this->subject );
 					$e->setFrom( $this->from );
 					$e->setTemplate( $this->nlType->Template );
@@ -88,13 +88,10 @@ class NewsletterEmailProcess extends BatchProcess {
 	        }
     	}
 
-	    if( $this->current >= count( $this->objects ) )
-	    	return $this->complete();
-	    else
-	    	return parent::next();
+	    return ($this->current >= count($this->objects)) ? $this->complete() : parent::next(); 
 	}
 
-	/*
+	/**
 	 * Sends a Newsletter email to the specified address
 	 *
 	 * @param $member The object containing information about the member being emailed
@@ -106,12 +103,10 @@ class NewsletterEmailProcess extends BatchProcess {
 		$newsletter = new Newsletter_SentRecipient();
 		$newsletter->Email = $address;
 		$newsletter->MemberID = $member->ID;
-		// If Sending is successful
-		if ($result == true) {
-			$newsletter->Result = 'Sent';
-		} else {
-			$newsletter->Result = 'Failed';
-		}
+		
+		// If sending is successful
+		$newsletter->Result = ($result == true) ? 'Sent' : 'Failed'; 
+		
 		$newsletter->ParentID = $this->newsletter->ID;
 		$newsletter->write();
 		// Adding a pause between email sending can be useful for debugging purposes
@@ -121,18 +116,14 @@ class NewsletterEmailProcess extends BatchProcess {
 	function complete() {
 		parent::complete();
 
-		if( $this->newsletter->SentDate ) {
-			$resent = true;
-		} else {
-			$resent = false;
-		}
+		$resent = ($this->newsletter->SentDate) ? true : false; 
 
 		$this->newsletter->SentDate = 'now';
 		$this->newsletter->Status = 'Send';
 		$this->newsletter->write();
 
 		// Call the success message JS function with the Newsletter information
-		if( $resent ) {
+		if($resent) {
 			return "resent_ok( '{$this->nlType->ID}', '{$this->newsletter->ID}', '".count( $this->objects )."' ); ";
 		} else {
 			return "draft_sent_ok( '{$this->nlType->ID}', '{$this->newsletter->ID}', '".count( $this->objects )."' ); ";

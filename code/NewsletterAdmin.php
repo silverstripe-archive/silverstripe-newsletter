@@ -9,9 +9,14 @@
 class NewsletterAdmin extends LeftAndMain {
 	static $subitem_class = 'Member';
 	
+	/** 
+	 * @var which will be used to seperator "send items" into 2 groups, e.g. "most recent number 5", "older". 
+	 */
 	static $most_recent_seperator = 5; // an int which will be used to seperator "send items" into 2 groups, e.g. "most recent number 5", "older".
-
-	static $template_path = null; // deprecated, use template_paths instead.
+	
+	/** 
+	 * @var array Array of template paths to check 
+	 */
 	static $template_paths = null; //could be customised in _config 
 
 	static $allowed_actions = array(
@@ -166,15 +171,9 @@ class NewsletterAdmin extends LeftAndMain {
 		// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
 		Requirements::clear();
 
-		// Set template specific variables before passing it to the template
-		$obj = new DataObject();
-		$obj->Newsletter = $newsletter;
+		$email = new NewsletterEmail($newsletter); 
 		
-		// create a new body field and copy contents
-		$obj->Body = new HTMLText();
-		$obj->Body->setValue($newsletter->getContentBody()->RAW());
-		
-		return HTTP::absoluteURLs($this->customise($obj)->renderWith($templateName));
+		return HTTP::absoluteURLs($email->getData()->renderWith($templateName));
 	}
 
 	/**
@@ -437,6 +436,7 @@ class NewsletterAdmin extends LeftAndMain {
 	 */
 	function getsentstatusreport($params) {
 		$params = $params->allParams();
+		
 		if(Director::is_ajax()) {
 			$newsletter = DataObject::get_by_id( 'Newsletter', $params['ID'] );
 			$sent_status_report = $newsletter->renderWith("Newsletter_SentStatusReport");
@@ -578,7 +578,10 @@ class NewsletterAdmin extends LeftAndMain {
 		return $progressBar->FieldHolder();
 	}
 
-	public function sendnewsletter( /*$data, $form = null*/ ) {
+	/**
+	 * Sends a newsletter given by the url 
+	 */
+	public function sendnewsletter() {
 
 		$id = isset($_REQUEST['ID']) ? $_REQUEST['ID'] : $_REQUEST['NewsletterID'];
 
@@ -590,7 +593,7 @@ class NewsletterAdmin extends LeftAndMain {
 		$newsletter = DataObject::get_by_id("Newsletter", $id);
 		$nlType = $newsletter->getNewsletterType();
 
-		$e = new Newsletter_Email($newsletter, $nlType);
+		$e = new NewsletterEmail($newsletter, $nlType);
 		$e->Subject = $subject = $newsletter->Subject;
 
 		// TODO Make this dynamic
@@ -620,15 +623,14 @@ class NewsletterAdmin extends LeftAndMain {
 			case "List":
 				// Send to the entire mailing list.
 				$groupID = $nlType->GroupID;
+				
 				if(defined('DB::USE_ANSI_SQL')) {
-					echo self::sendToList( $subject, $body, $from, $newsletter, $nlType, $messageID,
-						DataObject::get( 'Member', "\"GroupID\"='$groupID'", null, "INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" )
-					);
+					$members = DataObject::get( 'Member', "\"GroupID\"='$groupID'", null, "INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" );
 				} else {
-					echo self::sendToList( $subject, $body, $from, $newsletter, $nlType, $messageID,
-						DataObject::get( 'Member', "`GroupID`='$groupID'", null, "INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" )
-					);
+					$members = DataObject::get( 'Member', "`GroupID`='$groupID'", null, "INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" );
 				}
+				
+				echo self::sendToList($subject, $from, $newsletter, $nlType, $messageID, $members);
 				break;
 			case "Unsent":
 				// Send to only those who have not already been sent this newsletter.
@@ -642,15 +644,16 @@ class NewsletterAdmin extends LeftAndMain {
 	}
 
 
-    static function sendToAddress( $email, $address, $messageID = null ) {
-        $email->To = $address;
-        $email->send();
+	static function sendToAddress( $email, $address, $messageID = null ) {
+		$email->To = $address;
+		$email->send();
     }
 
-    static function sendToList( $subject, $from, $newsletter, $nlType, $messageID = null, $recipients) {
-        $emailProcess = new NewsletterEmailProcess( $subject, $from, $newsletter, $nlType, $messageID, $recipients);
-        return $emailProcess->start();
-    }
+	static function sendToList($subject, $from, $newsletter, $nlType, $messageID = null, $recipients) {
+		$emailProcess = new NewsletterEmailProcess($subject, $from, $newsletter, $nlType, $messageID, $recipients);
+		
+		return $emailProcess->start();
+	}
 
 	/**
 	 * Top level call, $param is a SS_HTTPRequest Object

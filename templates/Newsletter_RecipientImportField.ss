@@ -3,13 +3,6 @@
 <head>
 	<% base_tag %>
 	$MetaTags
-	<style type="text/css" media="screen">
-		   @import "mot/css/css.css";
-		   @import "mot/css/typography.css";
-		</style>
-	<style type="text/css" media="print">
-		   @import "mot/css/print.css";
-	</style>
 	<style type="text/css">
 		body {
 			padding-top: 1em;
@@ -17,9 +10,10 @@
 			overflow: scroll !important;
 		}
 	</style>
-	<script src="jsparty/prototype.js" type="text/javascript"></script>
-	<script src="jsparty/behaviour.js" type="text/javascript"></script>
-	<script src="cms/javascript/Newsletter_UploadForm.js" type="text/javascript"></script>
+	<script src="sapphire/thirdparty/prototype/prototype.js" type="text/javascript"></script>
+	<script src="sapphire/thirdparty/behaviour/behaviour.js" type="text/javascript"></script>
+	<script src="newsletter/javascript/Newsletter_UploadForm.js" type="text/javascript"></script>
+	
 <% if ImportMessage %>
 	<script type="text/javascript">
 		top.statusMessage('<% _t('IMPORTNEW','Imported new members') %>','good');

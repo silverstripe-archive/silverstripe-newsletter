@@ -54,7 +54,7 @@ class Newsletter extends DataObject {
 		);
 
 		if($this->Status != 'Draft') {
-			$mailTab->push( new ReadonlyField("SendDate", _t('Newsletter.SENTAT', 'Sent at'), $this->SendDate) );
+			$mailTab->push( new ReadonlyField("SentDate", _t('Newsletter.SENTAT', 'Sent at'), $this->SentDate) );
 		}
 		
 		$this->extend("updateCMSFields", $ret);

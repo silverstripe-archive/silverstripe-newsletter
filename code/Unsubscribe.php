@@ -152,7 +152,7 @@ $link<br />
 Thanks
 </p>
 HTML
-		    	))->renderWith('Page');
+		    	))->renderWith('UnsubscribeEmail', 'Page');
 				$email = new Email($from, $to, $subject, $body);
 				$result = $email -> send();
 				if($result){

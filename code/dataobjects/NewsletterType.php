@@ -60,6 +60,10 @@ class NewsletterType extends DataObject {
 		return DataObject::get("Member", "Group_Members.GroupID = {$this->GroupID}", "", "JOIN Group_Members on Group_Members.MemberID = Member.ID");
 	}
 	
+	function getTemplate() {
+		return ($this->getField('Template')) ? $this->getField('Template') : 'GenericEmail';
+	}
+	
 	function delete() {
 		if($this->Newsletters()) {
 			foreach($this->Newsletters() as $newsletter) {

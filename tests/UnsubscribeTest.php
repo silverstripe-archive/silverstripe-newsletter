@@ -7,6 +7,7 @@ Class UnsubscribeTest extends SapphireTest{
 	function SetUp(){
 		parent::SetUp();
 		self::$page = new UnsubscribeController();
+		ContentNegotiator::disable();
 	}
 	
 	function testIndexWithAutoLoginHashAndNewsletterType(){

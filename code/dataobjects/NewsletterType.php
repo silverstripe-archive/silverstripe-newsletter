@@ -30,16 +30,16 @@ class NewsletterType extends DataObject {
 	static $defaults = array();
 	
 	function DraftNewsletters() {
-		return DataObject::get("Newsletter","ParentID={$this->ID} AND Status ='Draft'");
+		return DataObject::get("Newsletter","\"ParentID\"={$this->ID} AND \"Status\" ='Draft'");
 	}
 	
 	function SentNewsletters() {
-		return DataObject::get("Newsletter","ParentID={$this->ID} AND Status ='Send'");
+		return DataObject::get("Newsletter","\"ParentID\"={$this->ID} AND \"Status\" ='Send'");
 	}
 	
 	function MostRecentSentNewsletters() {
 		$most_recent_seperator = NewsletterAdmin::$most_recent_seperator;
-		return $do = DataObject::get("Newsletter","ParentID={$this->ID} AND Status ='Send'", "SentDate DESC", "", "0, $most_recent_seperator");
+		return $do = DataObject::get("Newsletter","\"ParentID\"={$this->ID} AND \"Status\" ='Send'", "\"SentDate\" DESC", "", "0, $most_recent_seperator");
 	}
 	
 	function RecentSeperator(){
@@ -50,14 +50,14 @@ class NewsletterType extends DataObject {
 		$total = $this->SentNewsletters();
 		if($total) {
 			$most_recent_seperator = NewsletterAdmin::$most_recent_seperator;
-			return $do = DataObject::get("Newsletter","ParentID={$this->ID} AND Status ='Send'", "SentDate DESC", "", "$most_recent_seperator, ".$total->count());
+			return $do = DataObject::get("Newsletter","\"ParentID\"={$this->ID} AND \"Status\" ='Send'", "\"SentDate\" DESC", "", "$most_recent_seperator, ".$total->count());
 		}else{
 			return null;
 		}
 	}
 	
 	function Recipients() {
-		return DataObject::get("Member", "Group_Members.GroupID = {$this->GroupID}", "", "JOIN Group_Members on Group_Members.MemberID = Member.ID");
+		return DataObject::get("Member", "\"Group_Members\".\"GroupID\" = {$this->GroupID}", "", "JOIN \"Group_Members\" on \"Group_Members\".\"MemberID\" = \"Member\".\"ID\"");
 	}
 	
 	function getTemplate() {

@@ -44,7 +44,7 @@ class NewsletterEmail extends Email {
 	
 	function UnsubscribeLink(){
 		$emailAddr = $this->To();
-		$member=DataObject::get_one("Member", "Email = '".$emailAddr."'"); 
+		$member=DataObject::get_one("Member", "\"Email\" = '".$emailAddr."'"); 
 		if($member){ 
 			if($member->AutoLoginHash){ 
 				$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2)); 

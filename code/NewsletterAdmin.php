@@ -306,7 +306,7 @@ class NewsletterAdmin extends LeftAndMain {
 	    }
 
 		if(isset($mailType) && is_object($mailType) && $mailType->GroupID) {
-			$group = DataObject::get_one("Group", "ID = $mailType->GroupID");
+			$group = DataObject::get_one("Group", "\"ID\" = $mailType->GroupID");
 		}
 		if(isset($mailType) && $mailType) {
 			$fields = $mailType->getCMSFields();
@@ -344,7 +344,7 @@ class NewsletterAdmin extends LeftAndMain {
 		$group = null;
 
 		if(isset($mailType) && is_object($mailType) && $mailType->GroupID) {
-			$group = DataObject::get_one("Group", "ID = $mailType->GroupID");
+			$group = DataObject::get_one("Group", "\"ID\" = $mailType->GroupID");
 		}
 
 		if(isset($mailType) && is_object($mailType)) {
@@ -675,7 +675,7 @@ class NewsletterAdmin extends LeftAndMain {
 		$className = 'NewsletterType';
 
 		if(defined('DB::USE_ANSI_SQL')) {
-			$record = DataObject::get_one($className, "\"$className\".ID = $id");
+			$record = DataObject::get_one($className, "\"$className\".\"ID\" = $id");
 		} else {
 			$record = DataObject::get_one($className, "`$className`.ID = $id");
 		}
@@ -700,7 +700,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 		$className = 'Newsletter';
 		if(defined('DB::USE_ANSI_SQL')) {
-			$record = DataObject::get_one($className, "\"$className\".ID = $id");
+			$record = DataObject::get_one($className, "\"$className\".\"ID\" = $id");
 		} else {
 			$record = DataObject::get_one($className, "`$className`.ID = $id");
 		}
@@ -773,7 +773,7 @@ class NewsletterAdmin extends LeftAndMain {
 		$fieldName = $this->urlParams['ID'];
 		$fieldVal = $_REQUEST[$fieldName];
 
-		$matches = DataObject::get("Member","$fieldName LIKE '" . addslashes($fieldVal) . "%'");
+		$matches = DataObject::get("Member","\"$fieldName\" LIKE '" . addslashes($fieldVal) . "%'");
 		if($matches) {
 			echo "<ul>";
 			foreach($matches as $match) {
@@ -797,7 +797,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 		if($id) {
 			if(defined('DB::USE_ANSI_SQL')) {
-				$record = DataObject::get_one($className, "\"$className\".ID = $id");
+				$record = DataObject::get_one($className, "\"$className\".\"ID\" = $id");
 			} else {
 				$record = DataObject::get_one($className, "`$className`.ID = $id");
 			}

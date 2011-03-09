@@ -54,6 +54,8 @@ class NewsletterEmail extends Email {
 			} 
 			$nlTypeID = $this->nlType->ID; 
 			return Director::absoluteBaseURL() . "unsubscribe/index/".$member->AutoLoginHash."/$nlTypeID"; 
+		}else{
+			return Director::absoluteBaseURL() . "unsubscribe/index/";
 		}
 	}
 	

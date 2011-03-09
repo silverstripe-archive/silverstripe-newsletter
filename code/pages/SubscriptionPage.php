@@ -253,8 +253,15 @@ JS
 		
 		if(!$member) {
 			$member = new Member();
-			$form->saveInto($member);
-			$member->write();
+		}
+		$form->saveInto($member);
+		$member->write();
+		
+		if($member->AutoLoginHash){ 
+			$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2)); 
+			$member->write(); 
+		}else{ 
+			$member->generateAutologinHash(); 
 		}
 		
 		$newsletters = array();
@@ -307,7 +314,7 @@ JS
 			'FirstName' => $member->FirstName,
             'MemberInfoSection' => $emailableFields,
             'Newsletters' => new DataObjectSet( $newsletters ),
-            'UnsubscribeLink' => Director::baseURL() . 'unsubscribe/index/' . $member->Email
+            'UnsubscribeLink' => Director::baseURL() . 'unsubscribe/index/' . $member->AutoLoginHash
         );
 
 		if($this->SendNotification){

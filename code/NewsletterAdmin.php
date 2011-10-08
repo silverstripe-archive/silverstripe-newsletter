@@ -123,8 +123,7 @@ class NewsletterAdmin extends LeftAndMain {
 	}
 
 	public function getformcontent(){
-		Session::set('currentPage', $_REQUEST['ID']);
-		Session::set('currentType', $_REQUEST['type']);
+		$this->setCurrentPageID($_REQUEST['id']);
 
 		if($_REQUEST['otherID']) {
 			Session::set('currentOtherID', $_REQUEST['otherID']);
@@ -212,7 +211,7 @@ class NewsletterAdmin extends LeftAndMain {
 	public function ShowNewsletterFolder($params, $type) {
 		$id = $params['ID'];
 		if(!is_numeric($id)) {
-			$id = Session::get('currentPage');
+			$id = $this->currentPageID();
 		}
 		if( is_a( $id, 'NewsletterType' ) ) {
 				$mailType = $id;
@@ -231,7 +230,7 @@ class NewsletterAdmin extends LeftAndMain {
 	 */
     private function showWithEditForm( $params, $editForm ) {
         if(isset($params['ID'])) {
-        	Session::set('currentPage', $params['ID']);
+			$this->setCurrentPageID($params['ID']);
         }
 		if(isset($params['OtherID'])) {
 			Session::set('currentMember', $params['OtherID']);
@@ -294,7 +293,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 	public function getNewsletterTypeEditForm($id) {
         if(!is_numeric($id)) {
-        	$id = Session::get('currentPage');
+			$id = $this->currentPageID();
         }
 	    if( is_a( $id, 'NewsletterType' ) ) {
 	    		$mailType = $id;
@@ -331,7 +330,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 	public function getMailingListEditForm($id) {
         if(!is_numeric($id)) {
-        		$id = Session::get('currentPage');
+        	$id = $this->currentPageID();
 		}
 	    if( is_a( $id, 'NewsletterType' ) ) {
 	    		$mailType = $id;

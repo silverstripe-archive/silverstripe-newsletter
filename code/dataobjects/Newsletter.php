@@ -35,7 +35,6 @@ class Newsletter extends DataObject {
 		$group = DataObject::get_by_id("Group", $this->Parent()->GroupID);
 		$sentReport = $this->renderWith("Newsletter_SentStatusReport");
 		$previewLink = Director::absoluteBaseURL() . 'admin/newsletter/preview/' . $this->ID;
-		$trackedLinks = $this->renderWith("Newsletter_TrackedLinksReport");
 
 		$ret = new FieldSet(
 			new TabSet("Root",
@@ -47,11 +46,21 @@ class Newsletter extends DataObject {
 				$sentToTab = new Tab(_t('Newsletter.SENTREPORT', 'Sent Status Report'),
 					new LiteralField("SentStatusReport", $sentReport)
 				),
-				$trackLink = new Tab(_t('Newsletter.TRACKEDLINKS', 'Tracked Links'),
-					new LiteralField("TrackedLinks", $trackedLinks)
-				)
+				$tracked = new Tab('TrackedLinks', $trackedTable = new TableListField(
+					'TrackedLinks',
+					'Newsletter_TrackedLink',
+					array(
+						'Original' => 'Link',
+						'Visits'   => 'Visits'
+					),
+					'"NewsletterID" = ' . $this->ID,
+					'"Visits" DESC'
+				))
 			)
 		);
+
+		$tracked->setTitle(_t('Newsletter.TRACKEDLINKS', 'Tracked Links'));
+		$trackedTable->setPermissions(array('show'));
 
 		if($this->Status != 'Draft') {
 			$mailTab->push( new ReadonlyField("SentDate", _t('Newsletter.SENTAT', 'Sent at'), $this->SentDate) );
@@ -162,21 +171,7 @@ class Newsletter extends DataObject {
 	function PreviewLink(){
 		return Controller::curr()->AbsoluteLink()."preview/".$this->ID;
 	}
-	/** 
-	 * Returns a list of all the {@link Newsletter_TrackedLink} objects attached 
-	 * to this newsletter and sorts them in desc order 
-	 * 
-	 * @return DataObjectSet|false 
-	 */ 
-	function NewsletterLinks() { 
-		$links = $this->TrackedLinks(); 
-		
- 		if($links) { 
-			$links->sort("\"Visits\"", "DESC"); 
-			
-			return $links; 
-		} 
-	}
+
 }
 
 /**

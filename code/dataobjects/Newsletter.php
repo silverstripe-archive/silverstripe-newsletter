@@ -42,7 +42,7 @@ class Newsletter extends DataObject {
 				$mailTab = new Tab(_t('Newsletter.NEWSLETTER', 'Newsletter'),
 					new TextField("Subject", _t('Newsletter.SUBJECT', 'Subject'), $this->Subject),
 					new HtmlEditorField("Content", _t('Newsletter.CONTENT', 'Content')),
-					new LiteralField('PreviewNewsletter', "<a href=\"$previewLink\" target=\"_blank\">" . _t('PREVIEWNEWSLETTER', 'Preview this newsletter') . "</a>")
+					new LiteralField('PreviewNewsletter', "<p><a href=\"$previewLink\" target=\"_blank\">" . _t('PREVIEWNEWSLETTER', 'Preview this newsletter') . "</a></p>")
 				),
 				$sentToTab = new Tab(_t('Newsletter.SENTREPORT', 'Sent Status Report'),
 					new LiteralField("SentStatusReport", $sentReport)

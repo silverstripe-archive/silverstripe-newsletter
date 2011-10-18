@@ -62,6 +62,24 @@ class Newsletter extends DataObject {
 	}
 
 	/**
+	 * @return FieldSet
+	 */
+	public function getCMSActions() {
+		$actions = new FieldSet();
+
+		if ($this->SentDate) {
+			$actions->push(new FormAction('send', _t('Newsletter.RESEND', 'Resend')));
+		} else {
+			$actions->push(new FormAction('send', _t('Newsletter.SEND','Send...')));
+		}
+
+		$actions->push(new FormAction('save',_t('Newsletter.SAVE', 'Save')));
+
+		$this->extend('updateCMSActions', $actions);
+		return $actions;
+	}
+
+	/**
 	 * Returns a DataObject listing the recipients for the given status for this newsletter
 	 *
 	 * @param string $result 3 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE), or "Bounced" ({@see $email_bouncehandler}).

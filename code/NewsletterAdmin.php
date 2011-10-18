@@ -321,7 +321,7 @@ class NewsletterAdmin extends LeftAndMain {
 			$form->loadDataFrom($mailType);
 			// This saves us from having to change all the JS in response to renaming this form to TypeEditForm
 			$form->setHTMLID('Form_EditForm');
-
+			$this->extend('updateEditForm', $form);
 		} else {
 			$form = false;
 		}
@@ -388,7 +388,7 @@ class NewsletterAdmin extends LeftAndMain {
 			));
 			// This saves us from having to change all the JS in response to renaming this form to MailingListEditForm
 			$form->setHTMLID('Form_EditForm');
-
+			$this->extend('updateEditForm', $form);
 		} else {
 			$fields = new FieldSet(
 				new LiteralField('GroupWarning', _t('NewsletterAdmin.NO_GROUP', 'No mailing group selected'))
@@ -397,7 +397,6 @@ class NewsletterAdmin extends LeftAndMain {
 		}
 
 		return $form;
-
 	}
 
 	/**
@@ -568,8 +567,7 @@ class NewsletterAdmin extends LeftAndMain {
 				$form->setFields($readonlyFields);
 			}
 
-			// user_error( $form->FormAction(), E_USER_ERROR );
-
+			$this->extend('updateEditForm', $form);
 			return $form;
 		} else {
 			user_error( 'Unknown Email ID: ' . $myId, E_USER_ERROR );

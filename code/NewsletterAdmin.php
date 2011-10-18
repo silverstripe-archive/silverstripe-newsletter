@@ -269,7 +269,7 @@ class NewsletterAdmin extends LeftAndMain {
     	}
 		if($form) $form->disableDefaultAction();
 		return $form;
-    }
+	}
 
     public function NewsletterEditForm() {
     	$id = isset($_REQUEST['ID']) ? $_REQUEST['ID'] : $this->currentPageID();
@@ -534,25 +534,17 @@ class NewsletterAdmin extends LeftAndMain {
 
 	public function getNewsletterEditForm($myId){
 		$email = DataObject::get_by_id("Newsletter", $myId);
-		if($email) {
 
-			$fields = $email->getCMSFields($this);
+		if($email) {
+			$fields  = $email->getCMSFields($this);
+			$actions = $email->getCMSActions();
+
 			$fields->push($idField = new HiddenField("ID"));
 			$idField->setValue($myId);
 			$fields->push($ParentidField = new HiddenField("ParentID"));
 			$ParentidField->setValue($email->ParentID);
 			$fields->push($typeField = new HiddenField("Type"));
 			$typeField->setValue('Newsletter');
-			//$fields->push(new HiddenField("executeForm", "", "EditForm") );
-
-			$actions = new FieldSet();
-
-			if( $email->SentDate )
-				$actions->push(new FormAction('send',_t('NewsletterAdmin.RESEND','Resend')));
-			else
-				$actions->push(new FormAction('send',_t('NewsletterAdmin.SEND','Send...')));
-
-			$actions->push(new FormAction('save',_t('NewsletterAdmin.SAVE', 'Save')));
 
 			$form = new Form($this, "NewsletterEditForm", $fields, $actions);
 			$form->loadDataFrom($email);

@@ -79,8 +79,6 @@ class NewsletterType extends DataObject {
 	 * Get the fieldset to display in the administration section
 	 */
 	function getCMSFields() {
-		$groups = DataObject::get('Group', '', 'Sort');
-		$groupsMap = ($groups) ? $groups->map('ID', 'Title') : array();
 		
 		$templateSource = singleton("NewsletterAdmin")->templateSource();
 		
@@ -88,7 +86,7 @@ class NewsletterType extends DataObject {
 			new TabSet("Root",
 				new Tab(_t('NewsletterAdmin.NLSETTINGS', 'Newsletter Settings'),
 					new TextField("Title", _t('NewsletterAdmin.NEWSLTYPE', 'Newsletter Type')),
-					new DropdownField('GroupID', _T('NewsletterAdmin.MAILINGGROUP', 'Mailing list group'), $groupsMap, '', null, _t('NewsletterAdmin.CHOOSEMAILINGGROUP', '(Choose mailing group)')),
+					new TreeDropdownField('GroupID', _T('NewsletterAdmin.MAILINGGROUP', 'Mailing list group'), 'Group'),
 					new TextField("FromEmail", _t('NewsletterAdmin.FROMEM', 'From email address')),
 					new DropdownField("Template", _t('NewsletterAdmin.TEMPLATE', 'Template'), $templateSource)
 				)

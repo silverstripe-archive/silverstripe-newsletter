@@ -16,7 +16,10 @@
 	<% end_control %>
 	<input type="submit" name="action_confirm" value="<% _t('YES','Confirm') %>" />
 	<input type="submit" name="action_cancel" value="<% _t('NO','Cancel') %>" />
+	
 	<input type="hidden" name="ID" value="$TypeID" />
+	<input type="hidden" name="SecurityID" value="$SecurityID" />
+	
 	<table summary="<% _t('RECIMPORTED','Recipients imported from') %> $FileName">
 		<tbody>
 			<tr>

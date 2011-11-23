@@ -178,6 +178,10 @@ class RecipientImportField extends FormField {
 	function TypeID() {
 		return $this->typeID;
 	}
+	
+	function SecurityID() {
+		return SecurityToken::inst()->getValue();
+	}
 }
 
 /**

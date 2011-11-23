@@ -347,7 +347,7 @@ class NewsletterAdmin extends LeftAndMain {
 			$group = DataObject::get_one("Group", "\"ID\" = $mailType->GroupID");
 		}
 
-		if(isset($mailType) && is_object($mailType)) {
+		if(isset($mailType) && is_object($mailType) && $group) {
 			$fields = new FieldSet(
 				new TabSet("Root",
 					new Tab(_t('NewsletterAdmin.RECIPIENTS', 'Recipients'),
@@ -390,7 +390,10 @@ class NewsletterAdmin extends LeftAndMain {
 			$form->setHTMLID('Form_EditForm');
 
 		} else {
-			$form = false;
+			$fields = new FieldSet(
+				new LiteralField('GroupWarning', _t('NewsletterAdmin.NO_GROUP', 'No mailing group selected'))
+			);
+			$form = new Form($this, "MailingListEditForm", $fields, new FieldSet());
 		}
 
 		return $form;

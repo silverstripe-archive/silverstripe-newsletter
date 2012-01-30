@@ -41,19 +41,21 @@ class UnsubscribeController extends Page_Controller {
 	function index() {
 		Session::clear("loggedInAs");
 		Requirements::themedCSS("form");
-
 		$member = $this->getMember();
-		$mailingList = $this->getMailingList();
-
-		// if the email address and mailing list is given in the URL and both are valid,
-		// then unsubscribe the user
-		if($member && isset($mailingList) && $mailingList->exists() && $member->inGroup($mailingList->GroupID)) {
-			$this->unsubscribeFromList($member, $mailingList);
-			$url = Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $member->AutoLoginHash . "/" . $mailingList->ID;
-			Director::redirect($url);
-			return $url;
-		} elseif($member) {
+		if ($member) {
 			$listForm = $this->MailingListForm();
+			$mailingList = $this->getMailingList();
+			$mailingLists = $listForm->getMailingLists($member);
+			// if the email address and mailing list is given in the URL and both are valid,
+			// or the user is only in 1 Mailing list, then unsubscribe the user
+			if ((!$mailingList || !$mailingList->exists()) && $mailingLists && $mailingLists->count() == 1)
+				$mailingList = $mailingLists->First();
+			if($mailingList && $mailingList->exists() && $member->inGroup($mailingList->GroupID)) {
+				$this->unsubscribeFromList($member, $mailingList);
+				$url = Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $member->AutoLoginHash . "/" . $mailingList->ID;
+				Director::redirect($url);
+				return $url;
+			}
 		} else {
 			$listForm = $this->EmailAddressForm();
 		}

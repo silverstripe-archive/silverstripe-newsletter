@@ -178,6 +178,7 @@ $lang['en_US']['Unsubscribe']['NOTSUBSCRIBED'] = 'I\'m sorry, but %s doesn\'t ap
 $lang['en_US']['Unsubscribe']['REMOVESUCCESS'] = 'Thank you. %s will no longer receive the %s.';
 $lang['en_US']['Unsubscribe']['SUCCESS'] = 'Thank you. You have been removed from the selected groups';
 $lang['en_US']['Unsubscribe']['UNSUBSCRIBE'] = 'Unsubscribe';
+$lang['en_US']['Unsubscribe']['UNSUBSCRIBEEMAILSUBJECT'] = 'Unsubscribe Link';
 $lang['en_US']['UnsubscribeRecord']['PLURALNAME'] = array(
 	'Unsubscribe Records',
 	50,

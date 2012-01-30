@@ -35,7 +35,8 @@ class Newsletter extends DataObject {
 		$group = DataObject::get_by_id("Group", $this->Parent()->GroupID);
 		$sentReport = $this->renderWith("Newsletter_SentStatusReport");
 		$previewLink = Director::absoluteBaseURL() . 'admin/newsletter/preview/' . $this->ID;
-
+		$trackedLinks = $this->renderWith("Newsletter_TrackedLinksReport");
+		Requirements::css(SAPPHIRE_DIR . '/css/TableListField.css'); // styles for $sentReport
 		$ret = new FieldSet(
 			new TabSet("Root",
 				$mailTab = new Tab(_t('Newsletter.NEWSLETTER', 'Newsletter'),

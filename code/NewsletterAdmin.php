@@ -240,7 +240,7 @@ class NewsletterAdmin extends LeftAndMain {
 			SSViewer::setOption('rewriteHashlinks', false);
 			return $editForm->formHtmlContent();
 		} else {
-			return array();
+			return array('EditForm' => $editForm);
 		}
     }
 

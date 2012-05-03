@@ -38,7 +38,7 @@ class SubscriptionPage extends Page {
 		$subscriptionTab->push(
 			new HeaderField(
 				"SubscriptionFormConfig",
-				_t('Newsletter.SUBSCRIPTIONFORMCONFIGURATIONS', "Subscription Form Configurations")
+				_t('Newsletter.SUBSCRIPTIONFORMCONFIGURATION', "Subscription Form Configuration")
 			)
 		);
 
@@ -72,7 +72,7 @@ class SubscriptionPage extends Page {
 
 		$subscriptionTab->push(
 			$fieldsSelection = new CheckboxSetWithExtraField("Fields",
-				"<h4>Select the fields that you want to appearing in the subscription form</h4>",
+				"<h4>Select the fields to display on the subscription form</h4>",
 				$fieldCandidates,
 				$extra,
 				$defaults
@@ -85,17 +85,21 @@ class SubscriptionPage extends Page {
 		$newsletterTypes = DataObject::get("NewsletterType");
 		$newsletterSelection = $newsletterTypes?
 		new CheckboxSetField("NewsletterTypes",
-			"<h4>Select the newsletters that you want the user subscript to</h4>",
+			"<h4>Newsletters to subscribe to</h4>",
 			$newsletterTypes,
 			$newsletterTypes
 		):
-		new LiteralField("NoNewsletters", "<p>You haven't define any newsletter yet, please go to <a href=\"admin/newsletter\">newsletter</a> to define some newsletter types</p>");
+		new LiteralField(
+			"NoNewsletters",
+			'<p>You haven\'t defined any newsletters yet, please go to '
+			. '<a href=\"admin/newsletter\">the newsletter administration area</a> '
+			. 'to define a newsletter type.</p>');
 		$subscriptionTab->push(
 			$newsletterSelection
 		);
 		
 		$subscriptionTab->push(
-			new TextField("SubmissionButtonText", "Text appearing in the submit button")
+			new TextField("SubmissionButtonText", "Submit Button Text")
 		);
 		
 		$subscriptionTab->push(

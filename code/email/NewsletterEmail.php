@@ -34,7 +34,12 @@ class NewsletterEmail extends Email {
 		
 		$this->extend('updateNewsletterEmail', $this);
 	}
-	
+
+	public function send($id = null) {
+		$this->extend('onBeforeSend');
+		parent::send($id);
+	}
+
 	/**
 	 * @return Newsletter
 	 */

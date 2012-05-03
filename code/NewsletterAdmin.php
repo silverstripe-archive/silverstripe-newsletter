@@ -123,8 +123,7 @@ class NewsletterAdmin extends LeftAndMain {
 	}
 
 	public function getformcontent(){
-		Session::set('currentPage', $_REQUEST['ID']);
-		Session::set('currentType', $_REQUEST['type']);
+		$this->setCurrentPageID($_REQUEST['id']);
 
 		if($_REQUEST['otherID']) {
 			Session::set('currentOtherID', $_REQUEST['otherID']);
@@ -212,7 +211,7 @@ class NewsletterAdmin extends LeftAndMain {
 	public function ShowNewsletterFolder($params, $type) {
 		$id = $params['ID'];
 		if(!is_numeric($id)) {
-			$id = Session::get('currentPage');
+			$id = $this->currentPageID();
 		}
 		if( is_a( $id, 'NewsletterType' ) ) {
 				$mailType = $id;
@@ -231,7 +230,7 @@ class NewsletterAdmin extends LeftAndMain {
 	 */
     private function showWithEditForm( $params, $editForm ) {
         if(isset($params['ID'])) {
-        	Session::set('currentPage', $params['ID']);
+			$this->setCurrentPageID($params['ID']);
         }
 		if(isset($params['OtherID'])) {
 			Session::set('currentMember', $params['OtherID']);
@@ -240,7 +239,7 @@ class NewsletterAdmin extends LeftAndMain {
 			SSViewer::setOption('rewriteHashlinks', false);
 			return $editForm->formHtmlContent();
 		} else {
-			return array();
+			return array('EditForm' => $editForm);
 		}
     }
 
@@ -270,7 +269,7 @@ class NewsletterAdmin extends LeftAndMain {
     	}
 		if($form) $form->disableDefaultAction();
 		return $form;
-    }
+	}
 
     public function NewsletterEditForm() {
     	$id = isset($_REQUEST['ID']) ? $_REQUEST['ID'] : $this->currentPageID();
@@ -294,7 +293,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 	public function getNewsletterTypeEditForm($id) {
         if(!is_numeric($id)) {
-        	$id = Session::get('currentPage');
+			$id = $this->currentPageID();
         }
 	    if( is_a( $id, 'NewsletterType' ) ) {
 	    		$mailType = $id;
@@ -321,7 +320,7 @@ class NewsletterAdmin extends LeftAndMain {
 			$form->loadDataFrom($mailType);
 			// This saves us from having to change all the JS in response to renaming this form to TypeEditForm
 			$form->setHTMLID('Form_EditForm');
-
+			$this->extend('updateEditForm', $form);
 		} else {
 			$form = false;
 		}
@@ -331,7 +330,7 @@ class NewsletterAdmin extends LeftAndMain {
 
 	public function getMailingListEditForm($id) {
         if(!is_numeric($id)) {
-        		$id = Session::get('currentPage');
+        	$id = $this->currentPageID();
 		}
 	    if( is_a( $id, 'NewsletterType' ) ) {
 	    		$mailType = $id;
@@ -347,7 +346,7 @@ class NewsletterAdmin extends LeftAndMain {
 			$group = DataObject::get_one("Group", "ID = $mailType->GroupID");
 		}
 
-		if(isset($mailType) && is_object($mailType)) {
+		if(isset($mailType) && is_object($mailType) && $group) {
 			$fields = new FieldSet(
 				new TabSet("Root",
 					new Tab(_t('NewsletterAdmin.RECIPIENTS', 'Recipients'),
@@ -388,13 +387,15 @@ class NewsletterAdmin extends LeftAndMain {
 			));
 			// This saves us from having to change all the JS in response to renaming this form to MailingListEditForm
 			$form->setHTMLID('Form_EditForm');
-
+			$this->extend('updateEditForm', $form);
 		} else {
-			$form = false;
+			$fields = new FieldSet(
+				new LiteralField('GroupWarning', _t('NewsletterAdmin.NO_GROUP', 'No mailing group selected'))
+			);
+			$form = new Form($this, "MailingListEditForm", $fields, new FieldSet());
 		}
 
 		return $form;
-
 	}
 
 	/**
@@ -535,25 +536,17 @@ class NewsletterAdmin extends LeftAndMain {
 
 	public function getNewsletterEditForm($myId){
 		$email = DataObject::get_by_id("Newsletter", $myId);
-		if($email) {
 
-			$fields = $email->getCMSFields($this);
+		if($email) {
+			$fields  = $email->getCMSFields($this);
+			$actions = $email->getCMSActions();
+
 			$fields->push($idField = new HiddenField("ID"));
 			$idField->setValue($myId);
 			$fields->push($ParentidField = new HiddenField("ParentID"));
 			$ParentidField->setValue($email->ParentID);
 			$fields->push($typeField = new HiddenField("Type"));
 			$typeField->setValue('Newsletter');
-			//$fields->push(new HiddenField("executeForm", "", "EditForm") );
-
-			$actions = new FieldSet();
-
-			if( $email->SentDate )
-				$actions->push(new FormAction('send',_t('NewsletterAdmin.RESEND','Resend')));
-			else
-				$actions->push(new FormAction('send',_t('NewsletterAdmin.SEND','Send...')));
-
-			$actions->push(new FormAction('save',_t('NewsletterAdmin.SAVE', 'Save')));
 
 			$form = new Form($this, "NewsletterEditForm", $fields, $actions);
 			$form->loadDataFrom($email);
@@ -565,8 +558,7 @@ class NewsletterAdmin extends LeftAndMain {
 				$form->setFields($readonlyFields);
 			}
 
-			// user_error( $form->FormAction(), E_USER_ERROR );
-
+			$this->extend('updateEditForm', $form);
 			return $form;
 		} else {
 			user_error( 'Unknown Email ID: ' . $myId, E_USER_ERROR );

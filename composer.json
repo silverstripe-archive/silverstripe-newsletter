@@ -1,0 +1,16 @@
+{
+	"name": "silverstripe-labs/newsletter",
+	"description": "NewsletterAdmin is the CMS class for managing the newsletter system.",
+	"type": "silverstripe-module",
+	"keywords": ["silverstripe-labs", "newsletters"],
+	"authors": [
+	{
+		"name": "Ingo Schommer",
+		"email": "ingo@silverstripe.com"
+	}
+	],
+	"require":
+	{
+		"silverstripe/framework": "2.4.*"
+	}
+}

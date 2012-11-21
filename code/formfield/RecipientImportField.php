@@ -91,10 +91,8 @@ class RecipientImportField extends FormField {
 		}
 
 		$this->clientFileName = $_FILES['ImportFile']['name'];
-
 		$table = $sessionTable = array();
 		while( ( $row = fgetcsv( $tempFile ) ) !== false ) {
-
 			if( !$this->tableColumns ) {
 				$this->parseTableHeader( $row );
 			} else {
@@ -233,11 +231,12 @@ class RecipientImportField_UploadForm extends Form {
 		$mailType = DataObject::get_one("NewsletterType", "ID = $id");
 		if($mailType->GroupID)
 			$group = DataObject::get_one("Group", "ID = $mailType->GroupID");
-		if(isset($data['Set'])){  
-			$setFields = $data['Set'];  
-		}else{  
-			$setFields = null;  
-		} 
+		// @TODO Look into seeing if $data['Set'] should be removed since it seems to be undefined
+		if(isset($data['Set'])){
+			$setFields = $data['Set'];
+		}else{
+			$setFields = null;
+		}
 		return $this->importMembers( $id, $group, $data['ImportFileColumns'], $setFields );
 	}
 

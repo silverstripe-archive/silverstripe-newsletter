@@ -233,4 +233,19 @@ class Newsletter_TrackedLink extends DataObject {
 		
 		return 'newsletterlinks/'. $this->Hash;
 	}
+
+	function UnsubscribeLink(){
+		$emailAddr = $this->To();
+		$member=DataObject::get_one("Member", "Email = '".$emailAddr."'");
+		if($member){
+			if($member->AutoLoginHash){
+				$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2));
+				$member->write();
+			}else{
+				$member->generateAutologinHash();
+			}
+			$nlTypeID = $this->nlType->ID;
+			return Director::absoluteBaseURL() . "unsubscribe/index/".$member->AutoLoginHash."/$nlTypeID";
+		}
+	}
 }

@@ -12,6 +12,7 @@ class SubscriptionPage extends Page {
 	static $db = array(
 		'Fields' => 'Text',
 		'Required' => 'Text',
+		'CustomisedHeading' => 'Text',
 		'CustomisedLables' => 'Text',
 		'CustomisedErrors' => 'Text',
 		'NewsletterTypes' => 'Text',
@@ -40,6 +41,10 @@ class SubscriptionPage extends Page {
 				"SubscriptionFormConfig",
 				_t('Newsletter.SUBSCRIPTIONFORMCONFIGURATIONS', "Subscription Form Configurations")
 			)
+		);
+		
+		$subscriptionTab->push(
+			new TextField('CustomisedHeading', 'Heading at the top of the form')
 		);
 
 		//Fields selction
@@ -174,7 +179,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 			}
 		}
 		$formFields = new FieldSet(
-			new HeaderField("MemberInfo", "Member Infomation:", 4),
+			new HeaderField("CustomisedHeading", $this->owner->CustomisedHeading),
 			$memberInfoSection
 		);
 		$memberInfoSection->setID("MemberInfoSection");

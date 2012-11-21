@@ -1,6 +1,47 @@
 0.4
 
 0.3
+API changes
+[80363] TemplateList (extends from DropdownField) is entirely unnecessary and only used once for making a dropdown field from passed in $path variable. In addition, currently the dropdown source only contains the files from project()/template/email if there is this folder and there are files under it. This patch is to delete the file TemplateList.php, deprecate NewsletterAdmin::template_path(), add NewsletterAdmin:;template_paths() and NewsletterAdmin::templateSource().
+[91112] introducing the CheckboxSetWithExtraField which is normal checkbox set with extra data field for each check box need to be saved.
+[91130] APICHANGE: move SubscribeSumission.ss from cms module to newsletter module, cos it is only used by newsletter module.
+
+Bugfixes
+[73699] Fix Action 'UploadForm?' isn't allowed on class NewsletterAdmin?
+[73722] coulnd't change subsite when in NewsletterAdmin. Even though it still doesn't populate the newsletter tree but user can switch subsites and he is presented with a message to refresh the page
+[76936] Fixed calls to tinymce.template that doesn't exist anymore in NewsletterAdmin
+[77786]	fixed newsletter module to add SQL Server support
+[78740] Fix problem with new HtmlEditorField configuration work and the fact that newsletter overrides EditForm
+[80273] Fixed SQLServer dev/build problem with querying for deprecated table names
+[83585] Ensure Object/ViewableData subclasses call parent in their constructors
+[85749] the first version which works after the userform has been separated as an individual module and changed
+[86086]	Simplified requireDefaultRecords() data migration on NewsletterEmailBlackList and UnsubscribeRecord to use the db abstraction layer for inspecting tables, and avoid using sys.tables in direct SQL, which breaks some MySQL versions, and is non-standard.
+[86070] reorder an object delete and destroy order, so that destroy() function will get called first.
+[94279] using jQuery which works for both jQuery and prototype instead of $ sign which has different definition between jQuery and prototype
+[94307] using jQuery which works for both jQuery instead of $ sign which has different definition between jQuery and prototype
+[94309] parent::init() should be called before customised code in SubscriptionPage
+
+Features
+[86122] customise the label or title before the newsletter list checkbox set.
+[91112] decoupling the 'newsletter' module from 'userform' module, re-implementing the SubscriptionPage which contains a SubscritionForm.
+[94818] Added a heading field to the subscription form and removed hardcoded heading field 
+
+Enhancements
+[78078] Added translation for Arabic (Saudi Arabia) - thanks to Talal Al Asmari, added translation for Estonian (Estonia) - thanks to Marti, Tanel, Tiit and Teet, added translation for Malay (Malaysia) - thanks to castd, Su Yin and Emil
+[83942] Make SubscribeForm? more robust, dealing with the special case when there is no newsletters can be subscribe to
+[88195] group "Sent Items" in newsletter admin into two groups: -- Most Recent 5 and -- Older for each newsletter type. Also default the tree node to be closed initially. All these efforts are for making the newsletter admin interface neat and clean.
+[93245] Newsletter archive added to frontpage
+
+Minors
+[74073] fixed undefined error in newsletter member list
+[77365] Changed deprecated extraDBFields() function on NewsletterRole to extraStatics()
+[79468] Fixed newlines and set svn:eol-style to native
+[86044] Updated master language tables
+[88192] remove Notice-level error. make it more robust.
+[91110] add definition for 'NEWSLETTER_DIR". Document correction
+[91172] re-styling CheckboxSetWithExtraField?, add TODO for further dev
+[91174] remove debug code
+>>>>>>> origin/0.3
 
 0.2
 

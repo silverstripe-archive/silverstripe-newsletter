@@ -38,7 +38,7 @@ class Unsubscribe_MailingListForm extends Form {
         return $this->controller->RelativeLink('unsubscribe') . "/{$this->autohash}?executeForm=" . $this->name; 
     }
 
-    protected function getMailingLists( $member ) {
+    public function getMailingLists( $member ) {
         // get all the newsletter types that the member is subscribed to
     	if(defined('DB::USE_ANSI_SQL')) {
     		return DataObject::get( 'NewsletterType', "\"MemberID\"='{$member->ID}'", null, "LEFT JOIN \"Group_Members\" USING(\"GroupID\")" );

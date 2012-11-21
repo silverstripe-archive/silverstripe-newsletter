@@ -41,19 +41,21 @@ class UnsubscribeController extends Page_Controller {
 	function index() {
 		Session::clear("loggedInAs");
 		Requirements::themedCSS("form");
-
 		$member = $this->getMember();
-		$mailingList = $this->getMailingList();
-
-		// if the email address and mailing list is given in the URL and both are valid,
-		// then unsubscribe the user
-		if($member && isset($mailingList) && $mailingList->exists() && $member->inGroup($mailingList->GroupID)) {
-			$this->unsubscribeFromList($member, $mailingList);
-			$url = Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $member->AutoLoginHash . "/" . $mailingList->ID;
-			Director::redirect($url);
-			return $url;
-		} elseif($member) {
+		if ($member) {
 			$listForm = $this->MailingListForm();
+			$mailingList = $this->getMailingList();
+			$mailingLists = $listForm->getMailingLists($member);
+			// if the email address and mailing list is given in the URL and both are valid,
+			// or the user is only in 1 Mailing list, then unsubscribe the user
+			if ((!$mailingList || !$mailingList->exists()) && $mailingLists && $mailingLists->count() == 1)
+				$mailingList = $mailingLists->First();
+			if($mailingList && $mailingList->exists() && $member->inGroup($mailingList->GroupID)) {
+				$this->unsubscribeFromList($member, $mailingList);
+				$url = Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $member->AutoLoginHash . "/" . $mailingList->ID;
+				Director::redirect($url);
+				return $url;
+			}
 		} else {
 			$listForm = $this->EmailAddressForm();
 		}
@@ -123,7 +125,7 @@ class UnsubscribeController extends Page_Controller {
     /**
     * Show the lists for the user with the given email address
     */
-    function sendmeunsubscribelink( $data) {
+    function sendmeunsubscribelink($data) {
 		if(isset($data['Email']) && $data['Email']) {
 			$member = DataObject::get_one("Member", "Email = '".$data['Email']."'");
 			if($member){
@@ -131,28 +133,24 @@ class UnsubscribeController extends Page_Controller {
 					$from = 'noreply@'.Director::BaseURL();
 				}
 				$to = $member->Email;
-				$subject = "Unsubscribe Link";
+				$subject = _t('Unsubscribe.UNSUBSCRIBEEMAILSUBJECT', 'Unsubscribe Link');
 				if($member->AutoLoginHash){
 					$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2));
 					$member->write();
 				}else{
 					$member->generateAutologinHash();
 				}
-				$link = Director::absoluteBaseURL() . $this->RelativeLink('index') ."/" . $member->AutoLoginHash;
-				$membername = $member->getName();
-				$body = $this->customise(array(
-		    		'Content' => <<<HTML
-Dear $membername,<br />
-<p>Please click the link below to unsubscribe from our newsletters<br />
-$link<br />
-<br >
-<br >
-Thanks
-</p>
-HTML
-		    	))->renderWith('Page');
-				$email = new Email($from, $to, $subject, $body);
-				$result = $email -> send();
+				$email = new Email($from, $to, $subject);
+				$email->populateTemplate(array(
+					'Subject' => $subject,
+					'Form' => $from,
+					'To' => $to,
+					'Link' => Director::absoluteBaseURL() . $this->RelativeLink('index') ."/" . $member->AutoLoginHash,
+					'Member' => $member
+				));
+				$email->setTemplate('UnsubscribeEmail');
+				$this->extend('updateSendmeunsubscribelink', $email, $member);
+				$result = $email->send();
 				if($result){
 					Director::redirect(Director::absoluteBaseURL() . $this->RelativeLink('linksent') . "?SendEmail=".$data['Email']);
 				}else{

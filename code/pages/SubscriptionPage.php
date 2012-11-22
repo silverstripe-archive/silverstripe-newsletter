@@ -194,7 +194,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 		
 		if(isset($newsletters) && $newsletters && $newsletters->count()>1){
 			$newsletterSection = new CompositeField(
-				new HeaderField("Newsletters", "Subscribe to:", 4),
+				new LabelField("Newsletters", _t("SubscriptionPage.To", "Subscribe to:"), 4),
 				new CheckboxSetField("NewsletterSelection","", $newsletters)
 			);
 			$formFields->push($newsletterSection);
@@ -242,6 +242,17 @@ JS
 	}
 	
 	/**
+	 *  unsubscribes a $member from $newsletterType
+	 *  	 
+	 */	 	
+	protected function removeUnsubscribe($newletterType,$member) {
+		$result = DataObject::get_one("UnsubscribeRecord", "NewsletterTypeID = ".Convert::raw2sql($newletterType->ID)." AND MemberID = ".Convert::raw2sql($member->ID)."");
+		if($result && $result->exists()) {
+			$result->delete();
+		}		
+	}
+	
+	/**
 	 * Subscribes a given email address to the {@link NewsletterType} associated
 	 * with this page
 	 *
@@ -252,6 +263,9 @@ JS
 	 * @return Redirection
 	 */
 	function doSubscribe($data, $form, $request){
+						
+		//filter weird characters
+		$data['Email'] = preg_replace("/[^a-zA-Z0-9\._\-@]/","",$data['Email']);		
 		
 		// check to see if member already exists
 		$member = false; 
@@ -263,7 +277,10 @@ JS
 		if(!$member) {
 			$member = new Member();
 		}
+		
+			
 		$form->saveInto($member);
+		$member->setField("Email", $data['Email']);		
 		$member->write();
 		
 		if($member->AutoLoginHash){ 
@@ -280,6 +297,9 @@ JS
 				$newsletterType = DataObject::get_by_id("NewsletterType", $n);
 				
 				if($newsletterType->exists()){
+					//remove member from unsubscribe if needed
+					$this->removeUnsubscribe($newsletterType,$member);
+					
 					$newsletters[] = $newsletterType;
 					$groupID = $newsletterType->GroupID;
 					$member->Groups()->add($groupID);
@@ -293,6 +313,9 @@ JS
 				foreach($types as $type){
 					$newsletterType = DataObject::get_by_id("NewsletterType", $type);
 					if($newsletterType->exists()){
+						//remove member from unsubscribed records if the member unsubscribe the same mailling list before
+						$this->removeUnsubscribe($newsletterType,$member);
+						
 						$newsletters[] = $newsletterType;
 						$groupID = $newsletterType->GroupID;
 						$member->Groups()->add($groupID);
@@ -347,7 +370,7 @@ JS
 			$memberData = DataObject::get_by_id("Member", $id)->getAllFields();
 		}
 		return $this->customise(array(
-    		'Title' => _t('SubscriptionCompleted', 'Subscription completed!'),
+    		'Title' => _t('SubscriptionCompleted.Title', 'Subscription completed!'),
     		'Content' => $this->customise($memberData)->renderWith('SubscribeSubmission'),
     	))->renderWith('Page');
 	}

@@ -1,0 +1,17 @@
+{
+	"name": "silverstripe-labs/newsletter",
+	"description": "Newsletter module allows a backend CMS users send newsleters to different mailling lists, manage mailling lists and recipients in the lislling list, reading statistics about each newsletter sent, customise a newsletter subscrition form. Site users can subscribe to and unsubscribe from the mailing lists",
+	"type": "silverstripe-module",
+	"keywords": ["silverstripe-labs", "newsletters"],
+	"authors": [
+	{
+		"name": "Normann Lou",
+		"email": "normann@silverstripe.com"
+	}
+	],
+	"require":
+	{
+		"silverstripe/framework": "2.4.*"
+		"composer/installers": "*"
+	}
+}

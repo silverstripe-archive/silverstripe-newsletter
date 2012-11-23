@@ -7,18 +7,15 @@
  * 
  * @package newsletter
  */
-class NewsletterRole extends DataObjectDecorator {
-	
-	function extraStatics() {
-		return array(
-			'db' => array(
-				'BlacklistedEmail' => 'Boolean'
-			),
-			'has_many' => array(
-				'UnsubscribedRecords' => 'UnsubscribeRecord'
-			)
-		);
-	}
+class NewsletterRole extends DataExtension {
+
+	public static $db = array(
+		'BlacklistedEmail' => 'Boolean'
+	);
+
+	public static $has_many = array(
+		'UnsubscribedRecords' => 'UnsubscribeRecord'
+	);
 	
 	/**
 	 * Update the CMS fields specifically for Member
@@ -26,7 +23,7 @@ class NewsletterRole extends DataObjectDecorator {
 	 * 
 	 * @param FieldSet $fields CMS fields to update
 	 */
-	function updateCMSFields($fields) {
+	function updateCMSFields(FieldList $fields) {
 		$fields->removeByName('UnsubscribedRecords');
 		$fields->removeByName('BlacklistedEmail');
 	}

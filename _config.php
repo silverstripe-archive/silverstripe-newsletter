@@ -14,4 +14,3 @@ Config::inst()->update('Director', 'rules', array(
 ));
 
 Object::add_extension('NewsletterEmail', 'TrackingLinksEmail');
-DataObject::add_extension('Member', 'NewsletterRole');

@@ -94,29 +94,9 @@ $lang['en_US']['NewsletterAdmin_right.ss']['WELCOME2'] = array(
 	'newsletter admininistration section.  Please choose a folder from the left.',
 	50
 );
-$lang['en_US']['NewsletterEmailBlacklist']['PLURALNAME'] = array(
-	'Newsletter Email Blacklists',
-	50,
-	'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['NewsletterEmailBlacklist']['SINGULARNAME'] = array(
-	'Newsletter Email Blacklist',
-	50,
-	'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
 $lang['en_US']['NewsletterList.ss']['CHOOSEDRAFT1'] = 'Please choose a draft on the left, or';
 $lang['en_US']['NewsletterList.ss']['CHOOSEDRAFT2'] = 'add one';
 $lang['en_US']['NewsletterList.ss']['CHOOSESENT'] = 'Please choose a sent item on the left.';
-$lang['en_US']['NewsletterType']['PLURALNAME'] = array(
-	'Newsletter Typs',
-	50,
-	'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['NewsletterType']['SINGULARNAME'] = array(
-	'Newsletter Type',
-	50,
-	'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
 $lang['en_US']['Newsletter_Recipient']['PLURALNAME'] = array(
 	'Newsletter Recipients',
 	50,

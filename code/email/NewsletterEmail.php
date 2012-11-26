@@ -19,6 +19,7 @@ class NewsletterEmail extends Email {
 	 * @param Newsletter $newsletter
 	 * @param NewsletterType $type
 	 */
+	//TODO NewsletterType deprecated
 	function __construct($newsletter, $type = null) {
 		$this->newsletter = $newsletter;
 		$this->nlType = $type ? $type : $newsletter->getNewsletterType();

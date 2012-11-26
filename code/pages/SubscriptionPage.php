@@ -15,7 +15,8 @@ class SubscriptionPage extends Page {
 		'CustomisedHeading' => 'Text',
 		'CustomisedLables' => 'Text',
 		'CustomisedErrors' => 'Text',
-		'NewsletterTypes' => 'Text',
+		//TODO NewsletterType deprecated
+		//'NewsletterTypes' => 'Text',
 		'SubmissionButtonText' => 'Varchar',
 		'SendNotification' => 'Boolean',
 		'NotificationEmailSubject' => 'Varchar',
@@ -87,6 +88,7 @@ class SubscriptionPage extends Page {
 		$fieldsSelection->setCellDisabled(array("Email"=>array("Value","Required")));
 
 		//NewsletterTypes selection
+		//TODO NewsletterType deprecated
 		$newsletterTypes = DataObject::get("NewsletterType");
 		$newsletterSelection = $newsletterTypes?
 		new CheckboxSetField("NewsletterTypes",
@@ -187,7 +189,8 @@ class SubscriptionPage_Controller extends Page_Controller {
 			$memberInfoSection
 		);
 		$memberInfoSection->setID("MemberInfoSection");
-		
+
+		//TODO NewsletterType deprecated
 		if($this->NewsletterTypes){
 			$newsletters = DataObject::get("NewsletterType", "ID IN (".$this->NewsletterTypes.")");
 		}
@@ -246,6 +249,8 @@ JS
 	 *  	 
 	 */	 	
 	protected function removeUnsubscribe($newletterType,$member) {
+		//TODO NewsletterType deprecated
+		//TODO UnsubscribeRecord deprecated
 		$result = DataObject::get_one("UnsubscribeRecord", "NewsletterTypeID = ".Convert::raw2sql($newletterType->ID)." AND MemberID = ".Convert::raw2sql($member->ID)."");
 		if($result && $result->exists()) {
 			$result->delete();

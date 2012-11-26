@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Single newsletter instance.  Each {@link Newsletter} belongs to a {@link NewsletterType}. 
+ * Single newsletter instance. 
  * @package newsletter
  */
 class Newsletter extends DataObject {
@@ -13,12 +13,7 @@ class Newsletter extends DataObject {
 		"SentDate" => "Datetime"
 	);
 
-	static $has_one = array(
-		"Parent" => "NewsletterType",
-	);
-
 	static $has_many = array(
-		"Recipients" => "Newsletter_Recipient",
 		"SentRecipients" => "Newsletter_SentRecipient",
 		"TrackedLinks" => "Newsletter_TrackedLink"
 	);
@@ -143,9 +138,10 @@ class Newsletter extends DataObject {
 		return $this->getField('Subject');
 	}
 
-	function getNewsletterType() {
+	//TODO NewsletterType deprecated
+	/*function getNewsletterType() {
 		return DataObject::get_by_id('NewsletterType', $this->ParentID);
-	}
+	}*/
 
 	function getContentBody(){
 		$content = $this->obj('Content');
@@ -195,18 +191,11 @@ class Newsletter_SentRecipient extends DataObject {
 }
 
 /**
- * Single recipient of the newsletter
+ * S@deprecated Newsletter_Recipient will be catched simplely by {@link Recipient} Blacklisted flag.
  *
  * @package newsletter
  */
 class Newsletter_Recipient extends DataObject {
-
-	static $db = array(
-		"ParentID" => "Int",
-	);
-	static $has_one = array(
-		"Member" => "Member",
-	);
 }
 
 /**

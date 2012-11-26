@@ -28,6 +28,7 @@ class UnsubscribeController extends Page_Controller {
 	private function getMailingList(){
 		$mailingListID = (int)$this->urlParams['MailingList'];
 
+		//TODO NewsletterType deprecated
 		if($mailingListID) {
 			return $mailingList = DataObject::get_by_id("NewsletterType", $mailingListID);
 		}else{
@@ -70,6 +71,7 @@ class UnsubscribeController extends Page_Controller {
 		if(!self::$done_message){
 			$email = $this->getMember()->Email;
 			$mailingList = $this->getMailingList();
+			//TODO NewsletterType deprecated
 			if(is_a($mailingList, "DataObjectSet")){
 				$nlTitles = array();
 				foreach($mailingList as $nlType) $nlTitles[] = $nlType->Title;
@@ -177,6 +179,7 @@ class UnsubscribeController extends Page_Controller {
 		$member = $this->getMember();
 		if( $data['MailingLists'] ) {
 			$mailingLists = array();
+			//TODO NewsletterType deprecated
 			foreach( array_keys( $data['MailingLists'] ) as $listID ){
 				$list = DataObject::get_by_id( 'NewsletterType', $listID );
 				$this->unsubscribeFromList( $member, $list);

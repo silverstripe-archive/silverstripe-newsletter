@@ -208,6 +208,8 @@ class RecipientImportField_Cell extends ViewableData {
 class RecipientImportField_UploadForm extends Form {
 	function import( $data, $form ) {
 		$id = $data['ID'];
+
+		//TODO NewsletterType deprecated
 		$mailType = DataObject::get_one("NewsletterType", "ID = $id");
 		if($mailType->GroupID)
 			$group = DataObject::get_one("Group", "ID = $mailType->GroupID");
@@ -232,6 +234,8 @@ class RecipientImportField_UploadForm extends Form {
 
 	function confirm( $data, $form ) {
 		$id = $data['ID'];
+
+		//TODO NewsletterType deprecated
 		$mailType = DataObject::get_one("NewsletterType", "ID = $id");
 		if($mailType->GroupID)
 			$group = DataObject::get_one("Group", "ID = $mailType->GroupID");

@@ -41,10 +41,12 @@ class NewsletterEmailProcess extends BatchProcess {
 
 	        // check to see if the user has unsubscribed from the mailing list
 	        // TODO Join in the above query first
+
+	        //TODO both UnsubscribeRecord and NewsletterType are deprecated, need to work out under the new data module
 			if(defined('DB::USE_ANSI_SQL')) {
-				$unsubscribeRecord = DataObject::get_one('UnsubscribeRecord', "\"MemberID\"='{$member->ID}' AND \"NewsletterTypeID\"='{$this->nlType->ID}'");
+				//$unsubscribeRecord = DataObject::get_one('UnsubscribeRecord', "\"MemberID\"='{$member->ID}' AND \"NewsletterTypeID\"='{$this->nlType->ID}'");
 			} else {
-	        	$unsubscribeRecord = DataObject::get_one('UnsubscribeRecord', "`MemberID`='{$member->ID}' AND `NewsletterTypeID`='{$this->nlType->ID}'");
+	        	//$unsubscribeRecord = DataObject::get_one('UnsubscribeRecord', "`MemberID`='{$member->ID}' AND `NewsletterTypeID`='{$this->nlType->ID}'");
 			}
 
 	        if( !$unsubscribeRecord ) {
@@ -53,8 +55,10 @@ class NewsletterEmailProcess extends BatchProcess {
 
 	    		/**
 	    		 * Email Blacklisting Support
+	    		 * ToDo: change to use the new Recipient dataobject and its flag Blacklisted.
 	    		 */
-				if($member->BlacklistedEmail && NewsletterEmailBlacklist::isBlocked($address)){
+	    		if(false){
+				//if($member->BlacklistedEmail && NewsletterEmailBlacklist::isBlocked($address)){
 					$bounceRecord = new Email_BounceRecord();
 					$bounceRecord->BounceEmail = $member->Email;
 					$bounceRecord->BounceTime = date("Y-m-d H:i:s",time());

@@ -10,6 +10,7 @@ Class UnsubscribeTest extends SapphireTest{
 		ContentNegotiator::disable();
 	}
 	
+	//TODO Newsletter deprecated
 	function testIndexWithAutoLoginHashAndNewsletterType(){
 		$member = $this->objFromFixture("Member", "normann1");
 		$group = $this->objFromFixture("Group", 'newsletter1');

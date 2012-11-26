@@ -72,7 +72,7 @@ class NewsletterAdmin extends LeftAndMain {
 		//TODO what is going on here? where did that hover.js go? can't find it. 
 		//TODO We need to reimplement a hover.js?
 		Requirements::javascript(CMS_DIR . '/javascript/hover.js');
-		Requirements::javascript(THIRDPARTY_DIR . '/scriptaculous/controls.js');
+//		Requirements::javascript(THIRDPARTY_DIR . '/scriptaculous/controls.js');
 
 		Requirements::javascript(CMS_DIR . '/javascript/LeftAndMain_left.js');
 		Requirements::javascript(CMS_DIR . '/javascript/LeftAndMain_right.js');
@@ -80,9 +80,9 @@ class NewsletterAdmin extends LeftAndMain {
 		
 		Requirements::javascript(CMS_DIR . '/javascript/SecurityAdmin.js');
 
-		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterAdmin_left.js');
-		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterAdmin_right.js');
-		Requirements::javascript(NEWSLETTER_DIR . '/javascript/ProgressBar.js');
+//		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterAdmin_left.js');
+//		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterAdmin_right.js');
+//		Requirements::javascript(NEWSLETTER_DIR . '/javascript/ProgressBar.js');
 
 		// We don't want this showing up in every ajax-response, it should always be present in a CMS-environment
 		if(!Director::is_ajax()) {

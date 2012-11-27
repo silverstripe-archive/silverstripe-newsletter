@@ -29,7 +29,7 @@ class NewsletterAdmin extends ModelAdmin {
 	 */
 	static $template_paths = null; //could be customised in _config 
 
-	static $allowed_actions = array(
+	/*static $allowed_actions = array(
 		'adddraft',
 		'addgroup',
 		'addtype',
@@ -145,7 +145,7 @@ class NewsletterAdmin extends ModelAdmin {
 	/**
 	 * Top level call from ajax
 	 * Called when a mailing list is clicked on the left menu
-	 */
+	 *
 	public function showrecipients($params) {
 		$params = $params->allParams();
 		return $this->showWithEditForm( $params, $this->getMailingListEditForm( $params['ID'] ) );
@@ -155,7 +155,7 @@ class NewsletterAdmin extends ModelAdmin {
 	* Top level call from ajax when click on the left manu
 	* Second level call when create a draft
 	* Called when a draft or sent newsletter is clicked on the left menu and when a new one is added
-	*/
+	*
 	public function shownewsletter($params) {
 		if($params instanceof SS_HTTPRequest){
 			$params = $params->allParams();
@@ -167,7 +167,7 @@ class NewsletterAdmin extends ModelAdmin {
 	 * Preview a {@link Newsletter} draft.
 	 *
 	 * @param SS_HTTPRequest $request Request parameters
-	 */
+	 *
 	public function preview($request) {
 		$newsletterID = (int) $request->param('ID');
 		$newsletter = DataObject::get_by_id('Newsletter', $newsletterID);
@@ -184,7 +184,7 @@ class NewsletterAdmin extends ModelAdmin {
 	/**
 	 * Top level call from ajax
 	 * Called when a newsletter type is clicked on the left menu
-	 */
+	 *
 	public function showmailtype($params) {
 		$params = $params->allParams();
 		
@@ -194,7 +194,7 @@ class NewsletterAdmin extends ModelAdmin {
 	/**
 	* Top level call from ajax
 	* Called when a 'Drafts' folder is clicked on the left menu
-	*/
+	*
 	public function showdrafts($params) {
 		$params = $params->allParams();
 		return $this->ShowNewsletterFolder($params, 'Draft');
@@ -203,7 +203,7 @@ class NewsletterAdmin extends ModelAdmin {
 	/**
 	* Top level call from ajax
 	* Called when a 'Sent Items' folder is clicked on the left menu
-	*/
+	*
 	public function showsent($params) {
 		$params = $params->allParams();
 		return $this->ShowNewsletterFolder($params, 'Sent');
@@ -213,7 +213,7 @@ class NewsletterAdmin extends ModelAdmin {
 	* Shows either the 'Sent' or 'Drafts' folder using the NewsletterList template
 	* Didn't see anywhere it is called from top level ajax call or from templete,
 	* it is only called internally from showdrafts and showsent.
-	*/
+	*
 	public function ShowNewsletterFolder($params, $type) {
 		$id = $params['ID'];
 		if(!is_numeric($id)) {
@@ -233,7 +233,7 @@ class NewsletterAdmin extends ModelAdmin {
 
 	/**
 	 * This function is called only internally, so make sure that $params is not a SS_HTTPRequest from caller.
-	 */
+	 *
     private function showWithEditForm( $params, $editForm ) {
         if(isset($params['ID'])) {
 			$this->setCurrentPageID($params['ID']);
@@ -249,7 +249,7 @@ class NewsletterAdmin extends ModelAdmin {
 		}
     }
 
-    /*public function getEditForm( $id ) {
+    public function getEditForm( $id ) {
         $form = $this->getNewsletterTypeEditForm( $id );
 		$form->disableDefaultAction();
 		return $form;
@@ -257,8 +257,8 @@ class NewsletterAdmin extends ModelAdmin {
 
     /**
      * Get the EditForm
-     */
-    /*public function EditForm() {
+     *
+    public function EditForm() {
 		// Include JavaScript to ensure HtmlEditorField works.
 		HtmlEditorField::include_js();
 		
@@ -275,7 +275,7 @@ class NewsletterAdmin extends ModelAdmin {
     	}
 		if($form) $form->disableDefaultAction();
 		return $form;
-	}*/
+	}
 
     public function NewsletterEditForm() {
     	$id = isset($_REQUEST['ID']) ? $_REQUEST['ID'] : $this->currentPageID();
@@ -408,7 +408,7 @@ class NewsletterAdmin extends ModelAdmin {
 	 * Removes a bounced member from the mailing list
 	 * top level call from front-ajax
 	 * @return String
-	 */
+	 *
 	function removebouncedmember($params) {
 		$params = $params->allParams();
 
@@ -440,7 +440,7 @@ class NewsletterAdmin extends ModelAdmin {
 	/**
 	 * Reloads the "Sent Status Report" tab via ajax
 	 * top level call from ajax
-	 */
+	 *
 	function getsentstatusreport($params) {
 		$params = $params->allParams();
 		
@@ -457,7 +457,7 @@ class NewsletterAdmin extends ModelAdmin {
 	 * deprecated, meanwhile TemplateList.php will be removed.
 	 *
 	 * @deprecated 2.4 Please use NewsletterAdmin::template_paths() and NewsletterAdmin::templateSource(). @see NewsletterType::getCMSFields();
-	 */
+	 *
 	public static function template_path() {
 		user_error("NewsletterAdmin::template_path() is deprecated; use NewsletterAdmin::template_paths() and NewsletterAdmin::templateSource()", E_USER_NOTICE);
 		if(self::$template_path) return self::$template_path;
@@ -471,7 +471,7 @@ class NewsletterAdmin extends ModelAdmin {
 	 * return an array containing all folders pointing to the bunch of email templates
 	 *
 	 * @return array
-	 */
+	 *
 	public static function template_paths() {
 		if(!isset(self::$template_paths)) {
 			if(file_exists("../".THEMES_DIR."/".SSViewer::current_theme()."/templates/email")){
@@ -504,7 +504,7 @@ class NewsletterAdmin extends ModelAdmin {
 	 * under the folders of both theme and project specific folder.
 	 *
 	 * @return array
-	 */
+	 *
 	public function templateSource(){
 		$paths = self::template_paths();
 		$templates = array( "" => _t('TemplateList.NONE', 'None') );
@@ -538,7 +538,7 @@ class NewsletterAdmin extends ModelAdmin {
 	public function showdraft( $params ) {
         	return $this->showWithEditForm( $params, $this->getNewsletterEditForm( $params['ID'] ) );
 	}
-	*/
+	
 
 	public function getNewsletterEditForm($myId){
 		$email = DataObject::get_by_id("Newsletter", $myId);
@@ -578,7 +578,7 @@ class NewsletterAdmin extends ModelAdmin {
 
 	/**
 	 * Sends a newsletter given by the url 
-	 */
+	 *
 	public function sendnewsletter() {
 
 		$id = isset($_REQUEST['ID']) ? $_REQUEST['ID'] : $_REQUEST['NewsletterID'];
@@ -658,7 +658,7 @@ class NewsletterAdmin extends ModelAdmin {
 	 *
 	 * @todo When is $params an object? Typically it's the form request
 	 * data as an array...
-	 */
+	 *
 	public function save($params, $form) {
 		if(is_object($params)) $params = $params->allParams();
 
@@ -692,7 +692,7 @@ class NewsletterAdmin extends ModelAdmin {
 
 	/*
 	 * Internal call found so far.
-	 */
+	 *
 	public function savenewsletter($urlParams, $form) {
 		$id = $_REQUEST['ID'];
 
@@ -725,7 +725,7 @@ class NewsletterAdmin extends ModelAdmin {
 	/*
 	 * Saves the settings on the 'Bounced' tab of the 'Mailing List' allowing members to be added to NewsletterEmailBlacklist
 	 *
-	 */
+	 *
 	public function memberblacklisttoggle($urlParams) {
 		$id = $urlParams['ID'];
 		$bounceObject = DataObject::get_by_id('Email_BounceRecord', $id);
@@ -754,7 +754,7 @@ class NewsletterAdmin extends ModelAdmin {
 	 * This method is called when a user changes subsite in the dropdownfield.
 	 * It is added temporarily to prevent error when changing subsite in newsletter admin
 	 * TODO: fully implement it to display the newsletter tree
-	 */
+	 *
 	public function SiteTreeAsUL() {
 		return "Please refresh the page";
 	}
@@ -766,7 +766,7 @@ class NewsletterAdmin extends ModelAdmin {
 
 	/**
 	 * Ajax autocompletion
-	 */
+	 *
 	public function autocomplete() {
 		$fieldName = $this->urlParams['ID'];
 		$fieldVal = $_REQUEST[$fieldName];
@@ -836,7 +836,7 @@ JS;
 	/**
 	 * Called by AJAX to create a new newsletter type
 	 * Top level call
-	 */
+	 *
 	public function addtype( $params ) {
 		$params = $params->allParams();
 		$params['ID'] = $typeid = $this->newNewsletterType();
@@ -848,7 +848,7 @@ JS;
 	/**
 	 * Called by AJAX to create a new newsletter draft
 	 * Top level call
-	 */
+	 *
 	public function adddraft( $params) {
 		$params = $params->allParams();
 
@@ -860,7 +860,7 @@ JS;
 
     /**
     * Create a new newsletter type
-    */
+    *
     private function newNewsletterType() {
 
         // create the new type
@@ -955,4 +955,5 @@ JS;
 	function getMenuTitle() {
 		return _t('LeftAndMain.NEWSLETTERS',"Newsletters",PR_HIGH,"Menu title");
 	}
+	*/
 }

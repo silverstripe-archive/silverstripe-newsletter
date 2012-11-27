@@ -8,7 +8,7 @@
 class Recipient extends DataObject {
 	static $db = array(
 		'Salutation'			=> "Varchar(32)",
-		'FristName'				=> "Varchar",
+		'FirstName'				=> "Varchar",
 		'MiddleName'			=> "Varchar",
 		'Surname'				=> "Varchar",
 		'Email'					=> "Varchar(256)",

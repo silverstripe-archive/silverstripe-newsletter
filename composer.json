@@ -11,7 +11,7 @@
 	],
 	"require":
 	{
-		"silverstripe/framework": "2.2.*"
+		"silverstripe/framework": "2.2.*",
 		"composer/installers": "*"
 	}
 }

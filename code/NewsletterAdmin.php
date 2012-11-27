@@ -6,9 +6,18 @@
  * @package newsletter
  */
 
-class NewsletterAdmin extends LeftAndMain {
-	static $subitem_class = 'Member';
-	
+class NewsletterAdmin extends ModelAdmin {
+
+	static $url_segment = 'newsletter';
+	static $menu_title = 'Newsletter';
+
+	public static $managed_models = array(
+		"Newsletter",
+		"MailingList",
+	);
+
+	// We keep the legacy code below there for developing purposes, it might be helpful for us to copy / paste. we should clean it up before 1.0.1 release.
+
 	/** 
 	 * @var which will be used to seperator "send items" into 2 groups, e.g. "most recent number 5", "older". 
 	 */
@@ -49,11 +58,7 @@ class NewsletterAdmin extends LeftAndMain {
 		'NewsletterEditForm',
 	);
 
-	static $url_segment = 'newsletter';
-
 	static $url_rule = '/$Action/$ID/$OtherID';
-
-	static $menu_title = 'Newsletter';
 
 	public function init() {
 		// In LeftAndMain::init() the current theme is unset.

@@ -1,0 +1,21 @@
+### USAGE: before_script <base-folder>
+
+BUILD_DIR=$1
+
+# Fetch all dependencies
+# TODO Replace with different composer.json variations
+echo "Checking out installer@$CORE_RELEASE"
+git clone --depth=100 --quiet --branch $CORE_RELEASE git://github.com/silverstripe/silverstripe-installer.git $BUILD_DIR
+echo "Checking out cms@$CORE_RELEASE"
+git clone --depth=100 --quiet --branch $CORE_RELEASE git://github.com/silverstripe/silverstripe-cms.git $BUILD_DIR/cms
+echo "Checking out sapphire@$CORE_RELEASE"
+git clone --depth=100 --quiet --branch $CORE_RELEASE git://github.com/silverstripe/sapphire.git $BUILD_DIR/sapphire
+
+# Copy setup files
+cp ./tests/travis/_ss_environment.php $BUILD_DIR
+cp ./tests/travis/_config.php $BUILD_DIR/mysite
+
+# Copy actual project code into build directory (checked out by travis)
+cp -r . $BUILD_DIR/newsletter
+
+cd $BUILD_DIR

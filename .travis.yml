@@ -1,0 +1,16 @@
+language: php 
+php: 
+ - 5.3
+
+env:
+ - TESTDB=MYSQL CORE_RELEASE=2.4
+
+before_script:
+ - pear -q install --onlyreqdeps pear/PHP_CodeSniffer
+ - phpenv rehash
+ - ./tests/travis/before_script ~/builds/ss 
+ - cd ~/builds/ss
+
+script: 
+ - phpunit newsletter/tests/
+ - phpcs --encoding=utf-8 --tab-width=4 --standard=newsletter/tests/phpcs -np newsletter

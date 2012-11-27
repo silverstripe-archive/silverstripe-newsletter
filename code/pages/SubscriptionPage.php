@@ -58,7 +58,7 @@ class SubscriptionPage extends Page {
 			$exludes = array(
 				"BouncedCount",
 				"Blacklisted",
-				"RecievedCount",
+				"ReceivedCount",
 				"ValidateHash",
 				"ValidateHashExpired",
 			);

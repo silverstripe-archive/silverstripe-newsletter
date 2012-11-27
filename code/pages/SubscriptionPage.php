@@ -15,8 +15,7 @@ class SubscriptionPage extends Page {
 		'CustomisedHeading' => 'Text',
 		'CustomisedLables' => 'Text',
 		'CustomisedErrors' => 'Text',
-		//TODO NewsletterType deprecated
-		//'NewsletterTypes' => 'Text',
+		'MailingLists' => 'Text',
 		'SubmissionButtonText' => 'Varchar',
 		'SendNotification' => 'Boolean',
 		'NotificationEmailSubject' => 'Varchar',
@@ -49,22 +48,32 @@ class SubscriptionPage extends Page {
 		);
 
 		//Fields selction
-		$dataFields = singleton('Member')->getCMSFields()->dataFields();
+		$dataFields = singleton('Recipient')->getCMSFields()->dataFields();
+
 		//Since the subscription form is focuse add a member to newsletter groups, we should avoid Password stuff and leave it to member forget/reset password mechanism.
 		if(isset($dataFields['Password'])) unset($dataFields['Password']);
 		
 		$fieldCandidates = array();
 		if(count($dataFields)){
+			$exludes = array(
+				"BouncedCount",
+				"Blacklisted",
+				"RecievedCount",
+				"ValidateHash",
+				"ValidateHashExpired",
+			);
 			foreach($dataFields as $fieldName => $dataField){
+				if(!in_array($fieldName, $exludes))
 				$fieldCandidates[$fieldName]= $dataField->Title()?$dataField->Title():$dataField->Name();
 			}
 		}
 
-		$memberFields = singleton('Member')->getMemberFormFields()->dataFields();
-		//Since Email field is the member's identifier, and newsletters subscription is non-sence if no email is given by the user, we should force that email to be checked and required.
+
+		$frontFields = singleton('Recipient')->getFrontendFields()->dataFields();
+		//Since Email field is the Recipient's identifier, and newsletters subscription is non-sence if no email is given by the user, we should force that email to be checked and required.
 		$defaults = array("Email");
-		if(count($memberFields)){
-			foreach($memberFields as $fieldName => $memberField){
+		if(count($frontFields)){
+			foreach($frontFields as $fieldName => $memberField){
 				$defaults[] = $fieldName;
 			}
 		}
@@ -80,27 +89,24 @@ class SubscriptionPage extends Page {
 			$fieldsSelection = new CheckboxSetWithExtraField("Fields",
 				"<h4>Select the fields to display on the subscription form</h4>",
 				$fieldCandidates,
-				$extra,
-				$defaults
+				$extra
 			)
 		);
-		
+		$fieldsSelection->setValue($defaults);
 		$fieldsSelection->setCellDisabled(array("Email"=>array("Value","Required")));
-
-		//NewsletterTypes selection
-		//TODO NewsletterType deprecated
-		$newsletterTypes = DataObject::get("NewsletterType");
-		$newsletterSelection = $newsletterTypes?
-		new CheckboxSetField("NewsletterTypes",
+		//Mailing Lists selection
+		$mailingLists = DataObject::get("MailingList");
+		$newsletterSelection = $mailingLists?
+		new CheckboxSetField("MailingLists",
 			"<h4>Newsletters to subscribe to</h4>",
-			$newsletterTypes,
-			$newsletterTypes
+			$mailingLists,
+			$mailingLists
 		):
 		new LiteralField(
-			"NoNewsletters",
-			'<p>You haven\'t defined any newsletters yet, please go to '
+			"NoMailingList",
+			'<p>You haven\'t defined any mailing list yet, please go to '
 			. '<a href=\"admin/newsletter\">the newsletter administration area</a> '
-			. 'to define a newsletter type.</p>');
+			. 'to define a mailing list.</p>');
 		$subscriptionTab->push(
 			$newsletterSelection
 		);
@@ -159,7 +165,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 	
 	function Form(){
 		if($this->URLParams['Action'] == 'complete') return;
-		$dataFields = singleton('Member')->getCMSFields()->dataFields();
+		$dataFields = singleton('Recipient')->getCMSFields()->dataFields();
 		
 		if($this->CustomisedLables) $customisedLables = Convert::json2array($this->CustomisedLables);
 
@@ -190,9 +196,8 @@ class SubscriptionPage_Controller extends Page_Controller {
 		);
 		$memberInfoSection->setID("MemberInfoSection");
 
-		//TODO NewsletterType deprecated
-		if($this->NewsletterTypes){
-			$newsletters = DataObject::get("NewsletterType", "ID IN (".$this->NewsletterTypes.")");
+		if($this->MailingLists){
+			$newsletters = DataObject::get("MailingList", "ID IN (".$this->MailingLists.")");
 		}
 		
 		if(isset($newsletters) && $newsletters && $newsletters->count()>1){
@@ -314,7 +319,7 @@ JS
 			// if the page has associate with one newsletter type, it won't appear in front form, but the 
 			// member needs to be added to the related group.
 			
-			if($this->NewsletterTypes && ($types = explode(",",$this->NewsletterTypes))) {
+			if($this->MailingLists && ($types = explode(",",$this->MailingLists))) {
 				foreach($types as $type){
 					$newsletterType = DataObject::get_by_id("NewsletterType", $type);
 					if($newsletterType->exists()){

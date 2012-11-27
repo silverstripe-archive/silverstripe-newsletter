@@ -12,5 +12,3 @@ Config::inst()->update('Director', 'rules', array(
 	'newsletterlinks/$Hash' => "TrackLinkController",
 	'unsubscribe//$Action/$AutoLoginHash/$MailingList' => 'UnsubscribeController'
 ));
-
-Object::add_extension('NewsletterEmail', 'TrackingLinksEmail');

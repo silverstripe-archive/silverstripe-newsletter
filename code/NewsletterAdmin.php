@@ -249,7 +249,7 @@ class NewsletterAdmin extends ModelAdmin {
 		}
     }
 
-    public function getEditForm( $id ) {
+    /*public function getEditForm( $id ) {
         $form = $this->getNewsletterTypeEditForm( $id );
 		$form->disableDefaultAction();
 		return $form;
@@ -258,7 +258,7 @@ class NewsletterAdmin extends ModelAdmin {
     /**
      * Get the EditForm
      */
-    public function EditForm() {
+    /*public function EditForm() {
 		// Include JavaScript to ensure HtmlEditorField works.
 		HtmlEditorField::include_js();
 		
@@ -275,7 +275,7 @@ class NewsletterAdmin extends ModelAdmin {
     	}
 		if($form) $form->disableDefaultAction();
 		return $form;
-	}
+	}*/
 
     public function NewsletterEditForm() {
     	$id = isset($_REQUEST['ID']) ? $_REQUEST['ID'] : $this->currentPageID();

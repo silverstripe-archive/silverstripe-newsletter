@@ -120,12 +120,12 @@ $lang['en_US']['Newsletter_RecipientImportField_Table.ss']['CONTENTSOF'] = 'Cont
 $lang['en_US']['Newsletter_RecipientImportField_Table.ss']['NO'] = 'Cancel';
 $lang['en_US']['Newsletter_RecipientImportField_Table.ss']['RECIMPORTED'] = 'Recipients imported from';
 $lang['en_US']['Newsletter_RecipientImportField_Table.ss']['YES'] = 'Confirm';
-$lang['en_US']['Newsletter_SentRecipient']['PLURALNAME'] = array(
+$lang['en_US']['SentRecipient']['PLURALNAME'] = array(
 	'Newsletter Sent Recipients',
 	50,
 	'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
-$lang['en_US']['Newsletter_SentRecipient']['SINGULARNAME'] = array(
+$lang['en_US']['SentRecipient']['SINGULARNAME'] = array(
 	'Newsletter Sent Recipient',
 	50,
 	'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'

@@ -67,7 +67,7 @@ class NewsletterEmailProcess extends BatchProcess {
 					$bounceRecord->write();
 
 					// Log the blacklist for this specific Newsletter
-					$newsletter = new Newsletter_SentRecipient();
+					$newsletter = new SentRecipient();
 					$newsletter->Email = $address;
 					$newsletter->MemberID = $member->ID;
 					$newsletter->Result = 'BlackListed';
@@ -104,7 +104,7 @@ class NewsletterEmailProcess extends BatchProcess {
 		$email->setTo( $address );
 		$result = $email->send( $messageID );
 		// Log result of the send
-		$newsletter = new Newsletter_SentRecipient();
+		$newsletter = new SentRecipient();
 		$newsletter->Email = $address;
 		$newsletter->MemberID = $member->ID;
 		

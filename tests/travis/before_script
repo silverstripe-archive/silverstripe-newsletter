@@ -10,6 +10,8 @@ echo "Checking out cms@$CORE_RELEASE"
 git clone --depth=100 --quiet --branch $CORE_RELEASE git://github.com/silverstripe/silverstripe-cms.git $BUILD_DIR/cms
 echo "Checking out sapphire@$CORE_RELEASE"
 git clone --depth=100 --quiet --branch $CORE_RELEASE git://github.com/silverstripe/sapphire.git $BUILD_DIR/sapphire
+echo "Checking out blackcandy@$CORE_RELEASE"
+git clone --depth=100 --quiet --branch $CORE_RELEASE git://github.com/silverstripe-themes/silverstripe-blackcandy.git $BUILD_DIR/themes/blackcandy
 
 # Copy setup files
 cp ./tests/travis/_ss_environment.php $BUILD_DIR

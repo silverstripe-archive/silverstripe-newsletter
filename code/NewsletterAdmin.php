@@ -13,7 +13,6 @@ class NewsletterAdmin extends ModelAdmin {
 
 	public static $managed_models = array(
 		"Newsletter",
-		"Recipient",
 		"MailingList",
 	);
 

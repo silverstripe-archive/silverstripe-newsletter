@@ -17,7 +17,7 @@ class Recipient extends DataObject {
 		'Blacklisted'			=> "Boolean",
 		// everytime, one of its belonged mailing lists is selected when sending the newletter, plus one to the count, if belong to more than one
 		// mailing lists that has been selected when sending the newletter, counts as '1'.
-		'RecievedCount'			=> "Int",
+		'ReceivedCount'			=> "Int",
 
 		'ValidateHash'			=> "Varchar(160)", // both subscribe and unsebscribe process need to valid this hash for security
 		'ValidateHashExpired'	=> "SS_Datetime",
@@ -30,7 +30,7 @@ class Recipient extends DataObject {
 
 	static $indexes = array(
 		'Email'					=> true,
-		'RecievedCount'			=> true,
+		'ReceivedCount'			=> true,
 	);
 
 	static $default_sort = '"FirstName", "Surname"';
@@ -58,7 +58,7 @@ class Recipient extends DataObject {
 		'Email'				=> 'Email',
 		'Blacklisted'		=> 'Black listed?',
 		'BouncedCount'		=> 'Bounced Count',
-		'RecievedCount'		=> 'Count for Recieved newsletters'
+		'ReceivedCount'		=> 'Count for Received newsletters'
 	);
 
 	/**
@@ -75,5 +75,27 @@ class Recipient extends DataObject {
 	public function populateDefaults() {
 		parent::populateDefaults();
 		$this->LanguagePreferred = i18n::get_locale();
+	}
+
+	public function getCMSFields() {
+		$fields =parent::getCMSFields();
+		$fields->removeByName("ValidateHash");
+		$fields->removeByName("ValidateHashExpired");
+
+		if($this && $this->exists()){
+			$bouncedCount = $fields->dataFieldByName("BouncedCount")->performDisabledTransformation();
+			$receivedCount = $fields->dataFieldByName("ReceivedCount")->performDisabledTransformation();
+			$fields->replaceField("BouncedCount", $bouncedCount);
+			$fields->replaceField("ReceivedCount", $receivedCount);
+		}else{
+			$fields->removeByName("BouncedCount");
+			$fields->removeByName("ReceivedCount");
+		}
+
+
+		//We will hide LanguagePreferred for now till if demond for hooking newsletter module to mulitple langugee support.
+		$fields->removeByName("LanguagePreferred");
+
+		return $fields;
 	}
 }

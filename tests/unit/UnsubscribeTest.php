@@ -47,8 +47,18 @@ class UnsubscribeTest extends SapphireTest{
 		$url2 = html_entity_decode('unsubscribe/done/94l4ee9ib8kkw3s08k8wwcs4g?MailingLists[1]=1&MailingLists[2]=2');
 		$body1 = Director::test($url1)->getBody();
 		$body2 = Director::test($url2)->getBody();
-		$message1 = sprintf(_t('Unsubscribe.REMOVESUCCESS', 'Thank you. %s will no longer receive the %s.'), 'normann1@silverstripe.com', 'Daily Newsletter');
-		$message2 = sprintf(_t('Unsubscribe.REMOVESUCCESS', 'Thank you. %s will no longer receive the %s.'), 'normann1@silverstripe.com', 'Daily Newsletter, Monthly Newsletter');
+		$message1 = sprintf(
+			_t('Unsubscribe.REMOVESUCCESS', 
+			'Thank you. %s will no longer receive the %s.'), 
+			'normann1@silverstripe.com', 
+			'Daily Newsletter'
+		);
+		$message2 = sprintf(_t(
+			'Unsubscribe.REMOVESUCCESS', 
+			'Thank you. %s will no longer receive the %s.'), 
+			'normann1@silverstripe.com', 
+			'Daily Newsletter, Monthly Newsletter'
+		);
 		$this->AssertContains($message1, $body1);
 		$this->AssertContains($message2, $body2);*/
 	}
@@ -59,8 +69,16 @@ class UnsubscribeTest extends SapphireTest{
 		$url2 = 'unsubscribe/linksent?SendError=normann1@silverstripe.com';
 		$body1 = Director::test($url1)->getBody();
 		$body2 = Director::test($url2)->getBody();
-		$message1 = sprintf(_t('Unsubscribe.LINKSENTTO', "The unsubscribe link has been sent to %s"), 'normann1@silverstripe.com');
-		$message2 = sprintf(_t('Unsubscribe.LINKSENDERR', "Sorry, currently we have internal error, and can't send the unsubscribe link to %s"), 'normann1@silverstripe.com');
+		$message1 = sprintf(_t(
+			'Unsubscribe.LINKSENTTO', 
+			"The unsubscribe link has been sent to %s"), 
+			'normann1@silverstripe.com'
+		);
+		$message2 = sprintf(_t(
+			'Unsubscribe.LINKSENDERR', 
+			"Sorry, currently we have internal error, and can't send the unsubscribe link to %s"), 
+			'normann1@silverstripe.com'
+		);
 		$this->AssertContains($message1, $body1);
 		$this->AssertContains($message2, $body2);*/
 	}

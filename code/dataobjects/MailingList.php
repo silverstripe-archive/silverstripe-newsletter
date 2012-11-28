@@ -15,7 +15,11 @@ class MailingList extends DataObject {
 
 	/* a mailing list could contains many newsletter recipients */
 	static $many_many = array(
-		'Recipients'			=> "Recipient"
+		'Recipients'			=> "Recipient",
+	);
+
+	static $belongs_many_many = array(
+		'Newsletters'			=> "Newsletter",
 	);
 
 	//Only for statistics purpose, we keep a unsubscribed count field for each MailingList <=> Recipient peer.

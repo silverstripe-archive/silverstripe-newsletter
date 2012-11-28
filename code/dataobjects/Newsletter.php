@@ -8,9 +8,11 @@ class Newsletter extends DataObject {
 
 	static $db = array(
 		"Status" => "Enum('Draft, Send', 'Draft')",
-		"Content" => "HTMLText",
 		"Subject" => "Varchar(255)",
-		"SentDate" => "Datetime"
+		"Content" => "HTMLText",
+		"SentDate" => "Datetime",
+		"SendFrom" => "Varchar",
+		"ReplyTo" => "Varchar",
 	);
 
 	static $has_many = array(
@@ -18,6 +20,9 @@ class Newsletter extends DataObject {
 		"TrackedLinks" => "Newsletter_TrackedLink"
 	);
 
+	static $many_many = array(
+		"MailingLists" => "MailingList"
+	);
 	/**
 	 * Returns a FieldSet with which to create the CMS editing form.
 	 * You can use the extend() method of FieldSet to create customised forms for your other
@@ -26,7 +31,22 @@ class Newsletter extends DataObject {
 	 * @param Controller
 	 * @return FieldSet
 	 */
-	function getCMSFields($controller = null) {
+	function getCMSFields() {
+		$fields = parent::getCMSFields();
+		$fields->removeByName("Status");
+		$fields->removeByName("SentDate");
+
+		if($this && $this->exists()){
+			$fields->removeByName("MailingLists");
+			$mailinglists = DataObject::get("MailingList");
+
+			$fields->addFieldToTab("Root.Main",
+				new CheckboxSetField("MailingLists", "Send To", $mailinglists)
+			);
+		}
+
+		return $fields;
+		/*
 		$group = DataObject::get_by_id("Group", $this->Parent()->GroupID);
 		$sentReport = $this->renderWith("Newsletter_SentStatusReport");
 		$previewLink = Director::absoluteBaseURL() . 'admin/newsletter/preview/' . $this->ID;
@@ -62,7 +82,7 @@ class Newsletter extends DataObject {
 		}
 		
 		$this->extend("updateCMSFields", $ret);
-		return $ret;
+		return $ret;*/
 	}
 
 	/**
@@ -89,10 +109,10 @@ class Newsletter extends DataObject {
 	 * @param string $result 3 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE), or "Bounced" ({@see $email_bouncehandler}).
 	 * @return DataObjectSet
 	 */
-	function SentRecipients($result) {
+	/*function SentRecipients($result) {
 		$SQL_result = Convert::raw2sql($result);
 		return DataObject::get("SentRecipient",array("\"ParentID\"='".$this->ID."'", "\"Result\"='".$SQL_result."'"));
-	}
+	}*/
 
 	/**
 	 * Returns a DataObjectSet containing the subscribers who have never been sent this Newsletter

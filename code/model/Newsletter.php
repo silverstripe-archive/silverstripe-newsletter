@@ -56,7 +56,12 @@ class Newsletter extends DataObject {
 				$mailTab = new Tab(_t('Newsletter.NEWSLETTER', 'Newsletter'),
 					new TextField("Subject", _t('Newsletter.SUBJECT', 'Subject'), $this->Subject),
 					new HtmlEditorField("Content", _t('Newsletter.CONTENT', 'Content')),
-					new LiteralField('PreviewNewsletter', "<p><a href=\"$previewLink\" target=\"_blank\">" . _t('PREVIEWNEWSLETTER', 'Preview this newsletter') . "</a></p>")
+					new LiteralField(
+						'PreviewNewsletter', 
+						"<p><a href=\"$previewLink\" target=\"_blank\">" 
+							. _t('PREVIEWNEWSLETTER', 'Preview this newsletter') 
+							. "</a></p>"
+					)
 				),
 				$sentToTab = new Tab(_t('Newsletter.SENTREPORT', 'Sent Status Report'),
 					new LiteralField("SentStatusReport", $sentReport)
@@ -106,7 +111,8 @@ class Newsletter extends DataObject {
 	/**
 	 * Returns a DataObject listing the recipients for the given status for this newsletter
 	 *
-	 * @param string $result 3 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE), or "Bounced" ({@see $email_bouncehandler}).
+	 * @param string $result 3 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE), 
+	 * or "Bounced" ({@see $email_bouncehandler}).
 	 * @return DataObjectSet
 	 */
 	/*function SentRecipients($result) {
@@ -130,11 +136,22 @@ class Newsletter extends DataObject {
 		}
 
 		// Get a list of all the subscribers to this newsletter
-        if(defined('DB::USE_ANSI_SQL')) {
-			$subscribers = DataObject::get( 'Member', "\"GroupID\"='".$this->Parent()->GroupID."'", null, "INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" );
-        } else {
-        	$subscribers = DataObject::get( 'Member', "`GroupID`='".$this->Parent()->GroupID."'", null, "INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" );
-        }
+		if(defined('DB::USE_ANSI_SQL')) {
+			$subscribers = DataObject::get(
+				'Member', 
+				"\"GroupID\"='".$this->Parent()->GroupID."'", 
+				null, 
+				"INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" 
+			);
+		} else {
+			$subscribers = DataObject::get(
+				'Member', 
+				"`GroupID`='".$this->Parent()->GroupID."'", 
+				null, 
+				"INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" 
+			);
+		}
+
 		// If this Newsletter has no subscribers, $subscribers will be null
 		if ($subscribers != null) {
 			$subscribers_array = $subscribers->toNestedArray();

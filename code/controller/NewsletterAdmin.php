@@ -16,12 +16,13 @@ class NewsletterAdmin extends ModelAdmin {
 		"MailingList",
 	);
 
-	// We keep the legacy code below there for developing purposes, it might be helpful for us to copy / paste. we should clean it up before 1.0.1 release.
+	// We keep the legacy code below there for developing purposes, 
+	// it might be helpful for us to copy / paste. we should clean it up before 1.0.1 release.
 
 	/** 
 	 * @var which will be used to seperator "send items" into 2 groups, e.g. "most recent number 5", "older". 
 	 */
-	static $most_recent_seperator = 5; // an int which will be used to seperator "send items" into 2 groups, e.g. "most recent number 5", "older".
+	static $most_recent_seperator = 5;
 	
 	/** 
 	 * @var array Array of template paths to check 
@@ -170,7 +171,11 @@ class NewsletterAdmin extends ModelAdmin {
 	public function preview($request) {
 		$newsletterID = (int) $request->param('ID');
 		$newsletter = DataObject::get_by_id('Newsletter', $newsletterID);
-		$templateName = ($newsletter && ($newsletter->Parent()->Template)) ? $newsletter->Parent()->Template : 'GenericEmail';
+		if($newsletter && ($newsletter->Parent()->Template)) {
+			$templateName = $newsletter->Parent()->Template;
+		} else {
+			$templateName = 'GenericEmail';
+		}
 
 		// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
 		Requirements::clear();
@@ -261,12 +266,19 @@ class NewsletterAdmin extends ModelAdmin {
 		// Include JavaScript to ensure HtmlEditorField works.
 		HtmlEditorField::include_js();
 		
-    	if((isset($_REQUEST['ID']) && isset($_REQUEST['Type']) && $_REQUEST['Type'] == 'Newsletter') || isset($_REQUEST['action_savenewsletter'])) {
+    	if(
+    		(isset($_REQUEST['ID']) && isset($_REQUEST['Type']) 
+    		&& $_REQUEST['Type'] == 'Newsletter') 
+    		|| isset($_REQUEST['action_savenewsletter'])
+    	) {
     		$form = $this->NewsletterEditForm();
     	} else {
 
 			// If a mailing list member is being added to a group, then call the Recipient form
-			if((isset($_REQUEST['fieldName']) && 'Recipients' == $_REQUEST['fieldName']) || (!empty($_REQUEST['MemberSearch']))) {
+			if(
+				(isset($_REQUEST['fieldName']) && 'Recipients' == $_REQUEST['fieldName']) 
+				|| (!empty($_REQUEST['MemberSearch']))
+			) {
 				$form = $this->MailingListEditForm();
 			} else {
 				$form = $this->TypeEditForm();
@@ -362,12 +374,16 @@ class NewsletterAdmin extends ModelAdmin {
 							)
 					),
 					new Tab(_t('NewsletterAdmin.IMPORT', 'Import'),
-						$importField = new RecipientImportField("ImportFile",_t('NewsletterAdmin.IMPORTFROM', 'Import from file'), $group )
+						$importField = new RecipientImportField(
+						"ImportFile",
+						_t('NewsletterAdmin.IMPORTFROM', 'Import from file'), $group )
 					),
 					new Tab(_t('NewsletterAdmin.UNSUBSCRIBERS', 'Unsubscribers'),
 					$unsubscribedList = new UnsubscribedList("Unsubscribed", $mailType)
 					),
-					new Tab(_t('NewsletterAdmin.BOUNCED','Bounced'), $bouncedList = new BouncedList("Bounced", $mailType )
+					new Tab(
+						_t('NewsletterAdmin.BOUNCED','Bounced'), $bouncedList = new BouncedList("Bounced", $mailType 
+					)
 					)
 				)
 			);
@@ -425,14 +441,25 @@ class NewsletterAdmin extends ModelAdmin {
 					// Remove the member from the mailing list
 					$memberObject->Groups()->remove($groupID);
 				} else {
-					user_error("NewsletterAdmin::removebouncedmember: Bad parameters: Group=$groupID, Member=".$bounceObject->MemberID, E_USER_ERROR);
+					user_error(
+						"NewsletterAdmin::removebouncedmember: "
+						. "Bad parameters: Group=$groupID, Member=".$bounceObject->MemberID, 
+						E_USER_ERROR
+					);
 				}
-				FormResponse::status_message($memberObject->Email.' '._t('NewsletterAdmin.REMOVEDSUCCESS', 'was removed from the mailing list'), 'good');
+				FormResponse::status_message(
+					$memberObject->Email.' '._t('NewsletterAdmin.REMOVEDSUCCESS', 'was removed from the mailing list'), 
+					'good'
+				);
 				FormResponse::add("$('Form_EditForm').getPageFromServer($('Form_EditForm_ID').value, 'recipients');");
 				return FormResponse::respond();
 			}
 		} else {
-			user_error("NewsletterAdmin::removebouncedmember: Bad parameters: Group=$groupID, Member=".$bounceObject->MemberID, E_USER_ERROR);
+			user_error(
+				"NewsletterAdmin::removebouncedmember: "
+					. "Bad parameters: Group=$groupID, Member=".$bounceObject->MemberID, 
+				E_USER_ERROR
+			);
 		}
 	}
 
@@ -455,10 +482,15 @@ class NewsletterAdmin extends ModelAdmin {
 	 * due to the TemplateList is also used only once and not necessarily be there, we will make this function
 	 * deprecated, meanwhile TemplateList.php will be removed.
 	 *
-	 * @deprecated 2.4 Please use NewsletterAdmin::template_paths() and NewsletterAdmin::templateSource(). @see NewsletterType::getCMSFields();
+	 * @deprecated 2.4 Please use NewsletterAdmin::template_paths() 
+	 * and NewsletterAdmin::templateSource(). @see NewsletterType::getCMSFields();
 	 *
 	public static function template_path() {
-		user_error("NewsletterAdmin::template_path() is deprecated; use NewsletterAdmin::template_paths() and NewsletterAdmin::templateSource()", E_USER_NOTICE);
+		user_error(
+			"NewsletterAdmin::template_path() is deprecated; use NewsletterAdmin::template_paths() " 
+			. "and NewsletterAdmin::templateSource()", 
+			E_USER_NOTICE
+		);
 		if(self::$template_path) return self::$template_path;
 		else return self::$template_path = project() . '/templates/email';
 	}
@@ -612,9 +644,13 @@ class NewsletterAdmin extends ModelAdmin {
 					$e->setTemplate( $nlType->Template );
 
 					self::sendToAddress( $e, $_REQUEST['TestEmail'], $messageID );
-					FormResponse::status_message(_t('NewsletterAdmin.SENTTESTTO','Sent test to ') . $_REQUEST['TestEmail'],'good');
+					FormResponse::status_message(_t('NewsletterAdmin.SENTTESTTO','Sent test to ') 
+						. $_REQUEST['TestEmail'],'good');
 				} else {
-					FormResponse::status_message(_t('NewsletterAdmin.PLEASEENTERMAIL','Please enter an email address'),'bad');
+					FormResponse::status_message(
+						_t('NewsletterAdmin.PLEASEENTERMAIL',
+						'Please enter an email address'),'bad'
+					);
 				}
 			    break;
 			case "List":
@@ -622,9 +658,15 @@ class NewsletterAdmin extends ModelAdmin {
 				$groupID = $nlType->GroupID;
 				
 				if(defined('DB::USE_ANSI_SQL')) {
-					$members = DataObject::get( 'Member', "\"GroupID\"='$groupID'", null, "INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" );
+					$members = DataObject::get(
+						'Member', "\"GroupID\"='$groupID'", null, 
+						"INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" 
+					);
 				} else {
-					$members = DataObject::get( 'Member', "`GroupID`='$groupID'", null, "INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" );
+					$members = DataObject::get(
+						'Member', "`GroupID`='$groupID'", null, 
+						"INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" 
+					);
 				}
 				
 				echo self::sendToList($subject, $from, $newsletter, $nlType, $messageID, $members);
@@ -633,7 +675,9 @@ class NewsletterAdmin extends ModelAdmin {
 				// Send to only those who have not already been sent this newsletter.
 				$only_to_unsent = 1;
       		
-				echo self::sendToList( $subject, $from, $newsletter, $nlType, $messageID, $newsletter->UnsentSubscribers());
+				echo self::sendToList( 
+					$subject, $from, $newsletter, $nlType, $messageID, $newsletter->UnsentSubscribers()
+				);
 				break;
 		}
 
@@ -647,7 +691,9 @@ class NewsletterAdmin extends ModelAdmin {
     }
 
 	static function sendToList($subject, $from, $newsletter, $nlType, $messageID = null, $recipients) {
-		$emailProcess = new NewsletterEmailProcess($subject, $from, $newsletter, $nlType, $messageID, $recipients);
+		$emailProcess = new NewsletterEmailProcess(
+			$subject, $from, $newsletter, $nlType, $messageID, $recipients
+		);
 		
 		return $emailProcess->start();
 	}
@@ -722,7 +768,8 @@ class NewsletterAdmin extends ModelAdmin {
 	}
 
 	/*
-	 * Saves the settings on the 'Bounced' tab of the 'Mailing List' allowing members to be added to NewsletterEmailBlacklist
+	 * Saves the settings on the 'Bounced' tab of the 'Mailing List' 
+	 * allowing members to be added to NewsletterEmailBlacklist
 	 *
 	 *
 	public function memberblacklisttoggle($urlParams) {
@@ -732,11 +779,15 @@ class NewsletterAdmin extends ModelAdmin {
 		// If the email is currently not blocked, block it
 		if (FALSE == $memberObject->BlacklistedEmail) {
 			$memberObject->setBlacklistedEmail(TRUE);
-			FormResponse::status_message($memberObject->Email.' '._t('NewsletterAdmin.ADDEDTOBL', 'was added to blacklist'), 'good');
+			FormResponse::status_message(
+				$memberObject->Email.' '._t('NewsletterAdmin.ADDEDTOBL', 'was added to blacklist'), 'good'
+			);
 		} else {
 			// Unblock the email
 			$memberObject->setBlacklistedEmail(FALSE);
-			FormResponse::status_message($memberObject->Email.' '._t('NewsletterAdmin.REMOVEDFROMBL','was removed from blacklist'), 'good');
+			FormResponse::status_message(
+				$memberObject->Email.' '._t('NewsletterAdmin.REMOVEDFROMBL','was removed from blacklist'), 'good'
+			);
 		}
 		return FormResponse::respond();
 	}
@@ -778,7 +829,9 @@ class NewsletterAdmin extends ModelAdmin {
 				$data .= ",$match->Surname";
 				$data .= ",$match->Email";
 				$data .= ",$match->Password";
-				echo "<li>" . $match->$fieldName . "<span class=\"informal\">($match->FirstName $match->Surname, $match->Email)</span><span class=\"informal data\">$data</li>";
+				echo "<li>" . $match->$fieldName 
+					. "<span class=\"informal\">($match->FirstName $match->Surname, $match->Email)</span>"
+					. "<span class=\"informal data\">$data</li>";
 			}
 			echo "</ul>";
 		}
@@ -930,7 +983,9 @@ JS;
 
 		$id = $this->urlParams['ID'];
 
-		return $this->customise( array( 'ID' => $id, "UploadForm" => $this->UploadForm() ) )->renderWith('Newsletter_RecipientImportField');
+		return $this->customise( 
+			array( 'ID' => $id, "UploadForm" => $this->UploadForm() ) 
+		)->renderWith('Newsletter_RecipientImportField');
 	}
 
 	function UploadForm( $id = null ) {

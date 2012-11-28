@@ -27,7 +27,16 @@ class NewsletterAdmin extends ModelAdmin {
 	/** 
 	 * @var array Array of template paths to check 
 	 */
-	static $template_paths = null; //could be customised in _config 
+	static $template_paths = null; //could be customised in _config
+
+	public function getEditForm($id = null, $fields = null) {
+		$form = parent::getEditForm($id, $fields);
+
+		$form->Fields()->first()->getConfig()
+				->removeComponentsByType('GridFieldDetailForm')
+				->addComponents(new NewsletterGridFieldDetailForm());
+		return $form;
+	}
 
 	/*static $allowed_actions = array(
 		'adddraft',

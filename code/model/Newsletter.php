@@ -46,67 +46,14 @@ class Newsletter extends DataObject {
 		}
 
 		return $fields;
-		/*
-		$group = DataObject::get_by_id("Group", $this->Parent()->GroupID);
-		$sentReport = $this->renderWith("Newsletter_SentStatusReport");
-		$previewLink = Director::absoluteBaseURL() . 'admin/newsletter/preview/' . $this->ID;
-		Requirements::css(SAPPHIRE_DIR . '/css/TableListField.css'); // styles for $sentReport
-		$ret = new FieldSet(
-			new TabSet("Root",
-				$mailTab = new Tab(_t('Newsletter.NEWSLETTER', 'Newsletter'),
-					new TextField("Subject", _t('Newsletter.SUBJECT', 'Subject'), $this->Subject),
-					new HtmlEditorField("Content", _t('Newsletter.CONTENT', 'Content')),
-					new LiteralField(
-						'PreviewNewsletter', 
-						"<p><a href=\"$previewLink\" target=\"_blank\">" 
-							. _t('PREVIEWNEWSLETTER', 'Preview this newsletter') 
-							. "</a></p>"
-					)
-				),
-				$sentToTab = new Tab(_t('Newsletter.SENTREPORT', 'Sent Status Report'),
-					new LiteralField("SentStatusReport", $sentReport)
-				),
-				$tracked = new Tab('TrackedLinks', $trackedTable = new TableListField(
-					'TrackedLinks',
-					'Newsletter_TrackedLink',
-					array(
-						'Original' => 'Link',
-						'Visits'   => 'Visits'
-					),
-					'"NewsletterID" = ' . $this->ID,
-					'"Visits" DESC'
-				))
-			)
-		);
-
-		$tracked->setTitle(_t('Newsletter.TRACKEDLINKS', 'Tracked Links'));
-		$trackedTable->setPermissions(array('show'));
-
-		if($this->Status != 'Draft') {
-			$mailTab->push( new ReadonlyField("SentDate", _t('Newsletter.SENTAT', 'Sent at'), $this->SentDate) );
-		}
-		
-		$this->extend("updateCMSFields", $ret);
-		return $ret;*/
 	}
 
 	/**
-	 * @return FieldSet
+	 * @return FieldGroup
 	 */
-	public function getCMSActions() {
-		$actions = new FieldSet();
 
-		if ($this->SentDate) {
-			$actions->push(new FormAction('send', _t('Newsletter.RESEND', 'Resend')));
-		} else {
-			$actions->push(new FormAction('send', _t('Newsletter.SEND','Send...')));
-		}
 
-		$actions->push(new FormAction('save',_t('Newsletter.SAVE', 'Save')));
 
-		$this->extend('updateCMSActions', $actions);
-		return $actions;
-	}
 
 	/**
 	 * Returns a DataObject listing the recipients for the given status for this newsletter

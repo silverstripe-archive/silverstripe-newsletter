@@ -1,7 +1,6 @@
 <?php
-
-Class UnsubscribeTest extends SapphireTest{
-	static $fixture_file = 'newsletter/tests/UnsubscribeTest.yml';
+class UnsubscribeTest extends SapphireTest{
+	static $fixture_file = 'newsletter/tests/unit/UnsubscribeTest.yml';
 	static $page;
 	
 	function SetUp(){
@@ -71,4 +70,3 @@ Class UnsubscribeTest extends SapphireTest{
 	}
 	
 }
-?>

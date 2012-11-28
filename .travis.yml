@@ -13,4 +13,3 @@ before_script:
 
 script: 
  - phpunit newsletter/tests/
- - phpcs --encoding=utf-8 --tab-width=4 --standard=newsletter/tests/phpcs -np newsletter

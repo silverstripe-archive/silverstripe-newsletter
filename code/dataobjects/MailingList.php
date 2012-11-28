@@ -24,4 +24,24 @@ class MailingList extends DataObject {
 			'UnsubscribeCounts'	=> "Int", // if 0, this recipient has naver unsubscribe from this mailing list.
 		)
 	);
+
+	function getCMSFields() {
+		$fields = new FieldList();
+		$fields->push(new TabSet("Root", $mainTab = new Tab("Main")));
+		$mainTab->setTitle(_t('SiteTree.TABMAIN', "Main"));
+
+		$fields->addFieldToTab('Root.Main',new TextField('Title',_t('NewsletterAdmin.MailingListTitle','Mailing List Title')));
+		$fields->addFieldToTab('Root.Main',new CheckboxField('Disabled',_t('NewsletterAdmin.Disabled','Disabled')));
+
+		$recipientsGrid = GridField::create(
+			'Recipients2',
+			_t('NewsletterAdmin.Recipients', 'Mailing list recipients'),
+			$this->Recipients(),
+			GridFieldConfig_RelationEditor::create()
+		);
+
+		$fields->addFieldToTab('Root.Main',new FieldGroup($recipientsGrid));
+
+		return $fields;
+	}
 }

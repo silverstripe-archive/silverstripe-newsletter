@@ -99,6 +99,8 @@ class Recipient extends DataObject {
 		return $fields;
 	}
 
+	/** Returns the title of this Recipient for the MailingList auto-complete add field. The title includes the
+	 * email address, so that users with the same name can be distinguished. */
 	public function getTitle() {
 		$f = '';
 		if (!empty($this->FirstName)) $f = "$this->FirstName ";

@@ -50,7 +50,7 @@ class Recipient extends DataObject {
 		'Blacklisted',
 		'MailingLists.Title'=> 'Mailing List',
 	);
-	
+
 	static $summary_fields = array(
 		'FirstName'			=> 'First Name',
 		'MiddleName'		=> 'Middle Name',
@@ -97,5 +97,17 @@ class Recipient extends DataObject {
 		$fields->removeByName("LanguagePreferred");
 
 		return $fields;
+	}
+
+	public function getTitle() {
+		$f = '';
+		if (!empty($this->FirstName)) $f = "$this->FirstName ";
+		$m = '';
+		if (!empty($this->MiddleName)) $m = "$this->MiddleName ";
+		$s = '';
+		if (!empty($this->Surname)) $s = "$this->Surname ";
+		$e = '';
+		if (!empty($this->Email)) $e = "($this->Email)";
+		return $f.$m.$s.$e;
 	}
 }

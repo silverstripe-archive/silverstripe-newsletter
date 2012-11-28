@@ -33,12 +33,33 @@ class MailingList extends DataObject {
 		$fields->addFieldToTab('Root.Main',new TextField('Title',_t('NewsletterAdmin.MailingListTitle','Mailing List Title')));
 		$fields->addFieldToTab('Root.Main',new CheckboxField('Disabled',_t('NewsletterAdmin.Disabled','Disabled')));
 
+		$gridFieldConfig = GridFieldConfig::create()->addComponents(
+			new GridFieldToolbarHeader(),
+			new GridFieldSortableHeader(),
+			new GridFieldDataColumns(),
+			new GridFieldFilterHeader(),
+			new GridFieldDeleteAction(),
+			new GridFieldPageCount(),
+			new GridFieldPaginator(30),
+			new GridFieldEditButton(),
+			new GridFieldAddNewButton(),
+			new GridFieldDetailForm(),
+			new GridFieldAddExistingAutocompleter('before',	array(
+					'FirstName',
+					'MiddleName',
+					'Surname',
+					'Email',
+				)
+			)
+		);
+
 		$recipientsGrid = GridField::create(
 			'Recipients2',
 			_t('NewsletterAdmin.Recipients', 'Mailing list recipients'),
 			$this->Recipients(),
-			GridFieldConfig_RelationEditor::create()
+			$gridFieldConfig
 		);
+
 
 		$fields->addFieldToTab('Root.Main',new FieldGroup($recipientsGrid));
 

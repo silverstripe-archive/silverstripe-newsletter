@@ -32,7 +32,8 @@ class NewsletterSendController extends Controller {
 		if (class_exists('MessageQueue')) {
 			if (!empty($newsletter) && !empty($newsletter->ID)) {
 				//start processing of email sending for this newsletter ID after shutdown
-				MessageQueue::send("newsletter", new MethodInvocationMessage(get_class(), "processQueue", $newsletter->ID));
+				MessageQueue::send("newsletter",
+					new MethodInvocationMessage(get_class(), "processQueue", $newsletter->ID));
 			}
 
 			MessageQueue::consume_on_shutdown();

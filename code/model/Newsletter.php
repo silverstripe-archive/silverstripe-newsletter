@@ -64,7 +64,8 @@ class Newsletter extends DataObject {
 	 */
 	/*function SendRecipientQueue($result) {
 		$SQL_result = Convert::raw2sql($result);
-		return DataObject::get("SendRecipientQueue",array("\"ParentID\"='".$this->ID."'", "\"Result\"='".$SQL_result."'"));
+		return DataObject::get("SendRecipientQueue",array("\"ParentID\"='".$this->ID."'",
+		"\"Result\"='".$SQL_result."'"));
 	}*/
 
 	/**

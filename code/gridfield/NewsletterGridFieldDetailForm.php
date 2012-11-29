@@ -21,15 +21,17 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 
 		//Save as template button
 		if(!$this->record->AsTemplate){
-			$templatingButton = FormAction::create('doSaveAsTemplete', _t('Newsletter.SAVEASTEMPLATE', "Save as template"));
+			$templatingButton = FormAction::create('doSaveAsTemplete', _t('Newsletter.SAVEASTEMPLATE',
+				"Save as template"));
 			$actions->push($templatingButton->setAttribute('data-icon', 'addpage'));
 		}else{
-			$templatingButton = FormAction::create('doSaveAsNotTemplete', _t('Newsletter.NOTBEINGTEMPLATE', "Not being template"));
+			$templatingButton = FormAction::create('doSaveAsNotTemplete', _t('Newsletter.NOTBEINGTEMPLATE',
+				"Not being template"));
 			$actions->push($templatingButton->setAttribute('data-icon', 'addpage'));
 		}
 
 		// send button
-		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js'); //styles for $sentReport
+		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js');
 		if ($this->record->SentDate) {
 			$sendButton = FormAction::create('doSend', _t('Newsletter.RESEND', 'Save as new & Resend'));
 		} else {

@@ -44,9 +44,11 @@ class NewsletterEmailProcess extends BatchProcess {
 
 	        //TODO both UnsubscribeRecord and NewsletterType are deprecated, need to work out under the new data module
 			if(defined('DB::USE_ANSI_SQL')) {
-				//$unsubscribeRecord = DataObject::get_one('UnsubscribeRecord', "\"MemberID\"='{$member->ID}' AND \"NewsletterTypeID\"='{$this->nlType->ID}'");
+				//$unsubscribeRecord = DataObject::get_one('UnsubscribeRecord',
+				// "\"MemberID\"='{$member->ID}' AND \"NewsletterTypeID\"='{$this->nlType->ID}'");
 			} else {
-	        	//$unsubscribeRecord = DataObject::get_one('UnsubscribeRecord', "`MemberID`='{$member->ID}' AND `NewsletterTypeID`='{$this->nlType->ID}'");
+	        	//$unsubscribeRecord = DataObject::get_one('UnsubscribeRecord',
+	        	//"`MemberID`='{$member->ID}' AND `NewsletterTypeID`='{$this->nlType->ID}'");
 			}
 
 	        if( !$unsubscribeRecord ) {

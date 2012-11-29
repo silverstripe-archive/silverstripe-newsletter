@@ -34,11 +34,15 @@ class NewsletterAdmin extends ModelAdmin {
 
 		//custom handling of the newsletter modeladmin with a specialized action menu for the detail form
 		if ($this->modelClass == "Newsletter") {
-			$form->Fields()->first()->getConfig()
-					->removeComponentsByType('GridFieldDetailForm')
-					->addComponents(new NewsletterGridFieldDetailForm());
+			$config = $form->Fields()->first()->getConfig();
+			$config->removeComponentsByType('GridFieldDetailForm')
+				->addComponents(new NewsletterGridFieldDetailForm());
+			$config->getComponentByType('GridFieldDataColumns')
+				->setFieldCasting(array(
+					"AsTemplate" => "Boolean->Nice",
+					"Content" => "HTMLText->LimitSentences",
+				));
 		}
-
 		return $form;
 	}
 

@@ -27,8 +27,28 @@ class Newsletter extends DataObject {
 		"MailingLists" => "MailingList"
 	);
 
+	static $castings = array(
+		"AsTemplate" => "Boolean",
+	);
+
 	static $field_labels = array(
-		"RenderTemplate" => "Template",
+		"SendFrom" => "From Address",
+		"ReplyTo" => "Reply To",
+		"AsTemplate" => "Can be used<br />as a template?",
+		"Content" => "Content summary",
+	);
+
+	static $searchable_fields = array(
+		"Subject",
+	);
+
+	static $summary_fields = array(
+		"Subject",
+		"Content",
+		"SendFrom",
+		"ReplyTo",
+		"AsTemplate",
+		"Status",
 	);
 
 	/**

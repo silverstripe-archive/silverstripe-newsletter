@@ -13,6 +13,8 @@ class Newsletter extends DataObject {
 		"SentDate" => "Datetime",
 		"SendFrom" => "Varchar",
 		"ReplyTo" => "Varchar",
+		"AsTemplate" => "Boolean",
+		"Archived" => "Boolean",
 	);
 
 	static $has_many = array(

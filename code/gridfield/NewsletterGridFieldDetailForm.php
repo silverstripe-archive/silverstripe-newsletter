@@ -21,7 +21,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 
 		//Save as template button
 		$previewButton = FormAction::create('doSaveAsTemplete', _t('Newsletter.SAVEASTEMPLATE', "Save as template"));
-		$actions->push($previewButton->setAttribute('data-icon', 'savepage'));
+		$actions->push($previewButton->setAttribute('data-icon', 'addpage'));
 
 		// send button
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js'); //styles for $sentReport

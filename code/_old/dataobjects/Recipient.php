@@ -21,6 +21,7 @@ class Recipient extends DataObject {
 
 		'ValidateHash'			=> "Varchar(160)", // both subscribe and unsebscribe process need to valid this hash for security
 		'ValidateHashExpired'	=> "SS_Datetime",
+		'Archived'				=> "Boolean",
 	);
 
 	// a newsletter recipient could belong to many mailing lists.

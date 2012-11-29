@@ -30,6 +30,7 @@ class Newsletter extends DataObject {
 	static $field_labels = array(
 		"RenderTemplate" => "Template",
 	);
+
 	/**
 	 * Returns a FieldSet with which to create the CMS editing form.
 	 * You can use the extend() method of FieldSet to create customised forms for your other
@@ -158,48 +159,40 @@ class Newsletter extends DataObject {
 	 */
 	function UnsentSubscribers() {
 		// Get a list of everyone who has been sent this newsletter
-		$sent_recipients = DataObject::get("SendRecipientQueue","\"NewsletterID\"='".$this->ID."'");
-		// If this Newsletter has not been sent to anyone yet, $sent_recipients will be null
-		if ($sent_recipients != null) {
-			$sent_recipients_array = $sent_recipients->toNestedArray('MemberID');
+		$sentRecipients = DataObject::get("SendRecipientQueue","\"NewsletterID\"='".$this->ID."'");
+
+		// If this Newsletter has not been sent to anyone yet, $sentRecipients will be null
+		if ($sentRecipients != null) {
+			$sentRecipientsArray = $sentRecipients->toNestedArray('MemberID');
 		} else {
-			$sent_recipients_array = array();
+			$sentRecipientsArray = array();
 		}
 
 		// Get a list of all the subscribers to this newsletter
-		if(defined('DB::USE_ANSI_SQL')) {
-			$subscribers = DataObject::get(
-				'Member', 
-				"\"GroupID\"='".$this->Newsletter()->GroupID."'",
-				null, 
-				"INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" 
-			);
-		} else {
-			$subscribers = DataObject::get(
-				'Member', 
-				"`GroupID`='".$this->Newsletter()->GroupID."'",
-				null, 
-				"INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" 
-			);
-		}
+		$subscribers = DataObject::get(
+			'Member', 
+			"\"GroupID\"='".$this->Newsletter()->GroupID."'",
+			null, 
+			"INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" 
+		);
 
 		// If this Newsletter has no subscribers, $subscribers will be null
 		if ($subscribers != null) {
-			$subscribers_array = $subscribers->toNestedArray();
+			$subscribersArray = $subscribers->toNestedArray();
 		} else {
-			$subscribers_array = array();
+			$subscribersArray = array();
 		}
 
 		// Get list of subscribers who have not been sent this newsletter:
-		$unsent_subscribers_array = array_diff_key($subscribers_array, $sent_recipients_array);
+		$unsentSubscribersArray = array_diff_key($subscribersArray, $sentRecipientsArray);
 
 		// Create new data object set containing the subscribers who have not been sent this newsletter:
-		$unsent_subscribers = new DataObjectSet();
-		foreach($unsent_subscribers_array as $key => $data) {
-			$unsent_subscribers->push(new ArrayData($data));
+		$unsentSubscribers = new DataObjectSet();
+		foreach($unsentSubscribersArray as $key => $data) {
+			$unsentSubscribers->push(new ArrayData($data));
 		}
 
-		return $unsent_subscribers;
+		return $unsentSubscribers;
 	}
 
 	function getTitle() {
@@ -240,7 +233,7 @@ class Newsletter extends DataObject {
 
 
 /**
- * S@deprecated Newsletter_Recipient will be catched simplely by {@link Recipient} Blacklisted flag.
+ * @deprecated Newsletter_Recipient will be catched simplely by {@link Recipient} Blacklisted flag.
  *
  * @package newsletter
  */

@@ -84,7 +84,11 @@ class Newsletter extends DataObject {
 			$mailinglists = DataObject::get("MailingList");
 
 			$fields->addFieldToTab("Root.Main",
-				new CheckboxSetField("MailingLists", "Send To", $mailinglists)
+				new CheckboxSetField(
+					"MailingLists", 
+					_t('Newsletter.SendTo', "Send To", 'Selects a mailinglist from a dropdown'), 
+					$mailinglists
+				)
 			);
 		}
 

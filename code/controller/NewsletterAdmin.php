@@ -32,9 +32,13 @@ class NewsletterAdmin extends ModelAdmin {
 	public function getEditForm($id = null, $fields = null) {
 		$form = parent::getEditForm($id, $fields);
 
-		$form->Fields()->first()->getConfig()
-				->removeComponentsByType('GridFieldDetailForm')
-				->addComponents(new NewsletterGridFieldDetailForm());
+		//custom handling of the newsletter modeladmin with a specialized action menu for the detail form
+		if ($this->modelClass == "Newsletter") {
+			$form->Fields()->first()->getConfig()
+					->removeComponentsByType('GridFieldDetailForm')
+					->addComponents(new NewsletterGridFieldDetailForm());
+		}
+
 		return $form;
 	}
 

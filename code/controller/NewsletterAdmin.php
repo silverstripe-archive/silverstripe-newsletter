@@ -26,8 +26,8 @@ class NewsletterAdmin extends ModelAdmin {
 	
 	/** 
 	 * @var array Array of template paths to check 
-	 */
-	static $template_paths = null; //could be customised in _config
+	 */	
+	static $template_paths = null; //could be customised in _config.php
 
 	public function getEditForm($id = null, $fields = null) {
 		$form = parent::getEditForm($id, $fields);
@@ -42,7 +42,57 @@ class NewsletterAdmin extends ModelAdmin {
 		return $form;
 	}
 
-	/*static $allowed_actions = array(
+	/**
+	 * looked-up the email template_paths. 
+	 * if not set, will look up both theme folder and project folder
+	 * in both cases, email folder exsits or Email folder exists
+	 * return an array containing all folders pointing to the bunch of email templates
+	 *
+	 * @return array
+	 */
+	public static function template_paths() {
+		if(!isset(self::$template_paths)) {
+			if(class_exists('SiteConfig') && ($config = SiteConfig::current_site_config()) && $config->Theme) {
+				$theme = $config->Theme;
+			} elseif(SSViewer::current_custom_theme()) {
+				$theme = SSViewer::current_custom_theme();
+			} else if(SSViewer::current_theme()){
+				$theme = SSViewer::current_theme();
+			} else {
+				$theme = false;
+			}
+
+			if($theme) {
+				if(file_exists("../".THEMES_DIR."/".$theme."/templates/email")){
+					self::$template_paths[] = THEMES_DIR."/".$theme."/templates/email";
+				}
+				
+				if(file_exists("../".THEMES_DIR."/".$theme."/templates/Email")){
+					self::$template_paths[] = THEMES_DIR."/".$theme."/templates/Email";
+				}
+			}
+
+			$project = project();
+			
+			if(file_exists("../". $project . '/templates/email')){
+				self::$template_paths[] = $project . '/templates/email';
+			}
+			
+			if(file_exists("../". $project . '/templates/Email')){
+				self::$template_paths[] = $project . '/templates/Email';
+			}
+		}
+		else {
+			if(is_string(self::$template_paths)) {
+				self::$template_paths = array(self::$template_paths);
+			}
+		}
+		return self::$template_paths;
+	}
+
+	/*
+
+	static $allowed_actions = array(
 		'adddraft',
 		'addgroup',
 		'addtype',
@@ -176,27 +226,7 @@ class NewsletterAdmin extends ModelAdmin {
 		return $this->showWithEditForm( $params, $this->getNewsletterEditForm( $params['ID'] ) );
 	}
 
-	/**
-	 * Preview a {@link Newsletter} draft.
-	 *
-	 * @param SS_HTTPRequest $request Request parameters
-	 *
-	public function preview($request) {
-		$newsletterID = (int) $request->param('ID');
-		$newsletter = DataObject::get_by_id('Newsletter', $newsletterID);
-		if($newsletter && ($newsletter->Newsletter()->Template)) {
-			$templateName = $newsletter->Newsletter()->Template;
-		} else {
-			$templateName = 'GenericEmail';
-		}
 
-		// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
-		Requirements::clear();
-
-		$email = new NewsletterEmail($newsletter); 
-		
-		return HTTP::absoluteURLs($email->getData()->renderWith($templateName));
-	}
 
 	/**
 	 * Top level call from ajax
@@ -506,41 +536,6 @@ class NewsletterAdmin extends ModelAdmin {
 		);
 		if(self::$template_path) return self::$template_path;
 		else return self::$template_path = project() . '/templates/email';
-	}
-	
-	/**
-	 * looked-up the email template_paths. 
-	 * if not set, will look up both theme folder and project folder
-	 * in both cases, email folder exsits or Email folder exists
-	 * return an array containing all folders pointing to the bunch of email templates
-	 *
-	 * @return array
-	 *
-	public static function template_paths() {
-		if(!isset(self::$template_paths)) {
-			if(file_exists("../".THEMES_DIR."/".SSViewer::current_theme()."/templates/email")){
-				self::$template_paths[] = THEMES_DIR."/".SSViewer::current_theme()."/templates/email";
-			}
-			
-			if(file_exists("../".THEMES_DIR."/".SSViewer::current_theme()."/templates/Email")){
-				self::$template_paths[] = THEMES_DIR."/".SSViewer::current_theme()."/templates/Email";
-			}
-			
-			if(file_exists("../".project() . '/templates/email')){
-				self::$template_paths[] = project() . '/templates/email';
-			}
-			
-			if(file_exists("../".project() . '/templates/Email')){
-				self::$template_paths[] = project() . '/templates/Email';
-			}
-		}
-		else {
-			if(is_string(self::$template_paths)) {
-				self::$template_paths = array(self::$template_paths);
-			}
-		}
-		
-		return self::$template_paths;
 	}
 	
 	/**
@@ -999,6 +994,28 @@ JS;
 		return $this->customise( 
 			array( 'ID' => $id, "UploadForm" => $this->UploadForm() ) 
 		)->renderWith('Newsletter_RecipientImportField');
+	}
+
+		/**
+	 * Preview a {@link Newsletter} draft.
+	 *
+	 * @param SS_HTTPRequest $request Request parameters
+	 *
+	public function preview($request) {
+		$newsletterID = (int) $request->param('ID');
+		$newsletter = DataObject::get_by_id('Newsletter', $newsletterID);
+		if($newsletter && ($newsletter->Newsletter()->Template)) {
+			$templateName = $newsletter->Newsletter()->Template;
+		} else {
+			$templateName = 'GenericEmail';
+		}
+
+		// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
+		Requirements::clear();
+
+		$email = new NewsletterEmail($newsletter); 
+		
+		return HTTP::absoluteURLs($email->getData()->renderWith($templateName));
 	}
 
 	function UploadForm( $id = null ) {

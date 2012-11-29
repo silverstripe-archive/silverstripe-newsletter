@@ -15,6 +15,7 @@ class Newsletter extends DataObject {
 		"ReplyTo" => "Varchar(255)",
 		"AsTemplate" => "Boolean",
 		"Archived" => "Boolean",
+		"RenderTemplate" => "Varchar",
 	);
 
 	static $has_many = array(
@@ -24,6 +25,10 @@ class Newsletter extends DataObject {
 
 	static $many_many = array(
 		"MailingLists" => "MailingList"
+	);
+
+	static $field_labels = array(
+		"RenderTemplate" => "Template",
 	);
 	/**
 	 * Returns a FieldSet with which to create the CMS editing form.
@@ -37,6 +42,42 @@ class Newsletter extends DataObject {
 		$fields = parent::getCMSFields();
 		$fields->removeByName("Status");
 		$fields->removeByName("SentDate");
+		$fields->removeByName("AsTemplate");
+		$fields->removeByName("Archived");
+
+		$explanationTitle = _t("Newletter.TemplateExplanationTitle",
+			"Select a styled template (.ss template) that this newsletter renders with"
+		);
+
+		$fields->insertBefore(LiteralField::create("TemplateExplanationTitle", "<h5>$explanationTitle</h5>"), 
+			"RenderTemplate"
+		);
+
+		if(!$this->ID) {
+			$explanation1 = _t("Newletter.TemplateExplanation1", 
+				"You should make your own styled SilverStripe templates	make sure your templates have a
+				\$Body coded so the newletter's content could be clearly located in your templates
+				");
+			$explanation2 = _t("Newletter.TemplateExplanation2", 
+				"Make sure your newsletter templates could be looked up in the dropdown list bellow by
+				either placing them under your theme directory,	e.g. themes/mytheme/templates/email/
+				");
+			$explanation3 = _t("Newletter.TemplateExplanation3", 
+				"or under your project directory e.g. mysite/templates/email/
+				");
+			$fields->insertBefore(LiteralField::create("TemplateExplanation1", "<p class='help'>$explanation1</p>"), 
+				"RenderTemplate"
+			);
+			$fields->insertBefore(LiteralField::create("TemplateExplanation2", "<p class='help'>$explanation2
+				<br />$explanation3</p>"), 
+				"RenderTemplate"
+			);
+		}
+
+		$templateSource = $this->templateSource();
+		$fields->replaceField("RenderTemplate", 
+			new DropdownField("RenderTemplate", _t('NewsletterAdmin.TEMPLATE','Template'), 
+			$templateSource));
 
 		if($this && $this->exists()){
 			$fields->removeByName("MailingLists");
@@ -51,12 +92,48 @@ class Newsletter extends DataObject {
 	}
 
 	/**
-	 * @return FieldGroup
+	 * return array containing all possible email templates file name 
+	 * under the folders of both theme and project specific folder.
+	 *
+	 * @return array
 	 */
+	public function templateSource(){
+		$paths = NewsletterAdmin::template_paths();
+
+		$templates = array( 
+			"SimpleNewsletterTemplate" => _t('TemplateList.SimpleNewsletterTemplate', 'Simple Newsletter Template')
+		);
+
+		if(isset($paths) && is_array($paths)){
+			$absPath = Director::baseFolder();
+			if( $absPath{strlen($absPath)-1} != "/" )
+				$absPath .= "/";
+
+			foreach($paths as $path){
+				$path = $absPath.$path;
 
 
+				if(is_dir($path)) {
+					$templateDir = opendir( $path );
 
 
+					// read all files in the directory
+					while(($templateFile = readdir($templateDir)) !== false) {
+						// *.ss files are templates
+						if( preg_match( '/(.*)\.ss$/', $templateFile, $match )){
+							// only grab those haveing $Body coded
+							if(strpos("\$Body", file_get_contents($path."/".$templateFile)) === false){
+								$templates[$match[1]] = preg_replace('/_?([A-Z])/', " $1", $match[1]);
+							}
+
+						}
+					}
+				}
+			}
+		}
+		return $templates;
+	}
+		
 	/**
 	 * Returns a DataObject listing the recipients for the given status for this newsletter
 	 *

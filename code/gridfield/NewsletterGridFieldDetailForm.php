@@ -20,8 +20,13 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 			->setAttribute('data-icon', 'addpage');
 
 		//Save as template button
-		$previewButton = FormAction::create('doSaveAsTemplete', _t('Newsletter.SAVEASTEMPLATE', "Save as template"));
-		$actions->push($previewButton->setAttribute('data-icon', 'addpage'));
+		if(!$this->record->AsTemplate){
+			$templatingButton = FormAction::create('doSaveAsTemplete', _t('Newsletter.SAVEASTEMPLATE', "Save as template"));
+			$actions->push($templatingButton->setAttribute('data-icon', 'addpage'));
+		}else{
+			$templatingButton = FormAction::create('doSaveAsNotTemplete', _t('Newsletter.NOTBEINGTEMPLATE', "Not being template"));
+			$actions->push($templatingButton->setAttribute('data-icon', 'addpage'));
+		}
 
 		// send button
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js'); //styles for $sentReport
@@ -109,11 +114,18 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		}
 	}
 
-	public function doPreview(){
+	public function preview($data, $form){
 		// TODO preview function
+		debug::show($data);
 	}
 
-	public function doSaveAsTemplete(){
-		// TODO Save AS Template function
+	public function doSaveAsTemplete($data, $form){
+		$this->record->AsTemplate = true;
+		return $this->doSave($data, $form);
+	}
+
+	public function doSaveAsNotTemplete($data, $form){
+		$this->record->AsTemplate = false;
+		return $this->doSave($data, $form);
 	}
 }

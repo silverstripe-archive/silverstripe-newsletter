@@ -10,7 +10,7 @@ class MailingList extends DataObject {
 	/* the database fields */
 	static $db = array(
 		'Title'					=> "Varchar",
-		'Disabled'				=> "Boolean",
+		'Disabled'				=> "Boolean",   //hide this mailing list from showing up in the Newsletter detail form
 	);
 
 	/* a mailing list could contains many newsletter recipients */

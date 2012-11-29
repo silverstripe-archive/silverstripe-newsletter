@@ -5,35 +5,57 @@
  * giving special buttons for sending out the newsletter
  */
 class NewsletterGridFieldDetailForm extends GridFieldDetailForm {
-
-
 }
 
 class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRequest {
 
-	public function addCMSActions($actions) {
+	public function updateCMSActions($actions) {
+		// remove delete button
+		$actions->removeByName("action_doDelete");
+
+		// save draft button
+		$saveButton = $actions->fieldByName("action_doSave")
+			->setTitle(_t('Newsletter.SAVEDRAFT', "Save draft"))
+			->removeExtraClass('ss-ui-action-constructive')
+			->setAttribute('data-icon', 'addpage');
+
+		//Save as template button
+		$previewButton = FormAction::create('doSaveAsTemplete', _t('Newsletter.SAVEASTEMPLATE', "Save as template"));
+		$actions->push($previewButton->setAttribute('data-icon', 'savepage'));
+
+		// send button 
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js'); //styles for $sentReport
 //		if ($this->SentDate) {
-//			$action = FormAction::create('doSend', _t('Newsletter.RESEND', 'Resend'));
+//			$sendButton = FormAction::create('doSend', _t('Newsletter.RESEND', 'Resend'));
 //		} else {
-			$action = FormAction::create('doSend', _t('Newsletter.SaveAndSend','Save & Send...'));
+			$sendButton = FormAction::create('doSend', _t('Newsletter.SaveAndSend','Save & Send...'));
 //		}
 
-		$actions->push($action
+		$actions->insertBefore($sendButton
 				->addExtraClass('ss-ui-action-constructive')
 				->setAttribute('data-icon', 'accept')
-				->setUseButtonTag(true));
+				->setUseButtonTag(true), 'action_doSave');
+
 		return $actions;
 	}
 
 	public function ItemEditForm(){
 		$form = parent::ItemEditForm();
-		$form->setActions($this->addCMSActions($form->Actions()));
+		// Do these action update only when the current record is_a newsletter
+		if($this->record && $this->record instanceof Newsletter) {
+			$form->setActions($this->updateCMSActions($form->Actions()));
+		}
 		return $form;
 	}
-
-	public function doSave($data, $form){
-		return parent::doSave($data, $form);
+	/**
+	 * @return string
+	 */
+	public function LinkPreview() {
+		if($this->record && $this->record instanceof Newsletter) {
+			return $this->Link()."/preview";
+		}else{
+			return false;
+		}
 	}
 
 	public function doSend($data, $form){
@@ -84,7 +106,11 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		}
 	}
 
+	public function doPreview(){
+		// TODO preview function
+	}
 
-
-
+	public function doSaveAsTemplete(){
+		// TODO Save AS Template function
+	}
 }

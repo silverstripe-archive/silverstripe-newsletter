@@ -180,8 +180,8 @@ class NewsletterAdmin extends ModelAdmin {
 	public function preview($request) {
 		$newsletterID = (int) $request->param('ID');
 		$newsletter = DataObject::get_by_id('Newsletter', $newsletterID);
-		if($newsletter && ($newsletter->Parent()->Template)) {
-			$templateName = $newsletter->Parent()->Template;
+		if($newsletter && ($newsletter->Newsletter()->Template)) {
+			$templateName = $newsletter->Newsletter()->Template;
 		} else {
 			$templateName = 'GenericEmail';
 		}
@@ -589,8 +589,8 @@ class NewsletterAdmin extends ModelAdmin {
 
 			$fields->push($idField = new HiddenField("ID"));
 			$idField->setValue($myId);
-			$fields->push($ParentidField = new HiddenField("ParentID"));
-			$ParentidField->setValue($email->ParentID);
+			$fields->push($ParentidField = new HiddenField("NewsletterID"));
+			$ParentidField->setValue($email->NewsletterID);
 			$fields->push($typeField = new HiddenField("Type"));
 			$typeField->setValue('Newsletter');
 
@@ -913,7 +913,7 @@ JS;
 	public function adddraft( $params) {
 		$params = $params->allParams();
 
-		$draftID = $this->newDraft( $_REQUEST['ParentID'] );
+		$draftID = $this->newDraft( $_REQUEST['NewsletterID'] );
 		// Needed for shownewsletter() to work
 		$params['ID'] = $draftID;
 		return $this->shownewsletter($params);
@@ -934,10 +934,10 @@ JS;
     }
 
    private function newDraft( $parentID ) {
-		if(!$parentID || !is_numeric( $parentID)) {
+		if(!$NewsletterID || !is_numeric( $NewsletterID)) {
 			$parent = DataObject::get_one("NewsletterType");
 			if ($parent) {
-				$parentID = $parent->ID;
+				$NewsletterID = $parent->ID;
 			} else {
 				// BUGFIX: It could be that no Newsletter types have been created, if so add one to prevent errors.
 				$parentID = $this->newNewsletterType();

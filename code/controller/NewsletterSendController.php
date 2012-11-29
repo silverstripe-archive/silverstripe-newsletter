@@ -6,7 +6,7 @@ class NewsletterSendController extends Controller {
 	 * @static
 	 * @param $id The ID of the Newsletter DataObject to send
 	 */
-	static function send($id) {
+	static function enqueue($id) {
 
 	}
 }

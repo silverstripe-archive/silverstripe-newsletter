@@ -16,7 +16,7 @@ class Newsletter extends DataObject {
 	);
 
 	static $has_many = array(
-		"SentRecipients" => "SentRecipient",
+		"SendRecipientQueue" => "SendRecipientQueue",
 		"TrackedLinks" => "Newsletter_TrackedLink"
 	);
 
@@ -62,9 +62,9 @@ class Newsletter extends DataObject {
 	 * or "Bounced" ({@see $email_bouncehandler}).
 	 * @return DataObjectSet
 	 */
-	/*function SentRecipients($result) {
+	/*function SendRecipientQueue($result) {
 		$SQL_result = Convert::raw2sql($result);
-		return DataObject::get("SentRecipient",array("\"ParentID\"='".$this->ID."'", "\"Result\"='".$SQL_result."'"));
+		return DataObject::get("SendRecipientQueue",array("\"ParentID\"='".$this->ID."'", "\"Result\"='".$SQL_result."'"));
 	}*/
 
 	/**
@@ -74,7 +74,7 @@ class Newsletter extends DataObject {
 	 */
 	function UnsentSubscribers() {
 		// Get a list of everyone who has been sent this newsletter
-		$sent_recipients = DataObject::get("SentRecipient","\"ParentID\"='".$this->ID."'");
+		$sent_recipients = DataObject::get("SendRecipientQueue","\"NewsletterID\"='".$this->ID."'");
 		// If this Newsletter has not been sent to anyone yet, $sent_recipients will be null
 		if ($sent_recipients != null) {
 			$sent_recipients_array = $sent_recipients->toNestedArray('MemberID');
@@ -86,14 +86,14 @@ class Newsletter extends DataObject {
 		if(defined('DB::USE_ANSI_SQL')) {
 			$subscribers = DataObject::get(
 				'Member', 
-				"\"GroupID\"='".$this->Parent()->GroupID."'", 
+				"\"GroupID\"='".$this->Newsletter()->GroupID."'",
 				null, 
 				"INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" 
 			);
 		} else {
 			$subscribers = DataObject::get(
 				'Member', 
-				"`GroupID`='".$this->Parent()->GroupID."'", 
+				"`GroupID`='".$this->Newsletter()->GroupID."'",
 				null, 
 				"INNER JOIN `Group_Members` ON `MemberID`=`Member`.`ID`" 
 			);
@@ -154,24 +154,6 @@ class Newsletter extends DataObject {
 
 }
 
-/**
- * Database record for recipients that have had the newsletter sent to them.
- *
- * @package newsletter
- */
-class SentRecipient extends DataObject {
-	/**
-	 *	Result has 4 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE),
-	 * 	"Bounced" ({@see $email_bouncehandler}), or "BlackListed" (sending to is disabled).
-	 */
-	static $db = array(
-		"Email" => "Varchar(255)",
-		"Result" => "Enum('Scheduled, InProcess, Sent, Failed, Bounced, BlackListed', 'Scheduled')",
-	);
-	static $has_one = array(
-		"Parent" => "Newsletter" 
-	);
-}
 
 /**
  * S@deprecated Newsletter_Recipient will be catched simplely by {@link Recipient} Blacklisted flag.

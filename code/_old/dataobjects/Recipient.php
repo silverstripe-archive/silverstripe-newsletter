@@ -27,6 +27,9 @@ class Recipient extends DataObject {
 	static $belongs_many_many = array(
 		'MailingLists'			=> 'MailingList',
 	);
+	static $has_many = array(
+		'SendRecipientQueue' => 'SendRecipientQueue'
+	);
 
 	static $indexes = array(
 		'Email'					=> true,

@@ -67,12 +67,12 @@ class NewsletterEmailProcess extends BatchProcess {
 					$bounceRecord->write();
 
 					// Log the blacklist for this specific Newsletter
-					$newsletter = new SentRecipient();
+					/*$newsletter = new SendRecipientQueue();
 					$newsletter->Email = $address;
 					$newsletter->MemberID = $member->ID;
 					$newsletter->Result = 'BlackListed';
 					$newsletter->ParentID = $this->newsletter->ID;
-					$newsletter->write();
+					$newsletter->write();*/
 
 				} else {
 					$e = new NewsletterEmail($this->newsletter, $this->nlType);
@@ -104,14 +104,14 @@ class NewsletterEmailProcess extends BatchProcess {
 		$email->setTo( $address );
 		$result = $email->send( $messageID );
 		// Log result of the send
-		$newsletter = new SentRecipient();
+		$newsletter = new SendRecipientQueue();
 		$newsletter->Email = $address;
 		$newsletter->MemberID = $member->ID;
 		
 		// If sending is successful
 		$newsletter->Result = ($result == true) ? 'Sent' : 'Failed'; 
 		
-		$newsletter->ParentID = $this->newsletter->ID;
+		$newsletter->NewsletterID = $this->newsletter->ID;
 		$newsletter->write();
 		// Adding a pause between email sending can be useful for debugging purposes
 		// sleep(10);

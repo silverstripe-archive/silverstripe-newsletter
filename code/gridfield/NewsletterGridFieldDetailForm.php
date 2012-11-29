@@ -23,13 +23,13 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		$previewButton = FormAction::create('doSaveAsTemplete', _t('Newsletter.SAVEASTEMPLATE', "Save as template"));
 		$actions->push($previewButton->setAttribute('data-icon', 'savepage'));
 
-		// send button 
+		// send button
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js'); //styles for $sentReport
-//		if ($this->SentDate) {
-//			$sendButton = FormAction::create('doSend', _t('Newsletter.RESEND', 'Resend'));
-//		} else {
+		if ($this->record->SentDate) {
+			$sendButton = FormAction::create('doSend', _t('Newsletter.RESEND', 'Save as new & Resend'));
+		} else {
 			$sendButton = FormAction::create('doSend', _t('Newsletter.SaveAndSend','Save & Send...'));
-//		}
+		}
 
 		$actions->insertBefore($sendButton
 				->addExtraClass('ss-ui-action-constructive')
@@ -84,7 +84,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		}
 
 		//custom code
-		NewsletterSendController::send($id);
+		NewsletterSendController::enqueue($id);
 		$message = _t('NewsletterAdmin.SendMessage',
 			'Send-out process started successfully. Check the progress in the "Sent Recipients" tab');
 		//end custom code

@@ -7,12 +7,12 @@
 class Newsletter extends DataObject {
 
 	static $db = array(
-		"Status" => "Enum('Draft, Send', 'Draft')",
+		"Status" => "Enum('Draft, Sending, Sent', 'Draft')",
 		"Subject" => "Varchar(255)",
 		"Content" => "HTMLText",
 		"SentDate" => "Datetime",
-		"SendFrom" => "Varchar",
-		"ReplyTo" => "Varchar",
+		"SendFrom" => "Varchar(255)",
+		"ReplyTo" => "Varchar(255)",
 		"AsTemplate" => "Boolean",
 		"Archived" => "Boolean",
 	);

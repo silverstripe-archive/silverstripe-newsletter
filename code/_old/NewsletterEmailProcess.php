@@ -109,7 +109,7 @@ class NewsletterEmailProcess extends BatchProcess {
 		$newsletter->MemberID = $member->ID;
 		
 		// If sending is successful
-		$newsletter->Result = ($result == true) ? 'Sent' : 'Failed'; 
+		$newsletter->Status = ($result == true) ? 'Sent' : 'Failed';
 		
 		$newsletter->NewsletterID = $this->newsletter->ID;
 		$newsletter->write();

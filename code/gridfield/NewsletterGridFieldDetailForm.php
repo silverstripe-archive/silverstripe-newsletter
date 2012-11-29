@@ -65,7 +65,8 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 
 		try {
 			$form->saveInto($this->record);
-			$id = $this->record->write();
+			$this->record->Status = 'Sending';  //custom: changing the status of to indicate we are sending
+			$this->record->write();
 			$this->gridField->getList()->add($this->record);
 		} catch(ValidationException $e) {
 			$form->sessionMessage($e->getResult()->message(), 'bad');
@@ -84,7 +85,9 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		}
 
 		//custom code
-		NewsletterSendController::enqueue($id);
+		NewsletterSendController::enqueue($this->record);
+		NewsletterSendController::processQueueOnShutdown();
+
 		$message = _t('NewsletterAdmin.SendMessage',
 			'Send-out process started successfully. Check the progress in the "Sent Recipients" tab');
 		//end custom code

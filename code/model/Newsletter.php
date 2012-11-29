@@ -283,7 +283,7 @@ class Newsletter_TrackedLink extends DataObject {
 
 	function UnsubscribeLink(){
 		$emailAddr = $this->To();
-		$member=DataObject::get_one("Member", "Email = '".$emailAddr."'");
+		$member = Member::get()->filter('Email', $emailAddr)->First();
 		if($member){
 			if($member->AutoLoginHash){
 				$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2));

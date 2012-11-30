@@ -158,6 +158,12 @@ class Newsletter extends DataObject {
 		}
 		return $templates;
 	}
+
+
+	function canArchive(){
+		if($this->Status !== 'Sending') return true;
+		else return false;
+	}
 		
 	/**
 	 * Returns a DataObject listing the recipients for the given status for this newsletter

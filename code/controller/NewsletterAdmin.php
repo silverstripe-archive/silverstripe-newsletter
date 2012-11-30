@@ -36,7 +36,9 @@ class NewsletterAdmin extends ModelAdmin {
 		if ($this->modelClass == "Newsletter") {
 			$config = $form->Fields()->first()->getConfig();
 			$config->removeComponentsByType('GridFieldDetailForm')
-				->addComponents(new NewsletterGridFieldDetailForm());
+				->addComponents(new NewsletterGridFieldDetailForm())
+				->removeComponentsByType('GridFieldDeleteAction')
+				->addComponents(new GridFieldArchiveAction());
 			$config->getComponentByType('GridFieldDataColumns')
 				->setFieldCasting(array(
 					"AsTemplate" => "Boolean->Nice",
@@ -92,6 +94,16 @@ class NewsletterAdmin extends ModelAdmin {
 			}
 		}
 		return self::$template_paths;
+	}
+
+	public function getList() {
+		$list = parent::getList();
+		if($this->modelClass === "Newsletter"){
+			$list->addFilter(array(
+				"Archived" => "0",
+			));
+		}
+		return $list;
 	}
 
 	/*

@@ -22,22 +22,34 @@ class SendRecipientQueue extends DataObject {
 	static $newsletterCache = null;
 
 	/** Send the email out to the Recipient */
-	public function send() {
-		if (empty($newsletterCache) || $this->NewsletterID != self::$newsletterCache) {
-			self::$newsletterCache = $this->Newsletter();
+	public function send($newsletter = null, $recipient = null) {
+		if (empty($newsletter)) $newsletter = $this->Newsletter();
+		if (empty($recipient)) $recipient = $this->Recipient();
+
+		if (!$recipient->Blacklisted) {
+			$email = new Email(
+				$newsletter->SendFrom,
+				$recipient->Email,
+				$newsletter->Subject,
+				$newsletter->Content
+			);
+			if (!empty($newsletter->ReplyTo)) $email->addCustomHeader('Reply-To', $newsletter->ReplyTo);
+
+			$success = $email->send();
+
+			if ($success) {
+				$this->Status = 'Sent';
+				$recipient->ReceivedCount = $recipient->ReceivedCount + 1;
+			} else {
+				$this->Status = 'Failed';
+				$recipient->BouncedCount = $recipient->BouncedCount + 1;
+			}
+			$recipient->write();
+		} else {
+			$this->Status = 'BlackListed';
 		}
-		$n = self::$newsletterCache;
 
-		$email = new Email(
-			$n->SendFrom,
-			$this->Recipient()->Email,
-			$n->Subject,
-			$n->Content
-		);
-		if (!empty($n->ReplyTo)) $email->addCustomHeader('Reply-To', $n->ReplyTo);
-
-		$email->send();
+		$this->write();
 	}
-
 
 }

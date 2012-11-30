@@ -1,9 +1,33 @@
 <?php
-class NewsletterSendController extends Controller {
+/**
+ * A class that controls the queuing and processing of emails. When a user clicks the Send button in a Newsletter Admin
+ * that uses this class to add the send-out to a queue. The queue doesn't contain the actual emails, instead it has
+ * a simple handler that calls the "process_queue_invoke" method in this class, a method that does all the actual send
+ * out. Send out happens in batches to avoid the process crashing due to exceeding either the memory limit or the
+ * execution time limit.
+ * Once a batch of emails has been sent out, then another "process_queue_invoke" method call is queue in the
+ * MessageQueue and it keeps processing with a fresh PHP instance.
+ * If this process ever fails for any reason, you can call this manually as a build task:
+ * /dev/tasks/NewsletterSendController?newsletter=#
+ * (where '#' is the database ID of any Newsletter DataObject).
+ *
+ * You can use the following static variables to configure the NewsletterSendController:
+ * static $items_to_batch_process = 50;   //number of emails to send out in "batches" to avoid spin up costs
+ * static $stuck_timeout = 5;  //minutes after which we consider an "InProcess" item in the queue "stuck"
+ * static $retry_limit = 5; //number of times to retry sending email that get "stuck"
+ */
+class NewsletterSendController extends BuildTask {
 
-	static $itemsToBatchProcess = 50;   //number of emails to send out in "batches" to avoid spin up costs
-	static $stuckTimeout = 10;  //minutes after which we consider an "InProcess" item in the queue "stuck"
-	static $retryLimit = 5; //number of times to retry sending email that get "stuck"
+	static $items_to_batch_process = 50;   //number of emails to send out in "batches" to avoid spin up costs
+	static $stuck_timeout = 5;  //minutes after which we consider an "InProcess" item in the queue "stuck"
+	static $retry_limit = 4; //number of times to retry sending email that get "stuck"
+
+	protected static $inst = null;
+
+	static function inst() {
+		if(!self::$inst) self::$inst = new NewsletterSendController();
+		return self::$inst;
+	}
 
 	/**
 	 * Adds users to the queue for sending out a newsletter.
@@ -12,7 +36,7 @@ class NewsletterSendController extends Controller {
 	 * @static
 	 * @param $id The ID of the Newsletter DataObject to send
 	 */
-	static function enqueue(Newsletter $newsletter) {
+	function enqueue(Newsletter $newsletter) {
 		$lists = $newsletter->MailingLists();
 		$queueCount = 0;
 		foreach($lists as $list) {
@@ -28,37 +52,42 @@ class NewsletterSendController extends Controller {
 		return $queueCount;
 	}
 
-	static function processQueueOnShutdown(Newsletter $newsletter = null) {
+	function processQueueOnShutdown(Newsletter $newsletter = null) {
 		if (class_exists('MessageQueue')) {
 			if (!empty($newsletter) && !empty($newsletter->ID)) {
 				//start processing of email sending for this newsletter ID after shutdown
 				MessageQueue::send("newsletter",
-					new MethodInvocationMessage(get_class(), "processQueue", $newsletter->ID));
+					new MethodInvocationMessage(get_class(), "process_queue_invoke", $newsletter->ID));
 			}
 
 			MessageQueue::consume_on_shutdown();
 		} else {
 			//do the sending in real-time, if there is not MessageQueue to do it out-of-process
-			self::processQueue($newsletter->ID);
+			$this->processQueue($newsletter->ID);
 		}
 	}
 
 	/**
 	 * Restart the processing of any queue items that are "stuck" in the InProcess status, but haven't been sent.
-	 * We treat
-	 * @static
+	 * Items can get stuck if the execution of the newsletter queue fails half-way due to an error. Restarting
+	 * the queue processing takes the items and re-schedules them for a new send out. If a specific Recipient in the
+	 * queue is causing the crashes, then the RetryCount for that item will go up on each retry attempt. This method
+	 * will eventually stop re-scheduling items if their retry count gets too high, indicating such a problem.
+	 *
+	 * @param $newsletterID
+	 * @return Int the number of stuck items re-added to the queue
 	 */
-	static function cleanUpStalledQueue($newsletterID) {
+	function cleanUpStalledQueue($newsletterID) {
 		$stuckQueueItems = SendRecipientQueue::get()->filter(array(
 			'NewsletterID' => $newsletterID,
 			'Status' => 'InProcess',
-			'LastEdited:LessThan' => date('Y-m-d H:i:m',strtotime('-'.self::$stuckTimeout.' minutes'))
+			'LastEdited:LessThan' => date('Y-m-d H:i:m',strtotime('-'.self::$stuck_timeout.' minutes'))
 		));
 
 		$stuckCount = $stuckQueueItems->Count();
 		if ($stuckCount  > 0) {
 			foreach($stuckQueueItems as $item){
-				if ($item->RetryCount < self::$retryLimit) {
+				if ($item->RetryCount < self::$retry_limit) {
 					$item->RetryCount = $item->RetryCount + 1;
 					$item->Status = "Scheduled";    //retry the item
 					$item->write();
@@ -72,12 +101,31 @@ class NewsletterSendController extends Controller {
 		return $stuckCount;
 	}
 
-	static function processQueue($newsletterID){
+	static function process_queue_invoke($newsletterID){
+		$nsc = NewsletterSendController::inst();
+		$nsc->processQueue($newsletterID);
+	}
+
+	/**
+	 * Start the processing with a build task
+	 */
+	public function run(SS_HTTPRequest $request){
+		$newsletter = $request->getVar('newsletter');
+		if (!empty($newsletter) && is_numeric($newsletter)) {
+			$nsc = self::$inst();
+			$nsc->processQueueOnShutdown($newsletter);
+			echo "<h1>Queued sendout for newsletter with ID: $newsletter </h1>"
+		} else {
+			user_error("Usage: dev/tasks/NewsletterSendController?newsletter=#");
+		}
+	}
+
+	function processQueue($newsletterID){
 		if (!empty($newsletterID)) {
 			$newsletter = Newsletter::get()->byID($newsletterID);
 			if (!empty($newsletter)) {
 				//try to clean up any stuck items
-				self::cleanUpStalledQueue($newsletterID);
+				$this->cleanUpStalledQueue($newsletterID);
 
 				// Start a transaction, or if we are in MySQL, create a lock on the SendRecipientQueue table.
 				$conn = DB::getConn();
@@ -90,11 +138,11 @@ class NewsletterSendController extends Controller {
 					$queueItems = SendRecipientQueue::get()
 							->filter(array('NewsletterID' => $newsletterID, 'Status' => 'Scheduled'))
 							->sort('Created ASC')
-							->filter(self::$itemsToBatchProcess);
+							->filter(self::$items_to_batch_process);
 
 					//set them all to "in process" at once
 					foreach($queueItems as $item){
-						$item->Status = 'InProcess';
+						$item->Status = 'InProcess';    
 						$item->write();
 					}
 
@@ -107,17 +155,25 @@ class NewsletterSendController extends Controller {
 					else if (method_exists($conn, 'transactionRollback')) $conn->transactionRollback();
 
 					//retry the processing
-					self::processQueueOnShutdown($newsletterID);
+					$this->processQueueOnShutdown($newsletterID);
 				}
 
 				//do the actual mail out
 				if (!empty($queueItems) && $queueItems->Count() > 0) {
+					//fetch all the recipients at once in one query
+					$recipients = Recipient::get()->filter(array('ID' => array($queueItems->column('ID'))));
+					$recipientsMap = array();
+					foreach($recipients as $r) {
+						$recipientsMap[$r->ID] = $r;
+					}
+
+					//send out the mails
 					foreach($queueItems as $item) {
-						$item->send();
+						$item->send($newsletter, $recipientsMap[$item->RecipientID]);
 					}
 
 					//do more processing, in case there are more items to process, do nothing if we've reached the end
-					self::processQueueOnShutdown($newsletterID);
+					$this->processQueueOnShutdown($newsletterID);
 				} else {
 					//mark the send process as complete
 					$newsletter->SentDate = SS_Datetime::now()->getValue();

@@ -42,7 +42,7 @@ class MailingList extends DataObject {
 			new GridFieldSortableHeader(),
 			new GridFieldDataColumns(),
 			new GridFieldFilterHeader(),
-			new GridFieldDeleteAction(),
+			new GridFieldDeleteAction(true),
 			new GridFieldPageCount(),
 			new GridFieldPaginator(30),
 			new GridFieldEditButton(),

@@ -7,11 +7,11 @@
  */
 class Recipient extends DataObject {
 	static $db = array(
-		'Salutation'			=> "Varchar(32)",
-		'FirstName'				=> "Varchar",
-		'MiddleName'			=> "Varchar",
-		'Surname'				=> "Varchar",
-		'Email'					=> "Varchar(256)",
+		'Salutation'			=> "Varchar(255)",
+		'FirstName'				=> "Varchar(255)",
+		'MiddleName'			=> "Varchar(255)",
+		'Surname'				=> "Varchar(255)",
+		'Email'					=> "Varchar(255)",
 		'LanguagePreferred' 	=> "Varchar(6)", // the locale code
 		'BouncedCount'	    	=> "Int", // if 0, never been bounced
 		'Blacklisted'			=> "Boolean",

@@ -102,7 +102,7 @@ class Newsletter extends DataObject {
 
 		if($this && $this->exists()){
 			$fields->removeByName("MailingLists");
-			$mailinglists = DataObject::get("MailingList");
+			$mailinglists = MailingList::get()->filter(array('Disabled'=>false));
 
 			$fields->addFieldToTab("Root.Main",
 				new CheckboxSetField(

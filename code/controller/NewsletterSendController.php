@@ -14,13 +14,15 @@
  * You can use the following static variables to configure the NewsletterSendController:
  * static $items_to_batch_process = 50;   //number of emails to send out in "batches" to avoid spin up costs
  * static $stuck_timeout = 5;  //minutes after which we consider an "InProcess" item in the queue "stuck"
- * static $retry_limit = 5; //number of times to retry sending email that get "stuck"
+ * static $retry_limit = 4; //number of times to retry sending email that get "stuck"
+ * static $throttle_batch_delay = 0;   //seconds to wait between sending out email batches
  */
 class NewsletterSendController extends BuildTask {
 
 	static $items_to_batch_process = 50;   //number of emails to send out in "batches" to avoid spin up costs
 	static $stuck_timeout = 5;  //minutes after which we consider an "InProcess" item in the queue "stuck"
 	static $retry_limit = 4; //number of times to retry sending email that get "stuck"
+	static $throttle_batch_delay = 0;   //seconds to wait between sending out email batches
 
 	protected static $inst = null;
 
@@ -109,18 +111,20 @@ class NewsletterSendController extends BuildTask {
 	/**
 	 * Start the processing with a build task
 	 */
-	public function run(SS_HTTPRequest $request){
+	public function run($request){
 		$newsletter = $request->getVar('newsletter');
 		if (!empty($newsletter) && is_numeric($newsletter)) {
-			$nsc = self::$inst();
+			$nsc = self::inst();
 			$nsc->processQueueOnShutdown($newsletter);
-			echo "<h1>Queued sendout for newsletter with ID: $newsletter </h1>"
+			echo "<h1>Queued sendout for newsletter with ID: $newsletter </h1>";
 		} else {
 			user_error("Usage: dev/tasks/NewsletterSendController?newsletter=#");
 		}
 	}
 
 	function processQueue($newsletterID){
+		set_time_limit(0);  //no time limit for running process
+
 		if (!empty($newsletterID)) {
 			$newsletter = Newsletter::get()->byID($newsletterID);
 			if (!empty($newsletter)) {
@@ -174,6 +178,9 @@ class NewsletterSendController extends BuildTask {
 
 					//do more processing, in case there are more items to process, do nothing if we've reached the end
 					$this->processQueueOnShutdown($newsletterID);
+
+					//wait to avoid overloading the email server with too many emails that look like spam
+					if (!empty(self::$throttle_batch_delay)) sleep(self::$throttle_batch_delay);
 				} else {
 					//mark the send process as complete
 					$newsletter->SentDate = SS_Datetime::now()->getValue();

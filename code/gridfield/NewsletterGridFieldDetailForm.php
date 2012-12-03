@@ -94,7 +94,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		//custom code
 		$nsc = NewsletterSendController::inst();
 		$nsc->enqueue($this->record);
-		$nsc->processQueueOnShutdown();
+		$nsc->processQueueOnShutdown($this->record->ID);
 
 		$message = _t('NewsletterAdmin.SendMessage',
 			'Send-out process started successfully. Check the progress in the "Sent Recipient Queue" tab');

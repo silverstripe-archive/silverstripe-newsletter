@@ -26,6 +26,10 @@ class NewsletterSendController extends BuildTask {
 
 	protected static $inst = null;
 
+	protected $title = 'Newsletter Send Controller';
+	protected $description = 'Triggers processing of the send queue the specific newsletter ID.
+		Usage: dev/tasks/NewsletterSendController?newsletter=#';
+
 	static function inst() {
 		if(!self::$inst) self::$inst = new NewsletterSendController();
 		return self::$inst;
@@ -44,8 +48,8 @@ class NewsletterSendController extends BuildTask {
 		foreach($lists as $list) {
 			foreach($list->Recipients() as $recipient) {
 				$queueItem = SendRecipientQueue::create();
-				$queueItem->NewsletterID = $list->ID;
-				$queueItem->Recipient = $recipient->ID;
+				$queueItem->NewsletterID = $newsletter->ID;
+				$queueItem->RecipientID = $recipient->ID;
 				$queueItem->write();
 				$queueCount++;
 			}
@@ -54,18 +58,20 @@ class NewsletterSendController extends BuildTask {
 		return $queueCount;
 	}
 
-	function processQueueOnShutdown(Newsletter $newsletter = null) {
+	function processQueueOnShutdown($newsletterID = null) {
 		if (class_exists('MessageQueue')) {
-			if (!empty($newsletter) && !empty($newsletter->ID)) {
+			if (!empty($newsletterID)) {
 				//start processing of email sending for this newsletter ID after shutdown
 				MessageQueue::send("newsletter",
-					new MethodInvocationMessage(get_class(), "process_queue_invoke", $newsletter->ID));
+					new MethodInvocationMessage('NewsletterSendController', "process_queue_invoke", $newsletterID));
+			} else {
+				user_error("No newsletter ID given",E_USER_ERROR);
 			}
 
 			MessageQueue::consume_on_shutdown();
 		} else {
 			//do the sending in real-time, if there is not MessageQueue to do it out-of-process
-			$this->processQueue($newsletter->ID);
+			$this->processQueue($newsletterID);
 		}
 	}
 
@@ -83,7 +89,7 @@ class NewsletterSendController extends BuildTask {
 		$stuckQueueItems = SendRecipientQueue::get()->filter(array(
 			'NewsletterID' => $newsletterID,
 			'Status' => 'InProcess',
-			'LastEdited:LessThan' => date('Y-m-d H:i:m',strtotime('-'.self::$stuck_timeout.' minutes'))
+			'LastEdited:LessThan' => date('Y-m-d H:i:m',strtotime('+'.self::$stuck_timeout.' minutes'))
 		));
 
 		$stuckCount = $stuckQueueItems->Count();
@@ -112,11 +118,11 @@ class NewsletterSendController extends BuildTask {
 	 * Start the processing with a build task
 	 */
 	public function run($request){
-		$newsletter = $request->getVar('newsletter');
-		if (!empty($newsletter) && is_numeric($newsletter)) {
+		$newsletterID = $request->getVar('newsletter');
+		if (!empty($newsletterID) && is_numeric($newsletterID)) {
 			$nsc = self::inst();
-			$nsc->processQueueOnShutdown($newsletter);
-			echo "<h1>Queued sendout for newsletter with ID: $newsletter </h1>";
+			$nsc->processQueueOnShutdown($newsletterID);
+			echo "<h2>Queued sendout for newsletter with ID: $newsletterID </h2>";
 		} else {
 			user_error("Usage: dev/tasks/NewsletterSendController?newsletter=#");
 		}
@@ -142,11 +148,11 @@ class NewsletterSendController extends BuildTask {
 					$queueItems = SendRecipientQueue::get()
 							->filter(array('NewsletterID' => $newsletterID, 'Status' => 'Scheduled'))
 							->sort('Created ASC')
-							->filter(self::$items_to_batch_process);
+							->limit(self::$items_to_batch_process);
 
 					//set them all to "in process" at once
 					foreach($queueItems as $item){
-						$item->Status = 'InProcess';    
+						$item->Status = 'InProcess';
 						$item->write();
 					}
 
@@ -165,7 +171,8 @@ class NewsletterSendController extends BuildTask {
 				//do the actual mail out
 				if (!empty($queueItems) && $queueItems->Count() > 0) {
 					//fetch all the recipients at once in one query
-					$recipients = Recipient::get()->filter(array('ID' => array($queueItems->column('ID'))));
+					$recipients = Recipient::get()->filter(array('ID' => $queueItems->column('RecipientID')));
+
 					$recipientsMap = array();
 					foreach($recipients as $r) {
 						$recipientsMap[$r->ID] = $r;

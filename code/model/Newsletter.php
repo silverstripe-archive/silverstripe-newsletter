@@ -66,6 +66,26 @@ class Newsletter extends DataObject {
 		$fields->removeByName("AsTemplate");
 		$fields->removeByName("Archived");
 
+		$gridFieldConfig = GridFieldConfig::create()->addComponents(
+			new GridFieldToolbarHeader(),
+			new GridFieldSortableHeader(),
+			new GridFieldDataColumns(),
+			new GridFieldFilterHeader(),
+			new GridFieldPageCount(),
+			new GridFieldPaginator(30)
+		);
+
+		$sendRecipientGrid = GridField::create(
+			'SendRecipientQueue',
+			_t('NewsletterAdmin.SendRecipientQueue', 'Send Recipient Queue'),
+			$this->SendRecipientQueue(),
+			$gridFieldConfig
+		);
+
+		$fields->removeFieldFromTab('Root.SendRecipientQueue',"SendRecipientQueue");
+		$fields->removeByName('SendRecipientQueue');
+		$fields->addFieldToTab('Root.SendRecipientQueues',$sendRecipientGrid);
+
 		$explanationTitle = _t("Newletter.TemplateExplanationTitle",
 			"Select a styled template (.ss template) that this newsletter renders with"
 		);

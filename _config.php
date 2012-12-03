@@ -14,7 +14,7 @@ Config::inst()->update('Director', 'rules', array(
 ));
 
 if (class_exists('MessageQueue')) {
-	MessageQueue::add_interface("newsletter", array( "queues" => "/.*/",
+	MessageQueue::add_interface("default", array( "queues" => "/.*/",
 		"implementation" => "SimpleDBMQ",
 		"encoding" => "php_serialize",
 		"send" => array( "onShutdown" => "all" ),

@@ -19,14 +19,30 @@ class SendRecipientQueue extends DataObject {
 		"Recipient" => "Recipient"
 	);
 
-	static $newsletterCache = null;
+	static $field_labels = array(
+		"Status" => 'Status',
+		"Recipient.Email" => 'Email',
+		"RetryCount" => 'Retry Count',
+		"Priority" => 'Priority'
+	);
+
+	static $summary_fields = array(
+		"Status",
+		"Recipient.Email" => 'Recipient.Email',
+		"RetryCount",
+		"Priority"
+	);
+
+	static $default_sort = array(
+		'LastEdited DESC'
+	);
 
 	/** Send the email out to the Recipient */
 	public function send($newsletter = null, $recipient = null) {
 		if (empty($newsletter)) $newsletter = $this->Newsletter();
 		if (empty($recipient)) $recipient = $this->Recipient();
 
-		if (!$recipient->Blacklisted) {
+		if (empty($recipient->Blacklisted)) {
 			$email = new Email(
 				$newsletter->SendFrom,
 				$recipient->Email,

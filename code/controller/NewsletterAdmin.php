@@ -33,6 +33,8 @@ class NewsletterAdmin extends ModelAdmin {
 		
 		parent::init();
 		Requirements::javascript(CMS_DIR . '/javascript/SilverStripeNavigator.js');
+		Requirements::css('newsletter/css/NewsletterAdmin.css');
+
 	}
 
 	public function getEditForm($id = null, $fields = null) {

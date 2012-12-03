@@ -7,7 +7,7 @@
  */
 class NewsletterEmail extends Email {
 
-	protected $type;
+	protected $mailinglists;
 	protected $newsletter;
 	
 	static $casting = array(
@@ -17,21 +17,21 @@ class NewsletterEmail extends Email {
 	
 	/**
 	 * @param Newsletter $newsletter
-	 * @param NewsletterType $type
+	 * @param Mailinglists $mailinglists
 	 */
-	//TODO NewsletterType deprecated
-	function __construct($newsletter, $type = null) {
+	function __construct($newsletter, $mailinglists = null) {
 		$this->newsletter = $newsletter;
 
-		$this->nlType = $type ? $type : $newsletter->getNewsletterType();
+		$this->mailinglists = $mailinglists ? $mailinglists : $newsletter->MailingLists();
 		
 		parent::__construct();
 		
 		$this->body = $newsletter->getContentBody();
 		
 		$this->populateTemplate(new ArrayData(array(
-			'Newsletter' => $this->Newsletter,
-			'UnsubscribeLink' => $this->UnsubscribeLink()
+			'UnsubscribeLink' => $this->UnsubscribeLink(),
+			'SiteConfig' => DataObject::get_one('SiteConfig'),
+			'AbsoluteBaseURLWithAuth' => Director::absoluteBaseURLWithAuth(),
 		)));
 		
 		if($this->body && $this->newsletter) {
@@ -103,22 +103,35 @@ class NewsletterEmail extends Email {
 	
 	function UnsubscribeLink(){
 		$emailAddr = $this->To();
-		$member=DataObject::get_one("Member", "\"Email\" = '".$emailAddr."'"); 
-		if($member){ 
-			if($member->AutoLoginHash){ 
-				$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2)); 
-				$member->write(); 
+		$recipient=DataObject::get_one("Recipient", "\"Email\" = '".$emailAddr."'"); 
+		if($recipient){ 
+			if($recipient->AutoLoginHash){ 
+				$recipient->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2)); 
+				$recipient->write(); 
 			}else{ 
-				$member->generateAutologinHash(); 
+				$recipient->generateAutologinHash(); 
 			} 
-			$nlTypeID = $this->nlType->ID; 
-			return Director::absoluteBaseURL() . "unsubscribe/index/".$member->AutoLoginHash."/$nlTypeID"; 
+			$listIDs = implode(",",$this->mailinglists->getIDList());
+			return Director::absoluteBaseURL() . "unsubscribe/index/".$recipient->AutoLoginHash."/$listIDs"; 
 		}else{
 			return Director::absoluteBaseURL() . "unsubscribe/index/";
 		}
 	}
 	
 	function getData() {
-		return $this->template_data;
+		if($this->template_data) {
+			return $this->template_data->customise(array(
+				"To" => $this->to,
+				"Cc" => $this->cc,
+				"Bcc" => $this->bcc,
+				"From" => $this->from,
+				"Subject" => $this->subject,
+				"Body" => $this->body,
+				"BaseURL" => $this->BaseURL(),
+				"IsEmail" => true,
+			));
+		} else {
+			return $this;
+		}
 	}
 }

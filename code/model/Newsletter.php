@@ -4,7 +4,7 @@
  * Single newsletter instance. 
  * @package newsletter
  */
-class Newsletter extends DataObject {
+class Newsletter extends DataObject implements CMSPreviewable{
 
 	static $db = array(
 		"Status" => "Enum('Draft, Sending, Sent', 'Draft')",
@@ -257,6 +257,39 @@ class Newsletter extends DataObject {
 		return $this->getField('Subject');
 	}
 
+	/*function UnsubscribeLink(){
+		$emailAddr = $this->To();
+		$member=DataObject::get_one("Member", "\"Email\" = '".$emailAddr."'"); 
+		if($member){ 
+			if($member->AutoLoginHash){ 
+				$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2)); 
+				$member->write(); 
+			}else{ 
+				$member->generateAutologinHash(); 
+			} 
+			$nlTypeID = $this->nlType->ID; 
+			return Director::absoluteBaseURL() . "unsubscribe/index/".$member->AutoLoginHash."/$nlTypeID"; 
+		}else{
+			return Director::absoluteBaseURL() . "unsubscribe/index/";
+		}
+	}*/
+
+
+	function render() {
+		if(!$templateName = $this->RenderTemplate) {
+			$templateName = 'SimpleNewsletterTemplate';
+		}
+		// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
+		Requirements::clear();
+
+		$newsletterEmail = new NewsletterEmail($this); 
+		return HTTP::absoluteURLs($newsletterEmail->getData()->renderWith($templateName));
+	}
+
+
+
+
+
 	//TODO NewsletterType deprecated
 	/*function getNewsletterType() {
 		return DataObject::get_by_id('NewsletterType', $this->ParentID);
@@ -269,7 +302,7 @@ class Newsletter extends DataObject {
 		return $content;
 	}
 
-	static function newDraft($parentID, $subject, $content) {
+	/*static function newDraft($parentID, $subject, $content) {
     	if( is_numeric($parentID)) {
      	   $newsletter = new Newsletter();
 	        $newsletter->Status = 'Draft';
@@ -281,12 +314,18 @@ class Newsletter extends DataObject {
 	        user_error( $parentID, E_USER_ERROR );
 	    }
     	return $newsletter;
-  	}
-	
-	function PreviewLink(){
-		return Controller::curr()->AbsoluteLink()."preview/".$this->ID;
+  	}*/
+
+  	public function Link($action = null) {
+		return Controller::join_links(singleton('NewsletterAdmin')->Link('Newsletter'),'/EditForm/field/Newsletter/item/', $this->ID, $action);
 	}
 
+	/**
+	 * @return String
+	 */
+	public function CMSEditLink() {
+		return Controller::join_links(singleton('NewsletterAdmin')->Link('Newsletter'),'/EditForm/field/Newsletter/item/', $this->ID, 'edit');
+	}
 }
 
 

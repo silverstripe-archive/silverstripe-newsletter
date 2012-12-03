@@ -51,15 +51,38 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		// Do these action update only when the current record is_a newsletter
 		if($this->record && $this->record instanceof Newsletter) {
 			$form->setActions($this->updateCMSActions($form->Actions()));
+
+			$form->Fields()->push(new HiddenField("PreviewURL", "PreviewURL", $this->LinkPreview()));
+			// Added in-line to the form, but plucked into different view by LeftAndMain.Preview.js upon load
+			$navField = new LiteralField('SilverStripeNavigator', $this->getSilverStripeNavigator());
+			$navField->setAllowHTML(true);
+			$form->Fields()->push($navField);
+
 		}
 		return $form;
 	}
+
+	/**
+	 * Used for preview controls
+	 * 
+	 * @return ArrayData
+	 */
+	public function getSilverStripeNavigator() {
+		$newsletter = $this->record;
+		if($newsletter) {
+			$navigator = new SilverStripeNavigator($newsletter);
+			return $navigator->renderWith('NewsletterAdmin_SilverStripeNavigator');
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * @return string
 	 */
 	public function LinkPreview() {
 		if($this->record && $this->record instanceof Newsletter) {
-			return $this->Link()."/preview";
+			return $this->Link('preview');
 		}else{
 			return false;
 		}
@@ -117,9 +140,8 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		}
 	}
 
-	public function preview($data, $form){
-		// TODO preview function
-		debug::show($data);
+	public function preview($data){
+		return $this->record->render();
 	}
 
 	public function doSaveAsTemplete($data, $form){

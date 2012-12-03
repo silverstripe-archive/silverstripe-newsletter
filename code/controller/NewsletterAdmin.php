@@ -29,6 +29,12 @@ class NewsletterAdmin extends ModelAdmin {
 	 */	
 	static $template_paths = null; //could be customised in _config.php
 
+	public function init() {
+		
+		parent::init();
+		Requirements::javascript(CMS_DIR . '/javascript/SilverStripeNavigator.js');
+	}
+
 	public function getEditForm($id = null, $fields = null) {
 		$form = parent::getEditForm($id, $fields);
 
@@ -43,7 +49,7 @@ class NewsletterAdmin extends ModelAdmin {
 				->setFieldCasting(array(
 					"AsTemplate" => "Boolean->Nice",
 					"Content" => "HTMLText->LimitSentences",
-				));
+			));
 		}
 		return $form;
 	}

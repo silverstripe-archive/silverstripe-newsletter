@@ -12,6 +12,7 @@
 	"require":
 	{
 		"silverstripe/framework": "3.*",
-		"composer/installers": "*"
+		"composer/installers": "*",
+		"silverstripe/messagequeue": "*"
 	}
 }

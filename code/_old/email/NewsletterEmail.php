@@ -97,14 +97,14 @@ class NewsletterEmail extends Email {
 	
 	function UnsubscribeLink(){
 		if($this->recipient){ 
-			if($this->recipient->AutoLoginHash){ 
-				$this->recipient->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2)); 
+			if($this->recipient->ValidateHash){ 
+				$this->recipient->ValidateHashExpired = date('Y-m-d', time() + (86400 * 2)); 
 				$this->recipient->write(); 
 			}else{ 
-				$this->recipient->generateAutologinTokenAndStoreHash(); 
+				$this->recipient->generateValidateHashAndStore(); 
 			} 
 			$listIDs = implode(",",$this->mailinglists->getIDList());
-			return Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->AutoLoginHash."/$listIDs"; 
+			return Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/$listIDs"; 
 		}else{
 			return Director::absoluteBaseURL() . "unsubscribe/index/";
 		}

@@ -281,11 +281,11 @@ JS
 		$member = false; 
 		
 		if(isset($data['Email'])) {
-			$member = DataObject::get_one('Member', "\"Email\" = '". Convert::raw2sql($data['Email']) . "'");
+			$member = DataObject::get_one('Recipient', "\"Email\" = '". Convert::raw2sql($data['Email']) . "'");
 		}
 		
 		if(!$member) {
-			$member = new Member();
+			$member = new Recipient();
 		}
 		
 			
@@ -293,11 +293,11 @@ JS
 		$member->setField("Email", $data['Email']);		
 		$member->write();
 		
-		if($member->AutoLoginHash){ 
-			$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2)); 
+		if($member->ValidateHash){ 
+			$member->ValidateHashExpired = date('Y-m-d', time() + (86400 * 2)); 
 			$member->write(); 
 		}else{ 
-			$member->generateAutologinTokenAndStoreHash(); 
+			$member->generateValidateHashAndStore(); 
 		}
 		
 		$newsletters = array();
@@ -356,7 +356,7 @@ JS
 			'FirstName' => $member->FirstName,
             'MemberInfoSection' => $emailableFields,
             'Newsletters' => new DataObjectSet( $newsletters ),
-            'UnsubscribeLink' => Director::baseURL() . 'unsubscribe/index/' . $member->AutoLoginHash
+            'UnsubscribeLink' => Director::baseURL() . 'unsubscribe/index/' . $member->ValidateHash
         );
 
 		if($this->SendNotification){

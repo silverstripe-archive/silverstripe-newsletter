@@ -15,7 +15,7 @@ NewsletterType:
 Member:
     normann1:
         Email: normann1@silverstripe.com
-        AutoLoginHash: 94l4ee9ib8kkw3s08k8wwcs4g
+        ValidateHash: 94l4ee9ib8kkw3s08k8wwcs4g
         Groups: =>Group.newsletter1,=>Group.newsletter2
     normann2:
         Email: normann2@silverstripe.com

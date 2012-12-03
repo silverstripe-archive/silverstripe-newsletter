@@ -127,7 +127,7 @@ class Recipient extends DataObject {
 	 *
 	 * @todo Make it possible to handle database errors such as a "duplicate key" error
 	 */
-	public function generateAutologinTokenAndStoreHash($lifetime = 2) {
+	public function generateValidateHashAndStore($lifetime = 2) {
 		do {
 			$generator = new RandomGenerator();
 			$hash = $generator->randomToken();

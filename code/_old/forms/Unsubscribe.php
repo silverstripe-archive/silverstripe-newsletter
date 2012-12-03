@@ -11,7 +11,7 @@ class Unsubscribe_MailingListForm extends Form {
     protected $autohash; 
 
 	function __construct( $controller, $name, $member) {
-		$this->autohash = $member->AutoLoginHash;
+		$this->validateHash = $member->ValidateHash;
 
 		$fields = new FieldSet();
 		$actions = new FieldSet();

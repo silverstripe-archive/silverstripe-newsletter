@@ -18,10 +18,10 @@ class UnsubscribeController extends Page_Controller {
 	}
 	
 	private function getMember(){
-		$autoLoginHash = Convert::raw2sql($this->urlParams['AutoLoginHash']);
-		if($autoLoginHash) {
-			$member = DataObject::get_one('Member', "\"AutoLoginHash\" = '$autoLoginHash'");
-			return $member;
+		$validateHash = Convert::raw2sql($this->urlParams['validateHash']);
+		if($validateHash) {
+			$recipent = DataObject::get_one('Recipient', "\"ValidateHash\" = '$validateHash'");
+			return $recipent;
 		}
 	}
 	
@@ -42,18 +42,19 @@ class UnsubscribeController extends Page_Controller {
 	function index() {
 		Session::clear("loggedInAs");
 		Requirements::themedCSS("form");
-		$member = $this->getMember();
-		if ($member) {
+		$recipient = $this->getMember();
+		if ($recipient) {
 			$listForm = $this->MailingListForm();
 			$mailingList = $this->getMailingList();
-			$mailingLists = $listForm->getMailingLists($member);
+			$mailingLists = $listForm->getMailingLists($recipient);
 			// if the email address and mailing list is given in the URL and both are valid,
 			// or the user is only in 1 Mailing list, then unsubscribe the user
 			if ((!$mailingList || !$mailingList->exists()) && $mailingLists && $mailingLists->count() == 1)
 				$mailingList = $mailingLists->First();
-			if($mailingList && $mailingList->exists() && $member->inGroup($mailingList->GroupID)) {
-				$this->unsubscribeFromList($member, $mailingList);
-				$url = Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $member->AutoLoginHash . "/" . $mailingList->ID;
+			//TODO, add Recipient::inGroup($maillingList) 
+			if($mailingList && $mailingList->exists() && $recipient->inGroup($mailingList->GroupID)) {
+				$this->unsubscribeFromList($recipient, $mailingList);
+				$url = Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $recipient->validateHash . "/" . $mailingList->ID;
 				Director::redirect($url);
 				return $url;
 			}
@@ -136,18 +137,18 @@ class UnsubscribeController extends Page_Controller {
 				}
 				$to = $member->Email;
 				$subject = _t('Unsubscribe.UNSUBSCRIBEEMAILSUBJECT', 'Unsubscribe Link');
-				if($member->AutoLoginHash){
-					$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2));
+				if($member->ValidateHash){
+					$member->ValidateHashExpired = date('Y-m-d', time() + (86400 * 2));
 					$member->write();
 				}else{
-					$member->generateAutologinTokenAndStoreHash();
+					$member->generateValidateHashAndStore();
 				}
 				$email = new Email($from, $to, $subject);
 				$email->populateTemplate(array(
 					'Subject' => $subject,
 					'Form' => $from,
 					'To' => $to,
-					'Link' => Director::absoluteBaseURL() . $this->RelativeLink('index') ."/" . $member->AutoLoginHash,
+					'Link' => Director::absoluteBaseURL() . $this->RelativeLink('index') ."/" . $member->ValidateHash,
 					'Member' => $member
 				));
 				$email->setTemplate('UnsubscribeEmail');
@@ -186,7 +187,7 @@ class UnsubscribeController extends Page_Controller {
 				$mailingLists[] = "MailingLists[]=".$listID;
 			}
 			$liststring = implode("&", $mailingLists);
-			Director::redirect(Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $member->AutoLoginHash . "?" . $liststring);
+			Director::redirect(Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $member->ValidateHash . "?" . $liststring);
 			return;
 		} else {
 			$form->addErrorMessage('MailingLists', _t('Unsubscribe.NOMLSELECTED', 'You need to select at least one mailing list to unsubscribe from.'), 'bad');

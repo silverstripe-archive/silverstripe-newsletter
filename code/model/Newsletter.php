@@ -257,24 +257,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		return $this->getField('Subject');
 	}
 
-	/*function UnsubscribeLink(){
-		$emailAddr = $this->To();
-		$member=DataObject::get_one("Member", "\"Email\" = '".$emailAddr."'"); 
-		if($member){ 
-			if($member->AutoLoginHash){ 
-				$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2)); 
-				$member->write(); 
-			}else{ 
-				$member->generateAutologinTokenAndStoreHash(); 
-			} 
-			$nlTypeID = $this->nlType->ID; 
-			return Director::absoluteBaseURL() . "unsubscribe/index/".$member->AutoLoginHash."/$nlTypeID"; 
-		}else{
-			return Director::absoluteBaseURL() . "unsubscribe/index/";
-		}
-	}*/
-
-
 	function render() {
 		if(!$templateName = $this->RenderTemplate) {
 			$templateName = 'SimpleNewsletterTemplate';
@@ -381,14 +363,14 @@ class Newsletter_TrackedLink extends DataObject {
 		$emailAddr = $this->To();
 		$member = Member::get()->filter('Email', $emailAddr)->First();
 		if($member){
-			if($member->AutoLoginHash){
-				$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2));
+			if($member->ValidateHash){
+				$member->ValidateHashExpired = date('Y-m-d', time() + (86400 * 2));
 				$member->write();
 			}else{
-				$member->generateAutologinTokenAndStoreHash();
+				$member->generateValidateHashAndStore();
 			}
 			$nlTypeID = $this->nlType->ID;
-			return Director::absoluteBaseURL() . "unsubscribe/index/".$member->AutoLoginHash."/$nlTypeID";
+			return Director::absoluteBaseURL() . "unsubscribe/index/".$member->ValidateHash."/$nlTypeID";
 		}
 	}
 }

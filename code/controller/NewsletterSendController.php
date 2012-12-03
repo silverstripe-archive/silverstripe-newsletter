@@ -47,11 +47,17 @@ class NewsletterSendController extends BuildTask {
 		$queueCount = 0;
 		foreach($lists as $list) {
 			foreach($list->Recipients() as $recipient) {
-				$queueItem = SendRecipientQueue::create();
-				$queueItem->NewsletterID = $newsletter->ID;
-				$queueItem->RecipientID = $recipient->ID;
-				$queueItem->write();
-				$queueCount++;
+				//duplicate filtering
+				if (!SendRecipientQueue::get()->filter(array(
+					'RecipientID'=>$recipient->ID,
+					'NewsletterID'=>$newsletter->ID,
+					'Status'=>array('Scheduled', 'InProcess')))->exists()) {
+					$queueItem = SendRecipientQueue::create();
+					$queueItem->NewsletterID = $newsletter->ID;
+					$queueItem->RecipientID = $recipient->ID;
+					$queueItem->write();
+					$queueCount++;
+				}
 			}
 		}
 
@@ -92,7 +98,7 @@ class NewsletterSendController extends BuildTask {
 			'LastEdited:LessThan' => date('Y-m-d H:i:m',strtotime('-'.self::$stuck_timeout.' minutes'))
 		));
 
-		$stuckCount = $stuckQueueItems->Count();
+		$stuckCount = $stuckQueueItems->count();
 		if ($stuckCount  > 0) {
 			foreach($stuckQueueItems as $item){
 				if ($item->RetryCount < self::$retry_limit) {
@@ -143,7 +149,7 @@ class NewsletterSendController extends BuildTask {
 				if ($conn instanceof MySQLDatabase) $conn->query('lock table SendRecipientQueue write');
 				else if (method_exists($conn, 'startTransaction')) $conn->startTransaction();
 
-				$queueItems = null;
+				$queueItemsList = array();
 				try {
 					//get the first X items to process
 					$queueItems = SendRecipientQueue::get()
@@ -154,7 +160,7 @@ class NewsletterSendController extends BuildTask {
 					//set them all to "in process" at once
 					foreach($queueItems as $item){
 						$item->Status = 'InProcess';
-						$item->write();
+						$queueItemsList[] = $item->write();
 					}
 
 					// Commit transaction, or in MySQL just release the lock
@@ -169,18 +175,23 @@ class NewsletterSendController extends BuildTask {
 					$this->processQueueOnShutdown($newsletterID);
 				}
 
-				//do the actual mail out
-				if (!empty($queueItems) && $queueItems->Count() > 0) {
-					//fetch all the recipients at once in one query
-					$recipients = Recipient::get()->filter(array('ID' => $queueItems->column('RecipientID')));
+				//fetch the queue items from the database again (after writing in-process to them)
+				$queueItems2 = null;
+				if (!empty($queueItemsList)) {
+					$queueItems2 = SendRecipientQueue::get()->filter(array('ID'=>$queueItemsList));
+				}
 
+				//do the actual mail out
+				if (!empty($queueItems2) && $queueItems2->count() > 0) {
+					//fetch all the recipients at once in one query
+					$recipients = Recipient::get()->filter(array('ID' => $queueItems2->column('RecipientID')));
 					$recipientsMap = array();
 					foreach($recipients as $r) {
 						$recipientsMap[$r->ID] = $r;
 					}
 
 					//send out the mails
-					foreach($queueItems as $item) {
+					foreach($queueItems2 as $item) {
 						$item->send($newsletter, $recipientsMap[$item->RecipientID]);
 					}
 

@@ -122,7 +122,8 @@ class NewsletterSendController extends BuildTask {
 		if (!empty($newsletterID) && is_numeric($newsletterID)) {
 			$nsc = self::inst();
 			$nsc->processQueueOnShutdown($newsletterID);
-			echo "<h2>Queued sendout for newsletter with ID: $newsletterID </h2>";
+			$newsletter = Newsletter::get()->byID($newsletterID);
+			echo "<h2>Queued sendout for newsletter: $newsletter->Subject (ID: $newsletter->ID)</h2>";
 		} else {
 			user_error("Usage: dev/tasks/NewsletterSendController?newsletter=#");
 		}

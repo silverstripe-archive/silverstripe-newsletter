@@ -86,6 +86,18 @@ class Newsletter extends DataObject {
 		$fields->removeByName('SendRecipientQueue');
 		$fields->addFieldToTab('Root.SendRecipientQueues',$sendRecipientGrid);
 
+		$fields->addFieldToTab('Root.SendRecipientQueues',
+			new LiteralField('RestartQueueButton',
+				'<a class="ss-ui-button" href="'.Controller::join_links(
+					Director::absoluteBaseURL(),'dev/tasks/NewsletterSendController?newsletter='.$this->ID)
+					.'" title="Restart queue processing"'.
+				'<button name="action_RestartQueue" value="Restart queue processing" '.
+				'class="action" '.
+				'id="action_RestartQueue" role="button" aria-disabled="false">'.
+						'<span class="ui-button-icon-primary ui-icon btn-icon-arrow-circle-double"></span>'.
+				'<span class="ui-button-text">Restart Queue Processing</span>'.
+				'</button></a>'));
+
 		$explanationTitle = _t("Newletter.TemplateExplanationTitle",
 			"Select a styled template (.ss template) that this newsletter renders with"
 		);

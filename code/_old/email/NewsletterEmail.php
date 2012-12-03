@@ -22,6 +22,12 @@ class NewsletterEmail extends Email {
 		$this->recipient = $recipient;
 		
 		parent::__construct($this->newsletter->SendFrom, $this->recipient->Email);
+
+		$this->populateTemplate(new ArrayData(array(
+			'UnsubscribeLink' => $this->UnsubscribeLink(),
+			'SiteConfig' => DataObject::get_one('SiteConfig'),
+			'AbsoluteBaseURLWithAuth' => Director::absoluteBaseURLWithAuth()
+		)));
 		
 		$this->body = $newsletter->getContentBody();
 		$this->subject = $newsletter->Subject;
@@ -121,9 +127,6 @@ class NewsletterEmail extends Email {
 				"Body" => $this->body,
 				"BaseURL" => $this->BaseURL(),
 				"IsEmail" => true,
-				'UnsubscribeLink' => $this->UnsubscribeLink(),
-				'SiteConfig' => DataObject::get_one('SiteConfig'),
-				'AbsoluteBaseURLWithAuth' => Director::absoluteBaseURLWithAuth(),
 			));
 		} else {
 			return $this;

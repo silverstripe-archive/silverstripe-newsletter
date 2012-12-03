@@ -23,13 +23,15 @@ class SendRecipientQueue extends DataObject {
 		"Status" => 'Status',
 		"Recipient.Email" => 'Email',
 		"RetryCount" => 'Retry Count',
+		"LastEdited" => 'Last Edited',
 		"Priority" => 'Priority'
 	);
 
 	static $summary_fields = array(
 		"Status",
-		"Recipient.Email" => 'Recipient.Email',
+		"Recipient.Email",
 		"RetryCount",
+		"LastEdited",
 		"Priority"
 	);
 

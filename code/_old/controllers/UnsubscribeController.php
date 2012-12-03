@@ -127,7 +127,7 @@ class UnsubscribeController extends Page_Controller {
     /**
     * Show the lists for the user with the given email address
     */
-    function sendmeunsubscribelink($data) {
+/*    function sendmeunsubscribelink($data) {
 		if(isset($data['Email']) && $data['Email']) {
 			$member = DataObject::get_one("Member", "Email = '".$data['Email']."'");
 			if($member){
@@ -140,7 +140,7 @@ class UnsubscribeController extends Page_Controller {
 					$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2));
 					$member->write();
 				}else{
-					$member->generateAutologinHash();
+					$member->generateAutologinTokenAndStoreHash();
 				}
 				$email = new Email($from, $to, $subject);
 				$email->populateTemplate(array(
@@ -170,7 +170,7 @@ class UnsubscribeController extends Page_Controller {
 			$form->sessionMessage($message, 'bad');
 			Director::redirectBack();
 		}
-	}
+	}*/
 	
     /**
     * Unsubscribe the user from the given lists.

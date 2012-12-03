@@ -45,11 +45,9 @@ class SendRecipientQueue extends DataObject {
 		if (empty($recipient)) $recipient = $this->Recipient();
 
 		if (empty($recipient->Blacklisted)) {
-			$email = new Email(
-				$newsletter->SendFrom,
-				$recipient->Email,
-				$newsletter->Subject,
-				$newsletter->Content
+			$email = new NewsLetterEmail(
+				$newsletter,
+				$recipient
 			);
 			if (!empty($newsletter->ReplyTo)) $email->addCustomHeader('Reply-To', $newsletter->ReplyTo);
 

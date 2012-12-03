@@ -116,4 +116,28 @@ class Recipient extends DataObject {
 		if (!empty($this->Email)) $e = "($this->Email)";
 		return $f.$m.$s.$e;
 	}
+
+	/**
+	 * Generate an auto login token which can be used to reset the password,
+	 * at the same time hashing it and storing in the database.
+	 *
+	 * @param int $lifetime The lifetime of the auto login hash in days (by default 2 days)
+	 *
+	 * @returns string Token that should be passed to the client (but NOT persisted).
+	 *
+	 * @todo Make it possible to handle database errors such as a "duplicate key" error
+	 */
+	public function generateAutologinTokenAndStoreHash($lifetime = 2) {
+		do {
+			$generator = new RandomGenerator();
+			$hash = $generator->randomToken();
+		} while(DataObject::get_one('Recipient', "\"ValidateHash\" = '$hash'"));
+
+		$this->ValidateHash = $hash;
+		$this->ValidateHashExpired = date('Y-m-d', time() + (86400 * $lifetime));
+
+		$this->write();
+
+		return $hash;
+	}
 }

@@ -297,7 +297,7 @@ JS
 			$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2)); 
 			$member->write(); 
 		}else{ 
-			$member->generateAutologinHash(); 
+			$member->generateAutologinTokenAndStoreHash(); 
 		}
 		
 		$newsletters = array();

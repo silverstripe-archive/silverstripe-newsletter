@@ -265,7 +265,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 				$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2)); 
 				$member->write(); 
 			}else{ 
-				$member->generateAutologinHash(); 
+				$member->generateAutologinTokenAndStoreHash(); 
 			} 
 			$nlTypeID = $this->nlType->ID; 
 			return Director::absoluteBaseURL() . "unsubscribe/index/".$member->AutoLoginHash."/$nlTypeID"; 
@@ -281,8 +281,10 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		}
 		// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
 		Requirements::clear();
+		$mailinglist = $this->MailingLists()->First();
+		$recipient = $mailinglist->Recipients()->First();
 
-		$newsletterEmail = new NewsletterEmail($this); 
+		$newsletterEmail = new NewsletterEmail($this, $recipient); 
 		return HTTP::absoluteURLs($newsletterEmail->getData()->renderWith($templateName));
 	}
 
@@ -383,7 +385,7 @@ class Newsletter_TrackedLink extends DataObject {
 				$member->AutoLoginExpired = date('Y-m-d', time() + (86400 * 2));
 				$member->write();
 			}else{
-				$member->generateAutologinHash();
+				$member->generateAutologinTokenAndStoreHash();
 			}
 			$nlTypeID = $this->nlType->ID;
 			return Director::absoluteBaseURL() . "unsubscribe/index/".$member->AutoLoginHash."/$nlTypeID";

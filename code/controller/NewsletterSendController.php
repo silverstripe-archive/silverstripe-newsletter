@@ -89,7 +89,7 @@ class NewsletterSendController extends BuildTask {
 		$stuckQueueItems = SendRecipientQueue::get()->filter(array(
 			'NewsletterID' => $newsletterID,
 			'Status' => 'InProcess',
-			'LastEdited:LessThan' => date('Y-m-d H:i:m',strtotime('+'.self::$stuck_timeout.' minutes'))
+			'LastEdited:LessThan' => date('Y-m-d H:i:m',strtotime('-'.self::$stuck_timeout.' minutes'))
 		));
 
 		$stuckCount = $stuckQueueItems->Count();

@@ -26,8 +26,8 @@
 			* @tip Set the border for your email.
 			*/
 			#templateContainer{
-				border: 1px solid #B29E80;
-				background-color:#D2C4AE;
+				border: 1px solid #333333;
+				background-color:#161616;
 			}
 			/**
 			* @tab Header
@@ -37,6 +37,12 @@
 			*/
 			#templateHeader{
 				border-bottom:1px solid #FFFFFF;
+				color: #FFFFFF;
+				font-family: "HelveticaNeueLTPro-Bd", "Helvetica Neue LT Pro Bold", "HelveticaNeueBold", "HelveticaNeue-Bold", "Helvetica Neue Bold", "Helvetica Neue LT Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			}
+			#templateHeader a{
+				color: #FFFFFF;
+				text-decoration: none;
 			}
 
 			/**
@@ -45,8 +51,8 @@
 			* @tip Set the styling for your email's header text. Choose a size and color that is easy to read.
 			*/
 			.headerContent{
-				line-height:2%;
-				padding:0;
+				line-height:1;
+				padding:10px;
 			}
 
 			#templateBody{
@@ -68,6 +74,17 @@
 			.bodyContent div a{
 				color:#000000;
 			}
+			/**
+			* @tab NewsletterFooter
+			*/
+			#templateFooterTag{
+				background: #EDEDED;
+				color: #999999;
+			}
+			.footerTagLine{
+				padding: 10px;
+				font-style: italic;
+			}
 		</style>
 	</head>
 	<body sytle="width:100% !important; -webkit-text-size-adjust:none;margin:0; padding:0;background-color:#FFFFFF;" leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
@@ -75,7 +92,7 @@
 			<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="backgroundTable" sytle="height:100% !important; margin:0; padding:0; width:100% !important; background-color:#FFFFFF;">
 				<tr>
 					<td align="center" valign="top" sytle="border-collapse:collapse;">
-						<table border="0" cellpadding="0" cellspacing="0" width="751" id="templateContainer" sytle="border: 1px solid #B29E80;background-color:#D2C4AE;">
+						<table border="0" cellpadding="0" cellspacing="0" width="751" id="templateContainer" sytle="border: 1px solid #B29E80;background-color:#161616;">
 							<% include NewsletterHeader %>
 							<tr>
 								<td align="center" valign="top" sytle="border-collapse:collapse;">
@@ -84,7 +101,6 @@
 											<td valign="top" class="bodyContent" sytle="border-collapse:collapse;">
 												<div sytle="color:#000000;font-family:'Lucida Sans Unicode',sans-serif,Verdana,Arial;font-size:13pt;line-height:140%;text-align:left;">
 													$Body
-													<% include UnsubscribeFooter %>
 												</div>
 											</td>
 										</tr>
@@ -97,6 +113,7 @@
 					</td>
 				</tr>
 			</table>
+			<% include UnsubscribeFooter %>
 		</center>
 	</body>
 </html>

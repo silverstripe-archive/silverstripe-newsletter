@@ -84,7 +84,7 @@ class SubscriptionPage extends Page {
 
 		$subscriptionTab->push(
 			$fieldsSelection = new CheckboxSetWithExtraField("Fields",
-				"<h4>Select the fields to display on the subscription form</h4>",
+				"Select the fields to display on the subscription form",
 				$fieldCandidates,
 				$extra,
 				$defaults,
@@ -98,7 +98,7 @@ class SubscriptionPage extends Page {
 		$mailinglists = MailingList::get()->filter(array('Disabled'=>false));
 		$newsletterSelection = $mailinglists && $mailinglists->count()?
 		new CheckboxSetField("MailingLists",
-			"<h4>Newsletters to subscribe to</h4>",
+			"Newsletters to subscribe to",
 			$mailinglists,
 			$mailinglists
 		):
@@ -128,7 +128,7 @@ class SubscriptionPage extends Page {
 		);
 		
 		$subscriptionTab->push(
-			new HtmlEditorField('OnCompleteMessage', "<h3>Message shown on completion</h3>")
+			new HtmlEditorField('OnCompleteMessage', "Message shown on completion")
 		);
 		return $fields;
 	}

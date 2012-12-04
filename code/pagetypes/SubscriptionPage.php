@@ -196,13 +196,13 @@ class SubscriptionPage_Controller extends Page_Controller {
 		$memberInfoSection->setID("MemberInfoSection");
 
 		if($this->MailingLists){
-			$newsletters = DataObject::get("MailingList", "ID IN (".$this->MailingLists.")");
+			$mailinglists = DataObject::get("MailingList", "ID IN (".$this->MailingLists.")");
 		}
 		
-		if(isset($newsletters) && $newsletters && $newsletters->count()>1){
+		if(isset($mailinglists) && $mailinglists && $mailinglists->count()>1){
 			$newsletterSection = new CompositeField(
 				new LabelField("Newsletters", _t("SubscriptionPage.To", "Subscribe to:"), 4),
-				new CheckboxSetField("NewsletterSelection","", $newsletters)
+				new CheckboxSetField("NewsletterSelection","", $mailinglists, $mailinglists->getIDList())
 			);
 			$formFields->push($newsletterSection);
 		}

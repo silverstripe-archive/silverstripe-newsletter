@@ -143,7 +143,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 					$checked = (in_array($key, $items)) ? ' checked="checked"' : '';
 				}
 
-				$disabled = isset($this->cellDisabled[$key]) && in_array('Value', $this->cellDisabled[$key]) ? $disabled = ' disabled="disabled"' : '';
+				$disabled = isset($this->cellDisabled[$key]) && in_array('Value', $this->cellDisabled[$key]) ? ' disabled="disabled"' : '';
 				$options .= "<tr id=\"tr_$itemID\" class=\"$extraClass\">
 				<td>
 				<input id=\"$itemID\" name=\"$this->name[$key][Value]\" type=\"checkbox\" value=\"$key\"$checked $disabled class=\"checkbox\" /> $value
@@ -202,6 +202,8 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	
 	function saveInto(DataObject $record) {
 		$fieldname = $this->name ;
+		$this->value['Email']['Value'] = 'Email';
+		$this->value['Email']['Required'] = 1;
 		$value = ArrayLib::invert($this->value);
 		if($fieldname && $record && ($record->has_many($fieldname) || $record->many_many($fieldname))) {
 			$idList = array();

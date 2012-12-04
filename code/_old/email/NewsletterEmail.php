@@ -10,16 +10,19 @@ class NewsletterEmail extends Email {
 	protected $mailinglists;
 	protected $newsletter;
 	protected $recipient;
+	protected $fakeRecipient;
 	
 	/**
 	 * @param Newsletter $newsletter
-	 * @param Mailinglists $mailinglists
+	 * @param Mailinglists $recipient
+	 * @param Boolean $fakeRecipient
 	 */
 	//	public function __construct($from = null, $to = null, $subject = null, $body = null, $bounceHandlerURL = null, $cc = null, $bcc = null) {
-	function __construct($newsletter, $recipient) {
+	function __construct($newsletter, $recipient, $fakeRecipient=false) {
 		$this->newsletter = $newsletter;
 		$this->mailinglists = $newsletter->MailingLists();
 		$this->recipient = $recipient;
+		$this->fakeRecipient = $fakeRecipient;
 		
 		parent::__construct($this->newsletter->SendFrom, $this->recipient->Email);
 
@@ -36,11 +39,13 @@ class NewsletterEmail extends Email {
 		if($this->body && $this->newsletter) {
 		
 			$text = $this->body->forTemplate();
+
+			//Recipient Fields ShortCode parsing
 			$bodyViewer = new SSViewer_FromString($text);
 			$text = $bodyViewer->process($this->templateData());
 			
 			// find all the matches
-			if(preg_match_all("/<a\s[^>]*href=\"([^\"]*)\"[^>]*>(.*)<\/a>/siU", $text, $matches)) {
+			if(!$this->fakeRecipient && preg_match_all("/<a\s[^>]*href=\"([^\"]*)\"[^>]*>(.*)<\/a>/siU", $text, $matches)) {
 
 				if(isset($matches[1]) && ($links = $matches[1])) {
 					
@@ -79,16 +84,12 @@ class NewsletterEmail extends Email {
 					
 					// replace the strings
 					$text = str_ireplace(array_keys($replacements), array_values($replacements), $text);
-					
-					// replace the body
-					$output = new HTMLText();
-					$output->setValue($text);
-					
-					$this->body = $output;
 				}
 			}
-
-
+			// replace the body
+			$output = new HTMLText();
+			$output->setValue($text);
+			$this->body = $output;
 		}
 	}
 
@@ -105,17 +106,17 @@ class NewsletterEmail extends Email {
 	}
 	
 	function UnsubscribeLink(){
-		if($this->recipient){ 
+		$listIDs = implode(",",$this->mailinglists->getIDList());
+		if($this->recipient && !$this->fakeRecipient){ 
 			if($this->recipient->ValidateHash){ 
 				$this->recipient->ValidateHashExpired = date('Y-m-d', time() + (86400 * 2)); 
 				$this->recipient->write(); 
 			}else{ 
 				$this->recipient->generateValidateHashAndStore(); 
 			} 
-			$listIDs = implode(",",$this->mailinglists->getIDList());
 			return Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/$listIDs"; 
 		}else{
-			return Director::absoluteBaseURL() . "unsubscribe/index/";
+			return Director::absoluteBaseURL() . "unsubscribe/index/fackedvalidatehash/$listIDs";
 		}
 	}
 	

@@ -263,10 +263,13 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		}
 		// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
 		Requirements::clear();
-		$mailinglist = $this->MailingLists()->First();
-		$recipient = $mailinglist->Recipients()->First();
+		$fakeRecipent = new Recipient();
+		$fakeRecipent->FirstName = "HereAsFirstName";
+		$fakeRecipent->Surname = "HereAsSurname";
+		$fakeRecipent->Email = "HereAsEmail@test.com";
+		$fakeRecipent->Salutation = "HereAsSalutation";
 
-		$newsletterEmail = new NewsletterEmail($this, $recipient);
+		$newsletterEmail = new NewsletterEmail($this, $fakeRecipent, true);
 		return HTTP::absoluteURLs($newsletterEmail->getData()->renderWith($templateName));
 	}
 

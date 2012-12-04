@@ -1,5 +1,8 @@
 .NewsletterAdmin #Form_EditForm_MailingList td.col-buttons { width: 50px; }
 
+#Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-icon, #Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-button-text { display: inline-block; vertical-align: middle; }
+#Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-button-text { padding: 0.4em 0.6em; }
+
 .cms .cms-content-fields .field .fieldgroup-field { padding: 8px 0; }
 .cms .cms-content-fields .field .fieldholder-small label { margin-left: 0; font-weight: bold; width: auto; }
 .cms .cms-content-fields .field .fieldholder-small fieldset { margin-left: 184px; }

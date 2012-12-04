@@ -9,6 +9,20 @@
 	}
 }
 
+#Root_SendRecipientQueues{
+	.ss-ui-button{
+		.ui-button-text{
+			.ui-icon, .ui-button-text{
+				display: inline-block;
+				vertical-align: middle;
+			}
+			.ui-button-text{
+				padding: 0.4em 0.6em;
+			}
+		}
+	}
+}
+
 .cms{
 	.cms-content-fields{
 		.field{

@@ -94,7 +94,7 @@ class NewsletterEmail extends Email {
 
 	public function send($id = null) {
 		$this->extend('onBeforeSend');
-		parent::send($id);
+		return parent::send($id);
 	}
 
 	/**

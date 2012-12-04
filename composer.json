@@ -14,5 +14,8 @@
 		"silverstripe/framework": "3.*",
 		"composer/installers": "*",
 		"silverstripe/messagequeue": "*"
+	},
+	"autoload": {
+		"classmap": ["tests/behat/"]
 	}
 }

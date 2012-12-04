@@ -27,10 +27,10 @@ class SubscriptionPage extends Page {
 		'Fields' => 'Email',
 		'SubmissionButtonText' => 'Submit'
 	);
-	
+
 	function getCMSFields() {
 		$fields = parent::getCMSFields();
-		$fields ->addFieldToTab("Root.Content",
+		$fields ->addFieldToTab("Root",
 			$subscriptionTab = new Tab(
 				_t('Newsletter.SUBSCRIPTIONFORM', 'SubscriptionForm')
 			)
@@ -48,36 +48,33 @@ class SubscriptionPage extends Page {
 		);
 
 		//Fields selction
-		$dataFields = singleton('Recipient')->getCMSFields()->dataFields();
+		$frontFields = singleton('Recipient')->getFrontendFields()->dataFields();
 
-		//Since the subscription form is focuse add a member to newsletter groups, we should avoid Password stuff and leave it to member forget/reset password mechanism.
-		if(isset($dataFields['Password'])) unset($dataFields['Password']);
-		
 		$fieldCandidates = array();
-		if(count($dataFields)){
+		if(count($frontFields)){
 			$exludes = array(
 				"BouncedCount",
 				"Blacklisted",
 				"ReceivedCount",
 				"ValidateHash",
 				"ValidateHashExpired",
+				"LanguagePreferred",
+				"Archived"
 			);
-			foreach($dataFields as $fieldName => $dataField){
+			foreach($frontFields as $fieldName => $dataField){
 				if(!in_array($fieldName, $exludes))
 				$fieldCandidates[$fieldName]= $dataField->Title()?$dataField->Title():$dataField->Name();
 			}
 		}
 
 
-		$frontFields = singleton('Recipient')->getFrontendFields()->dataFields();
-		//Since Email field is the Recipient's identifier, and newsletters subscription is non-sence if no email is given by the user, we should force that email to be checked and required.
-		$defaults = array("Email");
-		if(count($frontFields)){
-			foreach($frontFields as $fieldName => $memberField){
-				$defaults[] = $fieldName;
-			}
-		}
-		
+
+		//Since Email field is the Recipient's identifier,
+		//and newsletters subscription is non-sence if no email is given by the user,
+		//we should force that email to be checked and required.
+		//FisrtName should be checked as default, though it might not be required
+		$defaults = array("Email", "FirstName");
+				
 		$extra = array('CustomisedLables'=>"Varchar","CustomisedErrors"=>"Varchar","Required" =>"Boolean");
 		$extraValue = array(
 			'CustomisedLables'=>$this->CustomisedLables,
@@ -89,18 +86,21 @@ class SubscriptionPage extends Page {
 			$fieldsSelection = new CheckboxSetWithExtraField("Fields",
 				"<h4>Select the fields to display on the subscription form</h4>",
 				$fieldCandidates,
-				$extra
+				$extra,
+				$defaults,
+				$extraValue
 			)
 		);
-		$fieldsSelection->setValue($defaults);
+
 		$fieldsSelection->setCellDisabled(array("Email"=>array("Value","Required")));
+
 		//Mailing Lists selection
-		$mailingLists = DataObject::get("MailingList");
-		$newsletterSelection = $mailingLists?
+		$mailinglists = MailingList::get()->filter(array('Disabled'=>false));
+		$newsletterSelection = $mailinglists && $mailinglists->count()?
 		new CheckboxSetField("MailingLists",
 			"<h4>Newsletters to subscribe to</h4>",
-			$mailingLists,
-			$mailingLists
+			$mailinglists,
+			$mailinglists
 		):
 		new LiteralField(
 			"NoMailingList",
@@ -119,7 +119,7 @@ class SubscriptionPage extends Page {
 			new ToggleCompositeField("SendNotificationToggle", "Send notification email to the subscriber?",
 				new SelectionGroup("SendNotification", array(
 					"0//no" => new CompositeField(),
-					"1//yes" => new FieldGroup(
+					"1//yes" => new CompositeField(
 						new TextField("NotificationEmailSubject", "Notification Email Subject Line:"),
 						new TextField("NotificationEmailFrom", "From Email Address for Notification Email")
 					))
@@ -130,7 +130,6 @@ class SubscriptionPage extends Page {
 		$subscriptionTab->push(
 			new HtmlEditorField('OnCompleteMessage', "<h3>Message shown on completion</h3>")
 		);
-		
 		return $fields;
 	}
 	
@@ -156,7 +155,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 		parent::init();
 		
 		// block prototype validation
-		Validator::set_javascript_validation_handler('none');
+		//Validator::set_javascript_validation_handler('none');
 		
 		// load the jquery
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
@@ -190,7 +189,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 				}
 			}
 		}
-		$formFields = new FieldSet(
+		$formFields = new FieldList(
 			new HeaderField("CustomisedHeading", $this->owner->CustomisedHeading),
 			$memberInfoSection
 		);
@@ -209,7 +208,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 		}
 		
 		$buttonTitle = $this->SubmissionButtonText;
-		$actions = new FieldSet(
+		$actions = new FieldList(
 			new FormAction('doSubscribe', $buttonTitle)
 		);
 		

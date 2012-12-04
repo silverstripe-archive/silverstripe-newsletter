@@ -25,7 +25,6 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	function __construct($name, $title = "", $source = array(), $extra=array(), $value = "", $extraValue=array(), $form = null) {
 		if(!empty($extra)) $this->extra = $extra;
 		if(!empty($extraValue)) $this->extraValue = $extraValue;
-		
 		parent::__construct($name, $title, $source, $value, $form);
 	}
 
@@ -38,8 +37,9 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	 */
 	function FieldHolder() {
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
-		Requirements::javascript(NEWSLETTER_DIR . '/thirdparty/jquery-tablednd/jquery.tablednd_0_5.js');
+		Requirements::javascript(NEWSLETTER_DIR . '/thirdparty/jquery-tablednd/jquery.tablednd.0.7.min.js');
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/CheckboxSetWithExtraField.js');
+		Requirements::css(NEWSLETTER_DIR . '/css/CheckboxSetWithExtraField.css');
 		
 		return parent::FieldHolder();
 	}
@@ -51,11 +51,8 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	 * @todo Should use CheckboxField FieldHolder rather than constructing own markup.
 	 */
 	function Field() {
-		Requirements::css(NEWSLETTER_DIR . '/css/CheckboxSetWithExtraField.css');
-
 		$source = $this->source;
 		$values = $this->value;
-		
 		// Get values from the join, if available
 		if(is_object($this->form)) {
 			$record = $this->form->getRecord();
@@ -76,7 +73,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 				$items = $values;
 			} else {
 				// Source and values are DataObject sets.
-				if($values && is_a($values, 'DataObjectSet')) {
+				if($values && is_a($values, 'DataList')) {
 					foreach($values as $object) {
 						if(is_a($object, 'DataObject')) {
 							$items[] = $object->ID;
@@ -89,7 +86,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 			}
 		} else {
 			// Sometimes we pass a singluar default value thats ! an array && !DataObjectSet
-			if(is_a($values, 'DataObjectSet') || is_array($values)) {
+			if(is_a($values, 'DataList') || is_array($values)) {
 				$items = $values;
 			} else {
 				$items = explode(',', $values);
@@ -147,7 +144,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 				}
 
 				$disabled = isset($this->cellDisabled[$key]) && in_array('Value', $this->cellDisabled[$key]) ? $disabled = ' disabled="disabled"' : '';
-				$options .= "<tr class=\"$extraClass\">
+				$options .= "<tr id=\"tr_$itemID\" class=\"$extraClass\">
 				<td>
 				<input id=\"$itemID\" name=\"$this->name[$key][Value]\" type=\"checkbox\" value=\"$key\"$checked $disabled class=\"checkbox\" /> $value
 				</td>";
@@ -177,7 +174,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 			}
 		}
 		
-		return "<table id=\"{$this->id()}\" class=\"optionset checkboxsetwithextrafield{$this->extraClass()}\">".$header.$footer.$options."</table>\n"; 
+		return "<table id=\"{$this->id()}\" class=\"optionset checkboxsetwithextrafield {$this->extraClass()}\">".$header.$footer.$options."</table>\n"; 
 	}
 	
 	/**
@@ -238,17 +235,19 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 		}
 	}
 	
-	function setValue($val, $data = false){
-		
-		if(!$data) return;
-		
-		if(is_string($val)) {
-			$val = explode(",", $val);
+	function setValue($value, $obj = null){
+		// If we're not passed a value directly, we can look for it in a relation method on the object passed as a
+		// second arg
+		if(!$value && $obj && $obj instanceof DataObject && $obj->hasMethod($this->name)) {
+			$funcName = $this->name;
+			$value = $obj->$funcName()->getIDList();
+		}else if(is_string($value)) {
+			$value = explode(",", $value);
 		}
-	
-		$this->value = $val;
+
+		parent::setValue($value, $obj);
 		
-		// We need to sort the fields according to the $val, so that the list of
+		// We need to sort the fields according to the $value, so that the list of
 		// fields apparing in the right order.
 		$sortedSource = array();
 		$sourceKeys = array_keys($this->source);
@@ -258,13 +257,13 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 			}
 		}
 		$this->source = array_merge($sortedSource, $this->source);
-		
 		if(count($this->extra)){
 			foreach($this->extra as $field => $type){
-				if($data && isset($data->$field)){
-					$this->extraValue[$field] = $data->$field;
+				if($obj && isset($obj->$field)){
+					$this->extraValue[$field] = $obj->$field;
 				}
 			}
 		}
+		return $this;
 	}
 }

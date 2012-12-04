@@ -1,10 +1,14 @@
+table.checkboxsetwithextrafield tr{
+	border: 1px solid #000000;
+}
+
 table.checkboxsetwithextrafield thead tr,
 table.checkboxsetwithextrafield tfoot tr {
 	background-color: #CCDEF3;
 	color: #2F383F;
 }
 
-table.checkboxsetwithextrafield tbody tr.even {
+table.checkboxsetwithextrafield tbody .even {
 	background-color: #AAAAAA;
 }
 
@@ -13,24 +17,21 @@ table.checkboxsetwithextrafield tr th{
 	padding: 5px;
 }
 
-table.checkboxsetwithextrafield tbody tr td{
-	/*border: 1px solid #000000;*/
-}
 
 table.checkboxsetwithextrafield tr td,
 table.checkboxsetwithextrafield tr td label,
 table.checkboxsetwithextrafield tr th{
-	font-size: 14px !important;
+	font-size: 14px;
 }
 
 
-table.checkboxsetwithextrafield tbody tr.DnD_whiledragging {
+table.checkboxsetwithextrafield tbody .DnD_whiledragging {
 	background-color: #000000;
 	border: 1px solid #3399FF;
 	color: #ffffff;
 }
-table.checkboxsetwithextrafield tbody tr td.dragHandle{
-	background-image:url(../../sapphire/images/drag.gif);
+table.checkboxsetwithextrafield tbody tr .dragHandle{
+	background-image:url(../images/drag.gif);
 	background-position:center center;
 	background-repeat:no-repeat;
 	cursor:move;
@@ -38,6 +39,6 @@ table.checkboxsetwithextrafield tbody tr td.dragHandle{
 	padding-right:15px;
 }
 
-table.checkboxsetwithextrafield tbody tr td.showDragHandle{
-	background-image:url(../../sapphire/images/drag_readonly.gif);
+table.checkboxsetwithextrafield tbody tr showDragHandle{
+	background-image:url(../images/drag_readonly.gif);
 }

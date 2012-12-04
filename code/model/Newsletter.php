@@ -52,6 +52,13 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	);
 
 	/**
+	 * never edit this object since it is all automatically created/updated
+	 */
+	function canEdit(){
+		return false;
+	}
+
+	/**
 	 * Returns a FieldSet with which to create the CMS editing form.
 	 * You can use the extend() method of FieldSet to create customised forms for your other
 	 * data objects.
@@ -85,6 +92,18 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		$fields->removeFieldFromTab('Root.SendRecipientQueue',"SendRecipientQueue");
 		$fields->removeByName('SendRecipientQueue');
 		$fields->addFieldToTab('Root.SendRecipientQueues',$sendRecipientGrid);
+
+		if($this->Status !== 'Sent') {
+			$fields->removeByName('TrackedLinks');
+		}else{
+			$config = $fields->dataFieldByName('TrackedLinks')->getConfig();
+			$config->removeComponentsByType('GridFieldDeleteAction')
+				->removeComponentsByType('GridFieldAddNewButton')
+				->removeComponentsByType('GridFieldButtonRow')
+				->removeComponentsByType('GridFieldAddExistingAutocompleter')
+				->removeComponentsByType('GridFieldDetailForm')
+				->removeComponentsByType('GridFieldEditButton');
+		}
 
 		$fields->addFieldToTab('Root.SendRecipientQueues',
 			new LiteralField('RestartQueueButton',
@@ -339,6 +358,12 @@ class Newsletter_TrackedLink extends DataObject {
 	
 	static $has_one = array(
 		'Newsletter' => 'Newsletter'
+	);
+
+	static $summary_fields = array(
+		"Newsletter.Subject" => "Newsletter",
+		"Original" => "Link URL",
+		"Visits" => "Visit Counts"
 	);
 	
 	/**

@@ -1,9 +1,9 @@
 table.checkboxsetwithextrafield tr{
 	border: 1px solid #000000;
-	.even {
+	&.even {
 		background-color: #AAAAAA;
 	}
-	.DnD_whiledragging {
+	&.DnD_whiledragging {
 		background-color: #000000;
 		border: 1px solid #3399FF;
 		color: #ffffff;

@@ -1,6 +1,6 @@
 table.checkboxsetwithextrafield tr { border: 1px solid #000000; }
-table.checkboxsetwithextrafield tr .even { background-color: #AAAAAA; }
-table.checkboxsetwithextrafield tr .DnD_whiledragging { background-color: #000000; border: 1px solid #3399FF; color: #ffffff; }
+table.checkboxsetwithextrafield tr.even { background-color: #AAAAAA; }
+table.checkboxsetwithextrafield tr.DnD_whiledragging { background-color: #000000; border: 1px solid #3399FF; color: #ffffff; }
 table.checkboxsetwithextrafield tr .dragHandle { background-image: url(../images/drag.gif); background-position: center center; background-repeat: no-repeat; cursor: move; padding-left: 15px; padding-right: 15px; }
 table.checkboxsetwithextrafield tr .showDragHandle { background-image: url(../images/drag_readonly.gif); }
 table.checkboxsetwithextrafield tr td, table.checkboxsetwithextrafield tr th { padding: 5px; font-size: 14px; }

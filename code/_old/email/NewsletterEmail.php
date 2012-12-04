@@ -31,10 +31,13 @@ class NewsletterEmail extends Email {
 		
 		$this->body = $newsletter->getContentBody();
 		$this->subject = $newsletter->Subject;
+		$this->ss_template = $newsletter->RenderTemplate;
 		
 		if($this->body && $this->newsletter) {
 		
 			$text = $this->body->forTemplate();
+			$bodyViewer = new SSViewer_FromString($text);
+			$text = $bodyViewer->process($this->templateData());
 			
 			// find all the matches
 			if(preg_match_all("/<a\s[^>]*href=\"([^\"]*)\"[^>]*>(.*)<\/a>/siU", $text, $matches)) {
@@ -116,20 +119,29 @@ class NewsletterEmail extends Email {
 		}
 	}
 	
-	function getData() {
+	protected function templateData() {
+		$default = array(
+			"To" => $this->to,
+			"Cc" => $this->cc,
+			"Bcc" => $this->bcc,
+			"From" => $this->from,
+			"Subject" => $this->subject,
+			"Body" => $this->body,
+			"BaseURL" => $this->BaseURL(),
+			"IsEmail" => true,
+		);
+		$default['Salutation'] = $this->recipient->Salutation;
+		$default['FirstName'] = $this->recipient->FirstName;
+		$default['MiddleName'] = $this->recipient->MiddleName;
+		$default['Surname'] = $this->recipient->Surname;
 		if($this->template_data) {
-			return $this->template_data->customise(array(
-				"To" => $this->to,
-				"Cc" => $this->cc,
-				"Bcc" => $this->bcc,
-				"From" => $this->from,
-				"Subject" => $this->subject,
-				"Body" => $this->body,
-				"BaseURL" => $this->BaseURL(),
-				"IsEmail" => true,
-			));
+			return $this->template_data->customise($default);
 		} else {
 			return $this;
 		}
+	}
+
+	public function getData() {
+		return $this->templateData();
 	}
 }

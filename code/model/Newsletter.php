@@ -266,7 +266,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		$mailinglist = $this->MailingLists()->First();
 		$recipient = $mailinglist->Recipients()->First();
 
-		$newsletterEmail = new NewsletterEmail($this, $recipient); 
+		$newsletterEmail = new NewsletterEmail($this, $recipient);
 		return HTTP::absoluteURLs($newsletterEmail->getData()->renderWith($templateName));
 	}
 

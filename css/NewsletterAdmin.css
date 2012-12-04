@@ -1,0 +1,7 @@
+.NewsletterAdmin #Form_EditForm_MailingList td.col-buttons { width: 50px; }
+
+.cms .cms-content-fields .field .fieldgroup-field { padding: 8px 0; }
+.cms .cms-content-fields .field .fieldholder-small label { margin-left: 0; font-weight: bold; width: auto; }
+.cms .cms-content-fields .field .fieldholder-small fieldset { margin-left: 184px; }
+.cms table.ss-gridfield-table tbody td.col-buttons { width: 60px; }
+.cms table.ss-gridfield-table tbody td.col-buttons button .ui-button-text { padding: 0.4em 1.2em; }

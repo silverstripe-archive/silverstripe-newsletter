@@ -1,4 +1,45 @@
+.NewsletterAdmin{
 
+
+	
+	#Form_EditForm_MailingList{
+		td.col-buttons{
+			width: 50px;
+		}
+	}
+}
+
+.cms{
+	.cms-content-fields{
+		.field{
+			.fieldgroup-field{
+				padding: 8px 0;
+			}
+			.fieldholder-small{
+				label{
+					margin-left: 0;
+					font-weight: bold;
+					width: auto;
+				}
+				fieldset{
+					margin-left: 184px;
+				}
+			}
+		}
+	}
+	table.ss-gridfield-table{
+		tbody{
+			td.col-buttons{
+				width: 60px;
+				button{
+					.ui-button-text{
+						padding: 0.4em 1.2em;
+					}
+				}
+			}
+		}
+	}
+}
 
 
 

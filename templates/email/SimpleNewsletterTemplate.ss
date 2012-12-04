@@ -52,7 +52,7 @@
 			*/
 			.headerContent{
 				line-height:1;
-				padding:10px;
+				padding:5px 20px 10px;
 			}
 
 			#templateBody{
@@ -82,7 +82,7 @@
 				color: #999999;
 			}
 			.footerTagLine{
-				padding: 10px;
+				padding: 10px 20px;
 				font-style: italic;
 			}
 		</style>

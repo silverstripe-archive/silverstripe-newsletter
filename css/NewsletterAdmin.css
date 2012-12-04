@@ -1,4 +1,5 @@
-.NewsletterAdmin #Form_EditForm_MailingList td.col-buttons { width: 50px; }
+#Root_Main .fieldgroup .fieldholder-small .add-existing-autocompleter { display: inline-block; margin-left: 10px; width: auto; }
+#Root_Main .fieldgroup .fieldholder-small .add-existing-autocompleter:before { content: 'or'; margin-right: 10px; font-weight: bold; }
 
 #Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-icon, #Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-button-text { display: inline-block; vertical-align: middle; }
 #Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-button-text { padding: 0.4em 0.6em; }

@@ -1,10 +1,21 @@
 .NewsletterAdmin{
 
+}
 
-	
-	#Form_EditForm_MailingList{
-		td.col-buttons{
-			width: 50px;
+#Root_Main{
+	.fieldgroup{
+		.fieldholder-small{
+			.add-existing-autocompleter{
+				display: inline-block;
+				margin-left: 10px;
+				width: auto;
+				&:before{
+					content: 'or';
+					margin-right: 10px;
+					font-weight: bold;
+
+				}
+			}
 		}
 	}
 }

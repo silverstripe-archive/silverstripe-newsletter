@@ -10,7 +10,7 @@
 					dragHandle: ".dragHandle",
 					onDragStart: function(table, row) {
 						indicator = document.createElement('div');
-						$(indicator).html('Moving the row ...');
+						$(indicator).html('Moving ...');
 						$(row).append($(indicator));
 					},
 					onDrop:function(table, row){
@@ -28,9 +28,10 @@
 			},
 			onmouseout: function() {
 				jQuery($(this).children(".dragHandle")[0]).removeClass('showDragHandle');
+			},
+			onmouseup: function() {
+				jQuery($(this).find(".dragHandle")[0]).empty();
 			}
 		});
 	});
 }(jQuery));
-
-

@@ -51,12 +51,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		"Status",
 	);
 
-	/**
-	 * never edit this object since it is all automatically created/updated
-	 */
-	function canEdit(){
-		return false;
-	}
 
 	/**
 	 * Returns a FieldSet with which to create the CMS editing form.
@@ -93,7 +87,8 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		$fields->removeByName('SendRecipientQueue');
 		$fields->addFieldToTab('Root.SendRecipientQueues',$sendRecipientGrid);
 
-		if($this->Status !== 'Sent') {
+		//only show the TrackedLinks tab, if there are tracked links in the newsletter and the status is "Sent"
+		if($this->Status !== 'Sent' || $this->TrackedLinks()->count() == 0) {
 			$fields->removeByName('TrackedLinks');
 		}else{
 			$config = $fields->dataFieldByName('TrackedLinks')->getConfig();

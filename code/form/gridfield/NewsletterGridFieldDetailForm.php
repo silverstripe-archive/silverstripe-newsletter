@@ -10,8 +10,7 @@ class NewsletterGridFieldDetailForm extends GridFieldDetailForm {
 class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRequest {
 
 	public function updateCMSActions($actions) {
-		// remove delete button
-		$actions->removeByName("action_doDelete");
+
 
 		// save draft button
 		$saveButton = $actions->fieldByName("action_doSave")

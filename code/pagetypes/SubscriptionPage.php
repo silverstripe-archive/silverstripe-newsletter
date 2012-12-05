@@ -166,7 +166,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 		if($this->URLParams['Action'] == 'complete') return;
 		$dataFields = singleton('Recipient')->getCMSFields()->dataFields();
 		
-		if($this->CustomisedLables) $customisedLables = Convert::json2array($this->CustomisedLables);
+		if($this->CustomisedLabels) $customisedLabels = Convert::json2array($this->CustomisedLabels);
 
 		$fields = array();
 		if($this->Fields){
@@ -190,14 +190,14 @@ class SubscriptionPage_Controller extends Page_Controller {
 						);
 					}else{
 						if(isset($requiredFields[$field])) {
-							if(isset($customisedLables[$field])){
-								$title = $customisedLables[$field]." * ";
+							if(isset($customisedLabels[$field])){
+								$title = $customisedLabels[$field]." * ";
 							} else {
 								$title = $dataFields[$field]->Title(). " * ";
 							}
 						}else{
-							if(isset($customisedLables[$field])){
-								$title = $customisedLables[$field];
+							if(isset($customisedLabels[$field])){
+								$title = $customisedLabels[$field];
 							} else {
 								$title = $dataFields[$field]->Title();
 							}
@@ -247,7 +247,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 					if(isset($customisedErrors[$field]) && $customisedErrors[$field]) {
 						$error = $customisedErrors[$field];
 					}else{
-						$label=isset($customisedLables[$field])?$customisedLables[$field]:$dataFields[$field]->Title();
+						$label=isset($customisedLabels[$field])?$customisedLabels[$field]:$dataFields[$field]->Title();
 						$error="Please enter your $label field";
 					}
 					

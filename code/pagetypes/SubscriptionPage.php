@@ -13,7 +13,7 @@ class SubscriptionPage extends Page {
 		'Fields' => 'Text',
 		'Required' => 'Text',
 		'CustomisedHeading' => 'Text',
-		'CustomisedLables' => 'Text',
+		'CustomisedLabels' => 'Text',
 		'CustomisedErrors' => 'Text',
 		'MailingLists' => 'Text',
 		'SubmissionButtonText' => 'Varchar',
@@ -75,9 +75,9 @@ class SubscriptionPage extends Page {
 		//FisrtName should be checked as default, though it might not be required
 		$defaults = array("Email", "FirstName");
 				
-		$extra = array('CustomisedLables'=>"Varchar","CustomisedErrors"=>"Varchar","Required" =>"Boolean");
+		$extra = array('CustomisedLabels'=>"Varchar","CustomisedErrors"=>"Varchar","Required" =>"Boolean");
 		$extraValue = array(
-			'CustomisedLables'=>$this->CustomisedLables,
+			'CustomisedLabels'=>$this->CustomisedLabels,
 			"CustomisedErrors"=>$this->CustomisedErrors,
 			"Required" =>$this->Required
 		);

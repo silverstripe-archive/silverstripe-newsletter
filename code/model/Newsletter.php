@@ -7,7 +7,7 @@
 class Newsletter extends DataObject implements CMSPreviewable{
 
 	static $db = array(
-		"Status" => "Enum('New, Draft, Sending, Sent', 'New')",
+		"Status" => "Enum('Draft, Sending, Sent', 'Draft')",
 		"Subject" => "Varchar(255)",
 		"Template" => "Boolean",
 		"Content" => "HTMLText",

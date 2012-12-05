@@ -10,25 +10,30 @@ class NewsletterGridFieldDetailForm extends GridFieldDetailForm {
 class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRequest {
 
 	public function updateCMSActions($actions) {
-		// save draft button
-		$saveButton = $actions->fieldByName("action_doSave")
-			->setTitle(_t('Newsletter.SAVEDRAFT', "Save as new draft"))
-			->removeExtraClass('ss-ui-action-constructive')
-			->setAttribute('data-icon', 'addpage');
-
-
-		// send button
-		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js');
-		if ($this->record->SentDate) {
-			$sendButton = FormAction::create('doSend', _t('Newsletter.RESEND', 'Save as new & Resend'));
-		} else {
-			$sendButton = FormAction::create('doSend', _t('Newsletter.SaveAndSend','Save & Send...'));
+		if (empty($this->record->Status) || $this->record->Status == "Draft") {
+			// save draft button
+			$actions->fieldByName("action_doSave")
+				->setTitle(_t('Newsletter.SAVEDRAFT', "Save Draft"))
+				->removeExtraClass('ss-ui-action-constructive')
+				->setAttribute('data-icon', 'addpage');
+		} else {    //sending or sent, "save as new" button
+			$saveAsNewButton = FormAction::create('doSaveAsNew', _t('Newsletter.SaveAsNew',"Save as new Draft..."));
+			$actions->replaceField("action_doSave",
+				$saveAsNewButton
+				->addExtraClass('ss-ui-action-constructive')
+				->setAttribute('data-icon', 'addpage')
+				->setUseButtonTag(true), 'action_doSaveAsNew');
 		}
 
-		$actions->insertBefore($sendButton
-				->addExtraClass('ss-ui-action-constructive')
-				->setAttribute('data-icon', 'accept')
-				->setUseButtonTag(true), 'action_doSave');
+		// send button
+		if ($this->record->Status == "Draft") { //only allow sending when the newsletter is "Draft"
+			Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js');
+			$sendButton = FormAction::create('doSend', _t('Newsletter.SendAndArchive','Send and Archive'));
+			$actions->insertBefore($sendButton
+							->addExtraClass('ss-ui-action-constructive')
+							->setAttribute('data-icon', 'accept')
+							->setUseButtonTag(true), 'action_doSave');
+		}
 
 		return $actions;
 	}
@@ -73,6 +78,40 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		}else{
 			return false;
 		}
+	}
+
+	public function doSaveAsNew($data, $form){
+		$newNewsletter = new Newsletter();
+		$controller = Controller::curr();
+
+		try {
+			$newNewsletter->write();
+			$form->saveInto($newNewsletter);
+			$newNewsletter->Status = 'Draft';  //custom: changing the status of to indicate we are sending
+			$newNewsletter->write();
+		} catch(ValidationException $e) {
+			$form->sessionMessage($e->getResult()->message(), 'bad');
+			$responseNegotiator = new PjaxResponseNegotiator(array(
+				'CurrentForm' => function() use(&$form) {
+					return $form->forTemplate();
+				},
+				'default' => function() use(&$controller) {
+					return $controller->redirectBack();
+				}
+			));
+			if($controller->getRequest()->isAjax()){
+				$controller->getRequest()->addHeader('X-Pjax', 'CurrentForm');
+			}
+			return $responseNegotiator->respond($controller->getRequest());
+		}
+
+		$form->sessionMessage(_t('NewsletterAdmin.SaveAsNewMessage',
+			'New Newsletter created as copy of sent newsletter'), 'good');
+
+		//create a link to the newly created object and open that instead of the old sent newsletter we had open before
+		$link = Controller::join_links($this->gridField->Link('item'),$newNewsletter->ID ? $newNewsletter->ID : 'new');
+		$link = str_replace('_Sent','',$link);
+		return Controller::curr()->redirect($link);
 	}
 
 	public function doSend($data, $form){

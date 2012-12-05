@@ -87,7 +87,19 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		try {
 			$newNewsletter->write();
 			$form->saveInto($newNewsletter);
+
 			$newNewsletter->Status = 'Draft';  //custom: changing the status of to indicate we are sending
+
+			//add a (1) (2) count to new newsletter names if the subject name already exists elsewhere
+			$subjectCount = 0;
+			$newSubject = $newNewsletter->Subject;
+			do {
+				if ($subjectCount > 0) $newSubject = $newNewsletter->Subject . " ($subjectCount)";
+				$existingSubjectCount = Newsletter::get()->filter(array('Subject'=>$newSubject))->count();
+				$subjectCount++;
+			} while($existingSubjectCount != 0);
+			$newNewsletter->Subject = $newSubject;
+
 			$newNewsletter->write();
 		} catch(ValidationException $e) {
 			$form->sessionMessage($e->getResult()->message(), 'bad');

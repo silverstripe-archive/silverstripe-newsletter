@@ -83,6 +83,49 @@ class Recipient extends DataObject {
 		$this->LanguagePreferred = i18n::get_locale();
 	}
 
+	/**
+	 * Event handler called before writing to the database. we need to deal with the unique_identifier_field here
+	 * Also set LanguagePreferred as the current locale, if not set yet.
+	 */
+	public function onBeforeWrite() {
+		// If a recipient with the same "unique identifier" already exists with a different ID, don't allow merging.
+		// Note: This does not a full replacement for safeguards in the controller layer (e.g. in a subscription form), 
+		// but rather a last line of defense against data inconsistencies.
+		$identifierField = self::$unique_identifier_field;
+		if($this->$identifierField) {
+			// Note: Same logic as Member_Validator class
+			$idClause = ($this->ID) ? sprintf(" AND \"Recipient\".\"ID\" <> %d", (int)$this->ID) : '';
+			$existingRecord = DataObject::get_one(
+				'Recipient', 
+				sprintf(
+					"\"%s\" = '%s' %s",
+					$identifierField,
+					Convert::raw2sql($this->$identifierField),
+					$idClause
+				)
+			);
+			if($existingRecord) {
+				throw new ValidationException(new ValidationResult(false, _t(
+					'Recipient.ValidationIdentifierFailed', 
+					'Can\'t overwrite existing recipient #{id} with identical identifier ({name} = {value}))', 
+					'Values in brackets show "fieldname = value", usually denoting an existing email address',
+					array(
+						'id' => $existingRecord->ID,
+						'name' => $identifierField,
+						'value' => $this->$identifierField
+					)
+				)));
+			}
+		}
+
+		// save LanguagePreferred
+		if(!$this->LanguagePreferred) {
+			$this->LanguagePreferred = i18n::get_locale();
+		}
+		
+		parent::onBeforeWrite();
+	}
+
 	public function getCMSFields() {
 		$fields =parent::getCMSFields();
 		$fields->removeByName("ValidateHash");

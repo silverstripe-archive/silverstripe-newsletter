@@ -159,7 +159,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 		
 		// load the jquery
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
-		Requirements::javascript(NEWSLETTER_DIR . '/thirdparty/jquery-validate/jquery.validate.min.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery-validate/jquery.validate.min.js');
 	}
 	
 	function Form(){
@@ -212,39 +212,76 @@ class SubscriptionPage_Controller extends Page_Controller {
 			new FormAction('doSubscribe', $buttonTitle)
 		);
 		
-		$form = new Form($this, "Form", $formFields, $actions);
+		$requiredFields = Convert::json2array($this->Required);
+		if(!empty($requiredFields)) $required = new RequiredFields($requiredFields);
+		else $required = null;
+		$form = new Form($this, "Form", $formFields, $actions, $required);
 		
 		// using jQuery to customise the validation of the form
 		$FormName = $form->FormName();
-		$messages = $this->CustomisedErrors;
-		if($this->Required){
+		$customisedErrors = Convert::json2array($this->CustomisedErrors);
+
+		if(!empty($requiredFields)){
 			$jsonRuleArray = array();
-			foreach(Convert::json2array($this->Required) as $field => $true){
+			$jsonMessageArray = array();
+			foreach($requiredFields as $field => $true){
 				if($true){
-					if($field === 'Email') $jsonRuleArray[] = $field.":{required: true, email: true}";
-					else $jsonRuleArray[] = $field.":{required: true}";
+					if(isset($customisedErrors[$field]) && $customisedErrors[$field]) {
+						$error = $customisedErrors[$field];
+					}else{
+						$label = isset($customisedLables[$field])?$customisedLables[$field]:$dataFields[$field]->Title();
+						$error = "Please enter your $label field";
+					}
+					
+					if($field === 'Email') {
+						$jsonRuleArray[] = $field.":{required: true, email: true}";
+						$message = <<<JSON
+{
+required: "<span class='exclamation'></span><span class='validation-bubble'>
+$error<span></span></span>",
+email: "<span class='exclamation'></span><span class='validation-bubble'>
+Please enter a valid email address<span></span></span>"
+}
+JSON;
+						$jsonMessageArray[] = $field.":$message";
+					} else {
+						$jsonRuleArray[] = $field.":{required: true}";
+						$message = <<<HTML
+<span class='exclamation'></span><span class='validation-bubble'>$error<span></span></span>
+HTML;
+						$jsonMessageArray[] = $field.":\"$message\"";
+					}
 				}
 			}
-			
 			$rules = "{".implode(", ", $jsonRuleArray)."}";
+			$messages = "{".implode(",", $jsonMessageArray)."}";
 		}else{
 			$rules = "{Email:{required: true, email: true}}";
+			$messages = <<<JS
+{Email: {
+required: "<span class='exclamation'></span><span class='validation-bubble'>
+Please enter your email address<span></span></span>",
+email: "<span class='exclamation'></span><span class='validation-bubble'>
+Please enter a valid email address<span></span></span>"
+}}
+JS;
 		}
 
 		// set the custom script for this form
 		Requirements::customScript(<<<JS
-			(function($) {
-				jQuery(document).ready(function() {
-					jQuery("#$FormName").validate({
-						errorClass: "required",
-						focusCleanup: true,
-						messages: $messages,
-						rules: $rules
-					});
-				});
-			})(jQuery);
+jQuery(document).ready(function() {
+	$("#$FormName").validate({
+		errorPlacement: function(error, element){
+			error.insertAfter(element);
+		},
+		focusCleanup: true,
+		messages: $messages,
+		rules: $rules
+	});
+});
 JS
 		);
+
 		return $form;
 	}
 	

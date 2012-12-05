@@ -13,7 +13,7 @@ class NewsletterAdmin extends ModelAdmin {
 
 	public static $managed_models = array(
 		"Newsletter",
-		"Newsletter_Archive",
+		"Newsletter_Sent",
 		"MailingList"
 	);
 
@@ -31,12 +31,6 @@ class NewsletterAdmin extends ModelAdmin {
 	static $template_paths = null; //could be customised in _config.php
 
 	public function init() {
-		if($this->modelClass === "Newsletter_Archive") {
-//			$this->modelClassFilter = $this->modelClass;
-//			$this->modelClass = "Newsletter";
-		//	Config::inst()->update($this->class, 'managed_models', 'Newsletter');
-		}
-		
 		parent::init();
 		Requirements::javascript(CMS_DIR . '/javascript/SilverStripeNavigator.js');
 		Requirements::css('newsletter/css/NewsletterAdmin.css');
@@ -47,7 +41,7 @@ class NewsletterAdmin extends ModelAdmin {
 		$form = parent::getEditForm($id, $fields);
 
 		//custom handling of the newsletter modeladmin with a specialized action menu for the detail form
-		if ($this->modelClass == "Newsletter" || $this->modelClass == "Newsletter_Archive") {
+		if ($this->modelClass == "Newsletter" || $this->modelClass == "Newsletter_Sent") {
 			$config = $form->Fields()->first()->getConfig();
 			$config->removeComponentsByType('GridFieldDetailForm')
 				->addComponents(new NewsletterGridFieldDetailForm());
@@ -57,7 +51,7 @@ class NewsletterAdmin extends ModelAdmin {
 			}
 			$config->getComponentByType('GridFieldDataColumns')
 				->setFieldCasting(array(
-					"AsTemplate" => "Boolean->Nice",
+					"Template" => "Boolean->Nice",
 					"Content" => "HTMLText->LimitSentences",
 			));
 		}
@@ -114,7 +108,7 @@ class NewsletterAdmin extends ModelAdmin {
 
 	public function getList() {
 		$list = parent::getList();
-		if($this->modelClass == "Newsletter_Archive"){
+		if($this->modelClass == "Newsletter_Sent"){
 			$list->addFilter(array("Archived" => "1"));
 		} elseif ($this->modelClass == "Newsletter"){
 			$list->addFilter(array("Archived" => "0"));
@@ -129,7 +123,7 @@ class NewsletterAdmin extends ModelAdmin {
 	public function getSearchContext() {
 		$context = parent::getSearchContext();
 
-		if($this->modelClass === "Newsletter_Archive") {
+		if($this->modelClass === "Newsletter_Sent") {
 			$context = singleton("Newsletter")->getDefaultSearchContext();
 			foreach($context->getFields() as $field) $field->setName(sprintf('q[%s]', $field->getName()));
 			foreach($context->getFilters() as $filter) $filter->setFullName(sprintf('q[%s]', $filter->getFullName()));

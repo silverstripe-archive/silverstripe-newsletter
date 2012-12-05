@@ -109,7 +109,7 @@ class GridFieldArchiveAction implements GridField_ColumnProvider, GridField_Acti
 			}
 			if(!$item->canArchive()) {
 				throw new ValidationException(
-					_t('Newsletter_Archive.Archive',"No archive permissions"),0);
+					_t('Newsletter_Sent.Archive',"No archive permissions"),0);
 			}
 			$item->Archived = true;
 			$item->write();

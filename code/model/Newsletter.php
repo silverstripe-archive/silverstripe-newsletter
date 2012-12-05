@@ -7,14 +7,13 @@
 class Newsletter extends DataObject implements CMSPreviewable{
 
 	static $db = array(
-		"Status" => "Enum('Draft, Sending, Sent', 'Draft')",
+		"Status" => "Enum('New, Draft, Sending, Sent', 'New')",
 		"Subject" => "Varchar(255)",
+		"Template" => "Boolean",
 		"Content" => "HTMLText",
 		"SentDate" => "Datetime",
 		"SendFrom" => "Varchar(255)",
 		"ReplyTo" => "Varchar(255)",
-		"AsTemplate" => "Boolean",
-		"Archived" => "Boolean",
 		"RenderTemplate" => "Varchar",
 	);
 
@@ -28,14 +27,14 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	);
 
 	static $castings = array(
-		"AsTemplate" => "Boolean",
+		"Template" => "Boolean",
 	);
 
 	static $field_labels = array(
 		"SendFrom" => "From Address",
 		"ReplyTo" => "Reply To",
-		"AsTemplate" => "Can be used<br />as a template?",
-		"Content" => "Content summary",
+		"Template" => "Is Template",
+		"Content" => "Content Summary",
 	);
 
 	static $searchable_fields = array(
@@ -47,7 +46,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		"Content",
 		"SendFrom",
 		"ReplyTo",
-		"AsTemplate",
+		"Template",
 		"Status",
 	);
 
@@ -62,10 +61,13 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	 */
 	function getCMSFields() {
 		$fields = parent::getCMSFields();
-		$fields->removeByName("Status");
+
+		$fields->removeByName('Status');
+		$fields->addFieldToTab('Root.Main',new ReadonlyField('Status'),'Subject');
 		$fields->removeByName("SentDate");
-		$fields->removeByName("AsTemplate");
-		$fields->removeByName("Archived");
+		if ($this->Status == "Sent") {
+			$fields->addFieldToTab('Root.Main',new ReadonlyField('SentDate','Sent Date'),'Subject');
+		}
 
 		$gridFieldConfig = GridFieldConfig::create()->addComponents(
 			new GridFieldToolbarHeader(),

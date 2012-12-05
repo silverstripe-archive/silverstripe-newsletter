@@ -22,7 +22,8 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	 * @param extraValue The current extraValues
 	 * @param form The parent form
 	 */
-	function __construct($name, $title = "", $source = array(), $extra=array(), $value = "", $extraValue=array(), $form = null) {
+	function __construct($name, $title = "", $source = array(), $extra=array(), $value = "", $extraValue=array(),
+             $form = null) {
 		if(!empty($extra)) $this->extra = $extra;
 		if(!empty($extraValue)) $this->extraValue = $extraValue;
 		parent::__construct($name, $title, $source, $value, $form);
@@ -143,10 +144,12 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 					$checked = (in_array($key, $items)) ? ' checked="checked"' : '';
 				}
 
-				$disabled = isset($this->cellDisabled[$key]) && in_array('Value', $this->cellDisabled[$key]) ? ' disabled="disabled"' : '';
+				$disabled = isset($this->cellDisabled[$key]) &&
+						in_array('Value', $this->cellDisabled[$key]) ? ' disabled="disabled"' : '';
 				$options .= "<tr id=\"tr_$itemID\" class=\"$extraClass\">
 				<td>
-				<input id=\"$itemID\" name=\"$this->name[$key][Value]\" type=\"checkbox\" value=\"$key\"$checked $disabled class=\"checkbox\" /> $value
+				<input id=\"$itemID\" name=\"$this->name[$key][Value]\"
+					type=\"checkbox\" value=\"$key\"$checked $disabled class=\"checkbox\" /> $value
 				</td>";
 				
 				if(!empty($this->extraValue)){
@@ -165,7 +168,9 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 						$dbField = DBField::create_field($fieldType, $value, $this->name."[".$key."][".$label."]");
 						$extraField = $dbField->scaffoldFormField($this->name."[".$key."][".$label."]");
 						$extraField -> setValue($value);
-						if(isset($this->cellDisabled[$key]) && in_array($label, $this->cellDisabled[$key])) $extraField->setDisabled(true);
+						if(isset($this->cellDisabled[$key]) && in_array($label, $this->cellDisabled[$key])) {
+							$extraField->setDisabled(true);
+						}
 						$options .= "<td>".$extraField->Field()."</td>";
 					}
 				}
@@ -174,7 +179,8 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 			}
 		}
 		
-		return "<table id=\"{$this->id()}\" class=\"optionset checkboxsetwithextrafield {$this->extraClass()}\">".$header.$footer.$options."</table>\n"; 
+		return "<table id=\"{$this->id()}\" class=\"optionset checkboxsetwithextrafield {$this->extraClass()}\">".
+				$header.$footer.$options."</table>\n";
 	}
 	
 	/**

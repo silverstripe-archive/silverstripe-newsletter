@@ -15,11 +15,13 @@ class Recipient extends DataObject {
 		'LanguagePreferred' 	=> "Varchar(6)", // the locale code
 		'BouncedCount'	    	=> "Int", // if 0, never been bounced
 		'Blacklisted'			=> "Boolean",
-		// everytime, one of its belonged mailing lists is selected when sending the newletter, plus one to the count, if belong to more than one
+		// everytime, one of its belonged mailing lists is selected when sending the newletter,
+		// plus one to the count, if belong to more than one
 		// mailing lists that has been selected when sending the newletter, counts as '1'.
 		'ReceivedCount'			=> "Int",
 
-		'ValidateHash'			=> "Varchar(160)", // both subscribe and unsebscribe process need to valid this hash for security
+		// both subscribe and unsebscribe process need to valid this hash for security
+		'ValidateHash'			=> "Varchar(160)",
 		'ValidateHashExpired'	=> "SS_Datetime",
 		'Archived'				=> "Boolean",
 	);
@@ -97,7 +99,7 @@ class Recipient extends DataObject {
 		}
 
 
-		//We will hide LanguagePreferred for now till if demond for hooking newsletter module to mulitple langugee support.
+		//We will hide LanguagePreferred for now till if demoed for hooking newsletter module to multi-lang support.
 		$fields->removeByName("LanguagePreferred");
 
 		return $fields;

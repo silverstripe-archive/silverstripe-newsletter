@@ -17,7 +17,6 @@ class NewsletterEmail extends Email {
 	 * @param Mailinglists $recipient
 	 * @param Boolean $fakeRecipient
 	 */
-	//	public function __construct($from = null, $to = null, $subject = null, $body = null, $bounceHandlerURL = null, $cc = null, $bcc = null) {
 	function __construct($newsletter, $recipient, $fakeRecipient=false) {
 		$this->newsletter = $newsletter;
 		$this->mailinglists = $newsletter->MailingLists();
@@ -45,7 +44,8 @@ class NewsletterEmail extends Email {
 			$text = $bodyViewer->process($this->templateData());
 			
 			// find all the matches
-			if(!$this->fakeRecipient && preg_match_all("/<a\s[^>]*href=\"([^\"]*)\"[^>]*>(.*)<\/a>/siU", $text, $matches)) {
+			if(!$this->fakeRecipient &&
+					preg_match_all("/<a\s[^>]*href=\"([^\"]*)\"[^>]*>(.*)<\/a>/siU", $text, $matches)) {
 
 				if(isset($matches[1]) && ($links = $matches[1])) {
 					
@@ -64,7 +64,8 @@ class NewsletterEmail extends Email {
 					foreach($sorted as $link => $length) {
 						$SQL_link = Convert::raw2sql($link);
 
-						$tracked = DataObject::get_one('Newsletter_TrackedLink', "\"NewsletterID\" = '". $id . "' AND \"Original\" = '". $SQL_link ."'");
+						$tracked = DataObject::get_one('Newsletter_TrackedLink',
+								"\"NewsletterID\" = '". $id . "' AND \"Original\" = '". $SQL_link ."'");
 						
 						if(!$tracked) {
 							// make one.

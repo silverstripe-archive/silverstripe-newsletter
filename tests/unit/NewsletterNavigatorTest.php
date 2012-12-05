@@ -24,12 +24,12 @@ class NewsletterNavigatorTest extends SapphireTest {
 		$this->logInWithPermission('CMS_ACCESS_NewsletterAdmin');
 		$items = $navigator->getItems();
 		$classes = array_map('get_class', $items->toArray());
-		$this->assertNotContains('SilverStripeNavigatorTest_ProtectedNewsletterItem', $classes);
+		$this->assertNotContains('SilverStripeNavigatorTest_ProtectedNewsletterI', $classes);
 		$this->assertContains('SilverStripeNavigatorItem_Newsletter', $classes);
 	}
 }
 
-class SilverStripeNavigatorTest_ProtectedNewsletterItem extends SilverStripeNavigatorItem_Newsletter implements TestOnly {
+class SilverStripeNavigatorTest_ProtectedNewsletterI extends SilverStripeNavigatorItem_Newsletter implements TestOnly {
 	public function canView($member = null) {
 		if(!$member) $member = Member::currentUser();
 		return Permission::checkMember($member, 'ADMIN');

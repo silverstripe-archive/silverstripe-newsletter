@@ -211,25 +211,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		return $templates;
 	}
 
-
-	function canArchive(){
-		if($this->Status !== 'Sending') return true;
-		else return false;
-	}
-		
-	/**
-	 * Returns a DataObject listing the recipients for the given status for this newsletter
-	 *
-	 * @param string $result 3 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE), 
-	 * or "Bounced" ({@see $email_bouncehandler}).
-	 * @return DataObjectSet
-	 */
-	/*function SendRecipientQueue($result) {
-		$SQL_result = Convert::raw2sql($result);
-		return DataObject::get("SendRecipientQueue",array("\"ParentID\"='".$this->ID."'",
-		"\"Result\"='".$SQL_result."'"));
-	}*/
-
 	/**
 	 * Returns a DataObjectSet containing the subscribers who have never been sent this Newsletter
 	 *
@@ -294,14 +275,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	}
 
 
-
-
-
-	//TODO NewsletterType deprecated
-	/*function getNewsletterType() {
-		return DataObject::get_by_id('NewsletterType', $this->ParentID);
-	}*/
-
 	function getContentBody(){
 		$content = $this->obj('Content');
 		
@@ -309,29 +282,18 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		return $content;
 	}
 
-	/*static function newDraft($parentID, $subject, $content) {
-    	if( is_numeric($parentID)) {
-     	   $newsletter = new Newsletter();
-	        $newsletter->Status = 'Draft';
-	        $newsletter->Title = $newsletter->Subject = $subject;
-	        $newsletter->ParentID = $parentID;
-	        $newsletter->Content = $content;
-	        $newsletter->write();
-	    } else {
-	        user_error( $parentID, E_USER_ERROR );
-	    }
-    	return $newsletter;
-  	}*/
 
   	public function Link($action = null) {
-		return Controller::join_links(singleton('NewsletterAdmin')->Link('Newsletter'),'/EditForm/field/Newsletter/item/', $this->ID, $action);
+		return Controller::join_links(singleton('NewsletterAdmin')->Link('Newsletter'),
+			'/EditForm/field/Newsletter/item/', $this->ID, $action);
 	}
 
 	/**
 	 * @return String
 	 */
 	public function CMSEditLink() {
-		return Controller::join_links(singleton('NewsletterAdmin')->Link('Newsletter'),'/EditForm/field/Newsletter/item/', $this->ID, 'edit');
+		return Controller::join_links(singleton('NewsletterAdmin')->Link('Newsletter'),
+			'/EditForm/field/Newsletter/item/', $this->ID, 'edit');
 	}
 }
 

@@ -34,7 +34,8 @@ class MailingList extends DataObject {
 		$fields->push(new TabSet("Root", $mainTab = new Tab("Main")));
 		$mainTab->setTitle(_t('SiteTree.TABMAIN', "Main"));
 
-		$fields->addFieldToTab('Root.Main',new TextField('Title',_t('NewsletterAdmin.MailingListTitle','Mailing List Title')));
+		$fields->addFieldToTab('Root.Main',
+			new TextField('Title',_t('NewsletterAdmin.MailingListTitle','Mailing List Title')));
 		$fields->addFieldToTab('Root.Main',new CheckboxField('Disabled',_t('NewsletterAdmin.Disabled','Disabled')));
 
 		$gridFieldConfig = GridFieldConfig::create()->addComponents(

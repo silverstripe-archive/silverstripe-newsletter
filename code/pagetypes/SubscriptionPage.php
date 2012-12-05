@@ -229,8 +229,8 @@ class SubscriptionPage_Controller extends Page_Controller {
 					if(isset($customisedErrors[$field]) && $customisedErrors[$field]) {
 						$error = $customisedErrors[$field];
 					}else{
-						$label = isset($customisedLables[$field])?$customisedLables[$field]:$dataFields[$field]->Title();
-						$error = "Please enter your $label field";
+						$label=isset($customisedLables[$field])?$customisedLables[$field]:$dataFields[$field]->Title();
+						$error="Please enter your $label field";
 					}
 					
 					if($field === 'Email') {
@@ -294,7 +294,8 @@ JS
 	protected function removeUnsubscribe($newletterType,$member) {
 		//TODO NewsletterType deprecated
 		//TODO UnsubscribeRecord deprecated
-		$result = DataObject::get_one("UnsubscribeRecord", "NewsletterTypeID = ".Convert::raw2sql($newletterType->ID)." AND MemberID = ".Convert::raw2sql($member->ID)."");
+		$result = DataObject::get_one("UnsubscribeRecord", "NewsletterTypeID = ".
+				Convert::raw2sql($newletterType->ID)." AND MemberID = ".Convert::raw2sql($member->ID)."");
 		if($result && $result->exists()) {
 			$result->delete();
 		}		
@@ -361,7 +362,7 @@ JS
 				foreach($types as $type){
 					$newsletterType = DataObject::get_by_id("NewsletterType", $type);
 					if($newsletterType->exists()){
-						//remove member from unsubscribed records if the member unsubscribe the same mailling list before
+						//remove member from unsubscribe records if the member unsubscribed from mailing list before
 						$this->removeUnsubscribe($newsletterType,$member);
 						
 						$newsletters[] = $newsletterType;

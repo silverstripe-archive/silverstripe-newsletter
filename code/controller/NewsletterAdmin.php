@@ -109,9 +109,9 @@ class NewsletterAdmin extends ModelAdmin {
 	public function getList() {
 		$list = parent::getList();
 		if($this->modelClass == "Newsletter_Sent"){
-			$list->addFilter(array("Archived" => "1"));
+			$list->addFilter(array("Status" => "Sent"));
 		} elseif ($this->modelClass == "Newsletter"){
-			$list->addFilter(array("Archived" => "0"));
+			$list->addFilter(array("Status" => array("New", "Draft", "Sending")));
 		}
 
 		return $list;

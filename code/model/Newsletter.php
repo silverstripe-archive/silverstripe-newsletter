@@ -274,6 +274,11 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		return HTTP::absoluteURLs($newsletterEmail->getData()->renderWith($templateName));
 	}
 
+	function canArchive(){
+		if($this->Status !== 'Sending') return true;
+		else return false;
+	}
+
 
 	function getContentBody(){
 		$content = $this->obj('Content');

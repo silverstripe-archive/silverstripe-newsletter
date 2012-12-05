@@ -50,7 +50,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	 * 
 	 * @todo Should use CheckboxField FieldHolder rather than constructing own markup.
 	 */
-	function Field() {
+	function Field($properties = array()) {
 		$source = $this->source;
 		$values = $this->value;
 		// Get values from the join, if available

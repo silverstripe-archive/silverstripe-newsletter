@@ -48,6 +48,8 @@ class NewsletterAdmin extends ModelAdmin {
 			if ($this->modelClass == "Newsletter") {
 				$config->removeComponentsByType('GridFieldDeleteAction')
 						->addComponents(new GridFieldArchiveAction());
+			} else {
+				$config->removeComponentsByType('GridFieldAddNewButton');
 			}
 			$config->getComponentByType('GridFieldDataColumns')
 				->setFieldCasting(array(

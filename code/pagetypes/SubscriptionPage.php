@@ -2,7 +2,7 @@
 
 /**
  * Page type for creating a page that contains a form that visitors can
- * use to subscript to newsletters.
+ * use to subscript to mailing lists.
  * 
  * @package newsletter
  */
@@ -173,7 +173,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 			$fields = explode(",",$this->Fields);
 		}
 
-		$memberInfoSection = new CompositeField();
+		$recipientInfoSection = new CompositeField();
 		if(!empty($fields)){
 			foreach($fields as $field){
 				if(isset($dataFields[$field]) && $dataFields[$field]){
@@ -185,15 +185,15 @@ class SubscriptionPage_Controller extends Page_Controller {
 							$dataFields[$field]->Name(), $dataFields[$field]->Title()
 						);
 					}
-					$memberInfoSection->push($dataFields[$field]);
+					$recipientInfoSection->push($dataFields[$field]);
 				}
 			}
 		}
 		$formFields = new FieldList(
 			new HeaderField("CustomisedHeading", $this->owner->CustomisedHeading),
-			$memberInfoSection
+			$recipientInfoSection
 		);
-		$memberInfoSection->setID("MemberInfoSection");
+		$recipientInfoSection->setID("MemberInfoSection");
 
 		if($this->MailingLists){
 			$mailinglists = DataObject::get("MailingList", "ID IN (".$this->MailingLists.")");
@@ -317,57 +317,54 @@ JS
 		$data['Email'] = preg_replace("/[^a-zA-Z0-9\._\-@]/","",$data['Email']);		
 		
 		// check to see if member already exists
-		$member = false; 
+		$recipient = false; 
 		
 		if(isset($data['Email'])) {
-			$member = DataObject::get_one('Recipient', "\"Email\" = '". Convert::raw2sql($data['Email']) . "'");
+			$recipient = DataObject::get_one('Recipient', "\"Email\" = '". Convert::raw2sql($data['Email']) . "'");
 		}
 		
-		if(!$member) {
-			$member = new Recipient();
+		if(!$recipient) {
+			$recipient = new Recipient();
 		}
 		
 			
-		$form->saveInto($member);
-		$member->setField("Email", $data['Email']);		
-		$member->write();
+		$form->saveInto($recipient);
+		$recipient->setField("Email", $data['Email']);		
+		$recipient->write();
 		
-		if($member->ValidateHash){ 
-			$member->ValidateHashExpired = date('Y-m-d', time() + (86400 * 2)); 
-			$member->write(); 
+		if($recipient->ValidateHash){ 
+			$recipient->ValidateHashExpired = date('Y-m-d', time() + (86400 * 2)); 
+			$recipient->write(); 
 		}else{ 
-			$member->generateValidateHashAndStore(); 
+			$recipient->generateValidateHashAndStore(); 
 		}
 		
-		$newsletters = array();
+		$mailinglists = new ArrayList();
 		
 		if(isset($data["NewsletterSelection"])){
-			foreach($data["NewsletterSelection"] as $n){
-				$newsletterType = DataObject::get_by_id("NewsletterType", $n);
+			foreach($data["NewsletterSelection"] as $listID){
+				$mailinglist = DataObject::get_by_id("MailingList", $listID);
 				
-				if($newsletterType->exists()){
+				if($mailinglist && $mailinglist->exists()){
 					//remove member from unsubscribe if needed
-					$this->removeUnsubscribe($newsletterType,$member);
+					//$this->removeUnsubscribe($newsletterType,$member);
 					
-					$newsletters[] = $newsletterType;
-					$groupID = $newsletterType->GroupID;
-					$member->Groups()->add($groupID);
+					$mailinglists->push($mailinglist);
+					$recipient->MailingLists()->add($mailinglist);
 				}
 			}
 		} else {
 			// if the page has associate with one newsletter type, it won't appear in front form, but the 
 			// member needs to be added to the related group.
 			
-			if($this->MailingLists && ($types = explode(",",$this->MailingLists))) {
-				foreach($types as $type){
-					$newsletterType = DataObject::get_by_id("NewsletterType", $type);
-					if($newsletterType->exists()){
+			if($this->MailingLists && ($listIDs = explode(",",$this->MailingLists))) {
+				foreach($listIDs as $listID){
+					$mailinglist = DataObject::get_by_id("MailingList", $listID);
+					if($mailinglist && $mailinglist->exists()){
 						//remove member from unsubscribe records if the member unsubscribed from mailing list before
-						$this->removeUnsubscribe($newsletterType,$member);
-						
-						$newsletters[] = $newsletterType;
-						$groupID = $newsletterType->GroupID;
-						$member->Groups()->add($groupID);
+						//$this->removeUnsubscribe($mailingList,$recipient);
+						$mailinglists->push($mailinglist);
+						$recipient->MailingLists()->add($mailinglist);
 					}	
 				}
 			}
@@ -376,13 +373,13 @@ JS
 			}
 		}
 		
-		$memberInfoFields = $form->Fields()->fieldByName('MemberInfoSection')->FieldSet();
-		$emailableFields = new FieldSet();
-		if($memberInfoFields){
-			foreach($memberInfoFields as $field){
+		$recipientInfoSection = $form->Fields()->fieldByName('MemberInfoSection')->FieldList();
+		$emailableFields = new FieldList();
+		if($recipientInfoSection){
+			foreach($recipientInfoSection as $field){
 				if(is_array($field->Value()) && is_a($field, 'SimpleImageField')){
 					$funcName = $field->Name();
-					$value = $member->$funcName()->CMSThumbnail()->Tag();
+					$value = $recipient->$funcName()->CMSThumbnail()->Tag();
 					$field->EmailalbeValue = $value;
 				}else{
 					$field->EmailalbeValue = $field->Value();
@@ -392,15 +389,15 @@ JS
 			}
 		}
 		$templateData = array(
-			'FirstName' => $member->FirstName,
+			'FirstName' => $recipient->FirstName,
             'MemberInfoSection' => $emailableFields,
-            'Newsletters' => new DataObjectSet( $newsletters ),
-            'UnsubscribeLink' => Director::baseURL() . 'unsubscribe/index/' . $member->ValidateHash
+            'Newsletters' => $mailinglists,
+            'UnsubscribeLink' => Director::baseURL() . 'unsubscribe/index/' . $recipient->ValidateHash
         );
 
 		if($this->SendNotification){
 			$email = new Email();
-			$email->setTo($member->Email);
+			$email->setTo($recipient->Email);
 			$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
 	        $email->setFrom($from);
 			$email->setTemplate('SubscriptionEmail'); 
@@ -410,17 +407,17 @@ JS
 	        $email->send();
 		}
 		
-		$url = $this->Link()."complete/".$member->ID;
+		$url = $this->Link()."complete/".$recipient->ID;
 		$this->redirect($url);
 	}
 	
 	function complete(){
 		if($id = $this->urlParams['ID']){
-			$memberData = DataObject::get_by_id("Member", $id)->getAllFields();
+			$recipientData = DataObject::get_by_id("Recipient", $id)->toMap();
 		}
 		return $this->customise(array(
     		'Title' => _t('SubscriptionCompleted.Title', 'Subscription completed!'),
-    		'Content' => $this->customise($memberData)->renderWith('SubscribeSubmission'),
+    		'Content' => $this->customise($recipientData)->renderWith('SubscribeSubmission'),
     	))->renderWith('Page');
 	}
 }

@@ -269,16 +269,18 @@ JS;
 
 		// set the custom script for this form
 		Requirements::customScript(<<<JS
-jQuery(document).ready(function() {
-	$("#$FormName").validate({
-		errorPlacement: function(error, element){
-			error.insertAfter(element);
-		},
-		focusCleanup: true,
-		messages: $messages,
-		rules: $rules
+(function($) {
+	jQuery(document).ready(function() {
+		$("#$FormName").validate({
+			errorPlacement: function(error, element){
+				error.insertAfter(element);
+			},
+			focusCleanup: true,
+			messages: $messages,
+			rules: $rules
+		});
 	});
-});
+})(jQuery);
 JS
 		);
 

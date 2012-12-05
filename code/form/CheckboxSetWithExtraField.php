@@ -200,7 +200,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 		return '';
 	}
 	
-	function saveInto(DataObject $record) {
+	function saveInto(DataObjectInterface $record) {
 		$fieldname = $this->name ;
 		$this->value['Email']['Value'] = 'Email';
 		$this->value['Email']['Required'] = 1;

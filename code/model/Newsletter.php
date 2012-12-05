@@ -41,6 +41,10 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		"Subject",
 	);
 
+	static $default_sort = array(
+		"LastEdited DESC"
+	);
+
 	static $summary_fields = array(
 		"Subject",
 		"Content",

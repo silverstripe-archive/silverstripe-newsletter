@@ -91,7 +91,21 @@ class Newsletter extends DataObject implements CMSPreviewable{
 
 		$fields->removeFieldFromTab('Root.SendRecipientQueue',"SendRecipientQueue");
 		$fields->removeByName('SendRecipientQueue');
-		$fields->addFieldToTab('Root.SendRecipientQueues',$sendRecipientGrid);
+		if ($this->Status == "Sent" || $this->Status == "Sending") {
+			$fields->addFieldToTab('Root.SendRecipientQueues',$sendRecipientGrid);
+
+			$fields->addFieldToTab('Root.SendRecipientQueues',
+				new LiteralField('RestartQueueButton',
+					'<a class="ss-ui-button" href="'.Controller::join_links(
+						Director::absoluteBaseURL(),'dev/tasks/NewsletterSendController?newsletter='.$this->ID)
+						.'" title="Restart queue processing"'.
+					'<button name="action_RestartQueue" value="Restart queue processing" '.
+					'class="action" '.
+					'id="action_RestartQueue" role="button" aria-disabled="false">'.
+							'<span class="ui-button-icon-primary ui-icon btn-icon-arrow-circle-double"></span>'.
+					'<span class="ui-button-text">Restart Queue Processing</span>'.
+					'</button></a>'));
+		}
 
 		//only show the TrackedLinks tab, if there are tracked links in the newsletter and the status is "Sent"
 		if($this->Status !== 'Sent' || $this->TrackedLinks()->count() == 0) {
@@ -105,18 +119,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 				->removeComponentsByType('GridFieldDetailForm')
 				->removeComponentsByType('GridFieldEditButton');
 		}
-
-		$fields->addFieldToTab('Root.SendRecipientQueues',
-			new LiteralField('RestartQueueButton',
-				'<a class="ss-ui-button" href="'.Controller::join_links(
-					Director::absoluteBaseURL(),'dev/tasks/NewsletterSendController?newsletter='.$this->ID)
-					.'" title="Restart queue processing"'.
-				'<button name="action_RestartQueue" value="Restart queue processing" '.
-				'class="action" '.
-				'id="action_RestartQueue" role="button" aria-disabled="false">'.
-						'<span class="ui-button-icon-primary ui-icon btn-icon-arrow-circle-double"></span>'.
-				'<span class="ui-button-text">Restart Queue Processing</span>'.
-				'</button></a>'));
 
 		$explanationTitle = _t("Newletter.TemplateExplanationTitle",
 			"Select a styled template (.ss template) that this newsletter renders with"

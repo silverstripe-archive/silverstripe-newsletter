@@ -174,16 +174,35 @@ class SubscriptionPage_Controller extends Page_Controller {
 		}
 
 		$recipientInfoSection = new CompositeField();
+
+		$requiredFields = Convert::json2array($this->Required);
 		if(!empty($fields)){
 			foreach($fields as $field){
 				if(isset($dataFields[$field]) && $dataFields[$field]){
-					if(isset($customisedLables[$field])){
-						$dataFields[$field]->setTitle($customisedLables[$field]);
-					}
 					if(is_a($dataFields[$field], "ImageField")){
+						if(isset($requiredFields[$field])) {
+							$title = $dataFields[$field]->Title()." * ";
+						}else{
+							$title = $dataFields[$field]->Title();
+						}
 						$dataFields[$field] = new SimpleImageField(
-							$dataFields[$field]->Name(), $dataFields[$field]->Title()
+							$dataFields[$field]->Name(), $title
 						);
+					}else{
+						if(isset($requiredFields[$field])) {
+							if(isset($customisedLables[$field])){
+								$title = $customisedLables[$field]." * ";
+							} else {
+								$title = $dataFields[$field]->Title(). " * ";
+							}
+						}else{
+							if(isset($customisedLables[$field])){
+								$title = $customisedLables[$field];
+							} else {
+								$title = $dataFields[$field]->Title();
+							}
+						}
+						$dataFields[$field]->setTitle($title);
 					}
 					$recipientInfoSection->push($dataFields[$field]);
 				}
@@ -212,7 +231,6 @@ class SubscriptionPage_Controller extends Page_Controller {
 			new FormAction('doSubscribe', $buttonTitle)
 		);
 		
-		$requiredFields = Convert::json2array($this->Required);
 		if(!empty($requiredFields)) $required = new RequiredFields($requiredFields);
 		else $required = null;
 		$form = new Form($this, "Form", $formFields, $actions, $required);

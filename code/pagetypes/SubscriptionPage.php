@@ -156,7 +156,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 		
 		// block prototype validation
 		//Validator::set_javascript_validation_handler('none');
-		
+		Requirements::css('newsletter/css/SubscriptionPage.css');
 		// load the jquery
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-validate/jquery.validate.min.js');

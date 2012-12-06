@@ -1,7 +1,3 @@
-.NewsletterAdmin{
-
-}
-
 #Root_Main{
 	.fieldgroup{
 		.fieldholder-small{
@@ -46,6 +42,11 @@
 }
 
 .cms{
+	.Actions{
+		.cms-preview-toggle-link{
+			float: right;
+		}
+	}
 	.cms-content-fields{
 		.field{
 			.fieldgroup-field{

@@ -42,12 +42,12 @@ Newsletter:
     MailingLists: =>MailingList.mlall
 SendRecipientQueue:
   stuck1:
-    Status: InProcess
+    Status: InProgress
     RetryCount: 0
     Newsletter: =>Newsletter.monthly
     Recipient: =>Recipient.stuck1
   stuck2:
-    Status: InProcess
+    Status: InProgress
     RetryCount: 19532342 #high enough retry count that it shouldn't try re-sending
     Newsletter: =>Newsletter.monthly
     Recipient: =>Recipient.stuck2

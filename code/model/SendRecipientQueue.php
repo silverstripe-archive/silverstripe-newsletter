@@ -11,7 +11,7 @@ class SendRecipientQueue extends DataObject {
 	 */
 	static $db = array(
 		"Priority" => "Int(50)",
-		"Status" => "Enum('Scheduled, InProcess, Sent, Failed, Bounced, BlackListed', 'Scheduled')",
+		"Status" => "Enum('Scheduled, InProgress, Sent, Failed, Bounced, BlackListed', 'Scheduled')",
 		"RetryCount" => "Int(0)"    //number of times this email got "stuck" in the queue
 	);
 	static $has_one = array(

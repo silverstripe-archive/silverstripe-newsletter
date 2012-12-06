@@ -13,14 +13,14 @@
  *
  * You can use the following static variables to configure the NewsletterSendController:
  * static $items_to_batch_process = 50;   //number of emails to send out in "batches" to avoid spin up costs
- * static $stuck_timeout = 5;  //minutes after which we consider an "InProcess" item in the queue "stuck"
+ * static $stuck_timeout = 5;  //minutes after which we consider an "InProgress" item in the queue "stuck"
  * static $retry_limit = 4; //number of times to retry sending email that get "stuck"
  * static $throttle_batch_delay = 0;   //seconds to wait between sending out email batches
  */
 class NewsletterSendController extends BuildTask {
 
 	static $items_to_batch_process = 50;   //number of emails to send out in "batches" to avoid spin up costs
-	static $stuck_timeout = 5;  //minutes after which we consider an "InProcess" item in the queue "stuck"
+	static $stuck_timeout = 5;  //minutes after which we consider an "InProgress" item in the queue "stuck"
 	static $retry_limit = 4; //number of times to retry sending email that get "stuck"
 	static $throttle_batch_delay = 0;   //seconds to wait between sending out email batches
 
@@ -51,7 +51,7 @@ class NewsletterSendController extends BuildTask {
 				if (!SendRecipientQueue::get()->filter(array(
 					'RecipientID'=>$recipient->ID,
 					'NewsletterID'=>$newsletter->ID,
-					'Status'=>array('Scheduled', 'InProcess')))->exists()) {
+					'Status'=>array('Scheduled', 'InProgress')))->exists()) {
 					$queueItem = SendRecipientQueue::create();
 					$queueItem->NewsletterID = $newsletter->ID;
 					$queueItem->RecipientID = $recipient->ID;
@@ -82,7 +82,7 @@ class NewsletterSendController extends BuildTask {
 	}
 
 	/**
-	 * Restart the processing of any queue items that are "stuck" in the InProcess status, but haven't been sent.
+	 * Restart the processing of any queue items that are "stuck" in the InProgress status, but haven't been sent.
 	 * Items can get stuck if the execution of the newsletter queue fails half-way due to an error. Restarting
 	 * the queue processing takes the items and re-schedules them for a new send out. If a specific Recipient in the
 	 * queue is causing the crashes, then the RetryCount for that item will go up on each retry attempt. This method
@@ -94,7 +94,7 @@ class NewsletterSendController extends BuildTask {
 	function cleanUpStalledQueue($newsletterID) {
 		$stuckQueueItems = SendRecipientQueue::get()->filter(array(
 			'NewsletterID' => $newsletterID,
-			'Status' => 'InProcess',
+			'Status' => 'InProgress',
 			'LastEdited:LessThan' => date('Y-m-d H:i:m',strtotime('-'.self::$stuck_timeout.' minutes'))
 		));
 
@@ -159,7 +159,7 @@ class NewsletterSendController extends BuildTask {
 
 					//set them all to "in process" at once
 					foreach($queueItems as $item){
-						$item->Status = 'InProcess';
+						$item->Status = 'InProgress';
 						$queueItemsList[] = $item->write();
 					}
 

@@ -82,6 +82,8 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			new GridFieldPaginator(30)
 		);
 
+		if (class_exists("GridFieldAjaxRefresh")) $gridFieldConfig->addComponent(new GridFieldAjaxRefresh(5000,true));
+
 		$sendRecipientGrid = GridField::create(
 			'SendRecipientQueue',
 			_t('NewsletterAdmin.SendRecipientQueue', 'Send Recipient Queue'),

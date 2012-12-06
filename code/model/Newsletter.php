@@ -7,34 +7,35 @@
 class Newsletter extends DataObject implements CMSPreviewable{
 
 	static $db = array(
-		"Status" => "Enum('Draft, Sending, Sent', 'Draft')",
-		"Subject" => "Varchar(255)",
-		"Template" => "Boolean",
-		"Content" => "HTMLText",
-		"SentDate" => "Datetime",
-		"SendFrom" => "Varchar(255)",
-		"ReplyTo" => "Varchar(255)",
-		"RenderTemplate" => "Varchar",
+		"Status"				=> "Enum('Draft, Sending, Sent', 'Draft')",
+		"Subject"				=> "Varchar(255)",
+		"Template"				=> "Boolean",
+		"Content"				=> "HTMLText",
+		"SentDate"				=> "Datetime",
+		"SendFrom"				=> "Varchar(255)",
+		"ReplyTo"				=> "Varchar(255)",
+		"RenderTemplate"		=> "Varchar",
+		'Archived'				=> "Boolean",
 	);
 
 	static $has_many = array(
-		"SendRecipientQueue" => "SendRecipientQueue",
-		"TrackedLinks" => "Newsletter_TrackedLink"
+		"SendRecipientQueue"	=> "SendRecipientQueue",
+		"TrackedLinks"			=> "Newsletter_TrackedLink"
 	);
 
 	static $many_many = array(
-		"MailingLists" => "MailingList"
+		"MailingLists"			=> "MailingList"
 	);
 
 	static $castings = array(
-		"Template" => "Boolean",
+		"Template"				=> "Boolean",
 	);
 
 	static $field_labels = array(
-		"SendFrom" => "From Address",
-		"ReplyTo" => "Reply To",
-		"Template" => "Is Template",
-		"Content" => "Content Summary",
+		"SendFrom"				=> "From Address",
+		"ReplyTo"				=> "Reply To",
+		"Template"				=> "Is Template",
+		"Content"				=> "Content Summary",
 	);
 
 	static $searchable_fields = array(

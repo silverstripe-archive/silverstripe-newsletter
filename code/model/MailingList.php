@@ -48,13 +48,18 @@ class MailingList extends DataObject {
 			new GridFieldEditButton(),
 			new GridFieldAddNewButton(),
 			new GridFieldDetailForm(),
-			new GridFieldAddExistingAutocompleter('before',	array(
+			$autocompelete = new GridFieldAutocompleterWithFilter('before',	array(
 					'FirstName',
 					'MiddleName',
 					'Surname',
 					'Email',
 				)
 			)
+		);
+
+		$autocompelete->filters = array(
+			"Archived" => false,
+			"Blacklisted" => false,
 		);
 
 		$recipientsGrid = GridField::create(

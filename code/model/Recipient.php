@@ -185,4 +185,21 @@ class Recipient extends DataObject {
 
 		return $hash;
 	}
+
+	public function onBeforeDelete(){
+		parent::onBeforeDelete();
+
+		//SendRecipientQueue
+		$queueditems = $this->SendRecipientQueue();
+		if($queueditems && $queueditems->exists()){
+			foreach($queueditems as $item){
+				$item->delete();
+			}
+		}
+
+		//remove this from its belonged mailing lists
+		$mailingLists = $this->MailingLists()->removeAll();
+	}
+
+
 }

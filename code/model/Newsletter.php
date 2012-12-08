@@ -310,6 +310,28 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		return Controller::join_links(singleton('NewsletterAdmin')->Link('Newsletter'),
 			'/EditForm/field/Newsletter/item/', $this->ID, 'edit');
 	}
+
+	public function onBeforeDelete(){
+		parent::onBeforeDelete();
+		//SendRecipientQueue
+		$queueditems = $this->SendRecipientQueue();
+		if($queueditems && $queueditems->exists()){
+			foreach($queueditems as $item){
+				$item->delete();
+			}
+		}
+
+		//TrackedLinks
+		$trackedLinks = $this->TrackedLinks();
+		if($trackedLinks && $trackedLinks->exists()){
+			foreach($trackedLinks as $link){
+				$link->delete();
+			}
+		}
+
+		//remove this from its belonged mailing lists
+		$mailingLists = $this->MailingLists()->removeAll();
+	}
 }
 
 
@@ -352,7 +374,7 @@ class Newsletter_TrackedLink extends DataObject {
 		
 		if(!$this->Hash) $this->Hash = md5(time() + rand());
 	}
-	
+
 	/**
 	 * Return the full link to the hashed url, not the
 	 * actual link location

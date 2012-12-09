@@ -36,13 +36,13 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	/**
 	 * Sets the template to be rendered with
 	 */
-	function FieldHolder() {
+	function FieldHolder($properties = array()) {
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
 		Requirements::javascript(NEWSLETTER_DIR . '/thirdparty/jquery-tablednd/jquery.tablednd.0.7.min.js');
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/CheckboxSetWithExtraField.js');
 		Requirements::css(NEWSLETTER_DIR . '/css/CheckboxSetWithExtraField.css');
 		
-		return parent::FieldHolder();
+		return parent::FieldHolder($properties);
 	}
 	
 	/**

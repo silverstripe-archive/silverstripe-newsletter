@@ -41,7 +41,7 @@ class RecipientImportField extends FormField {
 		parent::__construct( $name, $title, null, $form );
 	}
 
-	function Field() {
+	function Field($properties = array()) {
 		$frameURL = Director::absoluteBaseURL() . 'admin/newsletter/displayfilefield/' . $this->typeID;
 
 		return "<iframe name=\"{$this->Name}\" frameborder=\"0\" class=\"RecipientImportField\" src=\"$frameURL\"></iframe>";

@@ -10,7 +10,7 @@
  */
 class ProgressBar extends FormField {
 
-	function FieldHolder() {
+	function FieldHolder($properties = array()) {
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/ProgressBar.js');
 		Requirements::css(NEWSLETTER_DIR . '/css/ProgressBar.css');
 		

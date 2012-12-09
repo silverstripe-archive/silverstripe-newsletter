@@ -41,6 +41,7 @@ Newsletter:
     Content: more more more
     MailingLists: =>MailingList.ml2
   archived:
+    Subject: Archived
     Archived: true
     MailingLists: =>MailingList.ml3, =>MailingList.mlall,
   all:

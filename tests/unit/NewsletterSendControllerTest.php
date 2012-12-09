@@ -44,7 +44,7 @@ class NewsletterSendControllerTest extends SapphireTest {
 		$nsc = NewsletterSendController::inst();
 
 		$added = $nsc->enqueue($newsletter);
-		$this->assertGreaterThanOrEqual($added,4,"4 recipients added");
+		$this->assertGreaterThanOrEqual($added,5,"5 recipients added");
 
 		//add the same newsletter again
 		$added = $nsc->enqueue($newsletter);

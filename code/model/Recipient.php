@@ -224,5 +224,21 @@ class Recipient extends DataObject {
 		else return false;
 	}
 
+	public function getFrontEndFields($params = null) {
+		$fields = parent::getFrontEndFields($params);
+		$exludes = array(
+			"BouncedCount",
+			"Blacklisted",
+			"ReceivedCount",
+			"ValidateHash",
+			"ValidateHashExpired",
+			"LanguagePreferred",
+			"Archived"
+		);
 
+		foreach($exludes as $exclude) {
+			$fields->removeByName($exclude);
+		}
+		return $fields;
+	}
 }

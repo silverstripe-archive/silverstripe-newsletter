@@ -48,21 +48,11 @@ class SubscriptionPage extends Page {
 		);
 
 		//Fields selction
-		$frontFields = singleton('Recipient')->getFrontendFields()->dataFields();
+		$frontFields = singleton('Recipient')->getFrontEndFields()->dataFields();
 
 		$fieldCandidates = array();
 		if(count($frontFields)){
-			$exludes = array(
-				"BouncedCount",
-				"Blacklisted",
-				"ReceivedCount",
-				"ValidateHash",
-				"ValidateHashExpired",
-				"LanguagePreferred",
-				"Archived"
-			);
 			foreach($frontFields as $fieldName => $dataField){
-				if(!in_array($fieldName, $exludes))
 				$fieldCandidates[$fieldName]= $dataField->Title()?$dataField->Title():$dataField->Name();
 			}
 		}
@@ -164,7 +154,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 	
 	function Form(){
 		if($this->URLParams['Action'] == 'complete') return;
-		$dataFields = singleton('Recipient')->getCMSFields()->dataFields();
+		$dataFields = singleton('Recipient')->getFrontEndFields()->dataFields();
 		
 		if($this->CustomisedLabels) $customisedLabels = Convert::json2array($this->CustomisedLabels);
 

@@ -37,7 +37,7 @@
 			</ul>
 		<% end_if %>
 		
-		<p>To unsubscribe any mailing list, click <a href="$UnsubscribeLink">here</a>
+		<p>To unsubscribe any mailing list, click <a href="$UnsubscribeLink">here</a></p>
 
 	</body>
 </html>

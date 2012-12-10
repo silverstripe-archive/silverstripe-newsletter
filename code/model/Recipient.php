@@ -24,6 +24,7 @@ class Recipient extends DataObject {
 		'ValidateHash'			=> "Varchar(160)",
 		'ValidateHashExpired'	=> "SS_Datetime",
 		'Archived'				=> "Boolean",
+		'Verified'				=> "Boolean",
 	);
 
 	// a newsletter recipient could belong to many mailing lists.
@@ -143,7 +144,7 @@ class Recipient extends DataObject {
 		}
 
 
-		//We will hide LanguagePreferred for now till if demoed for hooking newsletter module to multi-lang support.
+		//We will hide LanguagePreferred for now till if demond for hooking newsletter module to multi-lang support.
 		$fields->removeByName("LanguagePreferred");
 		$fields->removeByName("SendRecipientQueue");
 
@@ -233,7 +234,8 @@ class Recipient extends DataObject {
 			"ValidateHash",
 			"ValidateHashExpired",
 			"LanguagePreferred",
-			"Archived"
+			"Archived",
+			"Verified",
 		);
 
 		foreach($exludes as $exclude) {

@@ -51,7 +51,7 @@ class DeleteNewsletterArchivedObjectTask extends DailyTask{
 		$count = $objects->count();
 		if($count){
 			foreach($objects as $object){
-				$object->delete();
+				if($object->canDelete()) $object->delete();
 			}
 		}
 		return $count;

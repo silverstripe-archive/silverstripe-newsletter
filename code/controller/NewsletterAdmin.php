@@ -14,6 +14,7 @@ class NewsletterAdmin extends ModelAdmin {
 	public static $managed_models = array(
 		"Newsletter",
 		"Newsletter_Sent",
+		"Recipient",
 		"MailingList"
 	);
 
@@ -46,16 +47,23 @@ class NewsletterAdmin extends ModelAdmin {
 			$config->removeComponentsByType('GridFieldDetailForm')
 				->addComponents(new NewsletterGridFieldDetailForm());
 			if ($this->modelClass == "Newsletter") {
-				$config->removeComponentsByType('GridFieldDeleteAction')
-						->addComponents(new GridFieldArchiveAction());
+				$config->removeComponentsByType('GridFieldDeleteAction');
 			} else {
 				$config->removeComponentsByType('GridFieldAddNewButton');
 			}
+			$config->addComponents(new GridFieldArchiveAction());
 			$config->getComponentByType('GridFieldDataColumns')
 				->setFieldCasting(array(
 					"Template" => "Boolean->Nice",
 					"Content" => "HTMLText->LimitSentences",
 			));
+		}
+		if($this->modelClass == "Recipient") {
+			$config = $form->Fields()->first()->getConfig();
+			$config->removeComponentsByType('GridFieldDetailForm')
+				->addComponents(new RecipientGridFieldDetailForm())
+				->removeComponentsByType('GridFieldDeleteAction')
+				->addComponents(new GridFieldArchiveAction());
 		}
 		return $form;
 	}
@@ -111,18 +119,17 @@ class NewsletterAdmin extends ModelAdmin {
 	public function getList() {
 		$list = parent::getList();
 		if($this->modelClass == "Newsletter_Sent"){
-			$list->addFilter(array("Status" => "Sent"));
+			$list->addFilter(array("Status" => "Sent", "Archived" => false));
 		} elseif ($this->modelClass == "Newsletter"){
-			$statusFilter = array("New", "Draft", "Sending");
+			$statusFilter = array("Draft", "Sending");
 
 			//using a editform detail request, that should allow Newsletter_Sent objects as well as regular Newsletters
 			if (!empty($_REQUEST['url'])) {
-				if (strpos($_REQUEST['url'],'/EditForm/field/Newsletter') !== false) {
+				if (strpos($_REQUEST['url'],'/EditForm/field/Newsletter/item/') !== false) {
 					$statusFilter[] = "Sent";
 				}
 			}
-
-			$list->addFilter(array("Status" => $statusFilter));
+			$list->addFilter(array("Status" => $statusFilter, "Archived" => false));
 		}
 
 		return $list;

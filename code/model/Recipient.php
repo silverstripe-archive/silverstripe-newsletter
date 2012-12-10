@@ -130,6 +130,7 @@ class Recipient extends DataObject {
 		$fields =parent::getCMSFields();
 		$fields->removeByName("ValidateHash");
 		$fields->removeByName("ValidateHashExpired");
+		$fields->removeByName("Archived");
 
 		if($this && $this->exists()){
 			$bouncedCount = $fields->dataFieldByName("BouncedCount")->performDisabledTransformation();
@@ -144,7 +145,11 @@ class Recipient extends DataObject {
 
 		//We will hide LanguagePreferred for now till if demoed for hooking newsletter module to multi-lang support.
 		$fields->removeByName("LanguagePreferred");
+		$fields->removeByName("SendRecipientQueue");
 
+		$config = $fields->dataFieldByName("MailingLists")->getConfig()
+			->removeComponentsByType('GridFieldEditButton')
+			->removeComponentsByType('GridFieldDetailForm');
 		return $fields;
 	}
 
@@ -199,6 +204,24 @@ class Recipient extends DataObject {
 
 		//remove this from its belonged mailing lists
 		$mailingLists = $this->MailingLists()->removeAll();
+	}
+
+
+	public function canArchive($member = null){
+		$can = parent::canDelete($member);
+		return $can && !($this->Archived);
+	}
+
+	public function canDelete($member = null) {
+		$can = parent::canDelete($member);
+		$queueditems = $this->SendRecipientQueue();
+		if($queueditems->count()){
+			foreach($queueditems as $queueditem){
+				$can = $can && !($queueditem->Status === 'Scheduled' && $queueditem->Status === 'InProgress');
+			}
+		}
+		if($this->Archived) return $can;
+		else return false;
 	}
 
 

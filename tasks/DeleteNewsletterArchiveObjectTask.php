@@ -11,14 +11,16 @@ class DeleteNewsletterArchivedObjectTask extends DailyTask{
 			if($config->DaysAfterWhichArchivedNewslettersDeleted === 0){
 				echo "no newsletter has been deleted permanently";
 			}else{
-				$total_deleted = $this->deleting_by_type("Newsletter", $config->DaysAfterWhichArchivedNewslettersDeleted);
+				$total_deleted = $this->deleting_by_type("Newsletter",
+					$config->DaysAfterWhichArchivedNewslettersDeleted);
 				echo $total_deleted." newsletters deleted permanently";
 			}
 
 			if($config->DaysAfterWhichArchivedRecipientsDeleted === 0){
 				echo "no recipients has been deleted permanently";
 			}else{
-				$total_deleted = $this->deleting_by_type("Recipient", $config->DaysAfterWhichArchivedRecipientsDeleted);
+				$total_deleted = $this->deleting_by_type("Recipient",
+					$config->DaysAfterWhichArchivedRecipientsDeleted);
 				echo $total_deleted." recipients deleted permanently";
 			}
 		}

@@ -19,5 +19,11 @@
 			}
 		});
 
+		$('#Actions ul li.no').entwine({
+			onmatch: function() {
+				this.addClass('active');
+			}
+		});
+
 	});
 }(jQuery));

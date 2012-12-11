@@ -55,6 +55,39 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		"Status",
 	);
 
+	static $required_fields = array(
+		'Subject', 'SendFrom'
+	);
+	static $required_relations = array(
+		'MailingLists'
+	);
+
+
+	public function validate() {
+		$result = parent::validate();
+
+		foreach(self::$required_fields as $field) {
+			if (empty($this->$field)) {
+				$result->error(_t('Newsletter.FieldRequired',
+					'"{field}" field is required',
+						array('field' => self::$field_labels[$field])
+				));
+			}
+		}
+
+		if (!empty($this->ID)) {
+			foreach(self::$required_relations as $relation) {
+				if ($this->$relation()->Count() == 0) {
+					$result->error(_t('Newsletter.RelationRequired',
+						'Select at least one "{relation}"',
+							array('relation' => $relation)
+					));
+				}
+			}
+		}
+
+		return $result;
+	}
 
 	/**
 	 * Returns a FieldSet with which to create the CMS editing form.

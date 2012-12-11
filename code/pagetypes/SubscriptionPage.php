@@ -463,8 +463,8 @@ JS
 					$templateData = array(
 						'FirstName' => $recipient->FirstName,
             			'MailingLists' => $mailingLists,
-            			'UnsubscribeLink' => Controller::join_links(
-            				Director::BaseURL(). "unsubscribe/".$recipient->ValidateHash, "?mlsid=".$ids),
+            			'UnsubscribeLink' => 
+            				Director::BaseURL(). "unsubscribe/index/".$recipient->ValidateHash."/".$ids,
             			'HashText' => $recipient->getHashText(),
             			'SiteConfig' => $this->SiteConfig(),
 					);

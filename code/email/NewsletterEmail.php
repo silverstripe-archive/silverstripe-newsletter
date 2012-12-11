@@ -110,14 +110,14 @@ class NewsletterEmail extends Email {
 		$listIDs = implode(",",$this->mailinglists->getIDList());
 		if($this->recipient && !$this->fakeRecipient){ 
 			if($this->recipient->ValidateHash){ 
-				$this->recipient->ValidateHashExpired = date('Y-m-d', time() + (86400 * 2)); 
+				$this->recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * 2)); 
 				$this->recipient->write(); 
 			}else{ 
 				$this->recipient->generateValidateHashAndStore(); 
 			} 
-			return Director::absoluteBaseURL()."unsubscribe/index/".$this->recipient->ValidateHash."/?mlids=$listIDs";
+			return Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/$listIDs"; 
 		}else{
-			return Director::absoluteBaseURL()."unsubscribe/index/fackedvalidatehash/?mlids=$listIDs";
+			return Director::absoluteBaseURL() . "unsubscribe/index/fackedvalidatehash/$listIDs";
 		}
 	}
 	

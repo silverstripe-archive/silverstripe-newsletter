@@ -35,7 +35,8 @@ class SubscriptionPage extends Page {
 				_t('Newsletter.SUBSCRIPTIONFORM', 'SubscriptionForm')
 			)
 		);
-		
+		Requirements::javascript('newsletter/javascript/SubscriptionPage.js');
+
 		$subscriptionTab->push(
 			new HeaderField(
 				"SubscriptionFormConfig",
@@ -105,15 +106,28 @@ class SubscriptionPage extends Page {
 			new TextField("SubmissionButtonText", "Submit Button Text")
 		);
 		
+		// $subscriptionTab->push(
+		// 	new ToggleCompositeField("SendNotificationToggle", "Send notification email to the subscriber?",
+		// 		new SelectionGroup("SendNotification", array(
+		// 			"0//no" => new CompositeField(),
+		// 			"1//yes" => new CompositeField(
+		// 				new TextField("NotificationEmailSubject", "Notification Email Subject Line:"),
+		// 				new TextField("NotificationEmailFrom", "From Email Address for Notification Email")
+		// 			))
+		// 		)
+		// 	)
+		// );
+
+		$subscriptionTab->push(new LiteralField('BottomTaskSelection',
+			'<div id="Actions" class="field actions"><label class="left">Send notification email to the subscriber</label><ul>'.
+			'<li class="ss-ui-button" data-panel="no">No</li>'.
+			'<li class="ss-ui-button" data-panel="yes">Yes</li>'.
+			'</ul></div>'));
+
 		$subscriptionTab->push(
-			new ToggleCompositeField("SendNotificationToggle", "Send notification email to the subscriber?",
-				new SelectionGroup("SendNotification", array(
-					"0//no" => new CompositeField(),
-					"1//yes" => new CompositeField(
-						new TextField("NotificationEmailSubject", "Notification Email Subject Line:"),
-						new TextField("NotificationEmailFrom", "From Email Address for Notification Email")
-					))
-				)
+			new CompositeField(
+				new TextField("NotificationEmailSubject", "Notification Email Subject Line:"),
+				new TextField("NotificationEmailFrom", "From Email Address for Notification Email")
 			)
 		);
 		
@@ -143,6 +157,8 @@ class SubscriptionPage_Controller extends Page_Controller {
 	 */
 	public function init() {
 		parent::init();
+
+
 		
 		// block prototype validation
 		//Validator::set_javascript_validation_handler('none');

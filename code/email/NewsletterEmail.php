@@ -115,9 +115,9 @@ class NewsletterEmail extends Email {
 			}else{ 
 				$this->recipient->generateValidateHashAndStore(); 
 			} 
-			return Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/?mlids=$listIDs"; 
+			return Director::absoluteBaseURL()."unsubscribe/index/".$this->recipient->ValidateHash."/?mlids=$listIDs";
 		}else{
-			return Director::absoluteBaseURL() . "unsubscribe/index/fackedvalidatehash/?mlids=$listIDs";
+			return Director::absoluteBaseURL()."unsubscribe/index/fackedvalidatehash/?mlids=$listIDs";
 		}
 	}
 	

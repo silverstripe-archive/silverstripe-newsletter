@@ -119,8 +119,9 @@ class SubscriptionPage extends Page {
 		// );
 
 		$subscriptionTab->push(new LiteralField('BottomTaskSelection',
-			'<div id="Actions" class="field actions"><label class="left">Send notification email to the subscriber</label><ul>'.
-			'<li class="ss-ui-button" data-panel="no">No</li>'.
+			'<div id="Actions" class="field actions">'.
+			'<label class="left">Send notification email to the subscriber</label>'.
+			'<ul><li class="ss-ui-button" data-panel="no">No</li>'.
 			'<li class="ss-ui-button" data-panel="yes">Yes</li>'.
 			'</ul></div>'));
 

@@ -418,6 +418,7 @@ JS
             'SubscriptionVerificationLink' => 
             	Controller::join_links($this->Link('subscribeverify'), "/".$recipient->ValidateHash),
             'HashText' => substr($recipient->ValidateHash, 0, 10)."******".substr($recipient->ValidateHash, -10),
+			'SiteConfig' => $this->SiteConfig(),
         );
 
         //Send Verification Email
@@ -461,6 +462,7 @@ JS
             			'UnsubscribeLink' => Controller::join_links(
             				Director::BaseURL(). "unsubscribe/".$recipient->ValidateHash, "?mlsid=".$ids),
             			'HashText' => $recipient->getHashText(),
+            			'SiteConfig' => $this->SiteConfig(),
 					);
 					//send notification email
 					if($this->SendNotification){

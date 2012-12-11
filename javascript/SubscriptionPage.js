@@ -8,14 +8,15 @@
 				//add active state to the current button
 				$('#Actions ul li').removeClass('active');
 				this.addClass('active');
-				//$('li.dms-active').append('<span class="arrow"></span>');
+				var panel = $('.ActionsPanel');
 
-				//hide all inner field sections
-				var panel = $('#ActionsPanel');
-				panel.find('div.fieldgroup-field').hide();
-
-				//show the correct group of controls
-				panel.find('.'+this.data('panel')).closest('div.fieldgroup-field').show();
+				if (this.hasClass('yes') && this.hasClass('active')){
+					panel.show();
+				}
+				else {
+					console.log('no');
+					panel.hide();
+				}
 			}
 		});
 

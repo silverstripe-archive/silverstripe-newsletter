@@ -36,6 +36,8 @@ class SubscriptionPage extends Page {
 			)
 		);
 		Requirements::javascript('newsletter/javascript/SubscriptionPage.js');
+		Requirements::css('newsletter/css/SubscriptionPage.css');
+
 
 		$subscriptionTab->push(
 			new HeaderField(
@@ -120,15 +122,15 @@ class SubscriptionPage extends Page {
 
 		$subscriptionTab->push(new LiteralField('BottomTaskSelection',
 			'<div id="Actions" class="field actions"><label class="left">Send notification email to the subscriber</label><ul>'.
-			'<li class="ss-ui-button" data-panel="no">No</li>'.
-			'<li class="ss-ui-button" data-panel="yes">Yes</li>'.
+			'<li class="ss-ui-button no" data-panel="no">No</li>'.
+			'<li class="ss-ui-button yes" data-panel="yes">Yes</li>'.
 			'</ul></div>'));
 
 		$subscriptionTab->push(
-			new CompositeField(
+			CompositeField::create(
 				new TextField("NotificationEmailSubject", "Notification Email Subject Line:"),
 				new TextField("NotificationEmailFrom", "From Email Address for Notification Email")
-			)
+			)->addExtraClass('ActionsPanel')
 		);
 		
 		$subscriptionTab->push(

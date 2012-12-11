@@ -28,7 +28,7 @@ class NewsletterEmail extends Email {
 		$this->populateTemplate(new ArrayData(array(
 			'UnsubscribeLink' => $this->UnsubscribeLink(),
 			'SiteConfig' => DataObject::get_one('SiteConfig'),
-			'AbsoluteBaseURLWithAuth' => Director::absoluteBaseURLWithAuth()
+			'AbsoluteBaseURL' => Director::absoluteBaseURLWithAuth()
 		)));
 		
 		$this->body = $newsletter->getContentBody();
@@ -115,9 +115,9 @@ class NewsletterEmail extends Email {
 			}else{ 
 				$this->recipient->generateValidateHashAndStore(); 
 			} 
-			return Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/$listIDs"; 
+			return Director::absoluteBaseURL()."unsubscribe/index/".$this->recipient->ValidateHash."/?mlids=$listIDs";
 		}else{
-			return Director::absoluteBaseURL() . "unsubscribe/index/fackedvalidatehash/$listIDs";
+			return Director::absoluteBaseURL()."unsubscribe/index/fackedvalidatehash/?mlids=$listIDs";
 		}
 	}
 	

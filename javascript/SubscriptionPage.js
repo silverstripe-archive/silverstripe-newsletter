@@ -14,7 +14,6 @@
 					panel.show();
 				}
 				else {
-					console.log('no');
 					panel.hide();
 				}
 			}

@@ -394,7 +394,7 @@ class Newsletter_TrackedLink extends DataObject {
 		return 'newsletterlinks/'. $this->Hash;
 	}
 
-	function UnsubscribeLink(){
+	/*function UnsubscribeLink(){
 		$emailAddr = $this->To();
 		$member = Member::get()->filter('Email', $emailAddr)->First();
 		if($member){
@@ -407,5 +407,5 @@ class Newsletter_TrackedLink extends DataObject {
 			$nlTypeID = $this->nlType->ID;
 			return Director::absoluteBaseURL() . "unsubscribe/index/".$member->ValidateHash."/$nlTypeID";
 		}
-	}
+	}*/
 }

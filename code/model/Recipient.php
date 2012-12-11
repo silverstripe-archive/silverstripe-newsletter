@@ -168,6 +168,10 @@ class Recipient extends DataObject {
 		return $f.$m.$s.$e;
 	}
 
+	public function getHashText(){
+		return substr($this->ValidateHash, 0, 10)."******".substr($this->ValidateHash, -10);
+	}
+
 	/**
 	 * Generate an auto login token which can be used to reset the password,
 	 * at the same time hashing it and storing in the database.

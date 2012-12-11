@@ -169,7 +169,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 	}
 	
 	function Form(){
-		if($this->URLParams['Action'] == 'complete') return;
+		if($this->URLParams['Action'] === 'completed' || $this->URLParams['Action'] == 'submitted') return;
 		$dataFields = singleton('Recipient')->getFrontEndFields()->dataFields();
 		
 		if($this->CustomisedLabels) $customisedLabels = Convert::json2array($this->CustomisedLabels);
@@ -350,14 +350,12 @@ JS
 		if(!$recipient) {
 			$recipient = new Recipient();
 		}
-		
 			
 		$form->saveInto($recipient);
-		$recipient->setField("Email", $data['Email']);		
 		$recipient->write();
 		
 		if($recipient->ValidateHash){ 
-			$recipient->ValidateHashExpired = date('Y-m-d', time() + (86400 * 2)); 
+			$recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * 2)); 
 			$recipient->write(); 
 		}else{ 
 			$recipient->generateValidateHashAndStore(); 
@@ -370,8 +368,8 @@ JS
 				$mailinglist = DataObject::get_by_id("MailingList", $listID);
 				
 				if($mailinglist && $mailinglist->exists()){
-					//remove member from unsubscribe if needed
-					//$this->removeUnsubscribe($newsletterType,$member);
+					//remove recipient from unsubscribe if needed
+					//$this->removeUnsubscribe($newsletterType,$recipient);
 					
 					$mailinglists->push($mailinglist);
 					$recipient->MailingLists()->add($mailinglist);
@@ -379,13 +377,14 @@ JS
 			}
 		} else {
 			// if the page has associate with one newsletter type, it won't appear in front form, but the 
-			// member needs to be added to the related group.
+			// recipient needs to be added to the related mailling list.
 			
 			if($this->MailingLists && ($listIDs = explode(",",$this->MailingLists))) {
 				foreach($listIDs as $listID){
 					$mailinglist = DataObject::get_by_id("MailingList", $listID);
 					if($mailinglist && $mailinglist->exists()){
-						//remove member from unsubscribe records if the member unsubscribed from mailing list before
+						//remove recipient from unsubscribe records if the recipient
+						// unsubscribed from mailing list before
 						//$this->removeUnsubscribe($mailingList,$recipient);
 						$mailinglists->push($mailinglist);
 						$recipient->MailingLists()->add($mailinglist);
@@ -415,33 +414,91 @@ JS
 		$templateData = array(
 			'FirstName' => $recipient->FirstName,
             'MemberInfoSection' => $emailableFields,
-            'Newsletters' => $mailinglists,
-            'UnsubscribeLink' => Director::baseURL() . 'unsubscribe/index/' . $recipient->ValidateHash
+            'MailingLists' => $mailinglists,
+            'SubscriptionVerificationLink' => 
+            	Controller::join_links($this->Link('subscribeverify'), "/".$recipient->ValidateHash),
+            'HashText' => substr($recipient->ValidateHash, 0, 10)."******".substr($recipient->ValidateHash, -10),
         );
 
-		if($this->SendNotification){
-			$email = new Email();
-			$email->setTo($recipient->Email);
-			$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
-	        $email->setFrom($from);
-			$email->setTemplate('SubscriptionEmail'); 
-	        $email->setSubject( $this->NotificationEmailSubject );
+        //Send Verification Email
+		$email = new Email();
+		$email->setTo($recipient->Email);
+		$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
+        $email->setFrom($from);
+		$email->setTemplate('SubscriptionVerificationEmail'); 
+        $email->setSubject("Thanks for subscribing to our mailing lists, please verify your email");
 
-	        $email->populateTemplate( $templateData );
-	        $email->send();
-		}
+        $email->populateTemplate( $templateData );
+        $email->send();
 		
-		$url = $this->Link()."complete/".$recipient->ID;
+		$url = $this->Link('submitted')."/".$recipient->ID;
 		$this->redirect($url);
 	}
 	
-	function complete(){
+	function submitted(){
 		if($id = $this->urlParams['ID']){
 			$recipientData = DataObject::get_by_id("Recipient", $id)->toMap();
 		}
 		return $this->customise(array(
-    		'Title' => _t('SubscriptionCompleted.Title', 'Subscription completed!'),
-    		'Content' => $this->customise($recipientData)->renderWith('SubscribeSubmission'),
+    		'Title' => _t('Newsletter.SubscriptionSubmitted', 'Subscription submitted!'),
+    		'Content' => $this->customise($recipientData)->renderWith('SubscriptionSubmitted'),
+    	))->renderWith('Page');
+	}
+
+	function subscribeverify() {
+		if($hash = $this->urlParams['ID']) {
+			$recipient = DataObject::get_one("Recipient", "\"ValidateHash\" = '".$hash."'");
+			if($recipient && $recipient->exists()){
+				$now = date('Y-m-d H:i:s');
+				if($now <= $recipient->ValidateHashExpired) {
+					$recipient->Verified = true;
+					$recipient->write();
+					$mailingLists = $recipient->MailingLists();
+					$ids = implode(",", $mailingLists->getIDList());	
+					$templateData = array(
+						'FirstName' => $recipient->FirstName,
+            			'MailingLists' => $mailingLists,
+            			'UnsubscribeLink' => Controller::join_links(
+            				Director::BaseURL(). "unsubscribe/".$recipient->ValidateHash, "?mlsid=".$ids),
+            			'HashText' => $recipient->getHashText(),
+					);
+					//send notification email
+					if($this->SendNotification){
+						$email = new Email();
+						$email->setTo($recipient->Email);
+						$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
+						$email->setFrom($from);
+						$email->setTemplate('SubscriptionConfirmationEmail'); 
+        				$email->setSubject("Confirmation of your subscription to our mailing lists");
+
+        				$email->populateTemplate( $templateData );
+        				$email->send();
+					}
+
+					$url = $this->Link('completed')."/".$recipient->ID;
+					$this->redirect($url);
+				}
+			}
+			if($recipient && $recipient->exists()){
+				$recipientData = $recipient->toMap();
+			}else{
+				$recipientData = array();
+			}
+			return $this->customise(array(
+	    		'Title' => _t('Newsletter.VerificationExpired', 
+	    			'The verification link has been expired'),
+	    		'Content' => $this->customise($recipientData)->renderWith('VerificationExpired'),
+	    	))->renderWith('Page');
+		}
+	}
+
+	function completed() {
+		if($id = $this->urlParams['ID']){
+			$recipientData = DataObject::get_by_id("Recipient", $id)->toMap();
+		}
+		return $this->customise(array(
+    		'Title' => _t('Newsletter.SubscriptionSubmitted', 'Subscription Completed!'),
+    		'Content' => $this->customise($recipientData)->renderWith('SubscriptionCompleted'),
     	))->renderWith('Page');
 	}
 }

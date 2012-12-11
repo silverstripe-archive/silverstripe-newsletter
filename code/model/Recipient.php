@@ -185,7 +185,7 @@ class Recipient extends DataObject {
 		} while(DataObject::get_one('Recipient', "\"ValidateHash\" = '$hash'"));
 
 		$this->ValidateHash = $hash;
-		$this->ValidateHashExpired = date('Y-m-d', time() + (86400 * $lifetime));
+		$this->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $lifetime));
 
 		$this->write();
 

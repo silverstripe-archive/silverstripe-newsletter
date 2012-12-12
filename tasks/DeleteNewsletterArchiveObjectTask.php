@@ -35,7 +35,7 @@ class DeleteNewsletterArchivedObjectTask extends DailyTask{
 		while($deleted = $this->delete_tunck_by_type($type, $start, $days)){
 			$total = $total + $deleted;
 			$start = $start + self::$trunk_length;
-			if($deleted < 50) break;
+			if($deleted < self::$trunk_length) break;
 		}
 		return $total;
 	}

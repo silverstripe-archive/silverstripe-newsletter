@@ -55,6 +55,7 @@ class Recipient extends DataObject {
 		'Surname',
 		'Email',
 		'Blacklisted',
+		'Archived',
 		'MailingLists.Title'=> 'Mailing List',
 	);
 
@@ -63,10 +64,32 @@ class Recipient extends DataObject {
 		'MiddleName'		=> 'Middle Name',
 		'Surname'			=> 'Last Name',
 		'Email'				=> 'Email',
+		'Archived'		    => 'Archived',
 		'Blacklisted'		=> 'Black listed?',
 		'BouncedCount'		=> 'Bounced Count',
 		'ReceivedCount'		=> 'Count for Received newsletters'
 	);
+
+
+	public function validate() {
+		$result = parent::validate();
+
+		if (empty($this->Email)) {
+			$result->error(_t('Newsletter.FieldRequired',
+				'"{field}" field is required',
+					array('field' => 'Email')
+			));
+		}
+
+		if (!Email::validEmailAddress($this->Email)) {
+			$result->error(_t('Newsletter.InvalidEmailAddress',
+				'"{field}" field is invalid',
+					array('field' => 'Email')
+			));
+		}
+
+		return $result;
+	}
 
 	/**
 	 * The unique field used to identify this recipient.
@@ -148,9 +171,12 @@ class Recipient extends DataObject {
 		$fields->removeByName("LanguagePreferred");
 		$fields->removeByName("SendRecipientQueue");
 
-		$config = $fields->dataFieldByName("MailingLists")->getConfig()
-			->removeComponentsByType('GridFieldEditButton')
-			->removeComponentsByType('GridFieldDetailForm');
+		if ($mailingLists = $fields->dataFieldByName("MailingLists")) {
+			$mailingLists->getConfig()
+				->removeComponentsByType('GridFieldEditButton')
+				->removeComponentsByType('GridFieldDetailForm');
+		}
+
 		return $fields;
 	}
 

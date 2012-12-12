@@ -10,7 +10,6 @@ class MailingList extends DataObject {
 	/* the database fields */
 	static $db = array(
 		'Title'					=> "Varchar",
-		'Disabled'				=> "Boolean",   //hide this mailing list from showing up in the Newsletter detail form
 	);
 
 	/* a mailing list could contains many newsletter recipients */
@@ -29,7 +28,6 @@ class MailingList extends DataObject {
 
 		$fields->addFieldToTab('Root.Main',
 			new TextField('Title',_t('NewsletterAdmin.MailingListTitle','Mailing List Title')));
-		$fields->addFieldToTab('Root.Main',new CheckboxField('Disabled',_t('NewsletterAdmin.Disabled','Disabled')));
 
 		$gridFieldConfig = GridFieldConfig::create()->addComponents(
 			new GridFieldToolbarHeader(),

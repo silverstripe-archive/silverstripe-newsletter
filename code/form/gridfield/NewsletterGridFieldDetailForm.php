@@ -81,13 +81,38 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 			}
 
 			$navigator->customise(new ArrayData(array('EmailPreviewLink' => $newsletter->Link('emailpreview'.$emailLink))));
-			Requirements::javascript(NEWSLETTER_DIR . '/javascript/libs/jquery-purl.js');
 			Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterAdminEmailPreview.js');
 
 			return $navigator->renderWith('NewsletterAdmin_SilverStripeNavigator');
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Send the preview/test email
+	 * @param SS_HTTPRequest $request
+	 */
+	public function emailpreview(SS_HTTPRequest $request = null) {
+		$emailVar = $request->getVar('email');
+		if ($request && !empty($emailVar)) {
+			$testEmail = new stdClass();
+			$testEmail->Email = Convert::raw2js($emailVar);
+		} else {
+			$testEmail = Member::currentUser();
+		}
+
+		//set some fields on our fake object for the email test
+		$testEmail->FirstName = "HereAsFirstName";
+		$testEmail->MiddleName = "HereAsMiddleName";
+		$testEmail->Surname = "HereAsSurname";
+		$testEmail->Salutation = "HereAsSalutation";
+
+		$newsletter = $this->record;
+		$email = new NewsletterEmail($newsletter, $testEmail, true);
+		$email->send();
+
+		return Controller::curr()->redirectBack();
 	}
 
 	/**
@@ -203,26 +228,6 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		return $this->record->render();
 	}
 
-	public function emailpreview(SS_HTTPRequest $request = null) {
-		if ($request && $request->getVar('email')) {
-			$testEmail = new stdClass();
-			$testEmail->Email = $request->getVar('email');
-		} else {
-			$testEmail = Member::currentUser();
-		}
-
-		//set some fields on our fake object for the email test
-		$testEmail->FirstName = "HereAsFirstName";
-		$testEmail->MiddleName = "HereAsMiddleName";
-		$testEmail->Surname = "HereAsSurname";
-		$testEmail->Salutation = "HereAsSalutation";
-
-		$newsletter = $this->record;
-		$email = new NewsletterEmail($newsletter, $testEmail, true);
-		$email->send();
-
-		return Controller::curr()->redirectBack();
-	}
 
 	public function doArchive($data, $form){
 		$this->record->Archived = true;

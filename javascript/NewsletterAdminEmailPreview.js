@@ -5,8 +5,8 @@
 
 		$('a.newsletter-preview-email').entwine({
 			onclick: function(e) {
-				var email = jQuery.url(this.attr('href')).param('email');   //using jquery-purl.js plug-in
-				var prompt = this.sendPrompt(email);
+				var email = this.attr('href').match(/email=(.*)/);
+				var prompt = this.sendPrompt(email[1]);
 				if (prompt !== null) {
 					var newHref = this.attr('href').replace(/email=.*$/gi,'email='+prompt);
 					window.location = newHref;  //open url of the send link

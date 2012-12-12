@@ -257,10 +257,10 @@ class Newsletter extends DataObject implements CMSPreviewable{
 
 	/**
 	 * Returns a DataObjectSet containing the subscribers who have never been sent this Newsletter
-	 *
+	 * **deprecated**
 	 * @return DataObjectSet
 	 */
-	function UnsentSubscribers() {
+	/*function UnsentSubscribers() {
 		// Get a list of everyone who has been sent this newsletter
 		$sentRecipients = DataObject::get("SendRecipientQueue","\"NewsletterID\"='".$this->ID."'");
 
@@ -296,7 +296,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		}
 
 		return $unsentSubscribers;
-	}
+	}*/
 
 	function getTitle() {
 		return $this->getField('Subject');

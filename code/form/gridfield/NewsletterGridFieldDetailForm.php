@@ -72,6 +72,18 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		$newsletter = $this->record;
 		if($newsletter) {
 			$navigator = new SilverStripeNavigator($newsletter);
+
+			//create the link the send a preview email
+			$member = Member::currentUser();
+			$emailLink = '?email=';
+			if ($member) {
+				$emailLink .= $member->Email;
+			}
+
+			$navigator->customise(new ArrayData(array('EmailPreviewLink' => $newsletter->Link('emailpreview'.$emailLink))));
+			Requirements::javascript(NEWSLETTER_DIR . '/javascript/libs/jquery-purl.js');
+			Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterAdminEmailPreview.js');
+
 			return $navigator->renderWith('NewsletterAdmin_SilverStripeNavigator');
 		} else {
 			return false;
@@ -189,6 +201,21 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 
 	public function preview($data){
 		return $this->record->render();
+	}
+
+	public function emailpreview(SS_HTTPRequest $request = null) {
+		if ($request && $request->getVar('email')) {
+			$emailObj = new stdClass();
+			$emailObj->Email = $request->getVar('email');
+		} else {
+			$emailObj = Member::currentUser();
+		}
+
+		$newsletter = $this->record;
+		$email = new NewsletterEmail($newsletter, $emailObj, true);
+		$email->send();
+
+		return Controller::curr()->redirectBack();
 	}
 
 	public function doArchive($data, $form){

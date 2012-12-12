@@ -32,7 +32,7 @@ class DeleteNewsletterArchivedObjectTask extends DailyTask{
 		$start = 0;
 		$total = 0;
 		
-		while($deleted = $this->delete_tunck_by_type($type, $start, $days)){
+		while($deleted = $this->delete_trunk_by_type($type, $start, $days)){
 			$total = $total + $deleted;
 			$start = $start + self::$trunk_length;
 			if($deleted < self::$trunk_length) break;
@@ -40,7 +40,7 @@ class DeleteNewsletterArchivedObjectTask extends DailyTask{
 		return $total;
 	}
 
-	public function delete_tunck_by_type($type, $offset, $days){
+	public function delete_trunk_by_type($type, $offset, $days){
 		set_time_limit(18000);
 		ini_set('memory_limit','512M');
 

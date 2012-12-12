@@ -8,12 +8,10 @@
 				var email = jQuery.url(this.attr('href')).param('email');   //using jquery-purl.js plug-in
 				var prompt = this.sendPrompt(email);
 				if (prompt !== null) {
-					this.attr('href',this.attr('href').replace(/name=/gi,'name='+prompt));
-
-					this._super(e);
-				} else {
-					return false;
+					var newHref = this.attr('href').replace(/email=.*$/gi,'email='+prompt);
+					window.location = newHref;  //open url of the send link
 				}
+				return false;
 			},
 			sendPrompt: function(email){
 				var message = 'Send a preview email to:';

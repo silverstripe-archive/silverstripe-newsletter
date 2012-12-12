@@ -310,6 +310,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		Requirements::clear();
 		$fakeRecipent = new Recipient();
 		$fakeRecipent->FirstName = "HereAsFirstName";
+		$fakeRecipent->MiddleName = "HereAsMiddleName";
 		$fakeRecipent->Surname = "HereAsSurname";
 		$fakeRecipent->Email = "HereAsEmail@test.com";
 		$fakeRecipent->Salutation = "HereAsSalutation";

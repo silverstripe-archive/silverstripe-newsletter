@@ -205,14 +205,20 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 
 	public function emailpreview(SS_HTTPRequest $request = null) {
 		if ($request && $request->getVar('email')) {
-			$emailObj = new stdClass();
-			$emailObj->Email = $request->getVar('email');
+			$testEmail = new stdClass();
+			$testEmail->Email = $request->getVar('email');
 		} else {
-			$emailObj = Member::currentUser();
+			$testEmail = Member::currentUser();
 		}
 
+		//set some fields on our fake object for the email test
+		$testEmail->FirstName = "HereAsFirstName";
+		$testEmail->MiddleName = "HereAsMiddleName";
+		$testEmail->Surname = "HereAsSurname";
+		$testEmail->Salutation = "HereAsSalutation";
+
 		$newsletter = $this->record;
-		$email = new NewsletterEmail($newsletter, $emailObj, true);
+		$email = new NewsletterEmail($newsletter, $testEmail, true);
 		$email->send();
 
 		return Controller::curr()->redirectBack();

@@ -21,10 +21,7 @@ class MailingList extends DataObject {
 	static $belongs_many_many = array(
 		'Newsletters'			=> "Newsletter",
 	);
-
-	static $singular_name = "Mailing Lists";
-	static $plural_name = "Mailing Lists";
-
+	
 	function getCMSFields() {
 		$fields = new FieldList();
 		$fields->push(new TabSet("Root", $mainTab = new Tab("Main")));

@@ -12,10 +12,10 @@ class NewsletterAdmin extends ModelAdmin {
 	static $menu_title = 'Newsletter';
 
 	public static $managed_models = array(
-		"Newsletter",
-		"Newsletter_Sent",
-		"MailingList",
-		"Recipient"
+		"Newsletter" => array('title' => 'Newsletters'),
+		"Newsletter_Sent" => array('title' => 'Sent Newsletters'),
+		"MailingList" => array('title' => 'Mailing Lists'),
+		"Recipient" => array('title' => 'All Recipients')
 	);
 
 	// We keep the legacy code below there for developing purposes, 

@@ -6,8 +6,18 @@
  * @package newsletter
  */
 class UnsubscribeController extends Page_Controller {
+	static public $days_unsubscribe_link_alive = 30;
+
 	function __construct($data = null) {
 		parent::__construct($data);
+	}
+
+	public function set_days_unsubscribe_link_alive($days){
+		self::$days_unsubscribe_link_alive = $days;
+	}
+
+	public function get_days_unsubscribe_link_alive(){
+		return self::$days_unsubscribe_link_alive;
 	}
 
 	function RelativeLink($action = null) {
@@ -17,8 +27,9 @@ class UnsubscribeController extends Page_Controller {
 	private function getRecipient(){
 		$validateHash = Convert::raw2sql($this->urlParams['ValidateHash']);
 		if($validateHash) {
-			$recipent = DataObject::get_one('Recipient', "\"ValidateHash\" = '$validateHash'");
-			return $recipent;
+			$recipent = DataObject::get_one('Recipient', "\"ValidateHash\" = '$validateHash', ");
+			$now = date('Y-m-d H:i:s');
+			if($now <= $recipient->ValidateHashExpired) return $recipent;
 		}
 	}
 	

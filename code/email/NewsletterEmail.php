@@ -108,12 +108,13 @@ class NewsletterEmail extends Email {
 	
 	function UnsubscribeLink(){
 		$listIDs = implode(",",$this->mailinglists->getIDList());
-		if($this->recipient && !$this->fakeRecipient){ 
+		if($this->recipient && !$this->fakeRecipient){
+			$days = UnsubscribeController::get_days_unsubscribe_link_alive();
 			if($this->recipient->ValidateHash){ 
-				$this->recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * 2)); 
+				$this->recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days)); 
 				$this->recipient->write(); 
 			}else{ 
-				$this->recipient->generateValidateHashAndStore(); 
+				$this->recipient->generateValidateHashAndStore($day); 
 			} 
 			return Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/$listIDs"; 
 		}else{

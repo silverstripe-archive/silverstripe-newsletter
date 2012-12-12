@@ -28,6 +28,16 @@ class SubscriptionPage extends Page {
 		'SubmissionButtonText' => 'Submit'
 	);
 
+	static public $days_verification_link_alive = 2;
+
+	public function set_days_verification_link_alive($days){
+		self::$days_verification_link_alive = $days;
+	}
+
+	public function get_days_verification_link_alive(){
+		return self::$days_verification_link_alive;
+	}
+
 	function getCMSFields() {
 		$fields = parent::getCMSFields();
 		$fields ->addFieldToTab("Root",
@@ -358,11 +368,13 @@ JS
 		$form->saveInto($recipient);
 		$recipient->write();
 		
+		$days = self::get_days_verification_link_alive();
 		if($recipient->ValidateHash){ 
-			$recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * 2)); 
+			$recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days));
+			//default 2 days for validating
 			$recipient->write(); 
 		}else{ 
-			$recipient->generateValidateHashAndStore(); 
+			$recipient->generateValidateHashAndStore($days); //default 2 days for validating
 		}
 		
 		$mailinglists = new ArrayList();
@@ -457,6 +469,11 @@ JS
 				$now = date('Y-m-d H:i:s');
 				if($now <= $recipient->ValidateHashExpired) {
 					$recipient->Verified = true;
+
+					// extends the ValidateHashExpired so the a unsubscirbe link will stay alive in that peroid by law
+					$days = UnsubscribeController::get_days_unsubscribe_link_alive();
+					$recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days));
+
 					$recipient->write();
 					$mailingLists = $recipient->MailingLists();
 					$ids = implode(",", $mailingLists->getIDList());	

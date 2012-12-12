@@ -10,7 +10,6 @@ class SendRecipientQueue extends DataObject {
 	 * 	"Bounced" ({@see $email_bouncehandler}), or "BlackListed" (sending to is disabled).
 	 */
 	static $db = array(
-		"Priority" => "Int(50)",
 		"Status" => "Enum('Scheduled, InProgress, Sent, Failed, Bounced, BlackListed', 'Scheduled')",
 		"RetryCount" => "Int(0)"    //number of times this email got "stuck" in the queue
 	);
@@ -24,7 +23,6 @@ class SendRecipientQueue extends DataObject {
 		"Recipient.Email" => 'Email',
 		"RetryCount" => 'Retry Count',
 		"LastEdited" => 'Last Edited',
-		"Priority" => 'Priority'
 	);
 
 	static $summary_fields = array(
@@ -32,7 +30,6 @@ class SendRecipientQueue extends DataObject {
 		"Recipient.Email",
 		"RetryCount",
 		"LastEdited",
-		"Priority"
 	);
 
 	static $default_sort = array(

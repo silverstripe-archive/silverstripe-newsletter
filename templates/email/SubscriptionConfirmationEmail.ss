@@ -100,12 +100,10 @@
 										<tr>
 											<td valign="top" class="bodyContent" sytle="border-collapse:collapse;">
 												<div sytle="color:#000000;font-family:'Lucida Sans Unicode',sans-serif,Verdana,Arial;font-size:13pt;line-height:140%;text-align:left;">
-													<h3>$Subject</h3>
 													<p>Dear $FirstName,</p>
-													<p>Thanks for subscribing to our mailing lists.</p>
 													
 													<% if MailingLists %>
-														<h5>We confirm that you subscribed to our mailing lists:
+														<h5>We confirm that you have subscribed to:
 														</h5>
 														<ul>
 															<% control MailingLists %>

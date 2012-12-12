@@ -46,6 +46,7 @@ class MailingList extends DataObject {
 			new GridFieldDeleteAction(true),
 			new GridFieldPaginator(30),
 			new GridFieldAddNewButton(),
+			new GridFieldDetailForm(),
 			new GridFieldArchiveAction(),
 			$autocompelete = new GridFieldAutocompleterWithFilter('before',	array(
 					'FirstName',
@@ -62,7 +63,7 @@ class MailingList extends DataObject {
 		);
 
 		$recipientsGrid = GridField::create(
-			'Recipients2',
+			'Recipients',
 			_t('NewsletterAdmin.Recipients', 'Mailing list recipients'),
 			$this->Recipients(),
 			$gridFieldConfig

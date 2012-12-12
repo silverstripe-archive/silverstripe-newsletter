@@ -10,7 +10,7 @@ if(!(defined('NEWSLETTER_DIR'))){
 
 Config::inst()->update('Director', 'rules', array(
 	'newsletterlinks/$Hash' => "TrackLinkController",
-	'unsubscribe//$Action/$ValidateHash/$MailingLists' => 'UnsubscribeController'
+	'unsubscribe//$Action/$ValidateHash/$IDs' => 'UnsubscribeController'
 ));
 
 if (class_exists('MessageQueue')) {

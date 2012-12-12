@@ -22,16 +22,8 @@ class MailingList extends DataObject {
 		'Newsletters'			=> "Newsletter",
 	);
 
-	//Only for statistics purpose, we keep a unsubscribed count field for each MailingList <=> Recipient peer.
-	static $many_many_extraFields = array(
-		"Recipients" => array(
-			'UnsubscribeCounts'	=> "Int", // if 0, this recipient has naver unsubscribe from this mailing list.
-		)
-	);
-
 	static $singular_name = "Mailing Lists";
 	static $plural_name = "Mailing Lists";
-
 
 	function getCMSFields() {
 		$fields = new FieldList();

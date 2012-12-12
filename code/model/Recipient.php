@@ -32,7 +32,7 @@ class Recipient extends DataObject {
 		'MailingLists'			=> 'MailingList',
 	);
 	static $has_many = array(
-		'SendRecipientQueue' => 'SendRecipientQueue'
+		'SendRecipientQueue' => 'SendRecipientQueue',
 	);
 
 	static $indexes = array(
@@ -58,6 +58,7 @@ class Recipient extends DataObject {
 		'Blacklisted',
 		'Archived',
 		'MailingLists.Title'=> 'Mailing List',
+		'Verified',
 	);
 
 	static $summary_fields = array(
@@ -66,6 +67,7 @@ class Recipient extends DataObject {
 		'Surname'			=> 'Last Name',
 		'Email'				=> 'Email',
 		'Archived'		    => 'Archived',
+		'Verified'			=> 'Verified',
 		'Blacklisted'		=> 'Black listed?',
 		'BouncedCount'		=> 'Bounced Count',
 		'ReceivedCount'		=> 'Count for Received newsletters'
@@ -156,6 +158,7 @@ class Recipient extends DataObject {
 		$fields->removeByName("ValidateHash");
 		$fields->removeByName("ValidateHashExpired");
 		$fields->removeByName("Archived");
+		$fields->removeByName("Verified");
 
 		if($this && $this->exists()){
 			$bouncedCount = $fields->dataFieldByName("BouncedCount")->performDisabledTransformation();

@@ -42,6 +42,10 @@ class Recipient extends DataObject {
 
 	static $default_sort = '"FirstName", "Surname"';
 
+	static $singular_name = "All Recipients";
+	static $plural_name = "All Recipients";
+
+
 	/**
 	 *
 	 * @var array

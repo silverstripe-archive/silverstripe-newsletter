@@ -29,6 +29,10 @@ class MailingList extends DataObject {
 		)
 	);
 
+	static $singular_name = "Mailing Lists";
+	static $plural_name = "Mailing Lists";
+
+
 	function getCMSFields() {
 		$fields = new FieldList();
 		$fields->push(new TabSet("Root", $mainTab = new Tab("Main")));

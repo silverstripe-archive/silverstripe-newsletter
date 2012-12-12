@@ -13,8 +13,8 @@ class SubscriptionPage extends Page {
 		'Fields' => 'Text',
 		'Required' => 'Text',
 		'CustomisedHeading' => 'Text',
-		'CustomisedLabels' => 'Text',
-		'CustomisedErrors' => 'Text',
+		'CustomLabel' => 'Text',
+		'ValidationMessage' => 'Text',
 		'MailingLists' => 'Text',
 		'SubmissionButtonText' => 'Varchar',
 		'SendNotification' => 'Boolean',
@@ -68,10 +68,10 @@ class SubscriptionPage extends Page {
 		//FisrtName should be checked as default, though it might not be required
 		$defaults = array("Email", "FirstName");
 				
-		$extra = array('CustomisedLabels'=>"Varchar","CustomisedErrors"=>"Varchar","Required" =>"Boolean");
+		$extra = array('CustomLabel'=>"Varchar","ValidationMessage"=>"Varchar","Required" =>"Boolean");
 		$extraValue = array(
-			'CustomisedLabels'=>$this->CustomisedLabels,
-			"CustomisedErrors"=>$this->CustomisedErrors,
+			'CustomLabel'=>$this->CustomLabel,
+			"ValidationMessage"=>$this->ValidationMessage,
 			"Required" =>$this->Required
 		);
 
@@ -176,7 +176,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 		if($this->URLParams['Action'] === 'completed' || $this->URLParams['Action'] == 'submitted') return;
 		$dataFields = singleton('Recipient')->getFrontEndFields()->dataFields();
 		
-		if($this->CustomisedLabels) $customisedLabels = Convert::json2array($this->CustomisedLabels);
+		if($this->CustomLabel) $customLabel = Convert::json2array($this->CustomLabel);
 
 		$fields = array();
 		if($this->Fields){
@@ -200,14 +200,14 @@ class SubscriptionPage_Controller extends Page_Controller {
 						);
 					}else{
 						if(isset($requiredFields[$field])) {
-							if(isset($customisedLabels[$field])){
-								$title = $customisedLabels[$field]." * ";
+							if(isset($customLabel[$field])){
+								$title = $customLabel[$field]." * ";
 							} else {
 								$title = $dataFields[$field]->Title(). " * ";
 							}
 						}else{
-							if(isset($customisedLabels[$field])){
-								$title = $customisedLabels[$field];
+							if(isset($customLabel[$field])){
+								$title = $customLabel[$field];
 							} else {
 								$title = $dataFields[$field]->Title();
 							}
@@ -247,17 +247,17 @@ class SubscriptionPage_Controller extends Page_Controller {
 		
 		// using jQuery to customise the validation of the form
 		$FormName = $form->FormName();
-		$customisedErrors = Convert::json2array($this->CustomisedErrors);
+		$validationMessage = Convert::json2array($this->ValidationMessage);
 
 		if(!empty($requiredFields)){
 			$jsonRuleArray = array();
 			$jsonMessageArray = array();
 			foreach($requiredFields as $field => $true){
 				if($true){
-					if(isset($customisedErrors[$field]) && $customisedErrors[$field]) {
-						$error = $customisedErrors[$field];
+					if(isset($validationMessage[$field]) && $validationMessage[$field]) {
+						$error = $validationMessage[$field];
 					}else{
-						$label=isset($customisedLabels[$field])?$customisedLabels[$field]:$dataFields[$field]->Title();
+						$label=isset($customLabel[$field])?$customLabel[$field]:$dataFields[$field]->Title();
 						$error="Please enter your $label field";
 					}
 					

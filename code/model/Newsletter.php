@@ -34,8 +34,8 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	static $field_labels = array(
 		"SendFrom"				=> "From Address",
 		"ReplyTo"				=> "Reply To",
-		"Template"				=> "Is Template",
-		"Content"				=> "Content Summary",
+		"Template"				=> "Add to newsletter templates",
+		"Content"				=> "Content",
 	);
 
 	static $searchable_fields = array(
@@ -126,7 +126,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 
 		$sendRecipientGrid = GridField::create(
 			'SendRecipientQueue',
-			_t('NewsletterAdmin.SendRecipientQueue', 'Send Recipient Queue'),
+			_t('NewsletterAdmin.SendRecipientQueue', 'Sent Recipient Queue'),
 			$this->SendRecipientQueue(),
 			$gridFieldConfig
 		);

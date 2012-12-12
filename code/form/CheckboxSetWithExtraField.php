@@ -107,8 +107,8 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 			$options = "<tr><td>No options available</td></tr>";
 		}else{
 			
-			$header = "<thead><tr><th>Checked?</th>";
-			$footer = "<tfoot><tr><td>Checked?</td>";
+			$header = "<thead><tr><th></th>";
+			$footer = "<tfoot><tr><td></td>";
 			if(!empty($this->extra)){
 				foreach($this->extra as $label=>$type){
 					$fieldLabel = FormField::name_to_label($label);

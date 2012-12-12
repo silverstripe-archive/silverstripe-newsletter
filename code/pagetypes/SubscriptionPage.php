@@ -136,7 +136,7 @@ class SubscriptionPage extends Page {
 		);
 		
 		$subscriptionTab->push(
-			new HtmlEditorField('OnCompleteMessage', "Message shown on completion")
+			new HtmlEditorField('OnCompleteMessage', "Message shown on subscription completion")
 		);
 		return $fields;
 	}

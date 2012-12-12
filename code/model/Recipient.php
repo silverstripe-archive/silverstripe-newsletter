@@ -255,7 +255,7 @@ class Recipient extends DataObject {
 				$can = $can && !($queueditem->Status === 'Scheduled' && $queueditem->Status === 'InProgress');
 			}
 		}
-		if($this->Archived) return $can;
+		if($this->Archived || !$this->Verified ) return $can;
 		else return false;
 	}
 

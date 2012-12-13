@@ -127,7 +127,12 @@ class NewsletterAdmin extends ModelAdmin {
 					$statusFilter[] = "Sent";
 				}
 			}
+
+		} else {
+			$statusFilter = array("Sent");
 		}
+
+		$list->addFilter(array("Status" => $statusFilter));
 
 		return $list;
 	}

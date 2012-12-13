@@ -131,9 +131,20 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			$gridFieldConfig
 		);
 
+		//build the status text
+		$statusText = '<span>'.$this->SendRecipientQueue()->filter(array('Status'=>'Scheduled'))->count() .
+				' Scheduled;</span>';
+		$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>'InProgress'))->count() .
+				' InProgress;</span>';
+		$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>'Sent'))->count() .
+				' Sent;</span>';
+		$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>
+				array('Sent','Bounced','BlackListed')))->count() . ' Failed/Bounced/Blacklisted;</span>';
+
 		$fields->removeFieldFromTab('Root.SendRecipientQueue',"SendRecipientQueue");
 		$fields->removeByName('SendRecipientQueue');
 		if ($this->Status == "Sent" || $this->Status == "Sending") {
+			$fields->addFieldToTab('Root.SendRecipientQueues',new LiteralField('Status','<h4>'.$statusText.'</h4>'));
 			$fields->addFieldToTab('Root.SendRecipientQueues',$sendRecipientGrid);
 
 			$fields->addFieldToTab('Root.SendRecipientQueues',

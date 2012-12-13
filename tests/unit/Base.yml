@@ -11,9 +11,6 @@ Recipient:
     Email: stuck1@silverstripe.com
   stuck2:
     Email: stuck2@silverstripe.com
-  archived:
-    Email: archived@silverstripe.com
-    Archived: true
 MailingList:
   ml1:
     Title: mailing list 1
@@ -21,12 +18,9 @@ MailingList:
   ml2:
     Title: mailing list 2
     Recipients: =>Recipient.normann2, =>Recipient.julian2,
-  ml3:
-    Title: mailing list 3
-    Recipients: =>Recipient.normann1, =>Recipient.archived,
   mlall:
     Title: mailing list all
-    Recipients: =>Recipient.normann2, =>Recipient.julian2, =>Recipient.normann1, =>Recipient.julian1, =>Recipient.archived,
+    Recipients: =>Recipient.normann2, =>Recipient.julian2, =>Recipient.normann1, =>Recipient.julian1,
 Newsletter:
   daily:
     Subject: Daily Newsletter
@@ -40,10 +34,6 @@ Newsletter:
     Subject: Monthly Newsletter
     Content: more more more
     MailingLists: =>MailingList.ml2
-  archived:
-    Subject: Archived
-    Archived: true
-    MailingLists: =>MailingList.ml3, =>MailingList.mlall,
   all:
     SendFrom: newsletterall@silverstripe.com
     ReplyTo: newsletterall+all@silverstripe.com
@@ -61,24 +51,3 @@ SendRecipientQueue:
     RetryCount: 19532342 #high enough retry count that it shouldn't try re-sending
     Newsletter: =>Newsletter.monthly
     Recipient: =>Recipient.stuck2
-  sent1:
-    Status: Sent
-    Newsletter: =>Newsletter.daily
-    Recipient: =>Recipient.archived
-  send2:
-    Status: Sent
-    Newsletter: =>Newsletter.monthly
-    Recipient: =>Recipient.archived
-  sent3:
-    Status: Sent
-    Newsletter: =>Newsletter.archived
-    Recipient: =>Recipient.normann1
-  send4:
-    Status: Sent
-    Newsletter: =>Newsletter.archived
-    Recipient: =>Recipient.normann2
-Newsletter_TrackedLink:
-  link1:
-    Newsletter: =>Newsletter.archived
-  link2:
-    Newsletter: =>Newsletter.archived

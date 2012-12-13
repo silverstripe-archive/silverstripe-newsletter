@@ -39,7 +39,6 @@ class MailingList extends DataObject {
 			new GridFieldAddNewButton(),
 			new GridFieldDetailForm(),
 			new GridFieldEditButton(),
-			new GridFieldArchiveAction(),
 			$autocompelete = new GridFieldAutocompleterWithFilter('before',	array(
 					'FirstName',
 					'MiddleName',
@@ -50,7 +49,6 @@ class MailingList extends DataObject {
 		);
 
 		$autocompelete->filters = array(
-			"Archived" => false,
 			"Blacklisted" => false,
 		);
 

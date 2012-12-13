@@ -4,8 +4,6 @@ class NewsletterSiteConfig extends DataExtension{
 	function extraStatics($class = null, $extension = null) {
 		return array(
 			'db' => array(
-				"DaysAfterWhichArchivedNewslettersDeleted" => "Int(90)", // if 0, never delete
-				"DaysAfterWhichArchivedRecipientsDeleted" => "Int(90)", // if 0, never delete
 				"GlobalUnsubscribe" => "Boolean",
 			)
 		);
@@ -14,12 +12,6 @@ class NewsletterSiteConfig extends DataExtension{
 	public function updateCMSFields(FieldList $fields) {
 		$fields->addFieldToTab("Root",
 			new Tab(_t("Newsletter.Configuration", "NewsletterConfiguration"),
-				new NumericField("DaysAfterWhichArchivedNewslettersDeleted", 
-					_t("Newsletter.LabelNewslettersArchivedDeletionDays", "Number of days after which archived
-					newsletters will be deleted")),
-				new NumericField("DaysAfterWhichArchivedRecipientsDeleted", 
-					_t("Newsletter.LabelRecipientsArchivedDeletionDays", "Number of days after which archived
-					recipients will be deleted")),
 				$globalUnsubscribe = new CheckboxField("GlobalUnsubscribe",
 					_t("Newsletter.LabelGobalUnsubscribe", "Turned on globally unsubscribe?"))
 			)
@@ -31,14 +23,4 @@ class NewsletterSiteConfig extends DataExtension{
 		);
 		$globalUnsubscribe->setDescription($globalUnsubscribeDescription);
 	}
-
-	/*public function populateDefaults(){
-		if(!$this->owner->DaysAfterWhichArchivedNewslettersDeleted){
-			$this->DaysAfterWhichArchivedNewslettersDeleted = 90;
-		}
-
-		if(!$this->owner->DaysAfterWhichArchivedRecipientsDeleted) {
-			$this->DaysAfterWhichArchivedRecipientsDeleted =90;
-		}
-	}*/
 }

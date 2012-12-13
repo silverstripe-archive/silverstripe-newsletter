@@ -28,22 +28,12 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		// send button
 		if ($this->record->Status == "Draft") { //only allow sending when the newsletter is "Draft"
 			Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js');
-			$sendButton = FormAction::create('doSend', _t('Newsletter.SendAndArchive','Send'));
+			$sendButton = FormAction::create('doSend', _t('Newsletter.Send','Send'));
 			$actions->insertBefore($sendButton
 							->addExtraClass('ss-ui-action-constructive')
 							->setAttribute('data-icon', 'accept')
 							->setUseButtonTag(true), 'action_doSave');
 		}
-		$actions->removeByName("action_doDelete");
-
-		if($this->record && $this->record instanceof Newsletter){
-			$archiveButton = FormAction::create('doArchive', _t('Newsletter.ArchiveButton', "Archive"))
-				->addExtraClass('ss-ui-action-distructive')
-				->setAttribute('data-icon', 'plug-disconnect-prohibition')
-				->setUseButtonTag(true);
-			$actions->push($archiveButton);
-		}
-
 		return $actions;
 	}
 
@@ -243,15 +233,4 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 	public function preview($data){
 		return $this->record->render();
 	}
-
-
-	public function doArchive($data, $form){
-		$this->record->Archived = true;
-		$this->record->write();
-		$controller = Controller::curr();
-		$noActionURL = $controller->removeAction($data['url']);
-		$controller->getRequest()->addHeader('X-Pjax', 'Content');
-		return $controller->redirect($noActionURL, 302);
-	}
-
 }

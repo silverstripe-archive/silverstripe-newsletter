@@ -23,7 +23,6 @@ class Recipient extends DataObject {
 		// both subscribe and unsebscribe process need to valid this hash for security
 		'ValidateHash'			=> "Varchar(160)",
 		'ValidateHashExpired'	=> "SS_Datetime",
-		'Archived'				=> "Boolean",
 		'Verified'				=> "Boolean",
 	);
 
@@ -56,7 +55,6 @@ class Recipient extends DataObject {
 		'Surname',
 		'Email',
 		'Blacklisted',
-		'Archived',
 		'MailingLists.Title'=> 'Mailing List',
 		'Verified',
 	);
@@ -67,7 +65,6 @@ class Recipient extends DataObject {
 		'Surname'			=> 'Last Name',
 		'Salutation'        => 'Salutation',
 		'Email'				=> 'Email',
-		'Archived'		    => 'Archived',
 		'Verified'			=> 'Verified',
 		'Blacklisted'		=> 'Blacklisted',
 		'BouncedCount'		=> 'Bounced Count',
@@ -233,12 +230,6 @@ class Recipient extends DataObject {
 		$mailingLists = $this->MailingLists()->removeAll();
 	}
 
-
-	public function canArchive($member = null){
-		$can = parent::canDelete($member);
-		return $can && !($this->Archived);
-	}
-
 	public function canDelete($member = null) {
 		$can = parent::canDelete($member);
 		$queueditems = $this->SendRecipientQueue();
@@ -247,8 +238,7 @@ class Recipient extends DataObject {
 				$can = $can && !($queueditem->Status === 'Scheduled' && $queueditem->Status === 'InProgress');
 			}
 		}
-		if($this->Archived || !$this->Verified ) return $can;
-		else return false;
+		return $can;
 	}
 
 	public function getFrontEndFields($params = null) {
@@ -260,7 +250,6 @@ class Recipient extends DataObject {
 			"ValidateHash",
 			"ValidateHashExpired",
 			"LanguagePreferred",
-			"Archived",
 			"Verified",
 		);
 

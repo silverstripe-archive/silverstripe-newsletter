@@ -15,7 +15,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		"SendFrom"				=> "Varchar(255)",
 		"ReplyTo"				=> "Varchar(255)",
 		"RenderTemplate"		=> "Varchar",
-		'Archived'				=> "Boolean",
 	);
 
 	static $has_many = array(
@@ -105,7 +104,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		$fields->removeByName('Status');
 		$fields->addFieldToTab('Root.Main',new ReadonlyField('Status'),'Subject');
 		$fields->removeByName("SentDate");
-		$fields->removeByName("Archived");
 		if ($this->Status == "Sent") {
 			$fields->addFieldToTab('Root.Main',new ReadonlyField('SentDate','Sent Date'),'Subject');
 		}
@@ -168,8 +166,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			$fields->removeByName('TrackedLinks');
 		}else{
 			$config = $fields->dataFieldByName('TrackedLinks')->getConfig();
-			$config->removeComponentsByType('GridFieldDeleteAction')
-				->removeComponentsByType('GridFieldAddNewButton')
+			$config->removeComponentsByType('GridFieldAddNewButton')
 				->removeComponentsByType('GridFieldButtonRow')
 				->removeComponentsByType('GridFieldAddExistingAutocompleter')
 				->removeComponentsByType('GridFieldDetailForm')
@@ -338,14 +335,9 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		return HTTP::absoluteURLs($newsletterEmail->getData()->renderWith($templateName));
 	}
 
-	public function canArchive($member = null){
-		$can = parent::canDelete($member);
-		return $can && !($this->Archived);
-	}
-
 	public function canDelete($member = null) {
 		$can = parent::canDelete($member);
-		if($this->Status !== 'Sending') return $can && $this->Archived;
+		if($this->Status !== 'Sending') return $can;
 		else return false;
 	}
 

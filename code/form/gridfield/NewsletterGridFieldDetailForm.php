@@ -13,11 +13,11 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		if (empty($this->record->Status) || $this->record->Status == "Draft") {
 			// save draft button
 			$actions->fieldByName("action_doSave")
-				->setTitle(_t('Newsletter.SAVEDRAFT', "Save Draft"))
+				->setTitle(_t('Newsletter.SAVE', "Save"))
 				->removeExtraClass('ss-ui-action-constructive')
 				->setAttribute('data-icon', 'addpage');
 		} else {    //sending or sent, "save as new" button
-			$saveAsNewButton = FormAction::create('doSaveAsNew', _t('Newsletter.SaveAsNew',"Save as new Draft..."));
+			$saveAsNewButton = FormAction::create('doSaveAsNew', _t('Newsletter.SaveAsNew',"Save as new ..."));
 			$actions->replaceField("action_doSave",
 				$saveAsNewButton
 				->addExtraClass('ss-ui-action-constructive')
@@ -28,7 +28,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		// send button
 		if ($this->record->Status == "Draft") { //only allow sending when the newsletter is "Draft"
 			Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js');
-			$sendButton = FormAction::create('doSend', _t('Newsletter.SendAndArchive','Send and Archive'));
+			$sendButton = FormAction::create('doSend', _t('Newsletter.SendAndArchive','Send'));
 			$actions->insertBefore($sendButton
 							->addExtraClass('ss-ui-action-constructive')
 							->setAttribute('data-icon', 'accept')

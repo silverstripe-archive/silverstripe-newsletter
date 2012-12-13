@@ -127,17 +127,29 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 	}
 
 	public function doSaveAsNew($data, $form){
-		$newNewsletter = new Newsletter();
+		$originalID = $data['NEWSLETTER_ORIGINAL_ID'];
+		$origNewsletter = DataObject::get_by_id("Newsletter", $originalID);
 		$controller = Controller::curr();
 
 		try {
+			$newNewsletter = clone $origNewsletter;
+
+			//unset doesn't work, set system used fields to nulls.
+			$newNewsletter->ID = null;
+			$newNewsletter->Created = null;
+			$newNewsletter->Status = null;
+			$newNewsletter->LastEdited = null;
+			$newNewsletter->SentDate = null;
+
 			//write once without validation
 			Newsletter::set_validation_enabled(false);
-			$newNewsletter->write();
+			//save once to get the new Newsletter created so as to add to mailing list
+			$newNewsletter->write($showDebug = false,$forceInsert = true);
+			$origMailinglists = $origNewsletter->MailingLists();
+			if($origMailinglists && $origMailinglists->count()){
+				$newNewsletter->MailingLists()->addMany($origMailinglists);
+			}
 			Newsletter::set_validation_enabled(true);
-
-			$form->saveInto($newNewsletter);
-
 			$newNewsletter->Status = 'Draft';  //custom: changing the status of to indicate we are sending
 
 			//add a (1) (2) count to new newsletter names if the subject name already exists elsewhere
@@ -168,7 +180,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		}
 
 		$form->sessionMessage(_t('NewsletterAdmin.SaveAsNewMessage',
-			'New Newsletter created as copy of sent newsletter'), 'good');
+			'New Newsletter created as copy of the sent newsletter'), 'good');
 
 		//create a link to the newly created object and open that instead of the old sent newsletter we had open before
 		$link = Controller::join_links($this->gridField->Link('item'),$newNewsletter->ID ? $newNewsletter->ID : 'new');

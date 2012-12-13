@@ -219,6 +219,11 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			);
 		}
 
+		if($this->Status === 'Sending' || $this->Status === 'Sent') {
+			$fields = $fields->transform(new ReadonlyTransformation());
+			$fields->push(new HiddenField("NEWSLETTER_ORIGINAL_ID", "", $this->ID));
+		}
+
 		return $fields;
 	}
 

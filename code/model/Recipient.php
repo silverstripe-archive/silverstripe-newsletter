@@ -41,7 +41,6 @@ class Recipient extends DataObject {
 
 	static $default_sort = '"FirstName", "Surname"';
 
-
 	/**
 	 *
 	 * @var array
@@ -61,11 +60,8 @@ class Recipient extends DataObject {
 
 	static $summary_fields = array(
 		'FirstName'			=> 'First Name',
-		'MiddleName'		=> 'Middle Name',
 		'Surname'			=> 'Last Name',
-		'Salutation'        => 'Salutation',
 		'Email'				=> 'Email',
-		'Verified'			=> 'Verified',
 		'Blacklisted'		=> 'Blacklisted',
 		'BouncedCount'		=> 'Bounced Count',
 		'ReceivedCount'		=> 'Count for Received newsletters'
@@ -157,21 +153,21 @@ class Recipient extends DataObject {
 		$mainTab->setTitle(_t('SiteTree.TABMAIN', "Main"));
 
 		//$fields->addFieldToTab('Root.Main',new TextField('Email',self::$summary_fields['Email']);
-		$fields->addFieldToTab('Root.Main',new TextField('Email',self::$summary_fields['Email']));
+		$fields->addFieldToTab('Root.Main',new TextField('Email','Email'));
 
-		$fields->addFieldToTab('Root.Main',new TextField('Salutation',self::$summary_fields['Salutation']));
-		$fields->addFieldToTab('Root.Main',new TextField('FirstName',self::$summary_fields['FirstName']));
-		$fields->addFieldToTab('Root.Main',new TextField('MiddleName',self::$summary_fields['MiddleName']));
-		$fields->addFieldToTab('Root.Main',new TextField('Surname',self::$summary_fields['Surname']));
+		$fields->addFieldToTab('Root.Main',new TextField('Salutation','Salutation'));
+		$fields->addFieldToTab('Root.Main',new TextField('FirstName','First Name'));
+		$fields->addFieldToTab('Root.Main',new TextField('MiddleName','Middle Name'));
+		$fields->addFieldToTab('Root.Main',new TextField('Surname','Surname'));
 
 		if (!empty($this->ID)) {
 			$fields->addFieldToTab('Root.Main',new CheckboxSetField('MailingLists','Mailing Lists',MailingList::get()->map()));
 		}
 
-		$fields->addFieldToTab('Root.Main',new ReadonlyField('BouncedCount',self::$summary_fields['BouncedCount']));
-		$fields->addFieldToTab('Root.Main',new CheckboxField('Verified',self::$summary_fields['Verified']));
-		$fields->addFieldToTab('Root.Main',new CheckboxField('Blacklisted',self::$summary_fields['Blacklisted']));
-		$fields->addFieldToTab('Root.Main',new ReadonlyField('ReceivedCount',self::$summary_fields['ReceivedCount']));
+		$fields->addFieldToTab('Root.Main',new ReadonlyField('BouncedCount','Bounced Count'));
+		$fields->addFieldToTab('Root.Main',new CheckboxField('Verified','Verified'));
+		$fields->addFieldToTab('Root.Main',new CheckboxField('Blacklisted','Blacklisted'));
+		$fields->addFieldToTab('Root.Main',new ReadonlyField('ReceivedCount','Received Count'));
 
 		return $fields;
 	}

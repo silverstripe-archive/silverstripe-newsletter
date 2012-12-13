@@ -14,7 +14,7 @@
 				return false;
 			},
 			sendPrompt: function(email){
-				var message = 'Send a preview email to:';
+				var message = 'Send a test email to:';
 				return prompt(message, email);
 			}
 

@@ -108,70 +108,9 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			$fields->addFieldToTab('Root.Main',new ReadonlyField('SentDate','Sent Date'),'Subject');
 		}
 
-		$gridFieldConfig = GridFieldConfig::create()->addComponents(
-			new GridFieldSortableHeader(),
-			new GridFieldDataColumns(),
-			new GridFieldFilterHeader(),
-			new GridFieldPageCount(),
-			new GridFieldPaginator(30)
-		);
-
-		if (class_exists("GridFieldAjaxRefresh") && $this->SendRecipientQueue()->exists()) {
-			//only use auto-refresh, if there is a send out currently in-progress, otherwise no-point, waste of request
-			if ($this->SendRecipientQueue()->filter(array('Status'=>array('Scheduled','InProgress')))->count() > 0) {
-				$gridFieldConfig->addComponent(new GridFieldAjaxRefresh(5000,true));
-			}
-		}
-
-		$sendRecipientGrid = GridField::create(
-			'SendRecipientQueue',
-			_t('NewsletterAdmin.SentTo', 'Sent to'),
-			$this->SendRecipientQueue(),
-			$gridFieldConfig
-		);
-
-		//build the status text
-		$statusText = '<span>'.$this->SendRecipientQueue()->filter(array('Status'=>'Scheduled'))->count() .
-				' Scheduled;</span>';
-		$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>'InProgress'))->count() .
-				' InProgress;</span>';
-		$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>'Sent'))->count() .
-				' Sent;</span>';
-		$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>
-				array('Sent','Bounced','BlackListed')))->count() . ' Failed/Bounced/Blacklisted;</span>';
-
 		$fields->removeFieldFromTab('Root.SendRecipientQueue',"SendRecipientQueue");
 		$fields->removeByName('SendRecipientQueue');
-		if ($this->Status == "Sent" || $this->Status == "Sending") {
-			$fields->addFieldToTab('Root.SendTo',new LiteralField('Status','<h4>'.$statusText.'</h4>'));
-			$fields->addFieldToTab('Root.SendTo',$sendRecipientGrid);
-
-			if ($this->Status == "Sending") {  //only show restart queue button if the newsletter is stuck in "sending"
-				$fields->addFieldToTab('Root.SendTo',
-					new LiteralField('RestartQueueButton',
-						'<a class="ss-ui-button" href="'.Controller::join_links(
-							Director::absoluteBaseURL(),'dev/tasks/NewsletterSendController?newsletter='.$this->ID)
-							.'" title="Restart queue processing"'.
-						'<button name="action_RestartQueue" value="Restart queue processing" '.
-						'class="action" '.
-						'id="action_RestartQueue" role="button" aria-disabled="false">'.
-								'<span class="ui-button-icon-primary ui-icon btn-icon-arrow-circle-double"></span>'.
-						'<span class="ui-button-text">Restart Queue Processing</span>'.
-						'</button></a>'));
-			}
-		}
-
-		//only show the TrackedLinks tab, if there are tracked links in the newsletter and the status is "Sent"
-		if($this->Status !== 'Sent' || $this->TrackedLinks()->count() == 0) {
-			$fields->removeByName('TrackedLinks');
-		}else{
-			$config = $fields->dataFieldByName('TrackedLinks')->getConfig();
-			$config->removeComponentsByType('GridFieldAddNewButton')
-				->removeComponentsByType('GridFieldButtonRow')
-				->removeComponentsByType('GridFieldAddExistingAutocompleter')
-				->removeComponentsByType('GridFieldDetailForm')
-				->removeComponentsByType('GridFieldEditButton');
-		}
+		$fields->removeByName('TrackedLinks');
 
 		$explanationTitle = _t("Newletter.TemplateExplanationTitle",
 			"Select a styled template (.ss template) that this newsletter renders with"
@@ -221,9 +160,72 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		}
 
 		if($this->Status === 'Sending' || $this->Status === 'Sent') {
+			//make the whole field read-only
 			$fields = $fields->transform(new ReadonlyTransformation());
 			$fields->push(new HiddenField("NEWSLETTER_ORIGINAL_ID", "", $this->ID));
+
+			$gridFieldConfig = GridFieldConfig::create()->addComponents(
+				new GridFieldSortableHeader(),
+				new GridFieldDataColumns(),
+				new GridFieldFilterHeader(),
+				new GridFieldPageCount(),
+				new GridFieldPaginator(30)
+			);
+
+			//only show the TrackedLinks tab, if there are tracked links in the newsletter and the status is "Sent"
+			if($this->TrackedLinks()->count() > 0) {
+				$fields->addFieldToTab('Root.TrackedLinks',GridField::create(
+						'TrackedLinks',
+						_t('NewsletterAdmin.TrackedLinks', 'Tracked Links'),
+						$this->TrackedLinks(),
+						$gridFieldConfig
+					)
+				);
+			}
+
+			//Create the Sent To Queue grid
+			if (class_exists("GridFieldAjaxRefresh") && $this->SendRecipientQueue()->exists()) {
+				//only use auto-refresh, if there is a send out currently in-progress, otherwise no-point, waste of request
+				if ($this->SendRecipientQueue()->filter(array('Status'=>array('Scheduled','InProgress')))->count() > 0) {
+					$gridFieldConfig->addComponent(new GridFieldAjaxRefresh(5000,true));
+				}
+			}
+
+			//build the status text
+			$statusText = '<span>'.$this->SendRecipientQueue()->filter(array('Status'=>'Scheduled'))->count() .
+					' Scheduled;</span>';
+			$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>'InProgress'))->count() .
+					' InProgress;</span>';
+			$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>'Sent'))->count() .
+					' Sent;</span>';
+			$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>
+					array('Sent','Bounced','BlackListed')))->count() . ' Failed/Bounced/Blacklisted;</span>';
+
+			$sendRecipientGrid = GridField::create(
+				'SendRecipientQueue',
+				_t('NewsletterAdmin.SentTo', 'Sent to'),
+				$this->SendRecipientQueue(),
+				$gridFieldConfig
+			);
+			$fields->addFieldToTab('Root.SendTo',new LiteralField('Status','<h4>'.$statusText.'</h4>'));
+			$fields->addFieldToTab('Root.SendTo',$sendRecipientGrid);
+
+			if ($this->Status == "Sending") {  //only show restart queue button if the newsletter is stuck in "sending"
+				$fields->addFieldToTab('Root.SendTo',
+					new LiteralField('RestartQueueButton',
+						'<a class="ss-ui-button" href="'.Controller::join_links(
+							Director::absoluteBaseURL(),'dev/tasks/NewsletterSendController?newsletter='.$this->ID)
+							.'" title="Restart queue processing"'.
+						'<button name="action_RestartQueue" value="Restart queue processing" '.
+						'class="action" '.
+						'id="action_RestartQueue" role="button" aria-disabled="false">'.
+								'<span class="ui-button-icon-primary ui-icon btn-icon-arrow-circle-double"></span>'.
+						'<span class="ui-button-text">Restart Queue Processing</span>'.
+						'</button></a>'));
+			}
 		}
+
+
 
 		return $fields;
 	}

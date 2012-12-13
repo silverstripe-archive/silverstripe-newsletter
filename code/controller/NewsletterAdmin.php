@@ -57,7 +57,6 @@ class NewsletterAdmin extends ModelAdmin {
 		}
 		if($this->modelClass == "Recipient") {
 			$config = $form->Fields()->first()->getConfig();
-			$config->removeComponentsByType('GridFieldDetailForm');
 			$config->getComponentByType('GridFieldDataColumns')
 				->setFieldCasting(array(
 					"Blacklisted" => "Boolean->Nice",

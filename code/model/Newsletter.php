@@ -207,8 +207,8 @@ class Newsletter extends DataObject implements CMSPreviewable{
 				$this->SendRecipientQueue(),
 				$gridFieldConfig
 			);
-			$fields->addFieldToTab('Root.SendTo',new LiteralField('Status','<h4>'.$statusText.'</h4>'));
-			$fields->addFieldToTab('Root.SendTo',$sendRecipientGrid);
+			$fields->addFieldToTab('Root.SentTo',new LiteralField('Status','<h4>'.$statusText.'</h4>'));
+			$fields->addFieldToTab('Root.SentTo',$sendRecipientGrid);
 
 			if ($this->Status == "Sending") {  //only show restart queue button if the newsletter is stuck in "sending"
 				$fields->addFieldToTab('Root.SendTo',

@@ -19,6 +19,17 @@
 
 		});
 
+		/** Hide the success message when the second tab is clicked */
+		$('.message.good').entwine({
+			onmatch: function() {
+				var self = this;
+				$('a[href$="Root_SentTo"]').on('click',function(e){
+					self.hide();
+				});
+
+			}
+		});
+
 	});
 
 }(jQuery));

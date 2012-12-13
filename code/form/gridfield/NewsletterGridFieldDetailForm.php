@@ -209,6 +209,9 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		$nsc->enqueue($this->record);
 		$nsc->processQueueOnShutdown($this->record->ID);
 
+
+		//javascript hides the success message appropriately
+		Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js');
 		$message = _t('NewsletterAdmin.SendMessage',
 			'Send-out process started successfully. Check the progress in the "Sent To" tab');
 		//end custom code

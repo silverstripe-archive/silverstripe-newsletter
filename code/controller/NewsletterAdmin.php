@@ -57,8 +57,7 @@ class NewsletterAdmin extends ModelAdmin {
 		}
 		if($this->modelClass == "Recipient") {
 			$config = $form->Fields()->first()->getConfig();
-			$config->removeComponentsByType('GridFieldDetailForm')
-				->addComponents(new RecipientGridFieldDetailForm());
+			$config->removeComponentsByType('GridFieldDetailForm');
 			$config->getComponentByType('GridFieldDataColumns')
 				->setFieldCasting(array(
 					"Blacklisted" => "Boolean->Nice",
@@ -118,21 +117,24 @@ class NewsletterAdmin extends ModelAdmin {
 
 	public function getList() {
 		$list = parent::getList();
-		if ($this->modelClass == "Newsletter"){
-			$statusFilter = array("Draft", "Sending");
+		if ($this->modelClass == "Newsletter" || $this->modelClass == "Newsletter_Sent" ){
+			if ($this->modelClass == "Newsletter") {
+				$statusFilter = array("Draft", "Sending");
 
-			//using a editform detail request, that should allow Newsletter_Sent objects as well as regular Newsletters
-			if (!empty($_REQUEST['url'])) {
-				if (strpos($_REQUEST['url'],'/EditForm/field/Newsletter/item/') !== false) {
-					$statusFilter[] = "Sent";
+				//using a editform detail request, that should allow Newsletter_Sent objects as well as regular Newsletters
+				if (!empty($_REQUEST['url'])) {
+					if (strpos($_REQUEST['url'],'/EditForm/field/Newsletter/item/') !== false) {
+						$statusFilter[] = "Sent";
+					}
 				}
+			} else {
+				$statusFilter = array("Sent");
 			}
 
-		} else {
-			$statusFilter = array("Sent");
+			$list->addFilter(array("Status" => $statusFilter));
 		}
 
-		$list->addFilter(array("Status" => $statusFilter));
+
 
 		return $list;
 	}

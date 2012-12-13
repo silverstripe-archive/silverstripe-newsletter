@@ -40,6 +40,9 @@ class Newsletter extends DataObject implements CMSPreviewable{
 
 	static $searchable_fields = array(
 		"Subject",
+		"Content",
+		"SendFrom",
+		"SentDate"
 	);
 
 	static $default_sort = array(
@@ -50,9 +53,8 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		"Subject",
 		"Content",
 		"SendFrom",
-		"ReplyTo",
-		"Template",
-		"Status",
+		"SentDate",
+		"Status"
 	);
 
 	static $required_fields = array(
@@ -146,17 +148,19 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			$fields->addFieldToTab('Root.SendTo',new LiteralField('Status','<h4>'.$statusText.'</h4>'));
 			$fields->addFieldToTab('Root.SendTo',$sendRecipientGrid);
 
-			$fields->addFieldToTab('Root.SendTo',
-				new LiteralField('RestartQueueButton',
-					'<a class="ss-ui-button" href="'.Controller::join_links(
-						Director::absoluteBaseURL(),'dev/tasks/NewsletterSendController?newsletter='.$this->ID)
-						.'" title="Restart queue processing"'.
-					'<button name="action_RestartQueue" value="Restart queue processing" '.
-					'class="action" '.
-					'id="action_RestartQueue" role="button" aria-disabled="false">'.
-							'<span class="ui-button-icon-primary ui-icon btn-icon-arrow-circle-double"></span>'.
-					'<span class="ui-button-text">Restart Queue Processing</span>'.
-					'</button></a>'));
+			if ($this->Status == "Sending") {  //only show restart queue button if the newsletter is stuck in "sending"
+				$fields->addFieldToTab('Root.SendTo',
+					new LiteralField('RestartQueueButton',
+						'<a class="ss-ui-button" href="'.Controller::join_links(
+							Director::absoluteBaseURL(),'dev/tasks/NewsletterSendController?newsletter='.$this->ID)
+							.'" title="Restart queue processing"'.
+						'<button name="action_RestartQueue" value="Restart queue processing" '.
+						'class="action" '.
+						'id="action_RestartQueue" role="button" aria-disabled="false">'.
+								'<span class="ui-button-icon-primary ui-icon btn-icon-arrow-circle-double"></span>'.
+						'<span class="ui-button-text">Restart Queue Processing</span>'.
+						'</button></a>'));
+			}
 		}
 
 		//only show the TrackedLinks tab, if there are tracked links in the newsletter and the status is "Sent"

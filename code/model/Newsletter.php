@@ -109,7 +109,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		}
 
 		$gridFieldConfig = GridFieldConfig::create()->addComponents(
-			new GridFieldToolbarHeader(),
 			new GridFieldSortableHeader(),
 			new GridFieldDataColumns(),
 			new GridFieldFilterHeader(),
@@ -126,7 +125,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 
 		$sendRecipientGrid = GridField::create(
 			'SendRecipientQueue',
-			_t('NewsletterAdmin.SendRecipientQueue', 'Sent Recipient Queue'),
+			_t('NewsletterAdmin.SentTo', 'Sent to'),
 			$this->SendRecipientQueue(),
 			$gridFieldConfig
 		);
@@ -144,10 +143,10 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		$fields->removeFieldFromTab('Root.SendRecipientQueue',"SendRecipientQueue");
 		$fields->removeByName('SendRecipientQueue');
 		if ($this->Status == "Sent" || $this->Status == "Sending") {
-			$fields->addFieldToTab('Root.SendRecipientQueues',new LiteralField('Status','<h4>'.$statusText.'</h4>'));
-			$fields->addFieldToTab('Root.SendRecipientQueues',$sendRecipientGrid);
+			$fields->addFieldToTab('Root.SendTo',new LiteralField('Status','<h4>'.$statusText.'</h4>'));
+			$fields->addFieldToTab('Root.SendTo',$sendRecipientGrid);
 
-			$fields->addFieldToTab('Root.SendRecipientQueues',
+			$fields->addFieldToTab('Root.SendTo',
 				new LiteralField('RestartQueueButton',
 					'<a class="ss-ui-button" href="'.Controller::join_links(
 						Director::absoluteBaseURL(),'dev/tasks/NewsletterSendController?newsletter='.$this->ID)

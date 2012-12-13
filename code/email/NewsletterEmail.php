@@ -114,7 +114,7 @@ class NewsletterEmail extends Email {
 				$this->recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days)); 
 				$this->recipient->write(); 
 			}else{ 
-				$this->recipient->generateValidateHashAndStore($day); 
+				$this->recipient->generateValidateHashAndStore($days); 
 			} 
 			return Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/$listIDs"; 
 		}else{

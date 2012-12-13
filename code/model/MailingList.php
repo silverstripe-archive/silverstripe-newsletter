@@ -32,7 +32,7 @@ class MailingList extends DataObject {
 		$gridFieldConfig = GridFieldConfig::create()->addComponents(
 			new GridFieldToolbarHeader(),
 			new GridFieldSortableHeader(),
-			new GridFieldDataColumns(),
+			$dataColumns = new GridFieldDataColumns(),
 			new GridFieldFilterHeader(),
 			new GridFieldDeleteAction(true),
 			new GridFieldPaginator(30),
@@ -47,6 +47,11 @@ class MailingList extends DataObject {
 				)
 			)
 		);
+
+		$dataColumns -> setFieldCasting(array(
+			"Blacklisted" => "Boolean->Nice",
+			"Verified" => "Boolean->Nice",
+		));
 
 		$autocompelete->filters = array(
 			"Blacklisted" => false,

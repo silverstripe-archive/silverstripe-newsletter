@@ -12,11 +12,11 @@ class UnsubscribeController extends Page_Controller {
 		parent::__construct($data);
 	}
 
-	public function set_days_unsubscribe_link_alive($days){
+	static public function set_days_unsubscribe_link_alive($days){
 		self::$days_unsubscribe_link_alive = $days;
 	}
 
-	public function get_days_unsubscribe_link_alive(){
+	static public function get_days_unsubscribe_link_alive(){
 		return self::$days_unsubscribe_link_alive;
 	}
 

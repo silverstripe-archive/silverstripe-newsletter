@@ -30,11 +30,11 @@ class SubscriptionPage extends Page {
 
 	static public $days_verification_link_alive = 2;
 
-	public function set_days_verification_link_alive($days){
+	static public function set_days_verification_link_alive($days){
 		self::$days_verification_link_alive = $days;
 	}
 
-	public function get_days_verification_link_alive(){
+	static public function get_days_verification_link_alive(){
 		return self::$days_verification_link_alive;
 	}
 

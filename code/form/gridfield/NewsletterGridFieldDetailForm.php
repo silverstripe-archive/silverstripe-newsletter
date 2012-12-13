@@ -131,7 +131,11 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		$controller = Controller::curr();
 
 		try {
+			//write once without validation
+			Newsletter::set_validation_enabled(false);
 			$newNewsletter->write();
+			Newsletter::set_validation_enabled(true);
+
 			$form->saveInto($newNewsletter);
 
 			$newNewsletter->Status = 'Draft';  //custom: changing the status of to indicate we are sending

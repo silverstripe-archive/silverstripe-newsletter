@@ -211,7 +211,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			$fields->addFieldToTab('Root.SentTo',$sendRecipientGrid);
 
 			if ($this->Status == "Sending") {  //only show restart queue button if the newsletter is stuck in "sending"
-				$fields->addFieldToTab('Root.SendTo',
+				$fields->addFieldToTab('Root.SentTo',
 					new LiteralField('RestartQueueButton',
 						'<a class="ss-ui-button" href="'.Controller::join_links(
 							Director::absoluteBaseURL(),'dev/tasks/NewsletterSendController?newsletter='.$this->ID)

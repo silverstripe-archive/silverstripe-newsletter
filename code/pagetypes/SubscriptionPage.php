@@ -132,7 +132,7 @@ class SubscriptionPage extends Page {
 
 		$subscriptionTab->push(new LiteralField('BottomTaskSelection',
 
-			'<div id="Actions" class="field actions">'.
+			'<div id="SendNotificationControlls" class="field actions">'.
 			'<label class="left">Send notification email to the subscriber</label>'.
 			'<ul><li class="ss-ui-button no" data-panel="no">No</li>'.
 			'<li class="ss-ui-button yes" data-panel="yes">Yes</li>'.
@@ -140,9 +140,10 @@ class SubscriptionPage extends Page {
 
 		$subscriptionTab->push(
 			CompositeField::create(
+				new HiddenField("SendNotification", "Send Notification"),
 				new TextField("NotificationEmailSubject", "Notification Email Subject Line:"),
 				new TextField("NotificationEmailFrom", "From Email Address for Notification Email")
-			)->addExtraClass('ActionsPanel')
+			)->addExtraClass('SendNotificationControlledPanel')
 		);
 		
 		$subscriptionTab->push(

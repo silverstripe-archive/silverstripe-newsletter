@@ -65,10 +65,11 @@ class Recipient extends DataObject {
 		'FirstName'			=> 'First Name',
 		'MiddleName'		=> 'Middle Name',
 		'Surname'			=> 'Last Name',
+		'Salutation'        => 'Salutation',
 		'Email'				=> 'Email',
 		'Archived'		    => 'Archived',
 		'Verified'			=> 'Verified',
-		'Blacklisted'		=> 'Black listed?',
+		'Blacklisted'		=> 'Blacklisted',
 		'BouncedCount'		=> 'Bounced Count',
 		'ReceivedCount'		=> 'Count for Received newsletters'
 	);
@@ -154,32 +155,23 @@ class Recipient extends DataObject {
 	}
 
 	public function getCMSFields() {
-		$fields =parent::getCMSFields();
-		$fields->removeByName("ValidateHash");
-		$fields->removeByName("ValidateHashExpired");
-		$fields->removeByName("Archived");
-		$fields->removeByName("Verified");
+		$fields = new FieldList();
+		$fields->push(new TabSet("Root", $mainTab = new Tab("Main")));
+		$mainTab->setTitle(_t('SiteTree.TABMAIN', "Main"));
 
-		if($this && $this->exists()){
-			$bouncedCount = $fields->dataFieldByName("BouncedCount")->performDisabledTransformation();
-			$receivedCount = $fields->dataFieldByName("ReceivedCount")->performDisabledTransformation();
-			$fields->replaceField("BouncedCount", $bouncedCount);
-			$fields->replaceField("ReceivedCount", $receivedCount);
-		}else{
-			$fields->removeByName("BouncedCount");
-			$fields->removeByName("ReceivedCount");
-		}
+		//$fields->addFieldToTab('Root.Main',new TextField('Email',self::$summary_fields['Email']);
+		$fields->addFieldToTab('Root.Main',new TextField('Email',self::$summary_fields['Email']));
 
+		$fields->addFieldToTab('Root.Main',new TextField('Salutation',self::$summary_fields['Salutation']));
+		$fields->addFieldToTab('Root.Main',new TextField('FirstName',self::$summary_fields['FirstName']));
+		$fields->addFieldToTab('Root.Main',new TextField('MiddleName',self::$summary_fields['MiddleName']));
+		$fields->addFieldToTab('Root.Main',new TextField('Surname',self::$summary_fields['Surname']));
 
-		//We will hide LanguagePreferred for now till if demond for hooking newsletter module to multi-lang support.
-		$fields->removeByName("LanguagePreferred");
-		$fields->removeByName("SendRecipientQueue");
+		$fields->addFieldToTab('Root.Main',new CheckboxSetField('MailingLists','Mailing Lists',MailingList::get()->map()));
 
-		if ($mailingLists = $fields->dataFieldByName("MailingLists")) {
-			$mailingLists->getConfig()
-				->removeComponentsByType('GridFieldEditButton')
-				->removeComponentsByType('GridFieldDetailForm');
-		}
+		$fields->addFieldToTab('Root.Main',new ReadonlyField('BouncedCount',self::$summary_fields['BouncedCount']));
+		$fields->addFieldToTab('Root.Main',new CheckboxField('Blacklisted',self::$summary_fields['Blacklisted']));
+		$fields->addFieldToTab('Root.Main',new ReadonlyField('ReceivedCount',self::$summary_fields['ReceivedCount']));
 
 		return $fields;
 	}

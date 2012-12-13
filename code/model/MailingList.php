@@ -38,6 +38,7 @@ class MailingList extends DataObject {
 			new GridFieldPaginator(30),
 			new GridFieldAddNewButton(),
 			new GridFieldDetailForm(),
+			new GridFieldEditButton(),
 			new GridFieldArchiveAction(),
 			$autocompelete = new GridFieldAutocompleterWithFilter('before',	array(
 					'FirstName',

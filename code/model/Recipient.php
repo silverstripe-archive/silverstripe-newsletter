@@ -23,7 +23,7 @@ class Recipient extends DataObject {
 		// both subscribe and unsebscribe process need to valid this hash for security
 		'ValidateHash'			=> "Varchar(160)",
 		'ValidateHashExpired'	=> "SS_Datetime",
-		'Verified'				=> "Boolean",
+		'Verified'				=> "Boolean(1)",
 	);
 
 	// a newsletter recipient could belong to many mailing lists.
@@ -164,9 +164,12 @@ class Recipient extends DataObject {
 		$fields->addFieldToTab('Root.Main',new TextField('MiddleName',self::$summary_fields['MiddleName']));
 		$fields->addFieldToTab('Root.Main',new TextField('Surname',self::$summary_fields['Surname']));
 
-		$fields->addFieldToTab('Root.Main',new CheckboxSetField('MailingLists','Mailing Lists',MailingList::get()->map()));
+		if (!empty($this->ID)) {
+			$fields->addFieldToTab('Root.Main',new CheckboxSetField('MailingLists','Mailing Lists',MailingList::get()->map()));
+		}
 
 		$fields->addFieldToTab('Root.Main',new ReadonlyField('BouncedCount',self::$summary_fields['BouncedCount']));
+		$fields->addFieldToTab('Root.Main',new CheckboxField('Verified',self::$summary_fields['Verified']));
 		$fields->addFieldToTab('Root.Main',new CheckboxField('Blacklisted',self::$summary_fields['Blacklisted']));
 		$fields->addFieldToTab('Root.Main',new ReadonlyField('ReceivedCount',self::$summary_fields['ReceivedCount']));
 

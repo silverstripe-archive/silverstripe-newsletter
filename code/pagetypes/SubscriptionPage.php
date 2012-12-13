@@ -363,6 +363,7 @@ JS
 		
 		if(!$recipient) {
 			$recipient = new Recipient();
+			$recipient->Verified = false;   //set new recipient as un-verified, if they subscribe through the website
 		}
 			
 		$form->saveInto($recipient);
@@ -370,13 +371,13 @@ JS
 		
 		$days = self::get_days_verification_link_alive();
 		if($recipient->ValidateHash){ 
-			$recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days));
+			$recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days));   //extend the expiry date
 			//default 2 days for validating
 			$recipient->write(); 
 		}else{ 
 			$recipient->generateValidateHashAndStore($days); //default 2 days for validating
 		}
-		
+
 		$mailinglists = new ArrayList();
 		
 		if(isset($data["NewsletterSelection"])){

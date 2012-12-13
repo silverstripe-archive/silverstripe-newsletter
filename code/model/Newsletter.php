@@ -148,7 +148,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 
 		if($this && $this->exists()){
 			$fields->removeByName("MailingLists");
-			$mailinglists = MailingList::get()->filter(array('Disabled'=>false));
+			$mailinglists = MailingList::get();
 
 			$fields->addFieldToTab("Root.Main",
 				new CheckboxSetField(

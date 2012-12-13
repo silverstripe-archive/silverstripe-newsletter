@@ -98,7 +98,7 @@ class SubscriptionPage extends Page {
 		$fieldsSelection->setCellDisabled(array("Email"=>array("Value","Required")));
 
 		//Mailing Lists selection
-		$mailinglists = MailingList::get()->filter(array('Disabled'=>false));
+		$mailinglists = MailingList::get();
 		$newsletterSelection = $mailinglists && $mailinglists->count()?
 		new CheckboxSetField("MailingLists",
 			"Newsletters to subscribe to",

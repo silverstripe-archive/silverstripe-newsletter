@@ -185,14 +185,16 @@ class NewsletterSendController extends BuildTask {
 				if (!empty($queueItems2) && $queueItems2->count() > 0) {
 					//fetch all the recipients at once in one query
 					$recipients = Recipient::get()->filter(array('ID' => $queueItems2->column('RecipientID')));
-					$recipientsMap = array();
-					foreach($recipients as $r) {
-						$recipientsMap[$r->ID] = $r;
-					}
+					if ($recipients->count() > 0) {
+						$recipientsMap = array();
+						foreach($recipients as $r) {
+							$recipientsMap[$r->ID] = $r;
+						}
 
-					//send out the mails
-					foreach($queueItems2 as $item) {
-						$item->send($newsletter, $recipientsMap[$item->RecipientID]);
+						//send out the mails
+						foreach($queueItems2 as $item) {
+							$item->send($newsletter, $recipientsMap[$item->RecipientID]);
+						}
 					}
 
 					//do more processing, in case there are more items to process, do nothing if we've reached the end

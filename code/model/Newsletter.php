@@ -168,17 +168,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 				new GridFieldPaginator(30)
 			);
 
-			//only show the TrackedLinks tab, if there are tracked links in the newsletter and the status is "Sent"
-			if($this->TrackedLinks()->count() > 0) {
-				$fields->addFieldToTab('Root.TrackedLinks',GridField::create(
-						'TrackedLinks',
-						_t('NewsletterAdmin.TrackedLinks', 'Tracked Links'),
-						$this->TrackedLinks(),
-						$gridFieldConfig
-					)
-				);
-			}
-
 			//Create the Sent To Queue grid
 			if (class_exists("GridFieldAjaxRefresh") && $this->SendRecipientQueue()->exists()) {
 				//only use auto-refresh, if there is a send out currently in-progress, otherwise no-point, waste of request
@@ -208,6 +197,17 @@ class Newsletter extends DataObject implements CMSPreviewable{
 								'<span class="ui-button-icon-primary ui-icon btn-icon-arrow-circle-double"></span>'.
 						'<span class="ui-button-text">Restart Queue Processing</span>'.
 						'</button></a>'));
+			}
+
+			//only show the TrackedLinks tab, if there are tracked links in the newsletter and the status is "Sent"
+			if($this->TrackedLinks()->count() > 0) {
+				$fields->addFieldToTab('Root.TrackedLinks',GridField::create(
+						'TrackedLinks',
+						_t('NewsletterAdmin.TrackedLinks', 'Tracked Links'),
+						$this->TrackedLinks(),
+						$gridFieldConfig
+					)
+				);
 			}
 		}
 

@@ -26,6 +26,12 @@
 #Root_SubscriptionForm{
 
 }
+.cms table.ss-gridfield-table tr th.main{
+	white-space: normal;
+	span{
+		white-space: normal;
+	}
+}
 
 #Root_SendRecipientQueues{
 	.ss-ui-button{

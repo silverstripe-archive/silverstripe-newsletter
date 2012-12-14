@@ -2,6 +2,9 @@
 #Root_Main .fieldgroup .fieldholder-small .add-existing-autocompleter:before { content: 'or'; margin-right: 10px; font-weight: bold; }
 #Root_Main #MailingLists li { width: auto; margin-right: 20px; padding: 4px 0 0; }
 
+.cms table.ss-gridfield-table tr th.main { white-space: normal; }
+.cms table.ss-gridfield-table tr th.main span { white-space: normal; }
+
 #Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-icon, #Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-button-text { display: inline-block; vertical-align: middle; }
 #Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-button-text { padding: 0.4em 0.6em; }
 

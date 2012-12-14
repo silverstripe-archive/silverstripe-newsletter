@@ -161,7 +161,8 @@ class Recipient extends DataObject {
 		$fields->addFieldToTab('Root.Main',new TextField('Surname','Surname'));
 
 		if (!empty($this->ID)) {
-			$fields->addFieldToTab('Root.Main',new CheckboxSetField('MailingLists','Mailing Lists',MailingList::get()->map()));
+			$fields->addFieldToTab('Root.Main',
+				new CheckboxSetField('MailingLists','Mailing Lists',MailingList::get()->map()));
 		}
 
 		$fields->addFieldToTab('Root.Main',new ReadonlyField('BouncedCount','Bounced Count'));

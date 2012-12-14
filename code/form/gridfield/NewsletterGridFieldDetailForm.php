@@ -69,7 +69,9 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 				$emailLink .= $member->Email;
 			}
 
-			$navigator->customise(new ArrayData(array('EmailPreviewLink' => $newsletter->Link('emailpreview'.$emailLink))));
+			$navigator->customise(
+				new ArrayData(array('EmailPreviewLink' => $newsletter->Link('emailpreview'.$emailLink)))
+			);
 			Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterAdminEmailPreview.js');
 
 			return $navigator->renderWith('NewsletterAdmin_SilverStripeNavigator');

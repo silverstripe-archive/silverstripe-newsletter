@@ -121,7 +121,7 @@ class NewsletterAdmin extends ModelAdmin {
 			if ($this->modelClass == "Newsletter") {
 				$statusFilter = array("Draft", "Sending");
 
-				//using a editform detail request, that should allow Newsletter_Sent objects as well as regular Newsletters
+				//using a editform detail request, that should allow Newsletter_Sent objects and regular Newsletters
 				if (!empty($_REQUEST['url'])) {
 					if (strpos($_REQUEST['url'],'/EditForm/field/Newsletter/item/') !== false) {
 						$statusFilter[] = "Sent";

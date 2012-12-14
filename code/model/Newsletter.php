@@ -9,7 +9,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	static $db = array(
 		"Status"				=> "Enum('Draft, Sending, Sent', 'Draft')",
 		"Subject"				=> "Varchar(255)",
-		"Template"				=> "Boolean",
 		"Content"				=> "HTMLText",
 		"SentDate"				=> "Datetime",
 		"SendFrom"				=> "Varchar(255)",
@@ -26,14 +25,9 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		"MailingLists"			=> "MailingList"
 	);
 
-	static $castings = array(
-		"Template"				=> "Boolean",
-	);
-
 	static $field_labels = array(
 		"SendFrom"				=> "From Address",
 		"ReplyTo"				=> "Reply To",
-		"Template"				=> "Add to newsletter templates",
 		"Content"				=> "Content",
 	);
 
@@ -143,7 +137,8 @@ class Newsletter extends DataObject implements CMSPreviewable{
 
 		$templateSource = $this->templateSource();
 		$fields->replaceField("RenderTemplate", 
-			new DropdownField("RenderTemplate", _t('NewsletterAdmin.TEMPLATE','Template'), 
+			new DropdownField("RenderTemplate", _t('NewsletterAdmin.RENDERTEMPLATE',
+				'Template the newsletter render to'), 
 			$templateSource));
 
 		if($this && $this->exists()){
@@ -153,7 +148,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			$fields->addFieldToTab("Root.Main",
 				new CheckboxSetField(
 					"MailingLists", 
-					_t('Newsletter.SendTo', "Send To", 'Selects a mailinglist from a dropdown'), 
+					_t('Newsletter.SendTo', "Send To", 'Selects mailing lists from set of checkboxes'), 
 					$mailinglists
 				)
 			);

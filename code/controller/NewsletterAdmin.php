@@ -51,7 +51,6 @@ class NewsletterAdmin extends ModelAdmin {
 			}
 			$config->getComponentByType('GridFieldDataColumns')
 				->setFieldCasting(array(
-					"Template" => "Boolean->Nice",
 					"Content" => "HTMLText->LimitSentences",
 			));
 		}

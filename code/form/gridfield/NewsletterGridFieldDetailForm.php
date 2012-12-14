@@ -27,7 +27,6 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 
 		// send button
 		if ($this->record->Status == "Draft") { //only allow sending when the newsletter is "Draft"
-			Requirements::javascript(NEWSLETTER_DIR . '/javascript/NewsletterSendConfirmation.js');
 			$sendButton = FormAction::create('doSend', _t('Newsletter.Send','Send'));
 			$actions->insertBefore($sendButton
 							->addExtraClass('ss-ui-action-constructive')

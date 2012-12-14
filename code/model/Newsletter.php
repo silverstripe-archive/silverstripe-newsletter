@@ -160,6 +160,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			$fields->push(new HiddenField("NEWSLETTER_ORIGINAL_ID", "", $this->ID));
 
 			$gridFieldConfig = GridFieldConfig::create()->addComponents(
+				new GridFieldSummaryHeader(),    //only works on SendRecipientQueue items, not TrackedLinks
 				new GridFieldSortableHeader(),
 				new GridFieldDataColumns(),
 				new GridFieldFilterHeader(),
@@ -186,23 +187,13 @@ class Newsletter extends DataObject implements CMSPreviewable{
 				}
 			}
 
-			//build the status text
-			$statusText = '<span>'.$this->SendRecipientQueue()->filter(array('Status'=>'Scheduled'))->count() .
-					' Scheduled;</span>';
-			$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>'InProgress'))->count() .
-					' InProgress;</span>';
-			$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>'Sent'))->count() .
-					' Sent;</span>';
-			$statusText.= ' <span>'.$this->SendRecipientQueue()->filter(array('Status'=>
-					array('Sent','Bounced','BlackListed')))->count() . ' Failed/Bounced/Blacklisted;</span>';
-
 			$sendRecipientGrid = GridField::create(
 				'SendRecipientQueue',
 				_t('NewsletterAdmin.SentTo', 'Sent to'),
 				$this->SendRecipientQueue(),
 				$gridFieldConfig
 			);
-			$fields->addFieldToTab('Root.SentTo',new LiteralField('Status','<h4>'.$statusText.'</h4>'));
+
 			$fields->addFieldToTab('Root.SentTo',$sendRecipientGrid);
 
 			if ($this->Status == "Sending") {  //only show restart queue button if the newsletter is stuck in "sending"

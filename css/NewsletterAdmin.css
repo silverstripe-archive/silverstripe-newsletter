@@ -5,8 +5,8 @@
 .cms table.ss-gridfield-table tr th.main { white-space: normal; }
 .cms table.ss-gridfield-table tr th.main span { white-space: normal; }
 
-#Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-icon, #Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-button-text { display: inline-block; vertical-align: middle; }
-#Root_SendRecipientQueues .ss-ui-button .ui-button-text .ui-button-text { padding: 0.4em 0.6em; }
+#Root_SentTo .ss-ui-button .ui-button-text .ui-icon, #Root_SentTo .ss-ui-button .ui-button-text .ui-button-text { display: inline-block; vertical-align: middle; }
+#Root_SentTo .ss-ui-button .ui-button-text .ui-button-text { padding: 0.4em 0.6em; }
 
 .cms .Actions .cms-preview-toggle-link { float: right; }
 .cms .cms-content-fields .field .fieldgroup-field { padding: 8px 0; }

@@ -14,13 +14,13 @@ Recipient:
 MailingList:
   ml1:
     Title: mailing list 1
-    Recipients: =>Recipient.normann1, =>Recipient.julian1,
+    Recipients: =>Recipient.normann1, =>Recipient.julian1
   ml2:
     Title: mailing list 2
-    Recipients: =>Recipient.normann2, =>Recipient.julian2,
+    Recipients: =>Recipient.normann2, =>Recipient.julian2
   mlall:
     Title: mailing list all
-    Recipients: =>Recipient.normann2, =>Recipient.julian2, =>Recipient.normann1, =>Recipient.julian1,
+    Recipients: =>Recipient.normann2, =>Recipient.julian2, =>Recipient.normann1, =>Recipient.julian1
 Newsletter:
   daily:
     Subject: Daily Newsletter

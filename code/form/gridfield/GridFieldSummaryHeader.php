@@ -11,7 +11,7 @@ class GridFieldSummaryHeader implements GridField_HTMLProvider {
 			$statusText = '<span>'.$list->filter(array('Status'=>'Scheduled'))->count() .
 					' Scheduled;</span>';
 			$statusText.= ' <span>'.$list->filter(array('Status'=>'InProgress'))->count() .
-					' InProgress;</span>';
+					' In Progress;</span>';
 			$statusText.= ' <span>'.$list->filter(array('Status'=>'Sent'))->count() .
 					' Sent;</span>';
 			$statusText.= ' <span>'.$list->filter(array('Status'=>

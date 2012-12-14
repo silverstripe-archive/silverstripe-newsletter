@@ -15,7 +15,7 @@ class GridFieldSummaryHeader implements GridField_HTMLProvider {
 			$statusText.= ' <span>'.$list->filter(array('Status'=>'Sent'))->count() .
 					' Sent;</span>';
 			$statusText.= ' <span>'.$list->filter(array('Status'=>
-					array('Sent','Bounced','BlackListed')))->count() . ' Failed/Bounced/Blacklisted;</span>';
+					array('Failed','Bounced','BlackListed')))->count() . ' Failed/Bounced/Blacklisted;</span>';
 
 			$gridField->StatusText = $statusText;
 

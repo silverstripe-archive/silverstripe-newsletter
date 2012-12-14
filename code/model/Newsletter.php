@@ -65,7 +65,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			if (empty($this->$field)) {
 				$result->error(_t('Newsletter.FieldRequired',
 					'"{field}" field is required',
-						array('field' => self::$field_labels[$field])
+						array('field' => isset(self::$field_labels[$field])?self::$field_labels[$field]:$field)
 				));
 			}
 		}

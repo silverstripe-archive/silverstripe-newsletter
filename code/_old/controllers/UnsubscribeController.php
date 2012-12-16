@@ -12,6 +12,13 @@ class UnsubscribeController extends Page_Controller {
 		parent::__construct($data);
 	}
 
+	function init() {
+		parent::init();
+		Requirements::css('newsletter/css/SubscriptionPage.css');
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery-validate/jquery.validate.min.js');
+	}
+
 	static public function set_days_unsubscribe_link_alive($days){
 		self::$days_unsubscribe_link_alive = $days;
 	}

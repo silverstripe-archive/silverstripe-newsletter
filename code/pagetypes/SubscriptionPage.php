@@ -173,7 +173,6 @@ class SubscriptionPage_Controller extends Page_Controller {
 	public function init() {
 		parent::init();
 
-
 		
 		// block prototype validation
 		//Validator::set_javascript_validation_handler('none');

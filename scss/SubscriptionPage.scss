@@ -64,3 +64,9 @@
 .SendNotificationControlledPanel{
 	display: none;
 }
+
+#Form_ResubscribeForm{
+	.Actions:after {
+        display: none;
+    }
+}

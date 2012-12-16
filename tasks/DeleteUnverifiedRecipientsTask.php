@@ -18,8 +18,10 @@ class DeleteUnverifiedRecipientsTask extends DailyTask{
 		set_time_limit(18000);
 		ini_set('memory_limit','512M');
 
+		$days =  SubscriptionPage::get_days_verification_link_alive();
+
 		$objects = DataList::create('Recipient')
-			->where("\"Recipient\".\"Verified\" = 0 AND \"Recipient\".\"Created\" < NOW() - INTERVAL 2 DAY")
+			->where("\"Recipient\".\"Verified\" = 0 AND \"Recipient\".\"Created\" < NOW() - INTERVAL $days DAY")
 			->limit(self::$trunk_length, $offset);
 
 		$count = $objects->count();

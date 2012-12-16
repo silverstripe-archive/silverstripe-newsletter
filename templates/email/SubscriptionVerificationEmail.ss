@@ -106,7 +106,7 @@
 													<p>Please click on the link bellow to verify your email address:<br>
 														<a href="$SubscriptionVerificationLink">$HashText</a>
 													</p>
-													<p>This link will be valid for two days. If you didn't mean to subscribe, simply ignore this email.
+													<p>This link will be valid for $DaysExpired days. If you didn't mean to subscribe, simply ignore this email.
 													</p>
 													
 													<% if MailingLists %>

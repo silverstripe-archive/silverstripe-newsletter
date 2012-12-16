@@ -436,6 +436,7 @@ JS
             	Controller::join_links($this->Link('subscribeverify'), "/".$recipient->ValidateHash),
             'HashText' => substr($recipient->ValidateHash, 0, 10)."******".substr($recipient->ValidateHash, -10),
 			'SiteConfig' => $this->SiteConfig(),
+			'DaysExpired' => SubscriptionPage::get_days_verification_link_alive(),
         );
 
         //Send Verification Email
@@ -457,6 +458,13 @@ JS
 		if($id = $this->urlParams['ID']){
 			$recipientData = DataObject::get_by_id("Recipient", $id)->toMap();
 		}
+
+		$daysExpired = SubscriptionPage::get_days_verification_link_alive();
+		$recipientData['SubscritionSubmittedContent2'] = 
+			 sprintf(_t('Newsletter.SubscritionSubmittedContent2',
+			 	'The verification link will be valid for %s days. If you did not mean to subscribe, simply
+			 	ignore the verification email'), $daysExpired);
+
 		return $this->customise(array(
     		'Title' => _t('Newsletter.SubscriptionSubmitted', 'Subscription submitted!'),
     		'Content' => $this->customise($recipientData)->renderWith('SubscriptionSubmitted'),
@@ -508,11 +516,18 @@ JS
 			}else{
 				$recipientData = array();
 			}
+
+			$daysExpired = SubscriptionPage::get_days_verification_link_alive();
+			$recipientData['VerificationExpiredContent1'] = 
+				 sprintf(_t('Newsletter.VerificationExpiredContent1',
+				 	'The verification link is only validate for %s days.'), $daysExpired);
+
 			return $this->customise(array(
 	    		'Title' => _t('Newsletter.VerificationExpired', 
 	    			'The verification link has been expired'),
 	    		'Content' => $this->customise($recipientData)->renderWith('VerificationExpired'),
 	    	))->renderWith('Page');
+
 		}
 	}
 

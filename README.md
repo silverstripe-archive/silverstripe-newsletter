@@ -1,78 +1,57 @@
-# Newsletter module
+# SilverStripe Newsletter Module
 
 [![Build Status](https://secure.travis-ci.org/silverstripe-labs/silverstripe-newsletter.png?branch=refactor)](https://travis-ci.org/silverstripe-labs/silverstripe-newsletter)
 
-## Introduction
+## Overview
 
 NewsletterAdmin is the CMS class for managing the newsletter system.
 
-The Newsletters section can contain extra information about a Member class, but the default Member can be used. A site specific member should be placed under the `<site>`/code directory.
+Features:
+
+ * HTML emails (with auto-conversion to text)
+ * Subscription page (in your own theme style)
+ * Subscription confirmation by email
+ * Unsubscribe by URL and web confirmation
+ * Queued email sending
+ * Custom SilverStripe templates for emails
+ * Link tracking
+ * Recipient blacklisting
+ * Bounce tracking
+ * Decoratable `Recipient` class to add more properties
 
 ## Installation
 
 In the _config.php, add:
-`Email::setAdminEmail(`<default from address>`);`{php}
-(This is the email address the newsletters are sent from. It can be overwritten on a per-type basis.)
-
-If you have created a custom member class for the site, substitute it with the following line in the _config.php file:
-`Object::useCustomClass("Member", "`<custom member classname>`");`{php}
-
+`Email::setAdminEmail(`<default from address>`);`
+This is the email address the newsletters are sent from. It can be overwritten on a per-type basis.
 
 ## Email templates
 
-The Newsletter templates are .ss files used as HTML for an email, with the following variables:
+Newsletter templates are standard SilverStripe templates, with a few extra placeholders.
 
+ * `UnsubscribeLink`: Personalized link to unsubscribe from newsletter
+ * `AbsoluteBaseURL`: Absolute URL to the website
+ * `To`: Recipient email address
+ * `From`: Sender email address
+ * `Subject`: Newsletter subject
+ * `Recipient.Title`: Recipient full name, including salutation, first/middle/last name (all optional)
+ * `Recipient.Salutation`
+ * `Recipient.FirstName`
+ * `Recipient.Surname`
+ * `Recipient.Email`
+ * `Now`: Current date and time (format e.g. with $Now.Nice)
 
-*  $Body - the content of the email as defined in the content field of the content tab in the CMS.
+Templates are created in `mysite/templates/email`. So for example, 
+if you created `Newsletter.ss` inside `mysite/templates/email` 
+then the system will recognise this new file  and let you select it in the dropdown.
+You'll find a default template with minimal styling in `newsletter/templates/email/SimpleNewsletterTemplate.ss`.
 
-*  $Member - the member object. The member object has the following fields (although more can be added to a custom member class):
-    * $Member.FirstName
-    * $Member.Surname
-    * $Member.Email
-    * $Member.Password
-
-*  $Subject
-
-*  $From
-
-*  $To
-
-*  $UnsubscribeLink
-
-Templates are created in mysite/templates/email. So for example, if you created Newsletter.ss inside mysite/templates/email then the Newsletter system will recognise this new .ss file and let you select it in the dropdown.
-
-This currently goes against the convention of keeping templates inside themes/yourtheme/templates/email. If you want to keep you templates inside the themes/yourtheme/templates/email folder rather then the default mysite/template/email then you need to set this line in your mysite/_config file
+Template paths are configurable:
 
 	:::php
-	// set email template folder to themes/mytemplate/templates/email
 	NewsletterAdmin::$template_paths = "themes/mytemplate/templates/email";
-
-
-### Example template
-
 	
-	`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">`
-	`<html>`
-	
-	`<head>`
-	`<style>`
-	...
-	`</style>`
-	`</head>`
-	`<body>`
-	
-	`<h1>``<img src="http://www.mysite.com/images/image.png" alt="My Image" />``</h1>`
-	
-	`<div class="body">`
-	`<p>`Dear $Member.FirstName,`</p>`
-	$Body
-	`</div>`
-	
-	`</body>`
-	`</html>`
-
-
-# User Guide
+## User Guide
 
  
 This guide has been created to help you send newsletters using SilverStripe.
@@ -81,7 +60,7 @@ The Silverstripe newsletter module is an addition to the content management syst
 Users can be added to the system manually, one by one, or by importing a CSV file, or by creating a form that allows your site visitors to sign themselves up to one or several of your mailing lists.
 The module also allows you to send a test email and preview the email before sending it to your recipients.
 
-# Setting up the newsletter system
+### Setting up the newsletter system
 
 
 Initially the site tree on the left should be empty. The site tree contains a folder structure of the area. The newsletter is very similar.
@@ -106,7 +85,7 @@ Select the “template” tab and select a template from the predefined options.
 4.	Add recipients 
 Typically you would import a list from an existing system using the import facility.  More information is supplied under the “Adding Recipients heading”
 
-# Creating a newsletter
+### Creating a newsletter
 
 
 Newsletters are the individual messages sent out to each recipient. A newsletter is initially created as a draft until it is sent.  You can add content, images and links to a draft newsletter and save to the site for proofing and testing before you attempt a mass mail out 
@@ -132,7 +111,7 @@ This can be achieved by selecting the “send” button, and typing an email add
 
 Sometimes you may wish to try different templates if they have been created for you, please consult your website developer for these options.
 
-# Sending Newsletters
+### Sending Newsletters
 
 
 To send a newsletter, make sure you have a draft newsletter selected: (Remember draft newsletters can only be sent to one newsletter type and mailing list.
@@ -149,7 +128,7 @@ A progress bar will indicate how many emails have been sent so far.
 Note: If you click send to mailing list, you can’t currently quit the process until it has finished. Closing the window will stop the server from sending to the nearest 10th person.  We hope to have this module upgrade shortly
  
 
-# Adding recipients
+### Adding recipients
 
 
 Clicking on the “Mailing list” folder under a newsletter type in the site tree will open the mailing list of the newsletter type.
@@ -174,7 +153,7 @@ The import field is under the Import tab of the recipients tab. Use the file fie
 When you are happy with the column selection, click “Confirm”. The recipients will be imported and a short summary of the changes will be displayed.
 
 
-# Viewing recipients
+### Viewing recipients
 
 To view the recipients for a particular mailing list: 
 •	Select the newsletter type in the tree to the left
@@ -183,22 +162,10 @@ To view the recipients for a particular mailing list:
 Recipients can be filtered using the tab, and navigated using the previous and next buttons.
 
 
-# Bounced emails
+### Bounced emails
 
 
 A bounced email is an email which could not be delivered because the email was incorrect, or doesn’t exist. Emails that get bounced are listed under the “sent” -> “Bounced” tab after you’ve selected a newsletter type.
 Bounced emails need to be manually removed from the mailing list.
 
 **Note:** The receiving email server needs to support bounce handling for it to work successfully. To test the functionality, GMail is one server that supports it. Most do, but some do not, so it can't be relied on as a completly accurate measure of how many email addresses don't work.
-
-# Email templates
-
-When you create a new newsletter type, there is a dropdown to choose a template. This is so you can send your newsletter as a custom template.
-
-Templates are created in mysite/templates/email. So for example, if you created Newsletter.ss inside mysite/templates/email then the Newsletter system will recognise this new .ss file and let you select it in the dropdown.
-
-This currently goes against the convention of keeping templates inside ''themes/yourtheme/templates/email''. If you want to keep you templates inside the ''themes/yourtheme/templates/email'' folder rather then the default ''mysite/template/email'' then you need to set this line in your mysite/_config file
-
-	:::php
-	// set email template folder to themes/mytemplate/templates/email
-	NewsletterAdmin::$template_paths = "themes/mytemplate/templates/email";

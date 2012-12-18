@@ -13,7 +13,7 @@ class NewsletterSiteConfig extends DataExtension{
 		$fields->addFieldToTab("Root",
 			new Tab(_t("Newsletter.Configuration", "NewsletterConfiguration"),
 				$globalUnsubscribe = new CheckboxField("GlobalUnsubscribe",
-					_t("Newsletter.LabelGobalUnsubscribe", "Turned on globally unsubscribe?"))
+					_t("Newsletter.LabelGobalUnsubscribe", "Unsubscribe from all lists by default?"))
 			)
 		);
 		$globalUnsubscribeDescription = _t("Newsletter.GlobalUnsubscribeDescription",

@@ -106,40 +106,52 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		$fields->removeByName('SendRecipientQueue');
 		$fields->removeByName('TrackedLinks');
 
-		$explanationTitle = _t("Newletter.TemplateExplanationTitle",
-			"Select a styled template (.ss template) that this newsletter renders with"
-		);
+		// Only show template selection if there's more than one template set
+		$templateSource = $this->templateSource();
+		if(count($templateSource) > 1) {
+			$fields->replaceField(
+				"RenderTemplate", 
+				new DropdownField("RenderTemplate", _t('NewsletterAdmin.RENDERTEMPLATE',
+					'Template the newsletter render to'), 
+				$templateSource)
+			);	
 
-		$fields->insertBefore(LiteralField::create("TemplateExplanationTitle", "<h5>$explanationTitle</h5>"), 
-			"RenderTemplate"
-		);
-
-		if(!$this->ID) {
-			$explanation1 = _t("Newletter.TemplateExplanation1", 
-				"You should make your own styled SilverStripe templates	make sure your templates have a
-				\$Body coded so the newletter's content could be clearly located in your templates
-				");
-			$explanation2 = _t("Newletter.TemplateExplanation2", 
-				"Make sure your newsletter templates could be looked up in the dropdown list bellow by
-				either placing them under your theme directory,	e.g. themes/mytheme/templates/email/
-				");
-			$explanation3 = _t("Newletter.TemplateExplanation3", 
-				"or under your project directory e.g. mysite/templates/email/
-				");
-			$fields->insertBefore(LiteralField::create("TemplateExplanation1", "<p class='help'>$explanation1</p>"), 
+			$explanationTitle = _t("Newletter.TemplateExplanationTitle",
+				"Select a styled template (.ss template) that this newsletter renders with"
+			);
+			$fields->insertBefore(
+				LiteralField::create("TemplateExplanationTitle", "<h5>$explanationTitle</h5>"), 
 				"RenderTemplate"
 			);
-			$fields->insertBefore(LiteralField::create("TemplateExplanation2", "<p class='help'>$explanation2
-				<br />$explanation3</p>"), 
-				"RenderTemplate"
+			if(!$this->ID) {
+				$explanation1 = _t("Newletter.TemplateExplanation1", 
+					"You should make your own styled SilverStripe templates	make sure your templates have a
+					\$Body coded so the newletter's content could be clearly located in your templates
+					");
+				$explanation2 = _t("Newletter.TemplateExplanation2", 
+					"Make sure your newsletter templates could be looked up in the dropdown list bellow by
+					either placing them under your theme directory,	e.g. themes/mytheme/templates/email/
+					");
+				$explanation3 = _t("Newletter.TemplateExplanation3", 
+					"or under your project directory e.g. mysite/templates/email/
+					");
+				$fields->insertBefore(
+					LiteralField::create("TemplateExplanation1", "<p class='help'>$explanation1</p>"), 
+					"RenderTemplate"
+				);
+				$fields->insertBefore(
+					LiteralField::create(
+						"TemplateExplanation2", 
+						"<p class='help'>$explanation2<br />$explanation3</p>"
+					), 
+					"RenderTemplate"
+				);
+			}
+		} else {
+			$fields->replaceField("RenderTemplate", 
+				new HiddenField('RenderTemplate', false, key($templateSource))
 			);
 		}
-
-		$templateSource = $this->templateSource();
-		$fields->replaceField("RenderTemplate", 
-			new DropdownField("RenderTemplate", _t('NewsletterAdmin.RENDERTEMPLATE',
-				'Template the newsletter render to'), 
-			$templateSource));
 
 		if($this && $this->exists()){
 			$fields->removeByName("MailingLists");

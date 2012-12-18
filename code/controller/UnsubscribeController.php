@@ -47,13 +47,15 @@ class UnsubscribeController extends Page_Controller {
 		}else{
 			$mailinglistIDs = $this->urlParams['IDs'];
 			if($mailinglistIDs) {
-				return $mailinglists = DataList::create("MailingList")->where("\"ID\" in (".$mailinglistIDs.")");
+				return $mailinglists = DataList::create("MailingList")
+					->where("\"ID\" in (" . Convert::raw2sql($mailinglistIDs) . ")");
 			}
 		}
 	}
 
 	private function getMailingListsByUnsubscribeRecords($recordIDs){
-		$unsubscribeRecords = DataList::create("UnsubscribeRecord")->where("\"ID\" in (".$recordIDs.")");
+		$unsubscribeRecords = DataList::create("UnsubscribeRecord")
+			->where("\"ID\" in (" . Convert::raw2sql($recordIDs) . ")");
 		$mailinglists = new ArrayList();
 		if($unsubscribeRecords->count()){
 			foreach($unsubscribeRecords as $record){
@@ -131,7 +133,10 @@ class UnsubscribeController extends Page_Controller {
     */
 	function resubscribe() {
 		if(isset($_POST['Hash']) && isset($_POST['UnsubscribeRecordIDs'])){
-			$recipient = DataObject::get_one('Recipient', "\"ValidateHash\" = '".$_POST['Hash']."'");
+			$recipient = DataObject::get_one(
+				'Recipient', 
+				"\"ValidateHash\" = '" . Convert::raw2sql($_POST['Hash']) . "'"
+			);
 			$mailinglists = $this->getMailingListsByUnsubscribeRecords($_POST['UnsubscribeRecordIDs']);
 			if($recipient && $recipient->exists() && $mailinglists && $mailinglists->count()){
 				$recipient->MailingLIsts()->addMany($mailinglists);
@@ -183,5 +188,5 @@ class UnsubscribeController extends Page_Controller {
 				$recordsIDs[] = $unsubscribeRecord->ID;
 			}
 		}
-    }
+  }
 }

@@ -38,6 +38,19 @@ class SubscriptionPage extends Page {
 		return self::$days_verification_link_alive;
 	}
 
+	public function requireDefaultRecords() {
+		parent::requireDefaultRecords();
+
+		if(!SubscriptionPage::get()->Count()) {
+			$page = new SubscriptionPage();
+			$page->Title = 'Newsletter Subscription';
+			$page->URLSegment = 'newsletter-subscription';
+			$page->ShowInMenus = false;
+			$page->write();
+			$page->publish('Stage', 'Live');
+		}
+	}
+
 	function getCMSFields() {
 		$fields = parent::getCMSFields();
 		$fields ->addFieldToTab("Root",

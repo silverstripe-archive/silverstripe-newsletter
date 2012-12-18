@@ -74,8 +74,9 @@ class UnsubscribeController extends Page_Controller {
 		if($recipient && $recipient->exists() && $mailinglists && $mailinglists->count()) {
 			$unsubscribeRecordIDs = array();
 			$this->unsubscribeFromLists($recipient, $mailinglists, $unsubscribeRecordIDs);
-			$url = Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $recipient->ValidateHash . "/" . implode(",", $unsubscribeRecordIDs);
-			Director::redirect($url);
+			$url = Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $recipient->ValidateHash . "/" .
+					implode(",", $unsubscribeRecordIDs);
+			Controller::curr()->redirect($url, 302);
 			return $url;
 		}else{
 			return $this->customise(array(
@@ -92,7 +93,8 @@ class UnsubscribeController extends Page_Controller {
 			$fields = new FieldList(
 				new HiddenField("UnsubscribeRecordIDs", "", $unsubscribeRecordIDs),
 				new HiddenField("Hash", "", $hash),
-				new LiteralField("ResubscribeText", "Click the \"Resubscribe\" if you unsubscribed by accident and want to re-subscribe")
+				new LiteralField("ResubscribeText",
+					"Click the \"Resubscribe\" if you unsubscribed by accident and want to re-subscribe")
 			);
 
 			$actions = new FieldList(
@@ -111,7 +113,8 @@ class UnsubscribeController extends Page_Controller {
 				$recipient = $this->getRecipient();
 				$title = $recipient->FirstName?$recipient->FirstName:$recipient->Email;
 				$content = sprintf(
-					_t('Newsletter.UNSUBSCRIBEFROMLISTSSUCCESS', '<h3>Thank you, %s.</h3><br />You will no longer receive: %s.'),
+					_t('Newsletter.UNSUBSCRIBEFROMLISTSSUCCESS',
+						'<h3>Thank you, %s.</h3><br />You will no longer receive: %s.'),
 					$title, 
 					"<ul>".$listTitles."</ul>"
 				);
@@ -141,8 +144,9 @@ class UnsubscribeController extends Page_Controller {
 			if($recipient && $recipient->exists() && $mailinglists && $mailinglists->count()){
 				$recipient->MailingLIsts()->addMany($mailinglists);
 			}
-			$url = Director::absoluteBaseURL() . $this->RelativeLink('undone') . "/" . $_POST['Hash']. "/" . $_POST['UnsubscribeRecordIDs'];
-			Director::redirect($url);
+			$url = Director::absoluteBaseURL() . $this->RelativeLink('undone') . "/" . $_POST['Hash']. "/" .
+					$_POST['UnsubscribeRecordIDs'];
+			Controller::curr()->redirect($url, 302);
 			return $url;
 		}else{
 			return $this->customise(array(
@@ -164,7 +168,8 @@ class UnsubscribeController extends Page_Controller {
 
 			$title = $recipient->FirstName?$recipient->FirstName:$recipient->Email;
 			$content = sprintf(
-				_t('Newsletter.RESUBSCRIBEFROMLISTSSUCCESS', '<h3>Thank you. %s!</h3><br />You have been resubscribed to: %s.'),
+				_t('Newsletter.RESUBSCRIBEFROMLISTSSUCCESS',
+					'<h3>Thank you. %s!</h3><br />You have been resubscribed to: %s.'),
 				$title, 
 				"<ul>".$listTitles."</ul>"
 			);

@@ -9,7 +9,7 @@
 class UnsubscribeRecord extends DataObject {
 	static $has_one = array(
 		'MailingList' => 'MailingList',
-		'Reicipient' => 'Reicipient'
+		'Recipient' => 'Recipient'
 	);
 
 	/**
@@ -20,7 +20,7 @@ class UnsubscribeRecord extends DataObject {
 	 */
 	function unsubscribe($recipient, $mailinglist) {
 		// $this->UnsubscribeDate()->setVal( 'now' );
-		$this->ReicipientID = (is_numeric($recipient))
+		$this->RecipientID = (is_numeric($recipient))
 			? $recipient
 			: $recipient->ID;
 

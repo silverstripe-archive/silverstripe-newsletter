@@ -12,7 +12,6 @@ class Recipient extends DataObject {
 		'MiddleName'			=> "Varchar(255)",
 		'Surname'				=> "Varchar(255)",
 		'Salutation'			=> "Varchar(255)",
-		'LanguagePreferred' 	=> "Varchar(6)", // the locale code
 		'BouncedCount'	    	=> "Int", // if 0, never been bounced
 		'Blacklisted'			=> "Boolean",
 		// everytime, one of its belonged mailing lists is selected when sending the newletter,
@@ -97,16 +96,7 @@ class Recipient extends DataObject {
 	protected static $unique_identifier_field = 'Email';
 
 	/**
-	 * Ensure the LanguagePreferred is set to something sensible by default.
-	 */
-	public function populateDefaults() {
-		parent::populateDefaults();
-		$this->LanguagePreferred = i18n::get_locale();
-	}
-
-	/**
 	 * Event handler called before writing to the database. we need to deal with the unique_identifier_field here
-	 * Also set LanguagePreferred as the current locale, if not set yet.
 	 */
 	public function onBeforeWrite() {
 		// If a recipient with the same "unique identifier" already exists with a different ID, don't allow merging.
@@ -139,11 +129,6 @@ class Recipient extends DataObject {
 			}
 		}
 
-		// save LanguagePreferred
-		if(!$this->LanguagePreferred) {
-			$this->LanguagePreferred = i18n::get_locale();
-		}
-		
 		parent::onBeforeWrite();
 	}
 
@@ -249,7 +234,6 @@ class Recipient extends DataObject {
 			"ReceivedCount",
 			"ValidateHash",
 			"ValidateHashExpired",
-			"LanguagePreferred",
 			"Verified",
 		);
 

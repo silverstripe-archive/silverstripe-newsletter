@@ -132,11 +132,10 @@ class NewsletterEmail extends Email {
 			"Body" => $this->body,
 			"BaseURL" => $this->BaseURL(),
 			"IsEmail" => true,
+			"Recipient" => $this->recipient,
+			"Member" => $this->recipient, // backwards compatibility
 		);
-		$default['Salutation'] = $this->recipient->Salutation;
-		$default['FirstName'] = $this->recipient->FirstName;
-		$default['MiddleName'] = $this->recipient->MiddleName;
-		$default['Surname'] = $this->recipient->Surname;
+
 		if($this->template_data) {
 			return $this->template_data->customise($default);
 		} else {

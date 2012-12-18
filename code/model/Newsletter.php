@@ -106,6 +106,19 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		$fields->removeByName('SendRecipientQueue');
 		$fields->removeByName('TrackedLinks');
 
+		if($this->Status != 'Sent') {
+			$contentHelp = '<strong>' 
+				. _t('Newsletter.FormattingHelp', 'Formatting Help') 
+				. '</strong><br />';
+			$contentHelp .= '<ul>';
+			foreach($this->getAvailablePlaceholders() as $title => $description) {
+				$contentHelp .= sprintf('<li><em>$%s</em>: %s</li>', $title, $description);
+			}
+			$contentHelp .= '</ul>';
+			$contentField = $fields->dataFieldByName('Content');
+			if($contentField) $contentField->setDescription($contentHelp);
+		}
+
 		// Only show template selection if there's more than one template set
 		$templateSource = $this->templateSource();
 		if(count($templateSource) > 1) {
@@ -270,6 +283,58 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			}
 		}
 		return $templates;
+	}
+
+	/**
+	 * @return Array Map of place holder name to a description of its usage
+	 */
+	public function getAvailablePlaceholders() {
+		return array(
+			'UnsubscribeLink' => _t(
+				'Newsletter.PlaceholderUnsub', 
+				'Personalized link to unsubscribe from newsletter'
+			),
+			'AbsoluteBaseURL' => _t(
+				'Newsletter.PlaceholderAbsoluteUrl', 
+				'Absolute URL to the website'
+			),
+			'To' => _t(
+				'Newsletter.PlaceholderTo',
+				'Recipient email address'
+			),
+			'From' => _t(
+				'Newsletter.PlaceholderFrom',
+				'Sender email address'
+			),
+			'Subject' => _t(
+				'Newsletter.PlaceholderSubject',
+				'Newsletter subject'
+			),
+			'Recipient.Title' => _t(
+				'Newsletter.PlaceholderTitle',
+				'Recipient full name, including salutation, first/middle/last name (all optional)'
+			),
+			'Recipient.Salutation' => _t(
+				'Newsletter.PlaceholderSalutation',
+				'Recipient salutation'
+			),
+			'Recipient.FirstName' => _t(
+				'Newsletter.PlaceholderFirstName',
+				'Recipient first name'
+			),
+			'Recipient.Surname' => _t(
+				'Newsletter.PlaceholderSurname',
+				'Recipient surname'
+			),
+			'Recipient.Email' => _t(
+				'Newsletter.PlaceholderEmail',
+				'Recipient email address'
+			),
+			'Now' => _t(
+				'Newsletter.PlaceholderDate',
+				'Current date and time (format e.g. with $Now.Nice)'
+			)
+		);
 	}
 
 	/**

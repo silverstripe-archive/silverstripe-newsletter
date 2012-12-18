@@ -455,15 +455,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	}
 }
 
-
-/**
- * @deprecated Newsletter_Recipient will be catched simplely by {@link Recipient} Blacklisted flag.
- *
- * @package newsletter
- */
-class Newsletter_Recipient extends DataObject {
-}
-
 /**
  * Tracked link is a record of a link from the {@link Newsletter}
  *

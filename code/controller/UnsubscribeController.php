@@ -34,7 +34,7 @@ class UnsubscribeController extends Page_Controller {
 	private function getRecipient(){
 		$validateHash = Convert::raw2sql($this->urlParams['ValidateHash']);
 		if($validateHash) {
-			$recipient = DataObject::get_one('Recipient', "\"ValidateHash\" = '$validateHash'");
+			$recipient = Recipient::get()->filter("ValidateHash", $validateHash);
 			$now = date('Y-m-d H:i:s');
 			if($now <= $recipient->ValidateHashExpired) return $recipient;
 		}

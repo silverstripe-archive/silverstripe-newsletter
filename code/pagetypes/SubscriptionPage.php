@@ -473,7 +473,7 @@ JS
 
 	function subscribeverify() {
 		if($hash = $this->urlParams['ID']) {
-			$recipient = DataObject::get_one("Recipient", "\"ValidateHash\" = '".$hash."'");
+			$recipient = DataObject::get_one("Recipient", "\"ValidateHash\" = '".Convert::raw2sql($hash)."'");
 			if($recipient && $recipient->exists()){
 				$now = date('Y-m-d H:i:s');
 				if($now <= $recipient->ValidateHashExpired) {

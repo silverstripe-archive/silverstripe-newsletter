@@ -6,7 +6,17 @@
  * @package newsletter
  */
 class UnsubscribeController extends Page_Controller {
+	
 	static public $days_unsubscribe_link_alive = 30;
+
+	public static $allowed_actions = array(
+		'index',
+		'done',
+		'undone',
+		'resubscribe',
+		'Form',
+		'ResubscribeForm',
+	);
 
 	function __construct($data = null) {
 		parent::__construct($data);

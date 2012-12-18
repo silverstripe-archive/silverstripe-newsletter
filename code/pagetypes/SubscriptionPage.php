@@ -165,6 +165,14 @@ class SubscriptionPage extends Page {
  * @package newsletter
  */
 class SubscriptionPage_Controller extends Page_Controller {
+
+	public static $allowed_actions = array(
+		'index',
+		'subscribeverify',
+		'submitted',
+		'completed',
+		'Form'
+	);
 	
 	/**
 	 * Load all the custom jquery needed to run the custom 

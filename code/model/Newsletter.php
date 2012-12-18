@@ -212,17 +212,20 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			$fields->addFieldToTab('Root.SentTo',$sendRecipientGrid);
 
 			if ($this->Status == "Sending") {  //only show restart queue button if the newsletter is stuck in "sending"
+				$restartLink = Controller::join_links(
+					Director::absoluteBaseURL(),
+					'dev/tasks/NewsletterSendController?newsletter='.$this->ID
+				);
 				$fields->addFieldToTab('Root.SentTo',
-					new LiteralField('RestartQueueButton',
-						'<a class="ss-ui-button" href="'.Controller::join_links(
-							Director::absoluteBaseURL(),'dev/tasks/NewsletterSendController?newsletter='.$this->ID)
-							.'" title="Restart queue processing"'.
-						'<button name="action_RestartQueue" value="Restart queue processing" '.
-						'class="action" '.
-						'id="action_RestartQueue" role="button" aria-disabled="false">'.
-								'<span class="ui-button-icon-primary ui-icon btn-icon-arrow-circle-double"></span>'.
-						'<span class="ui-button-text">Restart Queue Processing</span>'.
-						'</button></a>'));
+					new LiteralField(
+						'RestartQueue',
+						sprintf(
+							'<a href="%s" class="ss-ui-button" data-icon="arrow-circle-double">%s</a>',
+							$restartLink,
+							_t('Newsletter.RestartQueue', 'Restart queue processing')	
+						)
+					)
+				);
 			}
 
 			//only show the TrackedLinks tab, if there are tracked links in the newsletter and the status is "Sent"

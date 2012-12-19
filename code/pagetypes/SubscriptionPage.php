@@ -45,6 +45,7 @@ class SubscriptionPage extends Page {
 			$page = new SubscriptionPage();
 			$page->Title = 'Newsletter Subscription';
 			$page->URLSegment = 'newsletter-subscription';
+			$page->SendNotification = 1;
 			$page->ShowInMenus = false;
 			$page->write();
 			$page->publish('Stage', 'Live');

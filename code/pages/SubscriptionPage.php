@@ -49,7 +49,8 @@ class SubscriptionPage extends Page {
 
 		//Fields selction
 		$dataFields = singleton('Member')->getCMSFields()->dataFields();
-		//Since the subscription form is focuse add a member to newsletter groups, we should avoid Password stuff and leave it to member forget/reset password mechanism.
+		//Since the subscription form is focuse add a member to newsletter groups, we should avoid Password stuff 
+		//and leave it to member forget/reset password mechanism.
 		if(isset($dataFields['Password'])) unset($dataFields['Password']);
 		
 		$fieldCandidates = array();
@@ -60,7 +61,8 @@ class SubscriptionPage extends Page {
 		}
 
 		$memberFields = singleton('Member')->getMemberFormFields()->dataFields();
-		//Since Email field is the member's identifier, and newsletters subscription is non-sence if no email is given by the user, we should force that email to be checked and required.
+		//Since Email field is the member's identifier, and newsletters subscription is non-sence if no email is given 
+		//by the user, we should force that email to be checked and required.
 		$defaults = array("Email");
 		if(count($memberFields)){
 			foreach($memberFields as $fieldName => $memberField){
@@ -246,7 +248,8 @@ JS
 	 *  	 
 	 */	 	
 	protected function removeUnsubscribe($newletterType,$member) {
-		$result = DataObject::get_one("UnsubscribeRecord", "NewsletterTypeID = ".Convert::raw2sql($newletterType->ID)." AND MemberID = ".Convert::raw2sql($member->ID)."");
+		$result = DataObject::get_one("UnsubscribeRecord", "NewsletterTypeID = ".Convert::raw2sql($newletterType->ID)
+			." AND MemberID = ".Convert::raw2sql($member->ID)."");
 		if($result && $result->exists()) {
 			$result->delete();
 		}		
@@ -294,7 +297,7 @@ JS
 		
 		if(isset($data["NewsletterSelection"])){
 			foreach($data["NewsletterSelection"] as $n){
-				$newsletterType = DataObject::get_by_id("NewsletterType", $n);
+				$newsletterType = DataObject::get_by_id("NewsletterType", Convert::raw2sql($n));
 				
 				if($newsletterType->exists()){
 					//remove member from unsubscribe if needed
@@ -313,7 +316,8 @@ JS
 				foreach($types as $type){
 					$newsletterType = DataObject::get_by_id("NewsletterType", $type);
 					if($newsletterType->exists()){
-						//remove member from unsubscribed records if the member unsubscribe the same mailling list before
+						//remove member from unsubscribed records if the member unsubscribe
+						//the same mailling list before
 						$this->removeUnsubscribe($newsletterType,$member);
 						
 						$newsletters[] = $newsletterType;
@@ -367,7 +371,7 @@ JS
 	
 	function complete(){
 		if($id = $this->urlParams['ID']){
-			$memberData = DataObject::get_by_id("Member", $id)->getAllFields();
+			$memberData = DataObject::get_by_id("Member", Convert::raw2sql($id))->getAllFields();
 		}
 		return $this->customise(array(
     		'Title' => _t('SubscriptionCompleted.Title', 'Subscription completed!'),

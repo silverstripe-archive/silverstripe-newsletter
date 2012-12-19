@@ -26,13 +26,14 @@ class UnsubscribeController extends Page_Controller {
 	}
 	
 	private function getMailingList(){
-		$mailingListID = (int)$this->urlParams['MailingList'];
+		$mailingListID = Convert::raw2sql($this->urlParams['MailingList']);
 
 		if($mailingListID) {
-			return $mailingList = DataObject::get_by_id("NewsletterType", $mailingListID);
+			return $mailingList = DataObject::get_by_id("NewsletterType", (int)$mailingListID);
 		}else{
 			if(isset($_GET['MailingLists']) && !empty($_GET['MailingLists']) && is_array($_GET['MailingLists'])){
-				return DataObject::get("NewsletterType", "ID IN (".implode(",", $_GET['MailingLists']).")");
+				return DataObject::get("NewsletterType", "ID IN (".implode(",", 
+					Convert::raw2sql($_GET['MailingLists'])).")");
 			};
 		}
 	}
@@ -127,7 +128,7 @@ class UnsubscribeController extends Page_Controller {
     */
     function sendmeunsubscribelink($data) {
 		if(isset($data['Email']) && $data['Email']) {
-			$member = DataObject::get_one("Member", "Email = '".$data['Email']."'");
+			$member = DataObject::get_one("Member", "Email = '".Convert::raw2sql($data['Email'])."'");
 			if($member){
 				if(!$from = Email::getAdminEmail()){
 					$from = 'noreply@'.Director::BaseURL();
@@ -178,7 +179,7 @@ class UnsubscribeController extends Page_Controller {
 		if( $data['MailingLists'] ) {
 			$mailingLists = array();
 			foreach( array_keys( $data['MailingLists'] ) as $listID ){
-				$list = DataObject::get_by_id( 'NewsletterType', $listID );
+				$list = DataObject::get_by_id( 'NewsletterType', Convert::raw2sql($listID ));
 				$this->unsubscribeFromList( $member, $list);
 				$mailingLists[] = "MailingLists[]=".$listID;
 			}

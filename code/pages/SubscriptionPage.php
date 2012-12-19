@@ -261,7 +261,7 @@ JS
 		
 		if(isset($data["NewsletterSelection"])){
 			foreach($data["NewsletterSelection"] as $n){
-				$newsletterType = DataObject::get_by_id("NewsletterType", $n);
+				$newsletterType = DataObject::get_by_id("NewsletterType", Convert::raw2sql($n));
 				
 				if($newsletterType->exists()){
 					$newsletters[] = $newsletterType;
@@ -328,7 +328,7 @@ JS
 	
 	function complete(){
 		if($id = $this->urlParams['ID']){
-			$memberData = DataObject::get_by_id("Member", $id)->getAllFields();
+			$memberData = DataObject::get_by_id("Member", Convert::raw2sql($id))->getAllFields();
 		}
 		return $this->customise(array(
     		'Title' => _t('SubscriptionCompleted', 'Subscription completed!'),

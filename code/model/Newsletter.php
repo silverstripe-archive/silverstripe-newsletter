@@ -40,8 +40,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 
 	static $summary_fields = array(
 		"Subject",
-		"Content",
-		"SendFrom",
 		"SentDate",
 		"Status"
 	);
@@ -203,7 +201,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 				new CheckboxSetField(
 					"MailingLists", 
 					_t('Newsletter.SendTo', "Send To", 'Selects mailing lists from set of checkboxes'), 
-					$mailinglists
+					$mailinglists->map('ID', 'FullTitle')
 				)
 			);
 		}

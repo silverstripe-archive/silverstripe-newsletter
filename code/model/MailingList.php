@@ -26,9 +26,22 @@ class MailingList extends DataObject {
 
 	static $plural_name = 'Mailinglists';
 
+	static $summary_fields = array(
+		'Title',
+		'ActiveRecipients.Count'
+	);
+
+	static $searchable_fields = array(
+		'Title'
+	);
+
 	public function fieldLabels($includelrelations = true) {
 		$labels = parent::fieldLabels($includelrelations);
+		
 		$labels["Title"] = _t('Newsletter.FieldTitle', "Title");
+		$labels["FullTitle"] = _t('Newsletter.FieldTitle', "Title");
+		$labels["ActiveRecipients.Count"] = _t('Newsletter.Recipients', "Recipients");
+		
 		return $labels;
 	}
 	
@@ -59,7 +72,7 @@ class MailingList extends DataObject {
 			)
 		);
 
-		$dataColumns -> setFieldCasting(array(
+		$dataColumns->setFieldCasting(array(
 			"Blacklisted" => "Boolean->Nice",
 			"Verified" => "Boolean->Nice",
 		));
@@ -80,5 +93,24 @@ class MailingList extends DataObject {
 		$this->extend("updateCMSFields", $fields);		
 
 		return $fields;
+	}
+
+	public function getFullTitle() {
+		return sprintf(
+			'%s (%s)',
+			$this->Title,
+			_t(
+				'Newsletter.NumberRecipients',
+				'{count} recipients',
+				array('count' => $this->ActiveRecipients()->Count())
+			)
+		);
+	}
+
+	/**
+	 * Returns all recipients who aren't blacklisted.
+	 */
+	public function ActiveRecipients() {
+		return $this->Recipients()->exclude('Blacklisted', 1);
 	}
 }

@@ -1,0 +1,134 @@
+en:
+  NewsletterAdmin:
+    MENUTITLE: Newsletter
+    MailingListTitle: 'Mailing List Title'
+    RENDERTEMPLATE: 'Template the newsletter render to'
+    Recipients: 'Mailing list recipients'
+    SaveAsNewMessage: 'New Newsletter created as copy of the sent newsletter'
+    SendMessage: 'Send-out process started successfully. Check the progress in the "Sent To" tab'
+    SendTestEmail: 'Send Test Email'
+    SentTo: 'Sent to'
+    TrackedLinks: 'Tracked Links'
+  MailingList:
+    PLURALNAME: Mailinglists
+    SINGULARNAME: Mailinglist
+  Newletter:
+    TemplateExplanation1: "You should make your own styled SilverStripe templates	make sure your templates have a\n					\$Body coded so the newletter's content could be clearly located in your templates\n					"
+    TemplateExplanation2: "Make sure your newsletter templates could be looked up in the dropdown list bellow by\n					either placing them under your theme directory,	e.g. themes/mytheme/templates/email/\n					"
+    TemplateExplanation3: "or under your project directory e.g. mysite/templates/email/\n					"
+    TemplateExplanationTitle: 'Select a styled template (.ss template) that this newsletter renders with'
+  Newsletter:
+    BlacklistedDesc: 'Excluded from emails, either by automated process or manually. An invalid address or undeliverable email will eventually result in blacklisting.'
+    Configuration: NewsletterConfiguration
+    ConfirmSubject: 'Confirmation of your subscription to our mailing lists'
+    DEAR: Dear
+    Failed: '{count} failed'
+    FieldBlacklisted: 'Blacklisted?'
+    FieldBouncedCount: 'Bounced Count'
+    FieldConent: Content
+    FieldEmail: Email
+    FieldFirstName: FirstName
+    FieldLastEdited: 'Last Edited'
+    FieldMailinglists: Mailinglists
+    FieldMiddleName: 'Middle Name'
+    FieldReceivedCount: 'Received Count'
+    FieldReplyTo: 'Reply To Address'
+    FieldRequired: '"{field}" field is required'
+    FieldRetryCount: 'Retry Count'
+    FieldSalutation: Salutation
+    FieldSendFrom: 'From Address'
+    FieldStatus: Status
+    FieldSubject: Subject
+    FieldSurname: Surname
+    FieldTitle: Title
+    FieldVerified: 'Verified?'
+    FormattingHelp: 'Formatting Help'
+    FromNotif: 'From Email Address for Notification Email'
+    GlobalUnsubscribeDescription: "Clicking any unsubscribe links in each newsletter will unsubscribe the recipient from all mailing lists \n			if checked<br />\n			otherwise only unsubscribe the recipient from mailing lists that the newsletter related to"
+    INVALIDLINK: 'Invalid Link'
+    INVALIDRESUBSCRIBE: 'Invalid resubscrible'
+    INVALIDRESUBSCRIBECONTENT: 'This resubscribe link is invalid'
+    INVALIDUNSUBSCRIBECONTENT: 'This unsubscribe link is invalid'
+    InProgress: '{count} in progress'
+    InvalidEmailAddress: '"{field}" field is invalid'
+    LabelGobalUnsubscribe: 'Unsubscribe from all lists by default?'
+    No: No
+    NoOptions: 'No options available'
+    NotifSubject: 'Notification Email Subject Line'
+    NumberRecipients: '{count} recipients'
+    OnCompletion: 'Message shown on subscription completion'
+    PLURALNAME: Newsletters
+    PlaceholderAbsoluteUrl: 'Absolute URL to the website'
+    PlaceholderDate: 'Current date and time (format e.g. with $Now.Nice)'
+    PlaceholderEmail: 'Recipient email address'
+    PlaceholderFirstName: 'Recipient first name'
+    PlaceholderFrom: 'Sender email address'
+    PlaceholderSalutation: 'Recipient salutation'
+    PlaceholderSubject: 'Newsletter subject'
+    PlaceholderSurname: 'Recipient surname'
+    PlaceholderTitle: 'Recipient full name, including salutation, first/middle/last name (all optional)'
+    PlaceholderTo: 'Recipient email address'
+    PlaceholderUnsub: 'Personalized link to unsubscribe from newsletter'
+    PleaseEnter: 'Please enter your %s field'
+    RESUBSCRIBED: Resubscribed
+    RESUBSCRIBEFROMLISTSSUCCESS: '<h3>Thank you. %s!</h3><br />You have been resubscribed to: %s.'
+    RESUBSCRIBESUCCESS: 'Thank you.<br />You have been resubscribed successfully'
+    ReceivedCountDesc: 'Number of emails sent without undeliverable errors. Only one indication that an email has actually been received and read.'
+    Recipients: Recipients
+    RelationRequired: 'Select at least one "{relation}"'
+    ReplyToDesc: 'Any undeliverable emails will be collected in this mailbox'
+    RestartQueue: 'Restart queue processing'
+    SAVE: Save
+    SINGULARNAME: Newsletter
+    SUBSCRIPTIONFORM: SubscriptionForm
+    SUBSCRIPTIONFORMCONFIGURATION: 'Subscription Form Configuration'
+    SaveAsNew: 'Save as new ...'
+    Scheduled: '{count} scheduled'
+    SelectFields: 'Select the fields to display on the subscription form'
+    Send: Send
+    SendNotif: 'Send notification email to the subscriber'
+    SendTo: 'Send To'
+    Sent: '{count} sent'
+    SubscribeTo: 'Newsletters to subscribe to'
+    SubscriptionSubmitted: 'Subscription Completed!'
+    SubscritionSubmittedContent2: 'The verification link will be valid for %s days. If you did not mean to subscribe, simply ignore the verification email'
+    UNSUBSCRIBEFROMLISTSSUCCESS: '<h3>Thank you, %s.</h3><br />You will no longer receive: %s.'
+    UNSUBSCRIBESUCCESS: 'Thank you.<br />You have been unsubscribed successfully'
+    ValidEmail: 'Please enter your email address'
+    VerificationExpired: 'The verification link has been expired'
+    VerificationExpiredContent1: 'The verification link is only validate for %s days.'
+    VerificationExpiredContent2: 'please resubmit the form if you still want to subscribe to our mailing lists!'
+    VerifiedDesc: 'Has this user verified his subscription?'
+    VerifySubject: 'Thanks for subscribing to our mailing lists, please verify your email'
+    Yes: Yes
+  Newsletter_Sent:
+    PLURALNAME: 'Sent Newsletters'
+    SINGULARNAME: 'Sent Newsletters'
+  Newsletter_TrackedLink:
+    PLURALNAME: 'Newsletter Tracked Links'
+    SINGULARNAME: 'Newsletter Tracked Link'
+  Recipient:
+    PLURALNAME: Recipients
+    SINGULARNAME: Recipient
+    ValidationIdentifierFailed: 'Can''t overwrite existing recipient #{id} with identical identifier ({name} = {value}))'
+  SendRecipientQueue:
+    PLURALNAME: 'Send Recipient Queus'
+    SINGULARNAME: 'Send Recipient Queue'
+  SilverStripeNavigator:
+    Edit: Edit
+  SiteTree:
+    PLURALNAME: Pages
+    SINGULARNAME: Page
+    TABMAIN: Main
+  SubscriptionPage:
+    DESCRIPTION: 'Generic content page'
+    PLURALNAME: 'Newsletter Subscription Pages'
+    SINGULARNAME: 'Newsletter Subscription Page'
+    To: 'Subscribe to:'
+  TemplateList:
+    SimpleNewsletterTemplate: 'Simple Newsletter Template'
+  UnsubscribeRecord:
+    PLURALNAME: 'Unsubscribe Records'
+    SINGULARNAME: 'Unsubscribe Record'
+  newsletter:
+    UNSUBSCRIBEDTITLE: Unsubscribed

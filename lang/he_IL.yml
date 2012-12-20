@@ -1,0 +1,67 @@
+he_IL:
+  LeftAndMain:
+    NEWSLETTERS: "עדכונים ורשימות תפוצה"
+  NewsletterAdmin:
+    FROMEM: "מכתובת דוא\"ל"
+    MEWDRAFTMEWSL: "טיוטת ניוזלטר חדשה"
+    NEWNEWSLTYPE: "סוג ניוזלטר חדש"
+    NEWSLTYPE: "סוג ניוזלטר"
+    PLEASEENTERMAIL: "נא להזין כתובת דוא\"ל"
+    RESEND: "שלח שנית"
+    SAVE: "שמור"
+    SAVED: "נשמר"
+    SEND: "שלח"
+    SENDING: "שולח פריטי דואר"
+    SENTTESTTO: "שלח דואר בדיקה ל"
+    SHOWCONTENTS: "הצג תוכן"
+  NewsletterAdmin_BouncedList.ss:
+    EMADD: "כתובת דואר אלקטרוני"
+    HAVEBOUNCED: "הודעות דואר חוזרות"
+    NOBOUNCED: "אין הודעות דואר חוזרות"
+    UNAME: "שם משתמש"
+  NewsletterAdmin_SiteTree.ss:
+    DRAFTS: "טיוטות"
+    MAILLIST: "רשימת דיוור"
+    SENT: "פריטים שנשלחו"
+  NewsletterAdmin_UnsubscribedList.ss:
+    NOUNSUB: "אין משתמשים רשומים מהניוזלטר הזה."
+    UNAME: "שם משתמש"
+  NewsletterAdmin_left.ss:
+    ADDDRAFT: "הוסף טיוטה חדשה"
+    ADDTYPE: "הוסף סוג חדש"
+    CREATE: "צור"
+    DEL: "מחק"
+    DELETEDRAFTS: "מחק את הטיוטות שנבחרו"
+    GO: "סע"
+    NEWSLETTERS: "ניוזלטר"
+    SELECTDRAFTS: "בחר בטיוטות שברצונך למחוק ולאחר מכן לחץ על הכפתור מתחת"
+  NewsletterAdmin_right.ss:
+    CANCEL: "בטל"
+    ENTIRE: "שלח לכל רשימת התפוצה"
+    ONLYNOT: "שלח רק לאנשים שלא נשלח אליהם בעבר"
+    SEND: "שלח ניוזלטר"
+    SENDTEST: "שלח בדיקה ל"
+    WELCOME1: "ברוך הבא ל"
+    WELCOME2: "אזור ניהול ניוזלטר. נא בחר תיקייה משמאל"
+  NewsletterList.ss:
+    CHOOSEDRAFT1: "נא בחר בטיוטה שבצד שמאל , או"
+    CHOOSEDRAFT2: "הוסף אחד"
+    CHOOSESENT: "נא בחר בפריט שנשלח בצד שמאל."
+  Newsletter_RecipientImportField.ss:
+    IMPORTED: "משתמשים חדשים שיובאו:"
+    IMPORTNEW: "משתמשים חדשים יובאו"
+    SEC: "שניות"
+  Newsletter_RecipientImportField_Table.ss:
+    CONTENTSOF: "תוכן של"
+    NO: "ביטול"
+    RECIMPORTED: "נמענים יובאו מ"
+    YES: "אישור"
+  Newsletter_SentStatusReport.ss:
+    DATE: "תאריך"
+    EMAIL: "דואר אלקטרוני"
+    FN: "שם פרטי"
+    RES: "תוצאה"
+    SENDBOUNCED: "השליחה לנעמנים הבאים חזרה"
+    SENDFAIL: "השליחה לנמענים הבאים נכשלה"
+    SENTOK: "השליחה לנמענים הבאים עברה בהצלחה"
+    SN: "שם משפחה"

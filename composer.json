@@ -2,16 +2,25 @@
 	"name": "silverstripe/newsletter",
 	"description": "Newsletter module allows a backend CMS users send newsleters to different mailling lists, manage mailling lists and recipients in the lislling list, reading statistics about each newsletter sent, customise a newsletter subscrition form. Site users can subscribe to and unsubscribe from the mailing lists",
 	"type": "silverstripe-module",
-	"keywords": ["silverstripe", "newsletters"],
+	"keywords": ["silverstripe","newsletters","email","edm","mail","newsletter","mass-email"],
 	"authors": [
 	{
 		"name": "Normann Lou",
 		"email": "normann@silverstripe.com"
+	},
+	{
+		"name": "Julian Seidenberg",
+		"email": "julian@silverstripe.com"
 	}
 	],
 	"require":
 	{
-		"silverstripe/framework": "2.4.*",
-		"composer/installers": "*"
+		"silverstripe/framework": "3.*",
+		"composer/installers": "*",
+		"silverstripe/messagequeue": "*",
+		"silverstripe/gridfieldajaxrefresh": "*"
+	},
+	"autoload": {
+		"classmap": ["tests/behat/"]
 	}
 }

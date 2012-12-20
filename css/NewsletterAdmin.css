@@ -1,40 +1,16 @@
-/**
- * SiteTree
- */
-ul.tree span.a.MailType, 
-ul.tree span.a.last.MailType, 
-ul.tree span.a.children.MailType {
-	background-image: none;
-}
-ul.tree span.a.MailType span.c, 
-ul.tree span.a.last.MailType span.c, 
-ul.tree span.a.children.MailType span.c {
-	margin: 0;
-}
+#Root_Main .fieldgroup .fieldholder-small .add-existing-autocompleter { display: inline-block; margin-left: 10px; width: auto; }
+#Root_Main .fieldgroup .fieldholder-small .add-existing-autocompleter:before { content: 'or'; margin-right: 10px; font-weight: bold; }
+#Root_Main #MailingLists li { width: auto; margin-right: 20px; padding: 4px 0 0; }
 
-/**
- * Form
- */
-div#ImportFile iframe {
-	width: 80%;
-	height: auto;
-	border: none;
-}
+.cms table.ss-gridfield-table tr th.main { white-space: normal; }
+.cms table.ss-gridfield-table tr th.main span { white-space: normal; }
 
-table.ReportField {
-	position: relative;
-	border: solid 1px #82C0FF;
-	border-collapse: collapse;
-}
+#Root_SentTo .ss-ui-button .ui-button-text .ui-icon, #Root_SentTo .ss-ui-button .ui-button-text .ui-button-text { display: inline-block; vertical-align: middle; }
+#Root_SentTo .ss-ui-button .ui-button-text .ui-button-text { padding: 0.4em 0.6em; }
 
-	table.ReportField thead th {
-		background-color: #82C0FF;
-	}
-	
-	table.ReportField td, table.ReportField {
-		border: solid 1px #82C0FF;
-	}
-	
-	table.ReportField tr {
-		border-bottom: solid 1px #82C0FF;
-	}
+.cms .Actions .cms-preview-toggle-link { float: right; }
+.cms .cms-content-fields .field .fieldgroup-field { padding: 8px 0; }
+.cms .cms-content-fields .field .fieldholder-small label { margin-left: 0; font-weight: bold; width: auto; }
+.cms .cms-content-fields .field .fieldholder-small fieldset { margin-left: 184px; }
+.cms table.ss-gridfield-table tbody td.col-buttons { width: 60px; }
+.cms table.ss-gridfield-table tbody td.col-buttons button .ui-button-text { padding: 0.4em 1.2em; }

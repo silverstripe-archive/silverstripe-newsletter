@@ -8,10 +8,12 @@ echo "Checking out installer@$CORE_RELEASE"
 git clone --depth=100 --quiet --branch $CORE_RELEASE git://github.com/silverstripe/silverstripe-installer.git $BUILD_DIR
 echo "Checking out cms@$CORE_RELEASE"
 git clone --depth=100 --quiet --branch $CORE_RELEASE git://github.com/silverstripe/silverstripe-cms.git $BUILD_DIR/cms
-echo "Checking out sapphire@$CORE_RELEASE"
-git clone --depth=100 --quiet --branch $CORE_RELEASE git://github.com/silverstripe/sapphire.git $BUILD_DIR/sapphire
-echo "Checking out blackcandy@$CORE_RELEASE"
-git clone --depth=100 --quiet --branch $CORE_RELEASE git://github.com/silverstripe-themes/silverstripe-blackcandy.git $BUILD_DIR/themes/blackcandy
+echo "Checking out framework@$CORE_RELEASE"
+git clone --depth=100 --quiet --branch $CORE_RELEASE git://github.com/silverstripe/sapphire.git $BUILD_DIR/framework
+echo "Checking out sqlite3"
+git clone --depth=100 --quiet git://github.com/silverstripe-labs/silverstripe-sqlite3.git $BUILD_DIR/sqlite3
+echo "Checking out postgresql"
+git clone --depth=100 --quiet git://github.com/silverstripe/silverstripe-postgresql.git $BUILD_DIR/postgresql
 
 # Copy setup files
 cp ./tests/travis/_ss_environment.php $BUILD_DIR

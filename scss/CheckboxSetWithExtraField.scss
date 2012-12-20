@@ -1,0 +1,34 @@
+table.checkboxsetwithextrafield tr{
+	border: 1px solid #000000;
+	&.even {
+		background-color: #AAAAAA;
+	}
+	&.DnD_whiledragging {
+		background-color: #000000;
+		border: 1px solid #3399FF;
+		color: #ffffff;
+	}
+	.dragHandle{
+		background-image:url(../images/drag.gif);
+		background-position:center center;
+		background-repeat:no-repeat;
+		cursor:move;
+		padding-left:15px;
+		padding-right:15px;
+	}
+	.showDragHandle{
+		background-image:url(../images/drag_readonly.gif);
+	}
+	td, th {
+		padding: 5px;
+		font-size: 14px;
+		label {
+			font-size: 14px;
+		}
+	}
+}
+table.checkboxsetwithextrafield thead tr,
+table.checkboxsetwithextrafield tfoot tr {
+	background-color: #CCDEF3;
+	color: #2F383F;
+}

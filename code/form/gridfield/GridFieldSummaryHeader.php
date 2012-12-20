@@ -11,15 +11,23 @@ class GridFieldSummaryHeader implements GridField_HTMLProvider {
 	public function getHTMLFragments( $gridField) {
 		if ($gridField && $gridField->getModelClass() && $gridField->getModelClass() == "SendRecipientQueue") {
 			$list = $gridField->getList();
+			$scheduled = $list->filter(array('Status'=>'Scheduled'))->count();			
+			$progress = $list->filter(array('Status'=>'InProgress'))->count();
+			$sent = $list->filter(array('Status'=>'Sent'))->count();
+			$failed = $list->filter(array('Status'=>array('Failed','Bounced','BlackListed')))->count();
 
-			$statusText = '<span>'.$list->filter(array('Status'=>'Scheduled'))->count() .
-					' Scheduled;</span>';
-			$statusText.= ' <span>'.$list->filter(array('Status'=>'InProgress'))->count() .
-					' In Progress;</span>';
-			$statusText.= ' <span>'.$list->filter(array('Status'=>'Sent'))->count() .
-					' Sent;</span>';
-			$statusText.= ' <span>'.$list->filter(array('Status'=>
-					array('Failed','Bounced','BlackListed')))->count() . ' Failed/Bounced/Blacklisted;</span>';
+			$statusText = '<span>'
+				. _t('Newsletter.Scheduled', '{count} scheduled', array('count' => $scheduled))
+				. '</span>'
+				. '<span>'
+				. _t('Newsletter.InProgress', '{count} in progress', array('count' => $progress)) 
+				. '</span>'
+				. '<span>'
+				. _t('Newsletter.Sent', '{count} sent', array('count' => $sent)) 
+				. '</span>'
+				. '<span>'
+				. _t('Newsletter.Failed', '{count} failed', array('count' => $failed)) 
+				. '</span>';
 
 			$gridField->StatusText = $statusText;
 

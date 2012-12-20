@@ -104,7 +104,10 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 		
 		if ($source == null) {
 			$source = array();
-			$options = "<tr><td>No options available</td></tr>";
+			$options = sprintf(
+				"<tr><td>%s</td></tr>",
+				_t('Newsletter.NoOptions', 'No options available')
+			);
 		}else{
 			
 			$header = "<thead><tr><th></th>";

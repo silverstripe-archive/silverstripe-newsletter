@@ -21,6 +21,16 @@ class MailingList extends DataObject {
 	static $belongs_many_many = array(
 		'Newsletters'			=> "Newsletter",
 	);
+
+	static $singular_name = 'Mailinglist';
+
+	static $plural_name = 'Mailinglists';
+
+	public function fieldLabels($includelrelations = true) {
+		$labels = parent::fieldLabels($includelrelations);
+		$labels["Title"] = _t('Newsletter.FieldTitle', "Title");
+		return $labels;
+	}
 	
 	function getCMSFields() {
 		$fields = new FieldList();

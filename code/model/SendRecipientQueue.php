@@ -15,16 +15,10 @@ class SendRecipientQueue extends DataObject {
 		"Status" => "Enum('Scheduled, InProgress, Sent, Failed, Bounced, BlackListed', 'Scheduled')",
 		"RetryCount" => "Int(0)"    //number of times this email got "stuck" in the queue
 	);
+
 	static $has_one = array(
 		"Newsletter" => "Newsletter",
 		"Recipient" => "Recipient"
-	);
-
-	static $field_labels = array(
-		"Status" => 'Status',
-		"Recipient.Email" => 'Email',
-		"RetryCount" => 'Retry Count',
-		"LastEdited" => 'Last Edited',
 	);
 
 	static $summary_fields = array(
@@ -37,6 +31,17 @@ class SendRecipientQueue extends DataObject {
 	static $default_sort = array(
 		'LastEdited DESC'
 	);
+
+	public function fieldLabels($includelrelations = true) {
+		$labels = parent::fieldLabels($includelrelations);
+		
+		$labels["Status"] = _t('Newsletter.FieldStatus', "Status");
+		$labels["Recipient.Email"] = _t('Newsletter.FieldEmail', "Email");
+		$labels["RetryCount"] = _t('Newsletter.FieldRetryCount', "Retry Count");
+		$labels["LastEdited"] = _t('Newsletter.FieldLastEdited', "Last Edited");
+
+		return $labels;
+	}
 
 	/** Send the email out to the Recipient */
 	public function send($newsletter = null, $recipient = null) {

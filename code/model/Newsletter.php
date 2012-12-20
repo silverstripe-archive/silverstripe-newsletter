@@ -27,12 +27,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		"MailingLists"			=> "MailingList"
 	);
 
-	static $field_labels = array(
-		"SendFrom"				=> "From Address",
-		"ReplyTo"				=> "Reply To",
-		"Content"				=> "Content",
-	);
-
 	static $searchable_fields = array(
 		"Subject",
 		"Content",
@@ -55,10 +49,22 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	static $required_fields = array(
 		'Subject', 'SendFrom'
 	);
+
 	static $required_relations = array(
 		'MailingLists'
 	);
 
+	public function fieldLabels($includelrelations = true) {
+		$labels = parent::fieldLabels($includelrelations);
+
+		$labels["Subject"] = _t('Newsletter.FieldSubject', "Subject");
+		$labels["Status"] = _t('Newsletter.FieldStatus', "Status");
+		$labels["SendFrom"] = _t('Newsletter.FieldSendFrom', "From Address");
+		$labels["ReplyTo"] = _t('Newsletter.FieldReplyTo', "Reply To Address");
+		$labels["Content"] = _t('Newsletter.FieldConent', "Content");
+
+		return $labels;
+	}
 
 	public function validate() {
 		$result = parent::validate();
@@ -98,11 +104,32 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		$fields = parent::getCMSFields();
 
 		$fields->removeByName('Status');
-		$fields->addFieldToTab('Root.Main',new ReadonlyField('Status'),'Subject');
+		$fields->addFieldToTab(
+			'Root.Main',
+			new ReadonlyField('Status', $this->fieldLabel('Status')),
+			'Subject'
+		);
+		
 		$fields->removeByName("SentDate");
 		if ($this->Status == "Sent") {
-			$fields->addFieldToTab('Root.Main',new ReadonlyField('SentDate','Sent Date'),'Subject');
+			$fields->addFieldToTab(
+				'Root.Main',
+				new ReadonlyField('SentDate',$this->fieldLabel('SentDate')),
+				'Subject'
+			);
 		}
+
+		$fields->dataFieldByName('SendFrom')
+			->setValue(Email::getAdminEmail())
+			->setAttribute('placeholder', 'My Name <admin@example.org>');
+
+		$fields->dataFieldByName('ReplyTo')
+			->setValue(Email::getAdminEmail())
+			->setAttribute('placeholder', 'admin@example.org')
+			->setDescription(_t(
+				'Newsletter.ReplyToDesc', 
+				'Any undeliverable emails will be collected in this mailbox'
+			));
 
 		$fields->removeFieldFromTab('Root.SendRecipientQueue',"SendRecipientQueue");
 		$fields->removeByName('SendRecipientQueue');

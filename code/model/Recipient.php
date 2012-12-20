@@ -138,25 +138,53 @@ class Recipient extends DataObject {
 		$fields->push(new TabSet("Root", $mainTab = new Tab("Main")));
 		$mainTab->setTitle(_t('SiteTree.TABMAIN', "Main"));
 
-		//$fields->addFieldToTab('Root.Main',new TextField('Email',self::$summary_fields['Email']);
-		$fields->addFieldToTab('Root.Main',new TextField('Email','Email'));
+		$fields->addFieldToTab('Root.Main',new TextField('Email',$this->fieldLabel('Email')));
 
-		$fields->addFieldToTab('Root.Main',new TextField('Salutation','Salutation'));
-		$fields->addFieldToTab('Root.Main',new TextField('FirstName','First Name'));
-		$fields->addFieldToTab('Root.Main',new TextField('MiddleName','Middle Name'));
-		$fields->addFieldToTab('Root.Main',new TextField('Surname','Surname'));
+		$fields->addFieldsToTab(
+			'Root.Main',
+			array(
+				new TextField('Salutation',$this->fieldLabel('Salutation')),
+				new TextField('FirstName',$this->fieldLabel('FirstName')),
+				new TextField('MiddleName',$this->fieldLabel('MiddleName')),
+				new TextField('Surname',$this->fieldLabel('Surname'))
+			)
+		);
 
 		if (!empty($this->ID)) {
 			$fields->addFieldToTab('Root.Main',
-				new CheckboxSetField('MailingLists','Mailing Lists',MailingList::get()->map()));
+				new CheckboxSetField(
+					'MailingLists',
+					$this->fieldLabel('MailingLists'),
+					MailingList::get()->map()
+				));
 		}
 
-		$fields->addFieldToTab('Root.Main',new ReadonlyField('BouncedCount','Bounced Count'));
-		$fields->addFieldToTab('Root.Main',new CheckboxField('Verified','Verified'));
-		$fields->addFieldToTab('Root.Main',new CheckboxField('Blacklisted','Blacklisted'));
-		$fields->addFieldToTab('Root.Main',new ReadonlyField('ReceivedCount','Received Count'));
+		$fields->addFieldsToTab(
+			'Root.Main',
+			array(
+				new ReadonlyField('BouncedCount',$this->fieldLabel('BouncedCount')),
+				new CheckboxField('Verified',$this->fieldLabel('Verified')),
+				new CheckboxField('Blacklisted',$this->fieldLabel('Blacklisted')),
+				new ReadonlyField('ReceivedCount',$this->fieldLabel('ReceivedCount'))
+			)
+		);
 
 		return $fields;
+	}
+
+	public function fieldLabels($includerelations = true) {
+		$labels = parent::fieldLabels($includerelations);
+		$labels['Salutation'] = _t('Newsletter.FieldSalutation', 'Salutation');
+		$labels['FirstName'] = _t('Newsletter.FieldFirstName', 'FirstName');
+		$labels['Surname'] = _t('Newsletter.FieldSurname', 'Surname');
+		$labels['MiddleName'] = _t('Newsletter.FieldMiddleName', 'Middle Name');
+		$labels['Mailinglists'] = _t('Newsletter.FieldMailinglists', 'Mailinglists');
+		$labels['BouncedCount'] = _t('Newsletter.FieldBouncedCount', 'Bounced Count');
+		$labels['Verified'] = _t('Newsletter.FieldVerified', 'Verified?');
+		$labels['Blacklisted'] = _t('Newsletter.FieldBlacklisted', 'Blacklisted?');
+		$labels['ReceivedCount'] = _t('Newsletter.FieldReceivedCount', 'Received Count');
+
+		return $labels;
 	}
 
 	/** Returns the title of this Recipient for the MailingList auto-complete add field. The title includes the

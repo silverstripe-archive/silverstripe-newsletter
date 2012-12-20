@@ -28,9 +28,9 @@ class SubscriptionPage extends Page {
 		'SubmissionButtonText' => 'Submit'
 	);
 
-	static $singular_name = 'Subscription Page';
+	static $singular_name = 'Newsletter Subscription Page';
 
-	static $plural_name = 'Subscription Pages';
+	static $plural_name = 'Newsletter Subscription Pages';
 
 	static public $days_verification_link_alive = 2;
 
@@ -104,8 +104,9 @@ class SubscriptionPage extends Page {
 		);
 
 		$subscriptionTab->push(
-			$fieldsSelection = new CheckboxSetWithExtraField("Fields",
-				"Select the fields to display on the subscription form",
+			$fieldsSelection = new CheckboxSetWithExtraField(
+				"Fields",
+				_t('Newsletter.SelectFields', "Select the fields to display on the subscription form"),
 				$fieldCandidates,
 				$extra,
 				$defaults,
@@ -119,15 +120,22 @@ class SubscriptionPage extends Page {
 		$mailinglists = MailingList::get();
 		$newsletterSelection = $mailinglists && $mailinglists->count()?
 		new CheckboxSetField("MailingLists",
-			"Newsletters to subscribe to",
+			_t("Newsletter.SubscribeTo", "Newsletters to subscribe to"),
 			$mailinglists,
 			$mailinglists
 		):
 		new LiteralField(
 			"NoMailingList",
-			'<p>You haven\'t defined any mailing list yet, please go to '
-			. '<a href=\"admin/newsletter\">the newsletter administration area</a> '
-			. 'to define a mailing list.</p>');
+			sprintf(
+				'<p>%s</p>',
+				sprintf(
+					'You haven\'t defined any mailing list yet, please go to '
+					. '<a href=\"%s\">the newsletter administration area</a> '
+					. 'to define a mailing list.',
+					singleton('NewsletterAdmin')->Link()
+				)
+			)
+		);
 		$subscriptionTab->push(
 			$newsletterSelection
 		);
@@ -136,36 +144,44 @@ class SubscriptionPage extends Page {
 			new TextField("SubmissionButtonText", "Submit Button Text")
 		);
 		
-		// $subscriptionTab->push(
-		// 	new ToggleCompositeField("SendNotificationToggle", "Send notification email to the subscriber?",
-		// 		new SelectionGroup("SendNotification", array(
-		// 			"0//no" => new CompositeField(),
-		// 			"1//yes" => new CompositeField(
-		// 				new TextField("NotificationEmailSubject", "Notification Email Subject Line:"),
-		// 				new TextField("NotificationEmailFrom", "From Email Address for Notification Email")
-		// 			))
-		// 		)
-		// 	)
-		// );
-
-		$subscriptionTab->push(new LiteralField('BottomTaskSelection',
-
-			'<div id="SendNotificationControlls" class="field actions">'.
-			'<label class="left">Send notification email to the subscriber</label>'.
-			'<ul><li class="ss-ui-button no" data-panel="no">No</li>'.
-			'<li class="ss-ui-button yes" data-panel="yes">Yes</li>'.
-			'</ul></div>'));
+		$subscriptionTab->push(
+			new LiteralField(
+				'BottomTaskSelection',
+				sprintf(
+					'<div id="SendNotificationControlls" class="field actions">'.
+					'<label class="left">%s</label>'.
+					'<ul><li class="ss-ui-button no" data-panel="no">%s</li>'.
+					'<li class="ss-ui-button yes" data-panel="yes">%s</li>'.
+					'</ul></div>',
+					_t('Newsletter.SendNotif', 'Send notification email to the subscriber'),
+					_t('Newsletter.No', 'No'),
+					_t('Newsletter.Yes', 'Yes')
+				)
+			)
+		);
 
 		$subscriptionTab->push(
 			CompositeField::create(
-				new HiddenField("SendNotification", "Send Notification"),
-				new TextField("NotificationEmailSubject", "Notification Email Subject Line:"),
-				new TextField("NotificationEmailFrom", "From Email Address for Notification Email")
+				new HiddenField(
+					"SendNotification", 
+					"Send Notification"
+				),
+				new TextField(
+					"NotificationEmailSubject", 
+					_t('Newsletter.NotifSubject', "Notification Email Subject Line")
+				),
+				new TextField(
+					"NotificationEmailFrom", 
+					_t('Newsletter.FromNotif', "From Email Address for Notification Email")
+				)
 			)->addExtraClass('SendNotificationControlledPanel')
 		);
 		
 		$subscriptionTab->push(
-			new HtmlEditorField('OnCompleteMessage', "Message shown on subscription completion")
+			new HtmlEditorField(
+				'OnCompleteMessage', 
+				_t('Newsletter.OnCompletion', 'Message shown on subscription completion')
+			)
 		);
 		return $fields;
 	}
@@ -294,7 +310,10 @@ class SubscriptionPage_Controller extends Page_Controller {
 						$error = $validationMessage[$field];
 					}else{
 						$label=isset($customLabel[$field])?$customLabel[$field]:$dataFields[$field]->Title();
-						$error="Please enter your $label field";
+						$error = sprintf(
+							_t('Newsletter.PleaseEnter', "Please enter your %s field"),
+							$label
+						);
 					}
 					
 					if($field === 'Email') {
@@ -321,12 +340,13 @@ HTML;
 			$messages = "{".implode(",", $jsonMessageArray)."}";
 		}else{
 			$rules = "{Email:{required: true, email: true}}";
+			$emailAddrMsg = _t('Newsletter.ValidEmail', 'Please enter your email address');
 			$messages = <<<JS
 {Email: {
 required: "<span class='exclamation'></span><span class='validation-bubble'>
-Please enter your email address<span></span></span>",
+$emailAddrMsg<span></span></span>",
 email: "<span class='exclamation'></span><span class='validation-bubble'>
-Please enter a valid email address<span></span></span>"
+$emailAddrMsg<span></span></span>"
 }}
 JS;
 		}
@@ -471,8 +491,10 @@ JS
 		$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
         $email->setFrom($from);
 		$email->setTemplate('SubscriptionVerificationEmail'); 
-        $email->setSubject("Thanks for subscribing to our mailing lists, please verify your email");
-
+        $email->setSubject(_t(
+        	'Newsletter.VerifySubject', 
+        	"Thanks for subscribing to our mailing lists, please verify your email"
+        ));
         $email->populateTemplate( $templateData );
         $email->send();
 		
@@ -487,9 +509,14 @@ JS
 
 		$daysExpired = SubscriptionPage::get_days_verification_link_alive();
 		$recipientData['SubscritionSubmittedContent2'] = 
-			 sprintf(_t('Newsletter.SubscritionSubmittedContent2',
-			 	'The verification link will be valid for %s days. If you did not mean to subscribe, simply
-			 	ignore the verification email'), $daysExpired);
+			 sprintf(
+			 	_t(
+			 		'Newsletter.SubscritionSubmittedContent2',
+			 		'The verification link will be valid for %s days. If you did not mean to subscribe, '
+			 		. 'simply ignore the verification email'
+			 	), 
+			 	$daysExpired
+			);
 
 		return $this->customise(array(
     		'Title' => _t('Newsletter.SubscriptionSubmitted', 'Subscription submitted!'),
@@ -527,7 +554,10 @@ JS
 						$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
 						$email->setFrom($from);
 						$email->setTemplate('SubscriptionConfirmationEmail'); 
-        				$email->setSubject("Confirmation of your subscription to our mailing lists");
+        				$email->setSubject(_t(
+        					'Newsletter.ConfirmSubject',
+        					"Confirmation of your subscription to our mailing lists"
+        				));
 
         				$email->populateTemplate( $templateData );
         				$email->send();

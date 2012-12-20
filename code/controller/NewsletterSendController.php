@@ -60,15 +60,15 @@ class NewsletterSendController extends BuildTask {
 		$lists = $newsletter->MailingLists();
 		$queueCount = 0;
 		foreach($lists as $list) {
-			foreach($list->Recipients() as $recipient) {
+			foreach($list->Recipients()->column('ID') as $recipientID) {
 				//duplicate filtering
 				if (!SendRecipientQueue::get()->filter(array(
-					'RecipientID'=>$recipient->ID,
-					'NewsletterID'=>$newsletter->ID,
-					'Status'=>array('Scheduled', 'InProgress')))->exists()) {
+					'RecipientID' => $recipientID,
+					'NewsletterID' => $newsletter->ID,
+					'Status' => array('Scheduled', 'InProgress')))->exists()) {
 					$queueItem = SendRecipientQueue::create();
 					$queueItem->NewsletterID = $newsletter->ID;
-					$queueItem->RecipientID = $recipient->ID;
+					$queueItem->RecipientID = $recipientID;
 					$queueItem->write();
 					$queueCount++;
 				}

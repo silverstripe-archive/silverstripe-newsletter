@@ -14,23 +14,33 @@
  * If this process ever fails for any reason, you can call this manually as a build task:
  * /dev/tasks/NewsletterSendController?newsletter=#
  * (where '#' is the database ID of any Newsletter DataObject).
- *
- * You can use the following static variables to configure the NewsletterSendController:
- * static $items_to_batch_process = 50;   //number of emails to send out in "batches" to avoid spin up costs
- * static $stuck_timeout = 5;  //minutes after which we consider an "InProgress" item in the queue "stuck"
- * static $retry_limit = 4; //number of times to retry sending email that get "stuck"
- * static $throttle_batch_delay = 0;   //seconds to wait between sending out email batches
  */
 class NewsletterSendController extends BuildTask {
 
-	static $items_to_batch_process = 50;   //number of emails to send out in "batches" to avoid spin up costs
-	static $stuck_timeout = 5;  //minutes after which we consider an "InProgress" item in the queue "stuck"
-	static $retry_limit = 4; //number of times to retry sending email that get "stuck"
-	static $throttle_batch_delay = 0;   //seconds to wait between sending out email batches
+	/**
+	 * @var integer number of emails to send out in "batches" to avoid spin up costs
+	 */
+	static $items_to_batch_process = 50;
+
+	/**
+	 * @var integer minutes after which we consider an "InProgress" item in the queue "stuck"
+	 */
+	static $stuck_timeout = 5;
+	
+	/**
+	 * @var integer number of times to retry sending email that get "stuck"
+	 */
+	static $retry_limit = 4;
+
+	/**
+	 * @var integer seconds to wait between sending out email batches
+	 */
+	static $throttle_batch_delay = 0;
 
 	protected static $inst = null;
 
 	protected $title = 'Newsletter Send Controller';
+
 	protected $description = 'Triggers processing of the send queue the specific newsletter ID.
 		Usage: dev/tasks/NewsletterSendController?newsletter=#';
 
@@ -43,7 +53,7 @@ class NewsletterSendController extends BuildTask {
 	 * Adds users to the queue for sending out a newsletter.
 	 * Processed all users that are CURRENTLY in the mailing lists associated with this MailingList and adds them
 	 * to the queue.
-	 * @static
+	 * 
 	 * @param $id The ID of the Newsletter DataObject to send
 	 */
 	function enqueue(Newsletter $newsletter) {

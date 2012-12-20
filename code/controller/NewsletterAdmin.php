@@ -19,14 +19,6 @@ class NewsletterAdmin extends ModelAdmin {
 		"Recipient" => array('title' => 'All Recipients')
 	);
 
-	// We keep the legacy code below there for developing purposes, 
-	// it might be helpful for us to copy / paste. we should clean it up before 1.0.1 release.
-
-	/** 
-	 * @var which will be used to seperator "send items" into 2 groups, e.g. "most recent number 5", "older". 
-	 */
-	static $most_recent_seperator = 5;
-	
 	/** 
 	 * @var array Array of template paths to check 
 	 */	
@@ -34,10 +26,10 @@ class NewsletterAdmin extends ModelAdmin {
 
 	public function init() {
 		parent::init();
+
 		Requirements::javascript(CMS_DIR . '/javascript/SilverStripeNavigator.js');
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/ActionOnConfirmation.js');
 		Requirements::css('newsletter/css/NewsletterAdmin.css');
-
 	}
 
 	public function getEditForm($id = null, $fields = null) {

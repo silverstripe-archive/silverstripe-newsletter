@@ -143,16 +143,16 @@ class Recipient extends DataObject {
 		$fields->addFieldsToTab(
 			'Root.Main',
 			array(
-				new TextField('Salutation',$this->fieldLabel('Salutation')),
-				new TextField('FirstName',$this->fieldLabel('FirstName')),
-				new TextField('MiddleName',$this->fieldLabel('MiddleName')),
-				new TextField('Surname',$this->fieldLabel('Surname'))
+				Object::create('TextField', 'Salutation',$this->fieldLabel('Salutation')),
+				Object::create('TextField', 'FirstName',$this->fieldLabel('First Name')),
+				Object::create('TextField', 'MiddleName',$this->fieldLabel('Middle Name')),
+				Object::create('TextField', 'Surname',$this->fieldLabel('Surname'))
 			)
 		);
 
 		if (!empty($this->ID)) {
 			$fields->addFieldToTab('Root.Main',
-				new CheckboxSetField(
+				Object::create('CheckboxSetField', 
 					'MailingLists',
 					$this->fieldLabel('MailingLists'),
 					MailingList::get()->map()
@@ -162,10 +162,27 @@ class Recipient extends DataObject {
 		$fields->addFieldsToTab(
 			'Root.Main',
 			array(
-				new ReadonlyField('BouncedCount',$this->fieldLabel('BouncedCount')),
-				new CheckboxField('Verified',$this->fieldLabel('Verified')),
-				new CheckboxField('Blacklisted',$this->fieldLabel('Blacklisted')),
-				new ReadonlyField('ReceivedCount',$this->fieldLabel('ReceivedCount'))
+				Object::create('ReadonlyField', 'BouncedCount',$this->fieldLabel('BouncedCount')),
+				Object::create('CheckboxField', 'Verified',$this->fieldLabel('Verified'))
+					->setDescription(
+						_t('Newsletter.VerifiedDesc', 'Has this user verified his subscription?')
+					),
+				Object::create('CheckboxField', 'Blacklisted',$this->fieldLabel('Blacklisted'))
+					->setDescription(
+						_t(
+							'Newsletter.BlacklistedDesc', 
+							'Excluded from emails, either by automated process or manually. '
+							. 'An invalid address or undeliverable email will eventually result in blacklisting.'
+						)
+					),
+				Object::create('ReadonlyField', 'ReceivedCount',$this->fieldLabel('ReceivedCount'))
+					->setDescription(
+						_t(
+							'Newsletter.ReceivedCountDesc', 
+							'Number of emails sent without undeliverable errors. '
+							. 'Only one indication that an email has actually been received and read.'
+						)
+					)
 			)
 		);
 
@@ -174,6 +191,7 @@ class Recipient extends DataObject {
 
 	public function fieldLabels($includerelations = true) {
 		$labels = parent::fieldLabels($includerelations);
+
 		$labels['Salutation'] = _t('Newsletter.FieldSalutation', 'Salutation');
 		$labels['FirstName'] = _t('Newsletter.FieldFirstName', 'FirstName');
 		$labels['Surname'] = _t('Newsletter.FieldSurname', 'Surname');

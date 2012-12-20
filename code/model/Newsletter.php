@@ -371,49 +371,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		);
 	}
 
-	/**
-	 * Returns a DataObjectSet containing the subscribers who have never been sent this Newsletter
-	 * **deprecated**
-	 * @return DataObjectSet
-	 */
-	/*function UnsentSubscribers() {
-		// Get a list of everyone who has been sent this newsletter
-		$sentRecipients = DataObject::get("SendRecipientQueue","\"NewsletterID\"='".$this->ID."'");
-
-		// If this Newsletter has not been sent to anyone yet, $sentRecipients will be null
-		if ($sentRecipients != null) {
-			$sentRecipientsArray = $sentRecipients->toNestedArray('MemberID');
-		} else {
-			$sentRecipientsArray = array();
-		}
-
-		// Get a list of all the subscribers to this newsletter
-		$subscribers = DataObject::get(
-			'Member', 
-			"\"GroupID\"='".$this->Newsletter()->GroupID."'",
-			null, 
-			"INNER JOIN \"Group_Members\" ON \"MemberID\"=\"Member\".\"ID\"" 
-		);
-
-		// If this Newsletter has no subscribers, $subscribers will be null
-		if ($subscribers != null) {
-			$subscribersArray = $subscribers->toNestedArray();
-		} else {
-			$subscribersArray = array();
-		}
-
-		// Get list of subscribers who have not been sent this newsletter:
-		$unsentSubscribersArray = array_diff_key($subscribersArray, $sentRecipientsArray);
-
-		// Create new data object set containing the subscribers who have not been sent this newsletter:
-		$unsentSubscribers = new DataObjectSet();
-		foreach($unsentSubscribersArray as $key => $data) {
-			$unsentSubscribers->push(new ArrayData($data));
-		}
-
-		return $unsentSubscribers;
-	}*/
-
 	function getTitle() {
 		return $this->getField('Subject');
 	}
@@ -465,7 +422,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 
 	public function onBeforeDelete(){
 		parent::onBeforeDelete();
-		//SendRecipientQueue
+
 		$queueditems = $this->SendRecipientQueue();
 		if($queueditems && $queueditems->exists()){
 			foreach($queueditems as $item){
@@ -473,7 +430,6 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			}
 		}
 
-		//TrackedLinks
 		$trackedLinks = $this->TrackedLinks();
 		if($trackedLinks && $trackedLinks->exists()){
 			foreach($trackedLinks as $link){
@@ -482,7 +438,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		}
 
 		//remove this from its belonged mailing lists
-		$mailingLists = $this->MailingLists()->removeAll();
+		$this->MailingLists()->removeAll();
 	}
 }
 

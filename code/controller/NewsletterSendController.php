@@ -33,7 +33,11 @@ class NewsletterSendController extends BuildTask {
 	static $retry_limit = 4;
 
 	/**
-	 * @var integer seconds to wait between sending out email batches
+	 * @var integer seconds to wait between sending out email batches.
+	 * Caution: Currently implemented through PHP's sleep() function.
+	 * While the execution time limit is unset in the process,
+	 * it still means that any higher value (minutes/hours) 
+	 * can lead to memory problems.
 	 */
 	static $throttle_batch_delay = 0;
 
@@ -62,16 +66,18 @@ class NewsletterSendController extends BuildTask {
 		foreach($lists as $list) {
 			foreach($list->Recipients()->column('ID') as $recipientID) {
 				//duplicate filtering
-				if (!SendRecipientQueue::get()->filter(array(
+				$existingQueue = SendRecipientQueue::get()->filter(array(
 					'RecipientID' => $recipientID,
 					'NewsletterID' => $newsletter->ID,
-					'Status' => array('Scheduled', 'InProgress')))->exists()) {
-					$queueItem = SendRecipientQueue::create();
-					$queueItem->NewsletterID = $newsletter->ID;
-					$queueItem->RecipientID = $recipientID;
-					$queueItem->write();
-					$queueCount++;
-				}
+					'Status' => array('Scheduled', 'InProgress')
+				));
+				if($existingQueue->exists()) continue;
+				
+				$queueItem = SendRecipientQueue::create();
+				$queueItem->NewsletterID = $newsletter->ID;
+				$queueItem->RecipientID = $recipientID;
+				$queueItem->write();
+				$queueCount++;
 			}
 		}
 

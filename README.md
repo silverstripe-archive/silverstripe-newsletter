@@ -4,10 +4,12 @@
 
 ## Overview
 
-NewsletterAdmin is the CMS class for managing the newsletter system.
+The module manages the creation and sending of newsletters
+through the CMS, in a very similar fashion to editing pages.
 
 Features:
 
+ * WYSIWYG newsletter creation (incl. images and preview)
  * HTML emails (with auto-conversion to text)
  * Subscription page (in your own theme style)
  * Subscription confirmation by email
@@ -124,120 +126,71 @@ This process is experimental at the moment, some assembly required.
 
  
 This guide has been created to help you send newsletters using SilverStripe.
-The Silverstripe newsletter module is an addition to the content management system that allows administrative users to send bulk emails.
+The module is an addition to the content management system 
+that allows administrative users to send bulk emails.
 
-Users can be added to the system manually, one by one, or by importing a CSV file, or by creating a form that allows your site visitors to sign themselves up to one or several of your mailing lists.
-The module also allows you to send a test email and preview the email before sending it to your recipients.
+To access the module's administration interface, open the "Newsletter" section in the main CMS menu.
 
-### Setting up the newsletter system
+### Mailinglists and Recipients
 
+Newsletters can be sent to one or more "mailinglists", which contains a number of "recipients".
+To create one, select the "Mailinglists" tab and hit "Add Mailinglist".
 
-Initially the site tree on the left should be empty. The site tree contains a folder structure of the area. The newsletter is very similar.
+### Recipients
 
-To begin, you will need a newsletter type. Each newsletter type has its own mailing list and will appear as an option on a Subscribe Form (this will be covered later). A newsletter type can have several individual newsletters.
+Select the "All Recipients" tab to list all recipients across mailinglists.
+They can be filtered by various criteria through the "Filter" sidebar.
+You can add new recipients there through the "Add Recipient" button.
+Please note that they won't be associated to a mailinglist there,
+you'll need to add this relationship manually, through editin the mailinglist itself.
 
-To create a newsletter type, click “Create” at the top of the site tree and choose “Add a type” from the dropdown that appears, then click “Go”. A new newsletter type will be added. By default, it is named “New newsletter type”. Beneath the Newsletter type folder, there will be drafts, sent items and mailing list folders.
+Alternatively, you can import recipients through a CSV file.
+Common fields are: `Email`, `FirstName`, `MiddleName`, `Surname`, `Salutation`.
+You'll want to set `Verified` to `1` in order to ensure the recipient gets picked up.
+Please note that depending on your legislation and use case, you might need explicit approval
+before you can send emails to you recipients.
 
-In the right hand pane, you can edit the details of the newsletter type. Remember that the changes are not saved until you click the save icon in the top right corner of the edit pane.
+### Subscription Form
 
-Before you begin sending emails out you must:
+Most likely, you'll want to have your recipients subscribe themselves
+through your website. The newsletter module comes with a special page type
+for this purpose, the "Newsletter Subscription Page". You can add it through
+the standard "Pages" section in the CMS. You can choose which
+fields to retrieve from your users there.
+If you have more than one mailinglist, you can also choose which one should be
+available for subscription.
 
-1.	Add an appropriate name for the newsletter type
-Fill in the field called “Newsletter type after you’ve selected a newsletter type.
+### Creating a Newsletter
 
-2.	Add an email address for replies from this email.
-There is an option called “send newsletters from” available when you select a newsletter type.
+Newsletters are the individual messages sent out to one or more mailinglists.
+A newsletter is initially created as a draft until it is sent.  
+You can add content, images and links to a draft newsletter, very similar to how
+you would interact with page content in the CMS.
+Newsletters can be saved for proofing and testing before you attempt a mass mail out.
 
-3.	Select a predefined template
-Select the “template” tab and select a template from the predefined options.  
+### Previewing and Testing a Newsletter
 
-4.	Add recipients 
-Typically you would import a list from an existing system using the import facility.  More information is supplied under the “Adding Recipients heading”
+You can (roughly) preview a newsletter in the browser through the "Preview" button.
+In this view, you'll also find an action to send a test email to a specified address.
 
-### Creating a newsletter
+### Sending a Newsletter
 
+Once you're happy with the newsletter, send it out by pressing "Send".
+Make sure to select at least one mailinglist.
+If the sending process is started, the newsletter moves to the "Sent Newsletters" tab.
+Note that each newsletter can only be sent once. To send it again, create a copy
+through the "Save as new..." action. 
 
-Newsletters are the individual messages sent out to each recipient. A newsletter is initially created as a draft until it is sent.  You can add content, images and links to a draft newsletter and save to the site for proofing and testing before you attempt a mass mail out 
-•	A draft newsletter can only be created and added to one mailing list.
-•	Newsletters can be resent if necessary. 
-
-To create a newsletter:
-1.	Click on the newsletter type in the site tree 
-
-2.	Open the create menu by clicking “Create” at the top of the site tree. 
-
-3.	Select “Add a draft” from the dropdown and click “Go”.
-
-A new newsletter type will be created and opened in the right edit pane. The content field provides the same powerful content editing controls as the Site Content area.
-
-4.	Add a subject, content, images and headings. 
-We suggest creating your content in a text processor such as Microsoft Word or equivalent before adding to SilverStripe. 
-Note: As with the newsletter type, any changes must be saved before the newsletter is sent.
-
-5.	Preview Changes.
-We recommend you send the email to yourself to ensure there are no spelling mistakes, grammatical errors and the images/ links are all valid before sending to the mailing list.
-This can be achieved by selecting the “send” button, and typing an email address into the “send test to” field.  When sending test emails be sure to check the results on multiple email clients, and web mail. 
-
-Sometimes you may wish to try different templates if they have been created for you, please consult your website developer for these options.
-
-### Sending Newsletters
-
-
-To send a newsletter, make sure you have a draft newsletter selected: (Remember draft newsletters can only be sent to one newsletter type and mailing list.
-
-6.	Click on a draft newsletter under the site tree in the newsletter module. 
-
-7.	Click “Send”.
-
-This will open a small form with the option to send a test email to the address given, or to send it to the mailing list. 
-
-8.	Choose the appropriate option and click “Send”. 
-
-A progress bar will indicate how many emails have been sent so far.
-Note: If you click send to mailing list, you can’t currently quit the process until it has finished. Closing the window will stop the server from sending to the nearest 10th person.  We hope to have this module upgrade shortly
- 
-
-### Adding recipients
-
-
-Clicking on the “Mailing list” folder under a newsletter type in the site tree will open the mailing list of the newsletter type.
-
-Adding recipients manually
-
-The recipients list has a text field at the bottom of each column. Adding the recipient’s details into these fields and clicking “Add” will add the recipient to the mailing list.
-
-Importing recipients from a CSV file
-Rather than adding recipients one by one, the newsletter module provides functionality to import recipient data from a CSV file. CSV files can be exported from Excel and OpenOffice Calc.
-
-The first row in the CSV file must contain the names of the columns. By default these are:
-•	First Name
-•	Surname
-•	Email address
-•	Password
-
-Your site may have extra fields as per your requirements. The email address is the primary identifier and identifies a unique recipient. Importing details with the same email address as an existing recipient will update the existing recipient. As such, the email address must be provided. Rows with an empty email address will ignored during the import.
-
-The import field is under the Import tab of the recipients tab. Use the file field to select the file and click show file to display it. This will open a table displaying the contents of the file. At the top of each column is a dropdown with each valid datum that can be entered for each recipient. The module will attempt to set these based on the column names. If they are incorrect, change them to the correct option. Selecting “unknown” will ignore the column during the import.
-
-When you are happy with the column selection, click “Confirm”. The recipients will be imported and a short summary of the changes will be displayed.
-
-
-### Viewing recipients
-
-To view the recipients for a particular mailing list: 
-•	Select the newsletter type in the tree to the left
-•	Select the “recipients” tab.
-
-Recipients can be filtered using the tab, and navigated using the previous and next buttons.
-
+You can track the sending process in the "Sent To" tab when viewing a newsletter.
+Depending on the size of your mailinglist, it can take a couple of minutes
+or even hours for the process to complete.
 
 ### Bounced Emails and Blacklisted Recipients
 
 A bounced email is an email which could not be delivered because the email was incorrect, 
-or doesn’t exist. 
+or doesn’t exist. The number of bounces can be tracked on each recipient.
+In most setups, somebody at your organization will need to go through the bounce emails every couple of days
+and manually remove invalid addresses, by checking the "Blacklisted" button.
 
-Emails that get bounced are listed under the “sent” -> “Bounced” 
-tab after you’ve selected a newsletter type.
-Recipients with bounced emails need to be manually removed from the mailing list,
-by 
 Depending on your own setup, this process might be automated.
+Please ask your IT team for more information.

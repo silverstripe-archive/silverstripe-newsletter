@@ -1,0 +1,75 @@
+pa:
+  LeftAndMain:
+    NEWSLETTERS: "ਅਖ਼ਬਾਰਾਂ"
+  NewsletterAdmin:
+    FROMEM: "ਈਮੇਲ ਪਤੇ ਤੋ  "
+    MEWDRAFTMEWSL: "ਨਵਾਂ ਕੱਚਾ ਖ਼ਬਰ-ਅੰਕ"
+    NEWNEWSLTYPE: "ਨਵੀ ਖ਼ਬਰ-ਅੰਕ ਦੀ ਿਕਸਮ "
+    NEWSLTYPE: "ਖ਼ਬਰ-ਅੰਕ	ਦੀ ਿਕਸਮ "
+    PLEASEENTERMAIL: "ਿਕ੍ਰਪਾ ਕਰਕੇ ਇੱਕ ਈਮੇਲ ਪਤਾ ਪਾਉ"
+    RESEND: "ਦੁਬਾਰਾ ਭੇਜੋ   "
+    SAVE: "ਬਚਾਓ"
+    SAVED: "ਬਚਾਇਆ"
+    SEND: |
+           ਭੇਜੋ ...
+           
+    SENDING: "ਭੇਜ ਰਹੇ ਈਮੇਲ..."
+    SENTTESTTO: "Sent test to"
+    SHOWCONTENTS: "ਸਮਾਨ ਿਦਖਾਓ"
+  NewsletterAdmin_BouncedList.ss:
+    EMADD: "ਈਮੇਲ ਪਤਾ"
+    HAVEBOUNCED: "Emails that have bounced"
+    NOBOUNCED: "No emails sent have bounced."
+    UNAME: "User name"
+  NewsletterAdmin_SiteTree.ss:
+    DRAFTS: "Drafts"
+    MAILLIST: "ਮੇਿਲੰਗ ਸੂਚੀ	"
+    SENT: "Sent Items"
+  NewsletterAdmin_UnsubscribedList.ss:
+    NOUNSUB: "No users have unsubscribed from this newsletter."
+    UNAME: "User name"
+    UNSUBON: "Unsubscribed on"
+  NewsletterAdmin_left.ss:
+    ADDDRAFT: "ਨਵਾਂ draft ਜੋੜ ੋ "
+    ADDTYPE: "ਨਵੀ ਿਕਸਮ ਜੋੜ ੋ "
+    CREATE: "ਬਣਾਉ"
+    DEL: "ਕੱਟੋਂ"
+    DELETEDRAFTS: "ਚੁਣੇ ਹੋਏ ਡਰਾਫਟ ਕੱਟੋਂ"
+    GO: "ਈਮੇਲ"
+    NEWSLETTERS: "ਅਖ਼ਬਾਰਾਂ"
+    SELECTDRAFTS: "Select the drafts that you want to delete and then click the button below"
+  NewsletterAdmin_right.ss:
+    CANCEL: "ਰੱਦ"
+    ENTIRE: "Send to the entire mailing list"
+    ONLYNOT: "Send to only people not previously sent to"
+    SEND: "Send newsletter"
+    SENDTEST: "Send test to"
+    WELCOME1: "ਜੀ ਆਇਆਂ ਨੂੰ"
+    WELCOME2: "ਖ਼ਬਰਾਂ ਬੰਦੋਬਸਤ ਭਾਗ।  ਿਕ੍ਰਪਾ ਕਰਕੇ ਖੱਬੇਉ ਇਕ ਫੋਲਡਰ ਚੁਣੋ।"
+  NewsletterList.ss:
+    CHOOSEDRAFT1: "ਿਕ੍ਰਪਾ ਕਰਕੇ ਖੱਬੇਓ ਇੱਕ draft ਚੁਣੋ  "
+    CHOOSEDRAFT2: "add one"
+    CHOOSESENT: "ਿਕ੍ਰਪਾ ਕਰਕੇ ਖੱਬੇਓ ਇੱਕ sent item ਚੁਣੋ  "
+  Newsletter_RecipientImportField.ss:
+    CHANGED: "Number of details changed:"
+    IMPORTED: "New members imported:"
+    IMPORTNEW: "Imported new members"
+    SEC: "ਸਿਕ ੰਟ"
+    SKIPPED: "Records skipped:"
+    TIME: "Time taken:"
+    UPDATED: "Members updated:"
+  Newsletter_RecipientImportField_Table.ss:
+    CONTENTSOF: "Contents of"
+    NO: "ਰੱਦ"
+    RECIMPORTED: "Recipients imported from"
+    YES: "Confirm"
+  Newsletter_SentStatusReport.ss:
+    DATE: "Date"
+    EMAIL: "ਇਮੇਲ"
+    FN: "ਪਹਿਲਾ ਨਾਮ"
+    NEWSNEVERSENT: "The Newsletter has Never Been Sent to Following Subscribers"
+    RES: "Result"
+    SENDBOUNCED: "Sending to the Following Recipients Bounced"
+    SENDFAIL: "Sending to the Following Recipients Failed"
+    SENTOK: "Sending to the Following Recipients was Successful"
+    SN: "ਗੋਤ"

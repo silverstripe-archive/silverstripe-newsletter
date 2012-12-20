@@ -1,0 +1,75 @@
+hr:
+  LeftAndMain:
+    NEWSLETTERS: "Newsletters"
+  NewsletterAdmin:
+    FROMEM: "Od (email adresa)"
+    MEWDRAFTMEWSL: "Novi privremeni (draft) newsletter"
+    NEWNEWSLTYPE: "Nova vrsta newslettera"
+    NEWSLTYPE: "Vrsta newslettera"
+    PLEASEENTERMAIL: "Molim upišite email adresu"
+    RESEND: "Pošalji ponovo"
+    SAVE: "Spremi"
+    SAVED: "Spremljeno"
+    SEND: "Pošalji..."
+    SENDING: "Slanje emailova...."
+    SENTTESTTO: "Pošalji test na"
+    SHOWCONTENTS: "Pokaži sadrćaj"
+  NewsletterAdmin_BouncedList.ss:
+    EMADD: "Email adresa"
+    HAVEBOUNCED: "Emailovi koji odskaču"
+    NOBOUNCED: "No emails sent have bounced."
+    UNAME: "Korisničko ime"
+  NewsletterAdmin_SiteTree.ss:
+    DRAFTS: "Privremeni"
+    MAILLIST: "Mailing liste"
+    SENT: "Poslani"
+  NewsletterAdmin_UnsubscribedList.ss:
+    NOUNSUB: "Nema odjavljenih korisnika sa ovog newslettera"
+    UNAME: "Korisničko ime"
+    UNSUBON: "Odjavljen "
+  NewsletterAdmin_left.ss:
+    ADDDRAFT: "Add new draft"
+    ADDTYPE: "Dodaj novu vrstu"
+    CREATE: "Stvori"
+    DEL: "Obriši"
+    DELETEDRAFTS: "Obrišite označene"
+    GO: "Idi"
+    NEWSLETTERS: "Newsletteri"
+    SELECTDRAFTS: "Označite koje želite obrisati i kliknite gumb ispod"
+  NewsletterAdmin_right.ss:
+    CANCEL: "Otkaži"
+    ENTIRE: "Pošalji cijeloj mailing listi "
+    ONLYNOT: "Pošalji samo korisnicima kojima prethodno nije poslano"
+    SEND: "Pošalji newsletter"
+    SENDTEST: "Pošalji test na"
+    WELCOME1: "Dobrodošli na"
+    WELCOME2: |
+               administraciju newslettera. Odaberite direktorij s lijeve strane.
+               
+  NewsletterList.ss:
+    CHOOSEDRAFT1: "Odaberite draft s lijeve strane ili"
+    CHOOSEDRAFT2: "dodajte novi"
+    CHOOSESENT: "Odaberite poslano s lijeve strane"
+  Newsletter_RecipientImportField.ss:
+    CHANGED: "Broj promjenjenih detalja:"
+    IMPORTED: "Novi uzeveni članovi:"
+    IMPORTNEW: "'Uvezeni' novi članovi"
+    SEC: "sekundi"
+    SKIPPED: "Preskočeno zapisa:"
+    TIME: "Oduzeto vrijeme:"
+    UPDATED: "Ažurirani članovi:"
+  Newsletter_RecipientImportField_Table.ss:
+    CONTENTSOF: "Sadržaj"
+    NO: "Otkaži"
+    RECIMPORTED: "Primatelji uvezeni iz"
+    YES: "Odobri"
+  Newsletter_SentStatusReport.ss:
+    DATE: "Datum"
+    EMAIL: "Email"
+    FN: "Ime"
+    NEWSNEVERSENT: "Newsletter nikada nije poslan slijedećim pretplatnicima"
+    RES: "Rezultat"
+    SENDBOUNCED: "Slanje slijedećim primateljima je odbijeno:"
+    SENDFAIL: "Slanje slijedećim primateljima nije uspjelo"
+    SENTOK: "Slanje slijedećim primateljima je uspješno"
+    SN: "Prezime"

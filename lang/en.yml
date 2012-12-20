@@ -1,0 +1,146 @@
+en:
+  BatchProcess_Controller:
+    ERROR: "ERROR: Could not continue process"
+  LeftAndMain:
+    # 100
+    NEWSLETTERS: "Newsletters"
+  Member:
+    EMAILPASSWORDAPPENDIX: "Your password has been changed. Please keep this email, for future reference."
+    EMAILPASSWORDINTRO: "Here's your new password"
+  Newsletter:
+    CONTENT: "Content"
+    NEWSLETTER: "Newsletter"
+    # 50
+    PLURALNAME: "Newsletters"
+    SENTAT: "Sent at"
+    SENTREPORT: "Sent Status Report"
+    # 50
+    SINGULARNAME: "Newsletter"
+    SUBJECT: "Subject"
+  NewsletterAdmin:
+    ADDEDTOBL: "was added to blacklist"
+    BOUNCED: "Bounced"
+    CHOOSEMAILINGGROUP: "(Choose mailing group)"
+    FROMEM: "From email address"
+    IMPORT: "Import"
+    IMPORTFROM: "Import from file"
+    # 100
+    MENUTITLE: "Newsletter"
+    MEWDRAFTMEWSL: "New draft newsletter"
+    NEWNEWSLTYPE: "New newsletter type"
+    NEWSLTYPE: "Newsletter Type"
+    NLSETTINGS: "Newsletter Settings"
+    NONLSPECIFIED: "No newsletter specified"
+    PLEASEENTERMAIL: "Please enter an email address"
+    RECIPIENTS: "Recipients"
+    REMOVEDFROMBL: "was removed from blacklist"
+    REMOVEDSUCCESS: "was removed from the mailing list"
+    RESEND: "Resend"
+    SAVE: "Save"
+    SAVED: "Saved"
+    SEND: "Send..."
+    SENDING: "Sending emails..."
+    SENTTESTTO: "Sent test to "
+    SHOWCONTENTS: "Show contents"
+    TEMPLATE: "Template"
+    UNSUBSCRIBERS: "Unsubscribers"
+  NewsletterAdmin_BouncedList.ss:
+    BLACKLISTED: "Blacklisted"
+    DATE: "Date"
+    EMADD: "Email address"
+    HAVEBOUNCED: "Emails that have bounced"
+    INSTRUCTIONS: "Instructions:"
+    INSTRUCTIONS1: "Uncheck the box to enable sending to a blacklisted email address."
+    INSTRUCTIONS2: "To remove a recipients's email address from your mailing list, click the icon"
+    NOBOUNCED: "No emails sent have bounced."
+    RESON: "Reason:"
+    UNAME: "User name"
+  NewsletterAdmin_SiteTree.ss:
+    DRAFTS: "Drafts"
+    MAILLIST: "Mailing List"
+    SENT: "Sent Items"
+  NewsletterAdmin_UnsubscribedList.ss:
+    NOUNSUB: "No users have unsubscribed from this newsletter."
+    UNAME: "User name"
+    UNSUBON: "Unsubscribed on"
+  NewsletterAdmin_left.ss:
+    ADDDRAFT: "Add new draft"
+    ADDTYPE: "Add new type"
+    CREATE: "Create"
+    DEL: "Delete"
+    DELETEDRAFTS: "Delete the selected drafts"
+    GO: "Go"
+    NEWSLETTERS: "Newsletters"
+    SELECTDRAFTS: "Select the drafts that you want to delete and then click the button below"
+  NewsletterAdmin_right.ss:
+    CANCEL: "Cancel"
+    ENTIRE: "Send to the entire mailing list"
+    ONLYNOT: "Send to only people not previously sent to"
+    SEND: "Send newsletter"
+    SENDTEST: "Send test to"
+    # 50
+    WELCOME1: "Welcome to the"
+    # 50
+    WELCOME2: "newsletter admininistration section.  Please choose a folder from the left."
+  NewsletterList.ss:
+    CHOOSEDRAFT1: "Please choose a draft on the left, or"
+    CHOOSEDRAFT2: "add one"
+    CHOOSESENT: "Please choose a sent item on the left."
+  Newsletter_Recipient:
+    # 50
+    PLURALNAME: "Newsletter Recipients"
+    # 50
+    SINGULARNAME: "Newsletter Recipient"
+  Newsletter_RecipientImportField.ss:
+    CHANGED: "Number of details changed:"
+    IMPORTED: "New members imported:"
+    IMPORTNEW: "Imported new members"
+    MLRELOAD1: "To see the new members on the Recipients tab, you need to"
+    MLRELOAD2: "reload the Mailing List"
+    SEC: "seconds"
+    SKIPPED: "Records skipped:"
+    TIME: "Time taken:"
+    UPDATED: "Members updated:"
+  Newsletter_RecipientImportField_Table.ss:
+    CONTENTSOF: "Contents of"
+    NO: "Cancel"
+    RECIMPORTED: "Recipients imported from"
+    YES: "Confirm"
+  Newsletter_SentStatusReport.ss:
+    DATE: "Date"
+    EMAIL: "Email"
+    FAILEDBL: "Sending to the Following Recipients Did Not Occur Because They Are BlackListed"
+    FN: "Firstname"
+    NEWSNEVERSENT: "The Newsletter has Never Been Sent to Following Subscribers"
+    RES: "Result"
+    SENDBOUNCED: "Sending to the Following Recipients Bounced"
+    SENDFAIL: "Sending to the Following Recipients Failed"
+    SENTOK: "Sending to the Following Recipients was Successful"
+    SN: "Surname"
+  SentRecipient:
+    # 50
+    PLURALNAME: "Newsletter Sent Recipients"
+    # 50
+    SINGULARNAME: "Newsletter Sent Recipient"
+  SubscribeForm:
+    # 50
+    PLURALNAME: "Subscribe Forms"
+    # 50
+    SINGULARNAME: "Subscribe Form"
+  TemplateList:
+    NONE: "None"
+  Unsubcribe:
+    SUBSCRIBEDTO: "You are subscribed to the following lists:"
+  Unsubscribe:
+    EMAILADDR: "Email address"
+    NOMLSELECTED: "You need to select at least one mailing list to unsubscribe from."
+    NOTSUBSCRIBED: "I'm sorry, but %s doesn't appear to be in any of our mailing lists."
+    REMOVESUCCESS: "Thank you. %s will no longer receive the %s."
+    SUCCESS: "Thank you. You have been removed from the selected groups"
+    UNSUBSCRIBE: "Unsubscribe"
+    UNSUBSCRIBEEMAILSUBJECT: "Unsubscribe Link"
+  UnsubscribeRecord:
+    # 50
+    PLURALNAME: "Unsubscribe Records"
+    # 50
+    SINGULARNAME: "Unsubscribe Record"

@@ -212,7 +212,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			$fields->push(new HiddenField("NEWSLETTER_ORIGINAL_ID", "", $this->ID));
 
 			$gridFieldConfig = GridFieldConfig::create()->addComponents(
-				new GridFieldSummaryHeader(),    //only works on SendRecipientQueue items, not TrackedLinks
+				new GridFieldNewsletterSummaryHeader(),    //only works on SendRecipientQueue items, not TrackedLinks
 				new GridFieldSortableHeader(),
 				new GridFieldDataColumns(),
 				new GridFieldFilterHeader(),

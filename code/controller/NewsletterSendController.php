@@ -84,19 +84,20 @@ class NewsletterSendController extends BuildTask {
 		return $queueCount;
 	}
 
-	function processQueueOnShutdown($newsletterID = null) {
+	function processQueueOnShutdown($newsletterID) {
 		if (class_exists('MessageQueue')) {
-			if (!empty($newsletterID)) {
-				//start processing of email sending for this newsletter ID after shutdown
-				MessageQueue::send("newsletter",
-					new MethodInvocationMessage('NewsletterSendController', "process_queue_invoke", $newsletterID));
-			} else {
-				user_error("No newsletter ID given",E_USER_ERROR);
-			}
-
+			//start processing of email sending for this newsletter ID after shutdown
+			MessageQueue::send(
+				"newsletter",
+				new MethodInvocationMessage('NewsletterSendController', "process_queue_invoke", $newsletterID)
+			);
+			
 			MessageQueue::consume_on_shutdown();
 		} else {
-			//do the sending in real-time, if there is not MessageQueue to do it out-of-process
+			// Do the sending in real-time, if there is not MessageQueue to do it out-of-process.
+			// Caution: Will only send the first batch (see $items_to_batch_process), 
+			// needs to be continued manually afterwards, e.g. through the "restart queue processing"
+			// in the admin UI.
 			$this->processQueue($newsletterID);
 		}
 	}

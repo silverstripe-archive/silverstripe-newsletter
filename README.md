@@ -12,20 +12,23 @@ Features:
  * Subscription page (in your own theme style)
  * Subscription confirmation by email
  * Unsubscribe by URL and web confirmation
- * Queued email sending
+ * Queued email sending (requires ["messagequeue" module](https://github.com/silverstripe-labs/silverstripe-messagequeue))
+ * Batch sending and throttling
  * Custom SilverStripe templates for emails
  * Link tracking
  * Recipient blacklisting
- * Bounce tracking
+ * Bounce tracking (experimental)
  * Decoratable `Recipient` class to add more properties
 
-## Installation
+## Configuration
+
+### Email Addresses
 
 In the _config.php, add:
 `Email::setAdminEmail(`<default from address>`);`
 This is the email address the newsletters are sent from. It can be overwritten on a per-type basis.
 
-## Email templates
+### Email Templates
 
 Newsletter templates are standard SilverStripe templates, with a few extra placeholders.
 
@@ -51,6 +54,72 @@ Template paths are configurable:
 	:::php
 	NewsletterAdmin::$template_paths = "themes/mytemplate/templates/email";
 	
+## Usage
+
+### Mailinglists and Recipients
+
+A mailing list (class `MailingList`) can contain many recipients (class `Recipient`).
+Both can be created through the "Newsletter" admin UI. Each newsletter can be sent
+to one or more mailing lists. The current recipients of a mailinglist are
+copied to a `SendRecipientQueue` once a newsletter sending process starts,
+fixing the mailing list state for this newsletter.
+
+### Queuing
+
+Generating emails is processing intensive, at least on the scale of potentially
+several thousand recipients. We need a safe way to track already sent message
+in case of a fatal error halfway through. Also, sending large volumes of email in a short period
+of time can get you blacklisted. Which is why the newsletter uses a queue to send emails.
+
+Each individual email for a newsletter is queued up as a `SendRecipientQueue` record.
+This queue is worked off by `NewsletterSendController` in configurable batches.
+It doesn't contain the actual email content, but knows how to generate it.
+
+If the ["messagequeue" module](https://github.com/silverstripe-labs/silverstripe-messagequeue)
+is installed (highly recommended), these batches are further queued up
+
+ * Send newsletter to 1000 recipients
+ * 1000 `SendRecipientQueue` records are created with Status=Scheduled
+ * A message is sent to the messagequeue module
+ * The messagequeue module starts processing on PHP shutdown by default,
+   processing the first batch (defaults to 50 items).
+ * The batch of processed `SendRecipientQueue` records get a new status, mostly Status=Sent.
+   (Note: There are still 1000 `SendRecipientQueue` records)
+ * The messagequeue module starts a new sub-process in PHP.
+ * First, the process process tries to re-send any failed items from the previous batch.
+ * Then, the next batch is processed (defaults to 50 items)
+ * ... Rinse and repeat until done
+
+If this process ever fails for any reason, you can call this manually as a build task:
+
+	/dev/tasks/NewsletterSendController?newsletter=<newsletter-id>
+ 
+You can use the following static variables to configure the `NewsletterSendController`:
+
+ * `$items_to_batch_process`: Number of emails to send out in "batches" to avoid spin up costs
+ * `$stuck_timeout`: Minutes after which we consider an "InProgress" item in the queue "stuck"
+ * `$retry_limit`: Number of times to retry sending email that get "stuck"
+ * `$throttle_batch_delay`: Seconds to wait between sending out email batches
+
+### Bounce Handling
+
+The modules allows tracking of email "bounces" per recipient,
+which means that an email could not be delivered for some reason.
+Its important to keep your mailing list clean of recipients which
+permanently deny delivery, in terms of decreasing the likelyhood
+that your outgoing mail is classified as spam by other parties.
+
+The `Recipient` model has `BouncedCount` and `Blacklisted` properties to track this. 
+By default, this has to be handled manually by the recipient of your
+"reply-to" address as configured through the newsletter admin UI.
+This mailbox should be regularly scanned for bouned emails,
+and their original recipients blacklisted by ticking the "Blacklisted" checkbox
+in the admin UI for that recipient.
+
+Note: This process can be automated by forwarding bounce emails to the
+["emailbouncehandler" module](https://github.com/silverstripe-labs/silverstripe-emailbouncehandler).
+This process is experimental at the moment, some assembly required.
+
 ## User Guide
 
  
@@ -162,10 +231,13 @@ To view the recipients for a particular mailing list:
 Recipients can be filtered using the tab, and navigated using the previous and next buttons.
 
 
-### Bounced emails
+### Bounced Emails and Blacklisted Recipients
 
+A bounced email is an email which could not be delivered because the email was incorrect, 
+or doesn’t exist. 
 
-A bounced email is an email which could not be delivered because the email was incorrect, or doesn’t exist. Emails that get bounced are listed under the “sent” -> “Bounced” tab after you’ve selected a newsletter type.
-Bounced emails need to be manually removed from the mailing list.
-
-**Note:** The receiving email server needs to support bounce handling for it to work successfully. To test the functionality, GMail is one server that supports it. Most do, but some do not, so it can't be relied on as a completly accurate measure of how many email addresses don't work.
+Emails that get bounced are listed under the “sent” -> “Bounced” 
+tab after you’ve selected a newsletter type.
+Recipients with bounced emails need to be manually removed from the mailing list,
+by 
+Depending on your own setup, this process might be automated.

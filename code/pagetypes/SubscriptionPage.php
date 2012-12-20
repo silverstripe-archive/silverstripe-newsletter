@@ -121,7 +121,7 @@ class SubscriptionPage extends Page {
 		$newsletterSelection = $mailinglists && $mailinglists->count()?
 		new CheckboxSetField("MailingLists",
 			_t("Newsletter.SubscribeTo", "Newsletters to subscribe to"),
-			$mailinglists,
+			$mailinglists->map('ID', 'FullTitle'),
 			$mailinglists
 		):
 		new LiteralField(

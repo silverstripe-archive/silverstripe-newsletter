@@ -166,7 +166,7 @@ class Recipient extends DataObject {
 				Object::create('CheckboxSetField', 
 					'MailingLists',
 					$this->fieldLabel('MailingLists'),
-					MailingList::get()->map()
+					MailingList::get()->map('ID', 'FullTitle')
 				));
 		}
 

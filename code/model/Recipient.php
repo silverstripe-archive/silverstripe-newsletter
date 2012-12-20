@@ -7,6 +7,7 @@
  * Represents newsletter recipient
  */
 class Recipient extends DataObject {
+
 	static $db = array(
 		'Email'					=> "Varchar(255)",
 		'FirstName'				=> "Varchar(255)",
@@ -67,6 +68,16 @@ class Recipient extends DataObject {
 		'ReceivedCount'		=> 'Count for Received newsletters'
 	);
 
+	/**
+	 * @var array Data used for test emails and previews.
+	 */
+	public static $test_data = array(
+		'FirstName' => 'John',
+		'MiddleName' => 'Jack',
+		'Surname' => 'Doe',
+		'Salutation' => 'Mr.',
+		'Email' => 'john@example.org'
+	);
 
 	public function validate() {
 		$result = parent::validate();

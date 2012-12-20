@@ -108,9 +108,9 @@ class MailingList extends DataObject {
 	}
 
 	/**
-	 * Returns all recipients who aren't blacklisted.
+	 * Returns all recipients who aren't blacklisted, and are verified.
 	 */
 	public function ActiveRecipients() {
-		return $this->Recipients()->exclude('Blacklisted', 1);
+		return $this->Recipients()->exclude('Blacklisted', 1)->exclude('Verified', 0);
 	}
 }

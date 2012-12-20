@@ -1,8 +1,8 @@
 <?php
-
 /**
  * @package newsletter
  */
+
 class CheckboxSetWithExtraField extends CheckboxSetField{
 	
 	public $extra = array();

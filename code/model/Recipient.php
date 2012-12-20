@@ -1,9 +1,10 @@
 <?php
+/**
+ * @package  newsletter
+ */
 
 /**
  * Represents newsletter recipient
- * 
- * @package newsletter
  */
 class Recipient extends DataObject {
 	static $db = array(

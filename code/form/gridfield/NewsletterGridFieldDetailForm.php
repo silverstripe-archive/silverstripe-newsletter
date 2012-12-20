@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package  newsletter
+ */
 
 /**
  * Provides view and edit forms at Newsletter gridfield dataobjects,

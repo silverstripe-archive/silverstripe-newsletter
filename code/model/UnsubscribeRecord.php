@@ -1,10 +1,11 @@
 <?php
+/**
+ * @package  newsletter
+ */
 
 /**
  * Record to keep track of when a {@link Recipient} has
  * unsubscribed from a {@link MailingList}.
- *
- * @package newsletter
  */
 class UnsubscribeRecord extends DataObject {
 	static $has_one = array(

@@ -1,11 +1,11 @@
 <?php
+/**
+ * @package  newsletter
+ */
 
 /**
  * Newsletter administration section
- *
- * @package newsletter
  */
-
 class NewsletterAdmin extends ModelAdmin {
 
 	static $url_segment = 'newsletter';

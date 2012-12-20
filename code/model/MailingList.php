@@ -1,9 +1,10 @@
 <?php
+/**
+ * @package  newsletter
+ */
 
 /**
  * Represents a specific containner of newsletter recipients 
- * 
- * @package newsletter
  */
 class MailingList extends DataObject {
 

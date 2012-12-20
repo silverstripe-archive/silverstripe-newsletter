@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package  newsletter
+ */
 
 class NewsletterSiteConfig extends DataExtension{
 	function extraStatics($class = null, $extension = null) {

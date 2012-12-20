@@ -1,5 +1,9 @@
 <?php
 /**
+ * @package  newsletter
+ */
+
+/**
  * A class that controls the queuing and processing of emails. When a user clicks the Send button in a Newsletter Admin
  * that uses this class to add the send-out to a queue. The queue doesn't contain the actual emails, instead it has
  * a simple handler that calls the "process_queue_invoke" method in this class, a method that does all the actual send

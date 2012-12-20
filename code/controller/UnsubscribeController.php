@@ -1,9 +1,10 @@
 <?php
+/**
+ * @package  newsletter
+ */
 
 /**
  * Create a form that a user can use to unsubscribe from a mailing list
- *
- * @package newsletter
  */
 class UnsubscribeController extends Page_Controller {
 	

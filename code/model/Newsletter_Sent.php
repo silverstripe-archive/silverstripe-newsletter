@@ -1,8 +1,10 @@
 <?php
+/**
+ * @package  newsletter
+ */
 
 /**
  * Single newsletter instance that shows only the sent newsletters in the NewsletterAdmin ModelAdmin
- * @package newsletter
  */
 class Newsletter_Sent extends Newsletter {
 

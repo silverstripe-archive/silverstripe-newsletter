@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package  newsletter
+ */
 
 /**
  * {@link Newsletter} objects have their links rewritten to use tracking hashs
@@ -7,10 +10,7 @@
  *
  * This controller then determines the correct location for that hashcode and redirects
  * the user to the webpage
- *
- * @package newsletter
  */
-
 class TrackLinkController extends ContentController {
 
 	function init() {

@@ -1,8 +1,10 @@
 <?php
 /**
+ * @package  newsletter
+ */
+
+/**
  * Database record for recipients that have had the newsletter sent to them, or are about to have a newsletter sent.
- *
- * @package newsletter
  */
 class SendRecipientQueue extends DataObject {
 	/**

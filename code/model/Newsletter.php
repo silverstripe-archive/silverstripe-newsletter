@@ -1,8 +1,10 @@
 <?php
+/**
+ * @package  newsletter
+ */
 
 /**
  * Single newsletter instance. 
- * @package newsletter
  */
 class Newsletter extends DataObject implements CMSPreviewable{
 

@@ -1,5 +1,9 @@
 <?php
 /**
+ * @package  newsletter
+ */
+
+/**
  * Adding this class to a {@link GridFieldConfig} of a {@link GridField} adds a header title with a summary of the
  * Status of the contained records
  */

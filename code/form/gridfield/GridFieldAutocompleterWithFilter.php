@@ -1,4 +1,7 @@
 <?php 
+/**
+ * @package  newsletter
+ */
 
 class GridFieldAutocompleterWithFilter extends GridFieldAddExistingAutocompleter{
 	/**

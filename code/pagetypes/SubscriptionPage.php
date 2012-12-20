@@ -28,6 +28,10 @@ class SubscriptionPage extends Page {
 		'SubmissionButtonText' => 'Submit'
 	);
 
+	static $singular_name = 'Subscription Page';
+
+	static $plural_name = 'Subscription Pages';
+
 	static public $days_verification_link_alive = 2;
 
 	static public function set_days_verification_link_alive($days){

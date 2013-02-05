@@ -205,7 +205,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 		'subscribeverify',
 		'submitted',
 		'completed',
-		'Form'
+		'SubscribeForm'
 	);
 	
 	/**
@@ -224,7 +224,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-validate/jquery.validate.min.js');
 	}
 	
-	function Form(){
+	function SubscribeForm(){
 		if($this->URLParams['Action'] === 'completed' || $this->URLParams['Action'] == 'submitted') return;
 		$dataFields = singleton('Recipient')->getFrontEndFields()->dataFields();
 		
@@ -295,7 +295,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 		
 		if(!empty($requiredFields)) $required = new RequiredFields($requiredFields);
 		else $required = null;
-		$form = new Form($this, "Form", $formFields, $actions, $required);
+		$form = new Form($this, "SubscribeForm", $formFields, $actions, $required);
 		
 		// using jQuery to customise the validation of the form
 		$FormName = $form->FormName();

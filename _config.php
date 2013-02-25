@@ -25,6 +25,7 @@ if (class_exists('MessageQueue')) {
 }
 
 Object::add_extension("SiteConfig", "NewsletterSiteConfig");
+Object::add_extension("ContentController", "NewsletterContentControllerExtension");
 
 //SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH . '/logN.txt'), SS_Log::NOTICE);
 //SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH . '/logW.txt'), SS_Log::WARN);

@@ -17,6 +17,7 @@ class UnsubscribeController extends Page_Controller {
 		'resubscribe',
 		'Form',
 		'ResubscribeForm',
+		'sendUnsubscribeLink'
 	);
 
 	function __construct($data = null) {
@@ -45,7 +46,7 @@ class UnsubscribeController extends Page_Controller {
 	private function getRecipient(){
 		$validateHash = Convert::raw2sql($this->urlParams['ValidateHash']);
 		if($validateHash) {
-			$recipient = Recipient::get()->filter("ValidateHash", $validateHash);
+			$recipient = Recipient::get()->filter("ValidateHash", $validateHash)->first();
 			$now = date('Y-m-d H:i:s');
 			if($now <= $recipient->ValidateHashExpired) return $recipient;
 		}
@@ -204,5 +205,54 @@ class UnsubscribeController extends Page_Controller {
 				$recordsIDs[] = $unsubscribeRecord->ID;
 			}
 		}
-  }
+	}
+
+	/** Send an email with a link to unsubscribe from all this user's newsletters */
+	public function sendUnsubscribeLink(SS_HTTPRequest $request) {
+		//get the form object (we just need its name to set the session message)
+		$form = NewsletterContentControllerExtension::getUnsubscribeFormObject($this);
+
+		$email = Convert::raw2sql($request->requestVar('email'));
+		$recipient = Recipient::get()->filter('Email',$email)->First();
+
+		if ($recipient) {
+			//get the IDs of all the Mailing Lists this user is subscribed to
+			$lists = $recipient->MailingLists()->column('ID');
+			$listIDs = implode(',',$lists);
+
+			$days = UnsubscribeController::get_days_unsubscribe_link_alive();
+			if($recipient->ValidateHash){
+				$recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days));
+				$recipient->write();
+			}else{
+				$recipient->generateValidateHashAndStore($days);
+			}
+
+			$templateData = array(
+				'FirstName' => $recipient->FirstName,
+                'UnsubscribeLink' =>
+                    Director::absoluteBaseURL() . "unsubscribe/index/".$recipient->ValidateHash."/$listIDs"
+            );
+			//send unsubscribe link email
+			$email = new Email();
+			$email->setTo($recipient->Email);
+			$from = Email::getAdminEmail();
+			$email->setFrom($from);
+			$email->setTemplate('UnsubscribeLinkEmail');
+            $email->setSubject(_t(
+                'Newsletter.ConfirmUnsubscribeSubject',
+                "Confirmation of your unsubscribe request"
+            ));
+            $email->populateTemplate( $templateData );
+            $email->send();
+
+			$form->sessionMessage(_t('Newsletter.GoodEmailMessage',
+				'You have been sent an email containing an unsubscribe link'), "good");
+		} else {
+			//not found Recipient, just reload the form
+			$form->sessionMessage(_t('Newsletter.BadEmailMessage','Email address not found'), "bad");
+		}
+
+		Controller::curr()->redirectBack();
+	}
 }

@@ -26,4 +26,5 @@ class NewsletterSiteConfig extends DataExtension{
 		);
 		$globalUnsubscribe->setDescription($globalUnsubscribeDescription);
 	}
+
 }

@@ -107,17 +107,19 @@ class NewsletterEmail extends Email {
 	}
 	
 	function UnsubscribeLink(){
-		$listIDs = implode(",",$this->mailinglists->getIDList());
 		if($this->recipient && !$this->fakeRecipient){
+			$lists = $this->recipient->MailingLists()->column('ID');
+			$listIDs = implode(',',$lists);
 			$days = UnsubscribeController::get_days_unsubscribe_link_alive();
 			if($this->recipient->ValidateHash){ 
 				$this->recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days)); 
 				$this->recipient->write(); 
 			}else{ 
 				$this->recipient->generateValidateHashAndStore($days); 
-			} 
-			return Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/$listIDs"; 
+			}
+			return Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/$listIDs";
 		}else{
+			$listIDs = implode(",",$this->mailinglists->getIDList());
 			return Director::absoluteBaseURL() . "unsubscribe/index/fackedvalidatehash/$listIDs";
 		}
 	}

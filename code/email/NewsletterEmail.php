@@ -11,6 +11,30 @@ class NewsletterEmail extends Email {
 	protected $newsletter;
 	protected $recipient;
 	protected $fakeRecipient;
+
+	/**
+	 * @var String
+	 */
+	protected static $static_base_url = null;
+
+	static public function set_static_base_url($url) {
+		self::$static_base_url = $url;
+	}
+
+	static public function get_static_base_url(){
+		if(!self::$static_base_url) {
+			global $_FILE_TO_URL_MAPPING;
+			if (!empty($_FILE_TO_URL_MAPPING) && !empty($_FILE_TO_URL_MAPPING[BASE_PATH])){
+				$baseurl = $_FILE_TO_URL_MAPPING[BASE_PATH];
+				if(strpos($baseurl, -1) !== "/"){
+					$baseurl .= "/";
+				}
+				self::$static_base_url = $baseurl;
+			}
+		}
+
+		return self::$static_base_url;
+	}
 	
 	/**
 	 * @param Newsletter $newsletter
@@ -117,7 +141,16 @@ class NewsletterEmail extends Email {
 			}else{ 
 				$this->recipient->generateValidateHashAndStore($days); 
 			}
-			return Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/$listIDs";
+
+			if($static_base_url = self::get_static_base_url()) {
+				$orig_baseURL = Director::baseURL();
+				Director::setBaseURL($static_base_url);
+			}
+			$link =  Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/$listIDs";
+			if(isset($orig_baseURL)) {
+				Director::setBaseURL($orig_baseURL);
+			}
+			return $link;
 		}else{
 			$listIDs = implode(",",$this->mailinglists->getIDList());
 			return Director::absoluteBaseURL() . "unsubscribe/index/fackedvalidatehash/$listIDs";

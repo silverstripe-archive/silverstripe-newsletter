@@ -132,7 +132,12 @@ class NewsletterEmail extends Email {
 	
 	function UnsubscribeLink(){
 		if($this->recipient && !$this->fakeRecipient){
-			$lists = $this->recipient->MailingLists()->column('ID');
+			//the unsubscribe link is for all MaillingLists that the Recipient is subscribed to, intersected with a
+			//list of all MaillingLists to which the Email was sent
+			$recipientLists = $this->recipient->MailingLists()->column('ID');
+			$sendLists = $this->mailinglists->column('ID');
+			$lists = array_intersect($recipientLists, $sendLists);
+
 			$listIDs = implode(',',$lists);
 			$days = UnsubscribeController::get_days_unsubscribe_link_alive();
 			if($this->recipient->ValidateHash){ 
@@ -150,6 +155,7 @@ class NewsletterEmail extends Email {
 			if(isset($orig_baseURL)) {
 				Director::setBaseURL($orig_baseURL);
 			}
+
 			return $link;
 		}else{
 			$listIDs = implode(",",$this->mailinglists->getIDList());

@@ -124,6 +124,10 @@ Note: This process can be automated by forwarding bounce emails to the
 ["emailbouncehandler" module](https://github.com/silverstripe-labs/silverstripe-emailbouncehandler).
 This process is experimental at the moment, some assembly required.
 
+### Reserved Page URLs
+The /unsubscribe and /newsletterlinks URLs are reserved for use for the Newsletter module's controllers.
+That means that you cannot create a regular Page using either of those URLs.
+
 ## User Guide
 
  

@@ -103,7 +103,7 @@
 													<h3>$Subject</h3>
 													<p>Dear $FirstName,</p>
 													<p>Thanks for subscribing to our mailing lists.</p>
-													<p>Please click on the link bellow to verify your email address:<br>
+													<p>Please click on the link bellow to verify your email address:<br />
 														<a href="$SubscriptionVerificationLink" id="subscription-link">$HashText</a>
 													</p>
 													<p>This link will be valid for $DaysExpired days. If you didn't mean to subscribe, simply ignore this email.

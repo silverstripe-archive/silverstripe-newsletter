@@ -32,8 +32,8 @@ class UnsubscribeController extends Page_Controller {
 			return $mailingList = DataObject::get_by_id("NewsletterType", (int)$mailingListID);
 		}else{
 			if(isset($_GET['MailingLists']) && !empty($_GET['MailingLists']) && is_array($_GET['MailingLists'])){
-				return DataObject::get("NewsletterType", "ID IN (".implode(",", 
-					Convert::raw2sql($_GET['MailingLists'])).")");
+				return DataObject::get("NewsletterType", "ID IN ('".implode("','", 
+					Convert::raw2sql($_GET['MailingLists']))."')");
 			};
 		}
 	}
@@ -45,17 +45,17 @@ class UnsubscribeController extends Page_Controller {
 		$member = $this->getMember();
 		if ($member) {
 			$listForm = $this->MailingListForm();
-			$mailingList = $this->getMailingList();
+		$mailingList = $this->getMailingList();
 			$mailingLists = $listForm->getMailingLists($member);
-			// if the email address and mailing list is given in the URL and both are valid,
+		// if the email address and mailing list is given in the URL and both are valid,
 			// or the user is only in 1 Mailing list, then unsubscribe the user
 			if ((!$mailingList || !$mailingList->exists()) && $mailingLists && $mailingLists->count() == 1)
 				$mailingList = $mailingLists->First();
 			if($mailingList && $mailingList->exists() && $member->inGroup($mailingList->GroupID)) {
-				$this->unsubscribeFromList($member, $mailingList);
+			$this->unsubscribeFromList($member, $mailingList);
 				$url = Director::absoluteBaseURL() . $this->RelativeLink('done') . "/" . $member->AutoLoginHash . "/" . $mailingList->ID;
-				Director::redirect($url);
-				return $url;
+			Director::redirect($url);
+			return $url;
 			}
 		} else {
 			$listForm = $this->EmailAddressForm();
@@ -126,7 +126,7 @@ class UnsubscribeController extends Page_Controller {
     /**
     * Show the lists for the user with the given email address
     */
-    function sendmeunsubscribelink($data) {
+    function sendmeunsubscribelink( $data) {
 		if(isset($data['Email']) && $data['Email']) {
 			$member = DataObject::get_one("Member", "Email = '".Convert::raw2sql($data['Email'])."'");
 			if($member){
@@ -151,7 +151,7 @@ class UnsubscribeController extends Page_Controller {
 				));
 				$email->setTemplate('UnsubscribeEmail');
 				$this->extend('updateSendmeunsubscribelink', $email, $member);
-				$result = $email->send();
+				$result = $email -> send();
 				if($result){
 					Director::redirect(Director::absoluteBaseURL() . $this->RelativeLink('linksent') . "?SendEmail=".$data['Email']);
 				}else{

@@ -5,13 +5,13 @@ php:
 
 env:
  - TESTDB=MYSQL CORE_RELEASE=3.0
- - TESTDB=MYSQL CORE_RELEASE=master
- - TESTDB=PGSQL CORE_RELEASE=master
+ - TESTDB=MYSQL CORE_RELEASE=3.1
+ - TESTDB=PGSQL CORE_RELEASE=3.1
 
 matrix:
   exclude:
     - php: 5.4
-      env: TESTDB=PGSQL CORE_RELEASE=master
+      env: TESTDB=PGSQL CORE_RELEASE=3.1
     - php: 5.4
       env: TESTDB=MYSQL CORE_RELEASE=3.0
 

@@ -15,7 +15,7 @@
 	],
 	"require":
 	{
-		"silverstripe/framework": "3.*",
+		"silverstripe/framework": "3.*,<3.2",
 		"composer/installers": "*",
 		"silverstripe/messagequeue": "*",
 		"silverstripe/gridfieldajaxrefresh": "*"

@@ -33,7 +33,7 @@ class UnsubscribeController extends Page_Controller {
 		}else{
 			if(isset($_GET['MailingLists']) && !empty($_GET['MailingLists']) && is_array($_GET['MailingLists'])){
 				return DataObject::get("NewsletterType",
-					"ID IN (".implode(",", Convert::raw2sql($_GET['MailingLists'])).")");
+					"ID IN ('".implode("','", Convert::raw2sql($_GET['MailingLists']))."')");
 			};
 		}
 	}

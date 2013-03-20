@@ -4,7 +4,7 @@ php:
  - 5.4
 
 env:
- - TESTDB=MYSQL CORE_RELEASE=3.0
+ - TESTDB=MYSQL CORE_RELEASE=3.1
  - TESTDB=MYSQL CORE_RELEASE=master
  - TESTDB=PGSQL CORE_RELEASE=master
 
@@ -13,7 +13,7 @@ matrix:
     - php: 5.4
       env: TESTDB=PGSQL CORE_RELEASE=master
     - php: 5.4
-      env: TESTDB=MYSQL CORE_RELEASE=3.0
+      env: TESTDB=MYSQL CORE_RELEASE=3.1
 
 before_script:
  - pear -q install --onlyreqdeps pear/PHP_CodeSniffer

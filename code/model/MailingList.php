@@ -90,7 +90,10 @@ class MailingList extends DataObject {
 
 
 		$fields->addFieldToTab('Root.Main',new FieldGroup($recipientsGrid));
-		$this->extend("updateCMSFields", $fields);		
+		$this->extend("updateCMSFields", $fields);
+		
+		if(!$this->ID)
+			$fields->removeByName('Recipients');
 
 		return $fields;
 	}

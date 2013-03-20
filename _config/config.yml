@@ -1,0 +1,10 @@
+SiteConfig:
+  extensions:
+    - NewsletterSiteConfig
+ContentController:
+  extensions:
+    - NewsletterContentControllerExtension
+Director:
+  rules:
+    'newsletterlinks/$Hash': 'TrackLinkController'
+    'unsubscribe//$Action/$ValidateHash/$IDs': 'UnsubscribeController'

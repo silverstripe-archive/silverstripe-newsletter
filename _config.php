@@ -8,11 +8,6 @@ if(!(defined('NEWSLETTER_DIR'))){
 	define('NEWSLETTER_DIR', basename(dirname(__FILE__)));
 }
 
-Config::inst()->update('Director', 'rules', array(
-	'newsletterlinks/$Hash' => "TrackLinkController",
-	'unsubscribe//$Action/$ValidateHash/$IDs' => 'UnsubscribeController'
-));
-
 if (class_exists('MessageQueue')) {
 	MessageQueue::add_interface("default", array( "queues" => "/.*/",
 		"implementation" => "SimpleDBMQ",
@@ -23,9 +18,6 @@ if (class_exists('MessageQueue')) {
 		"onShutdownMessageLimit" => "1" // one message per async process
 	));
 }
-
-Object::add_extension("SiteConfig", "NewsletterSiteConfig");
-Object::add_extension("ContentController", "NewsletterContentControllerExtension");
 
 //SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH . '/logN.txt'), SS_Log::NOTICE);
 //SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH . '/logW.txt'), SS_Log::WARN);

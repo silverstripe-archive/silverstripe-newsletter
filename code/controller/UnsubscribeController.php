@@ -59,15 +59,17 @@ class UnsubscribeController extends Page_Controller {
 		}else{
 			$mailinglistIDs = $this->urlParams['IDs'];
 			if($mailinglistIDs) {
+				$mailinglistIDs = explode(',', $mailinglistIDs);
 				return $mailinglists = DataList::create("MailingList")
-					->where("\"ID\" in (" . Convert::raw2sql($mailinglistIDs) . ")");
+					->filter(array('ID' => $mailinglistIDs));
 			}
 		}
 	}
 
 	private function getMailingListsByUnsubscribeRecords($recordIDs){
+		$recordIDs = explode(',', $recordIDs);
 		$unsubscribeRecords = DataList::create("UnsubscribeRecord")
-			->where("\"ID\" in (" . Convert::raw2sql($recordIDs) . ")");
+			->filter(array('ID' => $recordIDs));
 		$mailinglists = new ArrayList();
 		if($unsubscribeRecords->count()){
 			foreach($unsubscribeRecords as $record){

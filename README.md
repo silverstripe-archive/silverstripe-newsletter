@@ -1,6 +1,6 @@
 # SilverStripe Newsletter Module
 
-[![Build Status](https://secure.travis-ci.org/silverstripe-labs/silverstripe-newsletter.png?branch=master)](https://travis-ci.org/silverstripe-labs/silverstripe-newsletter)
+[![Build Status](https://secure.travis-ci.org/silverstripe-labs/silverstripe-newsletter.png?branch=0.6)](https://travis-ci.org/silverstripe-labs/silverstripe-newsletter)
 
 ## Introduction
 

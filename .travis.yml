@@ -1,26 +1,23 @@
+# See https://github.com/silverstripe-labs/silverstripe-travis-support for setup details
+
 language: php 
 php: 
  - 5.3
- - 5.4
 
 env:
- - TESTDB=MYSQL CORE_RELEASE=3.1
- - TESTDB=MYSQL CORE_RELEASE=master
- - TESTDB=PGSQL CORE_RELEASE=master
+ - DB=MYSQL CORE_RELEASE=3.0
+ - DB=MYSQL CORE_RELEASE=3.1
+ - DB=PGSQL CORE_RELEASE=master
 
 matrix:
-  exclude:
+  include:
     - php: 5.4
-      env: TESTDB=PGSQL CORE_RELEASE=master
-    - php: 5.4
-      env: TESTDB=MYSQL CORE_RELEASE=3.1
+      env: DB=MYSQL CORE_RELEASE=master
 
 before_script:
- - pear -q install --onlyreqdeps pear/PHP_CodeSniffer
- - phpenv rehash
- - ./tests/travis/before_script ~/builds/ss 
+ - git clone git://github.com/silverstripe-labs/silverstripe-travis-support.git ~/travis-support
+ - php ~/travis-support/travis_setup.php --source `pwd` --target ~/builds/ss
  - cd ~/builds/ss
 
 script: 
  - phpunit newsletter/tests/
- - phpcs --encoding=utf-8 --tab-width=4 --standard=newsletter/tests/phpcs --ignore="_old/*,lang/*" -np newsletter

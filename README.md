@@ -1,5 +1,7 @@
 # Newsletter module
 
+[![Build Status](https://secure.travis-ci.org/silverstripe-labs/silverstripe-newsletter.png?branch=0.5)](http://travis-ci.org/silverstripe-labs/silverstripe-newsletter)
+
 ## Introduction
 
 NewsletterAdmin is the CMS class for managing the newsletter system.

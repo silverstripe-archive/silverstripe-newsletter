@@ -8,7 +8,8 @@
 				var email = this.attr('href').match(/email=(.*)/);
 				var prompt = this.sendPrompt(email[1]);
 				if (prompt !== null) {
-					var newHref = this.attr('href').replace(/email=.*$/gi,'email='+prompt);
+					var base = $('base').attr('href'); //IE needs this
+					var newHref = base + this.attr('href').replace(/email=.*$/gi,'email='+prompt);
 					window.location = newHref;  //open url of the send link
 				}
 				return false;

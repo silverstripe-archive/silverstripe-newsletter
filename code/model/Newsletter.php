@@ -59,7 +59,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		$labels["Status"] = _t('Newsletter.FieldStatus', "Status");
 		$labels["SendFrom"] = _t('Newsletter.FieldSendFrom', "From Address");
 		$labels["ReplyTo"] = _t('Newsletter.FieldReplyTo', "Reply To Address");
-		$labels["Content"] = _t('Newsletter.FieldConent', "Content");
+		$labels["Content"] = _t('Newsletter.FieldContent', "Content");
 
 		return $labels;
 	}

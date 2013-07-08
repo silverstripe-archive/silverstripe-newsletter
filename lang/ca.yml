@@ -14,20 +14,20 @@ ca:
     SENDING: "S'estan enviant els correus..."
     SENTTESTTO: "Envia una prova a"
     SHOWCONTENTS: "Mostra els continguts"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Adreça de correu"
     HAVEBOUNCED: "Correus que han rebotat"
     NOBOUNCED: "Cap correu enviat ha rebotat."
     UNAME: "Nom d'usuari"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Esborranys"
     MAILLIST: "Llista de correu"
     SENT: "Elements enviats"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Cap usuari s'ha desubscrit d'aquest butlletí."
     UNAME: "Nom d'usuari"
     UNSUBON: "Desubscrit el"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Afegeix un nou esborrany"
     ADDTYPE: "Afegeix un nou tipus"
     CREATE: "Crea"
@@ -36,7 +36,7 @@ ca:
     GO: "Vés"
     NEWSLETTERS: "Butlletins"
     SELECTDRAFTS: "Seleccioneu els esborranys que voleu eliminar i després premeu al botó de sota"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Cancel·la"
     ENTIRE: "Envia a tota la llista de correu"
     ONLYNOT: "Envia només a gent a qui no s'ha enviat abans"
@@ -44,11 +44,11 @@ ca:
     SENDTEST: "Envia una prova a"
     WELCOME1: "Benvingut a la secció del "
     WELCOME2: "d'administració dels butlletins. Si us plau, trieu una carpeta de la dreta."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Si us plau, trieu un esborrany de l'esquerra, o bé"
     CHOOSEDRAFT2: "afegiu-ne un de nou"
     CHOOSESENT: "Si us plau, trieu un element enviat de l'esquerra."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Nombre de detalls canviats:"
     IMPORTED: "Nous membres importats:"
     IMPORTNEW: "S'han importat nous membres"
@@ -56,12 +56,12 @@ ca:
     SKIPPED: "Registres omesos:"
     TIME: "Temps transcorregut:"
     UPDATED: "Membres actualitzats:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Continguts de"
     NO: "Cancel·la"
     RECIMPORTED: "Destinataris importats de"
     YES: "Confirma"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Data"
     EMAIL: "Correu electrònic"
     FN: "Nom"

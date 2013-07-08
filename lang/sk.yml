@@ -14,20 +14,20 @@ sk:
     SENDING: "Posielam e-maily..."
     SENTTESTTO: "Poslať test pre"
     SHOWCONTENTS: "Ukázať obsah"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "E-mailová adresa"
     HAVEBOUNCED: "E-maily, ktoré nebolo možné odoslať"
     NOBOUNCED: "Všetky e-maily boli úspečne odoslané."
     UNAME: "Používateľské meno"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Návrhy"
     MAILLIST: "Mailing list"
     SENT: "Poslané položky"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Žiadni používatelia sa neodhlásili z príjmu tohto newsletter-a."
     UNAME: "Používateľské meno"
     UNSUBON: "Odhlásený z"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Pridať nový návrh"
     ADDTYPE: "Pridať nový typ"
     CREATE: "Vytvoriť"
@@ -36,7 +36,7 @@ sk:
     GO: "Vykonať"
     NEWSLETTERS: "Newsletters"
     SELECTDRAFTS: "Vyberte návrhy, ktoré chcete vymazať a potom kliknite na tlačidlo nižšie"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Zrušiť"
     ENTIRE: "Poslať všetkým členom mailing listu"
     ONLYNOT: "Poslať iba ľuďom, ktorým predtým nebolo poslané"
@@ -44,11 +44,11 @@ sk:
     SENDTEST: "Poslať test pre"
     WELCOME1: "Vitajte v"
     WELCOME2: "sekcii administrácie newsletter-u. Prosím vyberte si adresár zľava."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Prosím, vyberte si návrh zľava alebo"
     CHOOSEDRAFT2: "jeden pridajte"
     CHOOSESENT: "Prosím vyberte si poslanú položku zľava"
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Počet zmenených detailov:"
     IMPORTED: "Noví importovaní členovia:"
     IMPORTNEW: "Importovaní noví členovia"
@@ -56,12 +56,12 @@ sk:
     SKIPPED: "Preskočené záznamy:"
     TIME: "Potrebný čas:"
     UPDATED: "Aktualizovaní členovia:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Obsah"
     NO: "Zrušiť"
     RECIMPORTED: "Príjemcovia importovaní z"
     YES: "Potvrdiť"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Dátum"
     EMAIL: "E-mailová adresa"
     FN: "Krstné meno"

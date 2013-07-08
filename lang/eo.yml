@@ -14,20 +14,20 @@ eo:
     SENDING: "Sendas retpoŝtajn mesaĝojn..."
     SENTTESTTO: "Sendis teston al"
     SHOWCONTENTS: "Montri enhavon"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Retpoŝta adreso"
     HAVEBOUNCED: "Retpoŝtaj mesaĝoj nesendeblaj"
     NOBOUNCED: "Neniuj retpoŝtaj mesaĝoj senditaj estas nesendeblaj."
     UNAME: "Salutnomo"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Malnetoj"
     MAILLIST: "Dissendolisto"
     SENT: "Eroj senditaj"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Neniuj uzantoj malabonis ĉi tiun novaĵleteron."
     UNAME: "Salutnomo"
     UNSUBON: "Malabonis je"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Almeti novan malneton"
     ADDTYPE: "Enmeti novan tipon "
     CREATE: "Krei"
@@ -36,7 +36,7 @@ eo:
     GO: "Ek"
     NEWSLETTERS: "Novaĵleteroj"
     SELECTDRAFTS: "Elektu la projektojn forigotajn kaj poste alklaku la butonon sube"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Rezigni"
     ENTIRE: "Sendi la tutan dissendoliston"
     ONLYNOT: "Sendi nur al homoj, al kiuj vi ne antaŭe sendis"
@@ -44,11 +44,11 @@ eo:
     SENDTEST: "Sendi teston al"
     WELCOME1: "Bonvenon al la"
     WELCOME2: "Sekcio por mastrumi novaĵleterojn. Bonvolu elekti dosierujon maldekstre."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Bonvolu elekti projekton maldekstre, aŭ"
     CHOOSEDRAFT2: "almetu iun"
     CHOOSESENT: "Bonvolu elekti senditan eron maldekstre."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Nombro de detaloj ŝanĝitaj: "
     IMPORTED: "Novaj membroj importitaj:"
     IMPORTNEW: "Importitaj novaj membroj"
@@ -56,12 +56,12 @@ eo:
     SKIPPED: "Rikordoj ignoritaj:"
     TIME: "Tempo pasinta:"
     UPDATED: "Membroj ĝisdatigitaj:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Enhavo de"
     NO: "Rezigni"
     RECIMPORTED: "Ricevintoj importitaj el"
     YES: "Konfirmu"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Dato"
     EMAIL: "Retpoŝto"
     FN: "Antaŭnomo"

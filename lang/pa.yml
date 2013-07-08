@@ -16,20 +16,20 @@ pa:
     SENDING: "ਭੇਜ ਰਹੇ ਈਮੇਲ..."
     SENTTESTTO: "Sent test to"
     SHOWCONTENTS: "ਸਮਾਨ ਿਦਖਾਓ"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "ਈਮੇਲ ਪਤਾ"
     HAVEBOUNCED: "Emails that have bounced"
     NOBOUNCED: "No emails sent have bounced."
     UNAME: "User name"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Drafts"
     MAILLIST: "ਮੇਿਲੰਗ ਸੂਚੀ	"
     SENT: "Sent Items"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "No users have unsubscribed from this newsletter."
     UNAME: "User name"
     UNSUBON: "Unsubscribed on"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "ਨਵਾਂ draft ਜੋੜ ੋ "
     ADDTYPE: "ਨਵੀ ਿਕਸਮ ਜੋੜ ੋ "
     CREATE: "ਬਣਾਉ"
@@ -38,7 +38,7 @@ pa:
     GO: "ਈਮੇਲ"
     NEWSLETTERS: "ਅਖ਼ਬਾਰਾਂ"
     SELECTDRAFTS: "Select the drafts that you want to delete and then click the button below"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "ਰੱਦ"
     ENTIRE: "Send to the entire mailing list"
     ONLYNOT: "Send to only people not previously sent to"
@@ -46,11 +46,11 @@ pa:
     SENDTEST: "Send test to"
     WELCOME1: "ਜੀ ਆਇਆਂ ਨੂੰ"
     WELCOME2: "ਖ਼ਬਰਾਂ ਬੰਦੋਬਸਤ ਭਾਗ।  ਿਕ੍ਰਪਾ ਕਰਕੇ ਖੱਬੇਉ ਇਕ ਫੋਲਡਰ ਚੁਣੋ।"
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "ਿਕ੍ਰਪਾ ਕਰਕੇ ਖੱਬੇਓ ਇੱਕ draft ਚੁਣੋ  "
     CHOOSEDRAFT2: "add one"
     CHOOSESENT: "ਿਕ੍ਰਪਾ ਕਰਕੇ ਖੱਬੇਓ ਇੱਕ sent item ਚੁਣੋ  "
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Number of details changed:"
     IMPORTED: "New members imported:"
     IMPORTNEW: "Imported new members"
@@ -58,12 +58,12 @@ pa:
     SKIPPED: "Records skipped:"
     TIME: "Time taken:"
     UPDATED: "Members updated:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Contents of"
     NO: "ਰੱਦ"
     RECIMPORTED: "Recipients imported from"
     YES: "Confirm"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Date"
     EMAIL: "ਇਮੇਲ"
     FN: "ਪਹਿਲਾ ਨਾਮ"

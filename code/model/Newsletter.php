@@ -165,9 +165,9 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			);
 			if(!$this->ID) {
 				$explanation1 = _t("Newletter.TemplateExplanation1", 
-					"You should make your own styled SilverStripe templates	make sure your templates have a
-					\$Body coded so the newletter's content could be clearly located in your templates
-					");
+					'You should make your own styled SilverStripe templates	make sure your templates have a'
+					. '$Body coded so the newletter\'s content could be clearly located in your templates'
+				);
 				$explanation2 = _t("Newletter.TemplateExplanation2", 
 					"Make sure your newsletter templates could be looked up in the dropdown list bellow by
 					either placing them under your theme directory,	e.g. themes/mytheme/templates/email/

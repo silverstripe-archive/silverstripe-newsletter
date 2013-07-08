@@ -11,30 +11,30 @@ ro:
     SENDING: "Se trimit email-urile..."
     SENTTESTTO: "Trimite test către "
     SHOWCONTENTS: "Afişează conţinutul "
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Adresă  email"
     UNAME: "Nume utilizator"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     MAILLIST: "Lista de Mail"
     SENT: "Elemente Trimise"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     UNAME: "Utilizator"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDTYPE: "Adaugă tip nou"
     CREATE: "Creează "
     DEL: "Şterge "
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Anulează "
     ENTIRE: "Trimite către toată lista de mail"
     SENDTEST: "Trimite test către"
     WELCOME1: "Bine aţi venit la"
     WELCOME2: "Secţiune administrare ştiri. Te rog alege un folder din stânga."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT2: "adaugă unul"
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     IMPORTED: "Membri noi importaţi:"
     IMPORTNEW: "Membri noi importaţi"
     SEC: "secunde"
     UPDATED: "Membri actualizaţi:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Conţinutul lui"

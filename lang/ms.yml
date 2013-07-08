@@ -14,20 +14,20 @@ ms:
     SENDING: "Menghantar email..."
     SENTTESTTO: "Penghantaran ujian kepada"
     SHOWCONTENTS: "Paparkan kandungan"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Alamat Email"
     HAVEBOUNCED: "Email-email yang ditendang"
     NOBOUNCED: "Tiada email yang ditendang"
     UNAME: "ID pengguna"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Draf"
     MAILLIST: "Senarai mailing"
     SENT: "Item sudah dihantar"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Tiada pengguna yang membatalkan langganan bagi buletin berkala ini."
     UNAME: "ID pengguna"
     UNSUBON: "Langganan dibatalkan pada"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Tambah draf baru"
     ADDTYPE: "Tambah jenis baru"
     CREATE: "Hasilkan"
@@ -36,7 +36,7 @@ ms:
     GO: "Teruskan"
     NEWSLETTERS: "Buletin berkala"
     SELECTDRAFTS: "Pilih draf yang ingin dihapuskan dari pilihan di kiri dan klik butang di bawah"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Batal"
     ENTIRE: "Hantar ke seluruh senarai mailing"
     ONLYNOT: "Hantar kepada pengguna yang belum pernah dihantar"
@@ -44,11 +44,11 @@ ms:
     SENDTEST: "Hantaran ujuan kepada"
     WELCOME1: "Selamat datang ke"
     WELCOME2: "bahagian pentadbiran buletin berkala. Pilih folder dari pilihan di sebelah kiri"
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Pilih salah satu draf dari pilihan di sebelah kiri, atau"
     CHOOSEDRAFT2: "tambah yang baru"
     CHOOSESENT: "Pilih dari senarai 'telah dikirim' di sebelah kiri."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Bilangan butir-butiran yang diubah"
     IMPORTED: "Ahli-ahli baru yang diimport:"
     IMPORTNEW: "Ahli-ahli baru yang diimport"
@@ -56,12 +56,12 @@ ms:
     SKIPPED: "Rekod yang dilangkau:"
     TIME: "Mada yang diambil:"
     UPDATED: "Kemaskini ahli-ahli:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Kandungan"
     NO: "Batal"
     RECIMPORTED: "Senarai penerima diimport dari"
     YES: "Pengesahan"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Tarikh"
     EMAIL: "Emel"
     FN: "Nama"

@@ -14,20 +14,20 @@ bg:
     SENDING: "Изпращам email-и..."
     SENTTESTTO: "Изпратен тест на"
     SHOWCONTENTS: "Покажи съдържание"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Е-mail адрес"
     HAVEBOUNCED: "Еmail-и които са върнати обратно"
     NOBOUNCED: "Няма email-и които да са върнати."
     UNAME: "Потребителско име"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Чернови"
     MAILLIST: "Списък с мейли"
     SENT: "Изпратени"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Няма потребители отписали се от този бюлетин."
     UNAME: "Потребителско име"
     UNSUBON: "Отписан на"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Добави нова чернова"
     ADDTYPE: "Добави нов вид"
     CREATE: "Създай"
@@ -36,7 +36,7 @@ bg:
     GO: "Давай"
     NEWSLETTERS: "Бюлетини"
     SELECTDRAFTS: "Изберете черновите които искате да изтриете и после натиснете бутона по-долу"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Отмени"
     ENTIRE: "Изпрати до целия списък от мейли"
     ONLYNOT: "Изпрати само на хората, на които не е било изпратено преди"
@@ -44,11 +44,11 @@ bg:
     SENDTEST: "Изпрати тест на"
     WELCOME1: "Добре дошли в"
     WELCOME2: "секция за управление на бюлетини. Моля изберете папка от ляво"
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Моля изберете чернова от ляво, или"
     CHOOSEDRAFT2: "добави едно"
     CHOOSESENT: "Моля, изберете изпратено писмо от ляво."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Брой променени детайли:"
     IMPORTED: "Нови потребители импортирани:"
     IMPORTNEW: "Импортирани нови потребители"
@@ -56,12 +56,12 @@ bg:
     SKIPPED: "Прескочени записи:"
     TIME: "Отнето време:"
     UPDATED: "Потребители обновени:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Съдържания от"
     NO: "Отмени"
     RECIMPORTED: "Получатели импортирани от"
     YES: "Потвърди"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Дата"
     EMAIL: "Еmail"
     FN: "Име"

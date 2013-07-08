@@ -14,20 +14,20 @@ ar:
     SENDING: "إرسال البريد الإلكتروني  ..."
     SENTTESTTO: "إرسال تجربة إلى"
     SHOWCONTENTS: "عرض المحتوى"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "عنوان البريد الإلكتروني"
     HAVEBOUNCED: "Emails that have bounced"
     NOBOUNCED: "No emails sent have bounced."
     UNAME: "اسم المستخدم"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "المسودات"
     MAILLIST: "قائمة بريدية"
     SENT: "المواد المرسلة"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "لايوجد مستخدمين قاموا بإلغاء الاشتراك من النشرة الإخبارية"
     UNAME: "اسم المستخدم"
     UNSUBON: "إلغاء الاشتراك من"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "إضافة مسودة جديدة"
     ADDTYPE: "إضافة نوع جديدة"
     CREATE: "إنشاء"
@@ -36,7 +36,7 @@ ar:
     GO: "اذهب"
     NEWSLETTERS: "نشرات الأخبار"
     SELECTDRAFTS: "اختر المسودة التي تريد حذفها ثم اضغط على الزر بالأسفل"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "إلغاء"
     ENTIRE: "أرسل إلى جميع القائمة البريدية"
     ONLYNOT: "أرسل إلى أشخاص لم ترسل إليهم من قبل"
@@ -44,11 +44,11 @@ ar:
     SENDTEST: "إرسال تجربة إلى"
     WELCOME1: "أهلاً بك في"
     WELCOME2: "قسم إدارة النشرات الإخبارية.  فضلاً اختر مجلد من القائمة"
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "فضلاً اختر مسودة من القائمة أو"
     CHOOSEDRAFT2: "أضف"
     CHOOSESENT: "فضلاً اختر مرسلاً من القائمة"
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "عدد التفاصيل التي تم تحديثها:"
     IMPORTED: "أعضاء جدد تم استيرادهم:"
     IMPORTNEW: "عضو جديد مستورد"
@@ -56,12 +56,12 @@ ar:
     SKIPPED: "بيانات تم تجاوزها:"
     TIME: "الوقت المستغرق:"
     UPDATED: "أعضاء تم تحديثهم:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "محتويات الـ"
     NO: "إلغاء"
     RECIMPORTED: "استيراد قائمة المستقبلين من"
     YES: "تأكيد"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "التاريخ"
     EMAIL: "البريد الإلكتروني"
     FN: "الاسم الأول"

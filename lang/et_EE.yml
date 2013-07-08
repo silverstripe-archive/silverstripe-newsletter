@@ -14,20 +14,20 @@ et_EE:
     SENDING: "Saadan e-poste..."
     SENTTESTTO: "Test saadeti aadressile"
     SHOWCONTENTS: "Näita sisu"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "E-posti aadress"
     HAVEBOUNCED: "Tagasi saadetud kirjad"
     NOBOUNCED: "Ühtegi saadetud e-posti pole tagasi saadetud."
     UNAME: "Kasutajanimi"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Visandid"
     MAILLIST: "Meililist"
     SENT: "Saadetud kirjad"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Ükski kasutaja pole selle uudiskirja tellimust tühistanud."
     UNAME: "Kasutajanimi"
     UNSUBON: "Tellimus tühistatud"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Lisa uus visand"
     ADDTYPE: "Lisa uus tüüp"
     CREATE: "Loo"
@@ -36,7 +36,7 @@ et_EE:
     GO: "Mine"
     NEWSLETTERS: "Uudiskirjad"
     SELECTDRAFTS: "Vali visandid, mida soovid kustutada ning klõpsa allolevat nuppu"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Tühista"
     ENTIRE: "Saada kogu meililistile"
     ONLYNOT: "Saada ainult nendele, kellele eelnevalt saadetud pole"
@@ -44,11 +44,11 @@ et_EE:
     SENDTEST: "Saada test"
     WELCOME1: "Tere tulemast"
     WELCOME2: "uudiskirja administreerimise rubriiki. Palun valige kaust vasakult."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Palun vali visand vasakult, või"
     CHOOSEDRAFT2: "lisa uus"
     CHOOSESENT: "Palun vali saadetud kiri vasakult."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Muudetud üksikasjade arv:"
     IMPORTED: "Uued imporditud liikmed:"
     IMPORTNEW: "Imporditud uued liikmed"
@@ -56,12 +56,12 @@ et_EE:
     SKIPPED: "Vahele jäetud kirjed:"
     TIME: "Aega võttis:"
     UPDATED: "Uuendatud liikmed:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Sisu"
     NO: "Tühista"
     RECIMPORTED: "Vastuvõtjad imporditud"
     YES: "Kinnita"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Kuupäev"
     EMAIL: "E-post"
     FN: "Eesnimi"

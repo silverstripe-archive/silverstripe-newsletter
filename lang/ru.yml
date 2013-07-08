@@ -14,20 +14,20 @@ ru:
     SENDING: "Отправка email..."
     SENTTESTTO: "Тестовая отправка для:"
     SHOWCONTENTS: "Показать содержимое"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Адрес email"
     HAVEBOUNCED: "Недоставленная почта"
     NOBOUNCED: "Все письма доставлены"
     UNAME: "Имя пользователя"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Черновики"
     MAILLIST: "Лист рассылки"
     SENT: "Отправленные"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "От подписки на эту рассылку не отказался никто"
     UNAME: "Имя пользователя"
     UNSUBON: "Подписка отменена"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Добавить новый черновик"
     ADDTYPE: "Добавить новый тип"
     CREATE: "Создать"
@@ -36,7 +36,7 @@ ru:
     GO: "Перейти"
     NEWSLETTERS: "Рассылки"
     SELECTDRAFTS: "Выберите черновики, которые Вы хотите удалить, и нажмите кнопку внизу"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Отмена"
     ENTIRE: "Отправить всем из списка рассылки"
     ONLYNOT: "Отправить лишь тем, кому еще не отправлено"
@@ -44,11 +44,11 @@ ru:
     SENDTEST: "Тестовая отправка для:"
     WELCOME1: "Добро пожаловать в"
     WELCOME2: "раздел управления рассылками. Пожалуйста, выберите папку слева."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Пожалуйста, выберите черновик слева или"
     CHOOSEDRAFT2: "добавьте новый"
     CHOOSESENT: "Пожалуйста, выберите отправленную рассылку слева."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Количество изменений:"
     IMPORTED: "Импортировано новых участников:"
     IMPORTNEW: "Импортированные новые участники"
@@ -56,12 +56,12 @@ ru:
     SKIPPED: "Пропущенных записей:"
     TIME: "Затраченное время:"
     UPDATED: "Обновленных участников:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Содержимое в"
     NO: "Отменить"
     RECIMPORTED: "Получатели, импортированные из"
     YES: "Подтвердить"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Дата"
     EMAIL: "Email"
     FN: "Имя"

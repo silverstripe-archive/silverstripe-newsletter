@@ -14,20 +14,20 @@ uk:
     SENDING: "Надсилання листів..."
     SENTTESTTO: "Надіслано тестове повідомлення до"
     SHOWCONTENTS: "Показати зміст"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Адреса е-пошти"
     HAVEBOUNCED: "Недоставлена пошта"
     NOBOUNCED: "Немає недоставленої пошти."
     UNAME: "Ім'я користувача"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Чернетки"
     MAILLIST: "Списки Розсилань"
     SENT: "Надіслані"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Жоден користувач не відписався від даного розсилання."
     UNAME: "Ім'я користувача"
     UNSUBON: "Відисаний від"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Додати нову чернетку"
     ADDTYPE: "Додати новий тип"
     CREATE: "Створити"
@@ -36,7 +36,7 @@ uk:
     GO: "Уперед"
     NEWSLETTERS: "Розсилання"
     SELECTDRAFTS: "Виберіть чернетку для видалення та натисніть кнопку нижче"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Відмінити"
     ENTIRE: "Надіслати до всіх зі списку розсилань"
     ONLYNOT: "Надіслати тільки тим, кому ще не було надіслано"
@@ -44,11 +44,11 @@ uk:
     SENDTEST: "Надіслати тестові повідомлення до"
     WELCOME1: "Вітаємо у"
     WELCOME2: "секції адміністрування розсилань. Будь ласка, оберіть теку зліва."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Будь ласка, оберіть чернетку зліва або"
     CHOOSEDRAFT2: "додайте одну"
     CHOOSESENT: "Будь ласка, оберіть надіслане зліва"
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Кількість деталей змінена:"
     IMPORTED: "Імпортовані нові користувачі:"
     IMPORTNEW: "Імпортовані нові користувачі"
@@ -56,12 +56,12 @@ uk:
     SKIPPED: "Пропущених записів:"
     TIME: "Зайнято часу:"
     UPDATED: "Користувачі оновлені:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Вміст"
     NO: "Відмінити"
     RECIMPORTED: "Отримувачі, імпортовані з"
     YES: "Підтвердити"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Дата"
     EMAIL: "Е-пошта"
     FN: "Ім'я"

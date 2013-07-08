@@ -14,20 +14,20 @@ si:
     SENDING: "ඊමේල් යවනවා"
     SENTTESTTO: "පරික්ශාව යවන ලදී"
     SHOWCONTENTS: "අන්ර්ගතය පෙන්වන්න"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "ඊමේල් ලිපිනය"
     HAVEBOUNCED: "අසාර්තක ඊමේල්"
     NOBOUNCED: "අසාර්තක ඊමේල් නැත"
     UNAME: "නම"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "කටු සටහන්"
     MAILLIST: "ලිපි ලයිස්තුව"
     SENT: "යැවු ලිපි"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "කිසිවකු මෙම පුවත් හසුනින් ඉවත් වී නැත"
     UNAME: "නම"
     UNSUBON: "ඉවත් වූයේ"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "අලුත් කටු සටහනක් ඵකතු කරන්න"
     ADDTYPE: "අලුත් වර්ගයක් එකතු කරන්න"
     CREATE: "හදන්න"
@@ -36,7 +36,7 @@ si:
     GO: "යන්න"
     NEWSLETTERS: "පුවත් හසුන්"
     SELECTDRAFTS: "මකන්න අවශය කටු සටහන් තෝරා බොත්තම ඹබන්න"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "අවල0ගු කරන්න"
     ENTIRE: "සම්පූර්ණ ලිපින ලැයිස්තුවට යවන්න"
     ONLYNOT: "කලින් නොයැවූ අයට යවන්න"
@@ -44,11 +44,11 @@ si:
     SENDTEST: "පරික්ශාව යවන ලදී"
     WELCOME1: "ආයුබෝවන්"
     WELCOME2: "පුවත් හසුන් මෙහෙයවීම. වමෙන් ගොනුවක් තෝරන්න"
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "කටු සටහනක් වමෙන් තෝරන්න, හෝ"
     CHOOSEDRAFT2: "එකක් එකතු කරන්න"
     CHOOSESENT: "යැවු අයිතමයක් වමෙන් තෝරන්න"
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "වෙනස් කළ දත්ත ගනන"
     IMPORTED: "අලුත්සාමාජිකයන් ගෙන්වන ලදී"
     IMPORTNEW: "ගෙන්වූ අලුත්සාමාජිකයන්"
@@ -56,12 +56,12 @@ si:
     SKIPPED: "දත්ත මගහරින ලදී"
     TIME: "වැයවු වේලාව"
     UPDATED: "සාමාජිකයන් යාවත්කාලීන කරන ලදී"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "අන්ර්ගතය"
     NO: "අවල0ගු කරන්න"
     RECIMPORTED: "ලබන්නන් ගෙන්වූයේ"
     YES: "සහතික කරන්න"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "දිනය"
     EMAIL: "ඊමේල්"
     FN: "මුල් නම"

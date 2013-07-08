@@ -14,20 +14,20 @@ id:
     SENDING: "Mengirim email..."
     SENTTESTTO: "Kirim tes ke"
     SHOWCONTENTS: "Pelihatkan konten"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Alamat email"
     HAVEBOUNCED: "Email yang telah ditolak"
     NOBOUNCED: "Tidak ada email yang dikirim ditolak"
     UNAME: "Nama user"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Draft"
     MAILLIST: "Milis(mailing list)"
     SENT: "Item yang Telah Dikirim"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Tidak ada user yang berhenti berlangganan dari laporan berkala ini."
     UNAME: "Nama user"
     UNSUBON: "Hentikan berlangganan pada"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Tambahkan draft baru"
     ADDTYPE: "Tmbah tipe baru"
     CREATE: "Buat"
@@ -36,7 +36,7 @@ id:
     GO: "Maju"
     NEWSLETTERS: "Laporan Berkala"
     SELECTDRAFTS: "Pilih draft yang Anda inginkan untuk dihapus lalu klik tombol di bawah ini"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Batalkan"
     ENTIRE: "Kirim ke seluruh milis"
     ONLYNOT: "Hanya kirim ke orang yang sebelumnya belum dikirimi"
@@ -44,11 +44,11 @@ id:
     SENDTEST: "Kirim tes ke"
     WELCOME1: "Selamat datang ke "
     WELCOME2: "seksi administrasi laporan berkala. Silahkan memilih folder dari sebelah kiri."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Harap pilih draft di sebelah kiri, atau"
     CHOOSEDRAFT2: "tambah satu"
     CHOOSESENT: "Harap pilih item terkirim di sebelah kiri."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Nomor detail telah diubah:"
     IMPORTED: "Anggota baru telah diimpor:"
     IMPORTNEW: "Anggota baru yang telah diimpor"
@@ -56,12 +56,12 @@ id:
     SKIPPED: "Rekor telah dilompati:"
     TIME: "Waktu yang diambil:"
     UPDATED: "Member telah di-update:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Konten dari"
     NO: "Batalkan"
     RECIMPORTED: "Penerima diimpor dari"
     YES: "Membenarkan"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Tanggal"
     EMAIL: "Email"
     FN: "Nama depan"

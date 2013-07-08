@@ -14,20 +14,20 @@ en_GB:
     SENDING: "Sending emails..."
     SENTTESTTO: "Sent test to "
     SHOWCONTENTS: "Show contents"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Email address"
     HAVEBOUNCED: "Emails that have bounced"
     NOBOUNCED: "No emails sent have bounced."
     UNAME: "User name"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Drafts"
     MAILLIST: "Mailing List"
     SENT: "Sent Items"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "No users have unsubscribed from this newsletter."
     UNAME: "User name"
     UNSUBON: "Unsubscribed on"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Add new draft"
     ADDTYPE: "Add new type"
     CREATE: "Create"
@@ -36,7 +36,7 @@ en_GB:
     GO: "Go"
     NEWSLETTERS: "Newsletters"
     SELECTDRAFTS: "Select the drafts that you want to delete and then click the button below"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Cancel"
     ENTIRE: "Send to the entire mailing list"
     ONLYNOT: "Send to only people not previously sent to"
@@ -44,11 +44,11 @@ en_GB:
     SENDTEST: "Send test to"
     WELCOME1: "Welcome to the"
     WELCOME2: "newsletter administration section. Please choose a folder from the left."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Please choose a draft on the left, or"
     CHOOSEDRAFT2: "add one"
     CHOOSESENT: "Please choose a sent item on the left."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Number of details changed:"
     IMPORTED: "New members imported:"
     IMPORTNEW: "Imported new members"
@@ -56,12 +56,12 @@ en_GB:
     SKIPPED: "Records skipped:"
     TIME: "Time taken:"
     UPDATED: "Members updated:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Contents of"
     NO: "Cancel"
     RECIMPORTED: "Recipients imported from"
     YES: "Confirm"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Date"
     EMAIL: "Email"
     FN: "Firstname"

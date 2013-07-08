@@ -14,20 +14,20 @@ da:
     SENDING: "Sender emails..."
     SENTTESTTO: "Send test til"
     SHOWCONTENTS: "Vis indhold"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Emailadresse"
     HAVEBOUNCED: "Emails der er blevet afvist"
     NOBOUNCED: "Ingen af de sendte emails er blevet afvist"
     UNAME: "Brugernavn"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Kladder"
     MAILLIST: "Mailliste"
     SENT: "Sendte emails"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Ingen brugere har afmeldt sig fra dette nyhedsbrev"
     UNAME: "Brugernavn"
     UNSUBON: "Afmeldt"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Tilføj ny kladde"
     ADDTYPE: "Tilføj ny type"
     CREATE: "Opret"
@@ -36,7 +36,7 @@ da:
     GO: "Go"
     NEWSLETTERS: "Nyhedsbreve"
     SELECTDRAFTS: "Vælg de kladder, du ønsker at slette og klik på knappen nedenunder"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Annuller"
     ENTIRE: "Send til hele maillisten"
     ONLYNOT: "Send kun til folk, som der ikke tidligere er blevet sendt til"
@@ -44,11 +44,11 @@ da:
     SENDTEST: "Send test til"
     WELCOME1: "Velkommen til"
     WELCOME2: "Administration af Nyhedsbreve. Vælg en mappe i venstre side."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Vælg en kladde i venstre side, eller"
     CHOOSEDRAFT2: "tilføj en"
     CHOOSESENT: "Vælg en sendt artikel i venstre side"
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Antallet er detajler ændret:"
     IMPORTED: "Nye medlemmer importeret:"
     IMPORTNEW: "Importerede nye medlemmer"
@@ -56,12 +56,12 @@ da:
     SKIPPED: "Artikler sprunget over:"
     TIME: "Tid brugt:"
     UPDATED: "Medlemmer opdateret:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Indholdet af"
     NO: "Annuller"
     RECIMPORTED: "Modtagere importeret fra"
     YES: "Bekræft"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Dato"
     EMAIL: "Email"
     FN: "Fornavn"

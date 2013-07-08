@@ -14,20 +14,20 @@ cs:
     SENDING: "Posílám emaily..."
     SENTTESTTO: "Test poslán"
     SHOWCONTENTS: "Zobrazit obsah"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Emailová adresa"
     HAVEBOUNCED: "Emaily, které nebylo možné odeslat"
     NOBOUNCED: "Všechny emaily byly úspěšně odeslány."
     UNAME: "Uživatelské jméno"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Koncepty"
     MAILLIST: "Mailing list"
     SENT: "Poslané položky"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Žádní uživatelé se neodhlásili z příjmu tohoto newsletteru."
     UNAME: "Uživateské jméno"
     UNSUBON: "Odhlášen z"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Přidat nový koncept"
     ADDTYPE: "Přidat nový typ"
     CREATE: "Vytvořit"
@@ -36,7 +36,7 @@ cs:
     GO: "Proveď"
     NEWSLETTERS: "Newslettery"
     SELECTDRAFTS: "Vyberte koncepty, které chcete smazat. Pak klikněte na tlačítko níže"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Zrušit"
     ENTIRE: "Zaslat celému mailing listu"
     ONLYNOT: "Zaslat jen lidem, kteří zprávu předtím nedostali"
@@ -44,11 +44,11 @@ cs:
     SENDTEST: "Test poslán"
     WELCOME1: "Vítejte v"
     WELCOME2: "sekci administrace novinek. Prosím vyberte složku vlevo."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Prosím vyberte koncept vlevo nebo"
     CHOOSEDRAFT2: "přidejte nový"
     CHOOSESENT: "Prosím vyberte zaslanou položku vlevo."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Počet změněných detailů:"
     IMPORTED: "Noví importovaní členové:"
     IMPORTNEW: "Importováni noví členové"
@@ -56,12 +56,12 @@ cs:
     SKIPPED: "Záznamů přeskočeno:"
     TIME: "Čas:"
     UPDATED: "Aktualizovaní členové:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Obsah"
     NO: "Zrušit"
     RECIMPORTED: "Příjemci importováni z"
     YES: "Potvrdit"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Datum"
     EMAIL: "Email"
     FN: "Křestní jméno"

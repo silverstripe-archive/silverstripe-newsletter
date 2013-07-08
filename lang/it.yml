@@ -14,20 +14,20 @@ it:
     SENDING: "Invio e-mail..."
     SENTTESTTO: "Inviato test a"
     SHOWCONTENTS: "Visualizza contenuti"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Indirizzo email"
     HAVEBOUNCED: "Email rifiutate dal server"
     NOBOUNCED: "Nessuna email rifiutata dal server"
     UNAME: "Nome utente"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Bozze"
     MAILLIST: "Mailing List"
     SENT: "Oggetti inviati"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Nessun utente è stato rimosso da questa newsletter."
     UNAME: "Nome utente"
     UNSUBON: "Disiscritto da"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Inserisci nuova bozza"
     ADDTYPE: "Inserisci nuovo tipo"
     CREATE: "Crea"
@@ -36,7 +36,7 @@ it:
     GO: "Vai"
     NEWSLETTERS: "Newsletter"
     SELECTDRAFTS: "Seleziona le bozze che vuoi rimuovere e clicca il pulsante di seguito"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Cancella"
     ENTIRE: "Invia all'intera mailing list"
     ONLYNOT: "Inviato solamente alle persone a cui non è stata precedentemente inviata"
@@ -44,11 +44,11 @@ it:
     SENDTEST: "Invia test a"
     WELCOME1: "Benvenuto su"
     WELCOME2: "Sezione di amministrazione della newsletter. Per favore scegli una cartella sulla sinistra."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Per favore seleziona una bozza sulla sinistra, oppure"
     CHOOSEDRAFT2: "inseriscine una"
     CHOOSESENT: "Per favore scegli un oggetto inviato sulla sinistra."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Numero di dettagli cambiati:"
     IMPORTED: "Nuovi membri importati:"
     IMPORTNEW: "Nuovi membri importati"
@@ -56,12 +56,12 @@ it:
     SKIPPED: "Record saltati:"
     TIME: "Tempo impiegato:"
     UPDATED: "Membri aggiornati:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Contenuto di"
     NO: "Cancella"
     RECIMPORTED: "Indirizzi importati da"
     YES: "Conferma"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Data"
     EMAIL: "Email"
     FN: "Nome"

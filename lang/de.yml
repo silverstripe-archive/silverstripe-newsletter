@@ -14,20 +14,20 @@ de:
     SENDING: "Sende Emails..."
     SENTTESTTO: "Test gesendet an"
     SHOWCONTENTS: "Zeige Inhalte"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Email Adresse"
     HAVEBOUNCED: "abgewiesene Emails"
     NOBOUNCED: "Keine gesendeten Emails wurden abgewiesen"
     UNAME: "Nutzername"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Entwurf"
     MAILLIST: "Mailing Liste"
     SENT: "Gesendete Artikel"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Kein Nutzer hat diesen Newsletter abbestellt"
     UNAME: "Nutzername"
     UNSUBON: "Abbestellt am"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Neuen Entwurf hinzufügen"
     ADDTYPE: "Neuen Typ hinzufügen"
     CREATE: "Erstelle..."
@@ -36,7 +36,7 @@ de:
     GO: "Los"
     NEWSLETTERS: "Newsletter"
     SELECTDRAFTS: "Markieren Sie die Entwürfe die Sie löschen möchten und drücken dann die nachfolgende Schaltfläche"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Abbrechen"
     ENTIRE: "Sende an die gesamte Mailing Liste"
     ONLYNOT: "Sende nur an die Personen an die zuvor nicht versendet wurde"
@@ -44,11 +44,11 @@ de:
     SENDTEST: "Sende Test an"
     WELCOME1: "Willkommen beim"
     WELCOME2: "Newsletter Administrationsbereich. Bitte wählen Sie auf der linken Seite einen Ordner."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Bitte wählen Sie einen Entwurf auf der linken Seite, oder"
     CHOOSEDRAFT2: "Fügen Sie einen hinzu"
     CHOOSESENT: "Bitte wählen Sie einen gesendeten Artikel auf der linken Seite"
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Anzahl der geänderten Details:"
     IMPORTED: "Neu importierte Mitglieder:"
     IMPORTNEW: "Neue Mitglieder importiert"
@@ -56,12 +56,12 @@ de:
     SKIPPED: "übersprungene Datensätze:"
     TIME: "Benötigte Zeit:"
     UPDATED: "aktualisierte Mitglieder:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Inhalte"
     NO: "Abbrechen"
     RECIMPORTED: "Empfänger importiert aus"
     YES: "Bestätigen"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Datum"
     EMAIL: "Email"
     FN: "Vorname"

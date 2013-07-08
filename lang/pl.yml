@@ -14,20 +14,20 @@ pl:
     SENDING: "Wysyłanie emaili ..."
     SENTTESTTO: "Wysłano test do"
     SHOWCONTENTS: "Pokaż zawartość"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Adres e-mail"
     HAVEBOUNCED: "Email został odrzucony"
     NOBOUNCED: "Brak odrzuconych maili"
     UNAME: "Nazwa użytkownika"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Oczekujące"
     MAILLIST: "Lista mailingowa"
     SENT: "Wyślij pozycję"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Nie ma użytkowników nie zapisanych do tego newslettera"
     UNAME: "Nazwa użytkownika"
     UNSUBON: "Nie zapisany"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Dodaj nową wersję roboczą"
     ADDTYPE: "Dodaj nowy wzór"
     CREATE: "Stwórz ..."
@@ -36,7 +36,7 @@ pl:
     GO: "Idź"
     NEWSLETTERS: "Newslettery"
     SELECTDRAFTS: "Wybierz wersje robocze które chcesz usunąć i kliknij przycisk poniżej"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Anuluj"
     ENTIRE: "Wyślij do całej listy mailingowej"
     ONLYNOT: "Wyślij tylko do osób do których poprzednio nie wysłałeś"
@@ -44,11 +44,11 @@ pl:
     SENDTEST: "Wyślij test do "
     WELCOME1: "Witamy w"
     WELCOME2: "Administracja newsletterem. Proszę wybrać folder po lewej"
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Proszę wybrać wersje robocze po lewej lub"
     CHOOSEDRAFT2: "dodaj jeden"
     CHOOSESENT: "Proszę wybrać pozycję wyślij po lewej"
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Ilość zmienionych detali:"
     IMPORTED: "Nowi użytkownicy zaimportowani:"
     IMPORTNEW: "zaimportowani nowi użytkownicy"
@@ -56,12 +56,12 @@ pl:
     SKIPPED: "Archiwalne dokumenty:"
     TIME: "Czas zużyty:"
     UPDATED: "Uaktualnieni użytkownicy:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Zawartość"
     NO: "Anuluj"
     RECIMPORTED: "Odbiorcy pobrani z "
     YES: "Potwierdź"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Data"
     EMAIL: "Email"
     FN: "Imię"

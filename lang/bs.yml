@@ -14,20 +14,20 @@ bs:
     SENDING: "Slanje e-mail poruka..."
     SENTTESTTO: "Test poslan na"
     SHOWCONTENTS: "Prikaži sadržaj"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "E-mail adresa"
     HAVEBOUNCED: "E-mail poruke koje su vraćene"
     NOBOUNCED: "Nijedna poslana poruka nije vraćena."
     UNAME: "Korisničko ime"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Nacrti"
     MAILLIST: "E-mail lista"
     SENT: "Poslane stavke"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Nijedan korisnik nije otkazao pretplatu za ovu novinsku brošuru."
     UNAME: "Korisničko ime"
     UNSUBON: "Otkazana pretplata na"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Dodaj novi nacrt"
     ADDTYPE: "Dodaj novi tip"
     CREATE: "Kreiraj"
@@ -36,7 +36,7 @@ bs:
     GO: "Idi"
     NEWSLETTERS: "Novinske brošure"
     SELECTDRAFTS: "Izbertie nacrte koje želite izbrisati i kliknite na tipku ispod"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Poništi"
     ENTIRE: "Pošalji na cijelu e-mail listu"
     ONLYNOT: "Pošalji samo korisnicima kojima prethodno nije poslano"
@@ -44,11 +44,11 @@ bs:
     SENDTEST: "Pošalji test na"
     WELCOME1: "Dobrodošli u"
     WELCOME2: "administracijski odjel za novinske brošure. Molimo, izaberite direktorij sa lijeve strane."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Molimo, izaberite nacrt sa lijeve strane, ili"
     CHOOSEDRAFT2: "dodajte novi"
     CHOOSESENT: "Molimo, izaberite poslanu stavku sa lijeve strane."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Broj promijenjenih detalja:"
     IMPORTED: "Novi uvezeni članovi:"
     IMPORTNEW: "Uvezeni novi članovi"
@@ -56,12 +56,12 @@ bs:
     SKIPPED: "Preskočeni zapisi:"
     TIME: "Oduzeto vrijeme:"
     UPDATED: "Ažurirani članovi:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Sadržaj"
     NO: "Poništi"
     RECIMPORTED: "Primaoci uvezeni iz"
     YES: "Potvrdi"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Datum"
     EMAIL: "E-mail"
     FN: "Ime"

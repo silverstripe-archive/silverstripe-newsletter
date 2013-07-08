@@ -2,11 +2,11 @@ he_IL:
   LeftAndMain:
     NEWSLETTERS: "עדכונים ורשימות תפוצה"
   NewsletterAdmin:
-    FROMEM: "מכתובת דוא\"ל"
+    FROMEM: "מכתובת דואל"
     MEWDRAFTMEWSL: "טיוטת ניוזלטר חדשה"
     NEWNEWSLTYPE: "סוג ניוזלטר חדש"
     NEWSLTYPE: "סוג ניוזלטר"
-    PLEASEENTERMAIL: "נא להזין כתובת דוא\"ל"
+    PLEASEENTERMAIL: "נא להזין כתובת דואל"
     RESEND: "שלח שנית"
     SAVE: "שמור"
     SAVED: "נשמר"
@@ -14,19 +14,19 @@ he_IL:
     SENDING: "שולח פריטי דואר"
     SENTTESTTO: "שלח דואר בדיקה ל"
     SHOWCONTENTS: "הצג תוכן"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "כתובת דואר אלקטרוני"
     HAVEBOUNCED: "הודעות דואר חוזרות"
     NOBOUNCED: "אין הודעות דואר חוזרות"
     UNAME: "שם משתמש"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "טיוטות"
     MAILLIST: "רשימת דיוור"
     SENT: "פריטים שנשלחו"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "אין משתמשים רשומים מהניוזלטר הזה."
     UNAME: "שם משתמש"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "הוסף טיוטה חדשה"
     ADDTYPE: "הוסף סוג חדש"
     CREATE: "צור"
@@ -35,7 +35,7 @@ he_IL:
     GO: "סע"
     NEWSLETTERS: "ניוזלטר"
     SELECTDRAFTS: "בחר בטיוטות שברצונך למחוק ולאחר מכן לחץ על הכפתור מתחת"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "בטל"
     ENTIRE: "שלח לכל רשימת התפוצה"
     ONLYNOT: "שלח רק לאנשים שלא נשלח אליהם בעבר"
@@ -43,20 +43,20 @@ he_IL:
     SENDTEST: "שלח בדיקה ל"
     WELCOME1: "ברוך הבא ל"
     WELCOME2: "אזור ניהול ניוזלטר. נא בחר תיקייה משמאל"
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "נא בחר בטיוטה שבצד שמאל , או"
     CHOOSEDRAFT2: "הוסף אחד"
     CHOOSESENT: "נא בחר בפריט שנשלח בצד שמאל."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     IMPORTED: "משתמשים חדשים שיובאו:"
     IMPORTNEW: "משתמשים חדשים יובאו"
     SEC: "שניות"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "תוכן של"
     NO: "ביטול"
     RECIMPORTED: "נמענים יובאו מ"
     YES: "אישור"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "תאריך"
     EMAIL: "דואר אלקטרוני"
     FN: "שם פרטי"

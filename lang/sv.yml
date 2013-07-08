@@ -14,20 +14,20 @@ sv:
     SENDING: "Skickar e-brev..."
     SENTTESTTO: "Skicka test till"
     SHOWCONTENTS: "Visa innehåll"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "E-postadress"
     HAVEBOUNCED: "E-brev som har studsat"
     NOBOUNCED: "Inga skickade e-brev har studsat"
     UNAME: "Användarnamn"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Utkast"
     MAILLIST: "Sändlista"
     SENT: "Skickade artiklar"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Inga användare har sagt upp prenumerationen på det här nyhetsbrevet."
     UNAME: "Användarnamn"
     UNSUBON: "Sa upp prenumerationen den"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Lägg till nytt utkast"
     ADDTYPE: "Lägg till ny typ"
     CREATE: "Skapa"
@@ -36,7 +36,7 @@ sv:
     GO: "Kör"
     NEWSLETTERS: "Nyhetsbrev"
     SELECTDRAFTS: "Markera de utkast du vill radera och klicka sedan på knappen nedan"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Avbryt"
     ENTIRE: "Skicka till hela sändlistan"
     ONLYNOT: "Skicka bara till de som det inte har skickats till tidigare"
@@ -44,11 +44,11 @@ sv:
     SENDTEST: "Skicka test till"
     WELCOME1: "Välkommen till"
     WELCOME2: "nyhetsbrevs-sektion. Välj en mapp till vänster."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Välj ett utkast till vänster, eller"
     CHOOSEDRAFT2: "lägg till en"
     CHOOSESENT: "Var god välj en artikel till vänster"
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Antal detaljer ändrade:"
     IMPORTED: "Nya medlemmar importerade:"
     IMPORTNEW: "Importera nya medlemmar"
@@ -56,12 +56,12 @@ sv:
     SKIPPED: "Överhoppade poster:"
     TIME: "Tidsåtgång:"
     UPDATED: "Uppdaterade medlemmar:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Innehåll"
     NO: "Ångra"
     RECIMPORTED: "Mottagare importerade från"
     YES: "Bekräfta"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Datum"
     EMAIL: "E-post"
     FN: "Förnamn"

@@ -40,7 +40,7 @@ sl:
     SHOWCONTENTS: "Prikaži vsebino"
     TEMPLATE: "Predloga"
     UNSUBSCRIBERS: "Odjavljeni"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     BLACKLISTED: "Označen kot neustrezen"
     DATE: "Datum"
     EMADD: "E-naslov"
@@ -51,15 +51,15 @@ sl:
     NOBOUNCED: "Nobeno e-poštno sporočilo ni bilo zavrnjeno."
     RESON: "Vzrok:"
     UNAME: "Uporabniško ime"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Osnutki"
     MAILLIST: "Seznam prejemnikov"
     SENT: "Poslano"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Od tega e-obvestila se ni odjavil noben uporabnik."
     UNAME: "Uporabniško Ime"
     UNSUBON: "Odjavljeni od"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Dodaj nov osnutek"
     ADDTYPE: "Dodaj nov tip"
     CREATE: "Ustvari"
@@ -68,7 +68,7 @@ sl:
     GO: "Pojdi"
     NEWSLETTERS: "E-obvestila"
     SELECTDRAFTS: "Izberite osnutke, ki jih nameravate izbrisati, in kliknite na gumb spodaj"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Prekliči"
     ENTIRE: "Pošlji vsem prejemnikom na seznamu"
     ONLYNOT: "Pošlji samo tistim, katerim še ni bilo poslano"
@@ -76,14 +76,14 @@ sl:
     SENDTEST: "Poskusno pošlji na"
     WELCOME1: "Dobrodošli na"
     WELCOME2: "sklopu za upravljanje z e-obvestili. Izberite mapo na desni strani."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Izberite osnutek na levi, ali"
     CHOOSEDRAFT2: "dodaj"
     CHOOSESENT: "Na levi izberite poslano e-obvestilo"
   Newsletter_Recipient:
     PLURALNAME: "Prejemniki e-obvestil"
     SINGULARNAME: "Prejemnik e-obvestil"
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Število spremenjenih podatkov:"
     IMPORTED: "Uvoženi novi člani:"
     IMPORTNEW: "Uvoženi novi člani"
@@ -93,12 +93,12 @@ sl:
     SKIPPED: "Število preskočenih zapisov:"
     TIME: "Trajanje:"
     UPDATED: "Posodobljeni člani:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Vsebina"
     NO: "Prekliči"
     RECIMPORTED: "Prejemniki uvoženi iz"
     YES: "Potrdi"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Datum"
     EMAIL: "E-pošta"
     FAILEDBL: "E-obvestilo ni bilo poslano naslednjim prejemnikom, ker so le-ti na seznamu neustreznih"

@@ -14,20 +14,20 @@ ja_JP:
     SENDING: "メール送信中..."
     SENTTESTTO: "テスト送信"
     SHOWCONTENTS: "コンテンツ表示"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "メールアドレス"
     HAVEBOUNCED: "メールが返ってきました"
     NOBOUNCED: "メールは配信されました"
     UNAME: "ユーザ名"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "ドラフト"
     MAILLIST: "メーリングリスト"
     SENT: "送信したアイテム"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "どのユーザもこのニュースレターに加入していません"
     UNAME: "ユーザ名"
     UNSUBON: "登録の取り消し"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "下書きを追加"
     ADDTYPE: "タイプを追加"
     CREATE: "作成"
@@ -36,7 +36,7 @@ ja_JP:
     GO: "実行"
     NEWSLETTERS: "ニュースレター"
     SELECTDRAFTS: "削除したい草稿を選択して、以下のボタンをクリックして下さい"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "キャンセル"
     ENTIRE: "登録内容をメーリングリストへ送信しました"
     ONLYNOT: "以前に送信しなかった人にだけに送信して下さい"
@@ -44,11 +44,11 @@ ja_JP:
     SENDTEST: "テスト送信"
     WELCOME1: "ようこそ"
     WELCOME2: "ニュースレターを管理出来る場所です。　左のオプションからフォルダを選び下さい。"
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "左の草稿から選択するか"
     CHOOSEDRAFT2: "追加"
     CHOOSESENT: "左から送信するアイテムを選択してください"
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "番号を変更しました:"
     IMPORTED: "新しいメンバーをインポートしました"
     IMPORTNEW: "新しいメンバーをインポートする"
@@ -56,12 +56,12 @@ ja_JP:
     SKIPPED: "記録はスキップされました:"
     TIME: "タイムトークン:"
     UPDATED: "メンバーを更新 :"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "コンテンツ"
     NO: "キャンセル"
     RECIMPORTED: "から受信者をインポート"
     YES: "確認"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "日付"
     EMAIL: "Eメール"
     FN: "苗字"

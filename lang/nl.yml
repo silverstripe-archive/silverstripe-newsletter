@@ -13,9 +13,9 @@ nl:
     PLURALNAME: "Verzendlijsten"
     SINGULARNAME: "Verzendlijst"
   Newletter:
-    TemplateExplanation1: "You should make your own styled SilverStripe templates  make sure your templates have a\n					\$Body coded so the newletter's content could be clearly located in your templates\n					"
-    TemplateExplanation2: "Make sure your newsletter templates could be looked up in the dropdown list bellow by\n					either placing them under your theme directory,	e.g. themes/mytheme/templates/email/\n					"
-    TemplateExplanation3: "or under your project directory e.g. mysite/templates/email/\n					"
+    TemplateExplanation1: "You should make your own styled SilverStripe templates  make sure your templates have a					$Body coded so the newletter's content could be clearly located in your templates					"
+    TemplateExplanation2: "Make sure your newsletter templates could be looked up in the dropdown list bellow by					either placing them under your theme directory,	e.g. themes/mytheme/templates/email/					"
+    TemplateExplanation3: "or under your project directory e.g. mysite/templates/email/					"
     TemplateExplanationTitle: 'Select a styled template (.ss template) that this newsletter renders with'
   Newsletter:
     BlacklistedDesc: 'Excluded from emails, either by automated process or manually. An invalid address or undeliverable email will eventually result in blacklisting.'
@@ -44,7 +44,7 @@ nl:
     FieldVerified: 'Geverifieerd?'
     FormattingHelp: 'Hulp met opmaak'
     FromNotif: 'Van emailadres voor notificatie email'
-    GlobalUnsubscribeDescription: "Clicking any unsubscribe links in each newsletter will unsubscribe the recipient from all mailing lists \n			if checked<br />\n			otherwise only unsubscribe the recipient from mailing lists that the newsletter related to"
+    GlobalUnsubscribeDescription: "Clicking any unsubscribe links in each newsletter will unsubscribe the recipient from all mailing lists 			if checked<br />			otherwise only unsubscribe the recipient from mailing lists that the newsletter related to"
     INVALIDLINK: 'Ongeldige link'
     INVALIDRESUBSCRIBE: 'Ongeldige opnieuw aanmelden link'
     INVALIDRESUBSCRIBECONTENT: 'Deze opnieuw aanmelden link is ongeldig'

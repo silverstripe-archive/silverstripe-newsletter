@@ -14,20 +14,20 @@ nb:
     SENDING: "Sender eposter..."
     SENTTESTTO: "Sendt test til"
     SHOWCONTENTS: "Vis innhold"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Epost adresse"
     HAVEBOUNCED: "Eposter som er avvist"
     NOBOUNCED: "Ingen eposter som blir sendt er avvist."
     UNAME: "Brukernavn"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Utkast"
     MAILLIST: "Postlister"
     SENT: "Sendte elementer"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Ingen brukere har avsluttet abonnementet på dette nyhetsbrevet."
     UNAME: "Brukernavn"
     UNSUBON: "Avsluttet abonementet på"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Opprett nytt utkast"
     ADDTYPE: "Legg til ny type"
     CREATE: "Opprett"
@@ -36,7 +36,7 @@ nb:
     GO: "Utfør"
     NEWSLETTERS: "Nyhetsbrev"
     SELECTDRAFTS: "Marker utkastene du vil slette og trykk på knappen under"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Avbryt"
     ENTIRE: "Send til hele epostlisten"
     ONLYNOT: "Bare send til de som ikke har mottatt før"
@@ -44,11 +44,11 @@ nb:
     SENDTEST: "Send test til"
     WELCOME1: "Velkommen til"
     WELCOME2: "Nyhetsbrev administrasjonsseksjon. Venligst velg en mappe fra venstre side."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Venligst velg et utkast fra venstre side, eller"
     CHOOSEDRAFT2: "legg til en"
     CHOOSESENT: "Venligst velg et sendt element fra venstre meny."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Antall detaljer endret:"
     IMPORTED: "Nye importerte medlemmer:"
     IMPORTNEW: "Importer nye medlemmer"
@@ -56,12 +56,12 @@ nb:
     SKIPPED: "Oppslag som ble droppet:"
     TIME: "Tid brukt:"
     UPDATED: "Oppdaterte medlemmer:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Innhold av"
     NO: "Avbryt"
     RECIMPORTED: "Mottagere importert fra"
     YES: "Bekreft"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Dato"
     EMAIL: "Epost"
     FN: "Fornavn"

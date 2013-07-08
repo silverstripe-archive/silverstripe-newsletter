@@ -14,20 +14,20 @@ hu:
     SENDING: "E-mailek küldése…"
     SENTTESTTO: "Teszt elküldve ide: "
     SHOWCONTENTS: "Tartalom mutatása"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "E-mail cím"
     HAVEBOUNCED: "Visszaküldött e-mailek"
     NOBOUNCED: "Egyetlen elküldött levél sem jött vissza."
     UNAME: "Felhasználónév"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Piszkozatok"
     MAILLIST: "Levelezési lista"
     SENT: "Elküldött elmek"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Egy felhasználó sem iratkozott le a hírlvélről."
     UNAME: "Felhasználónév"
     UNSUBON: "Leiratkozott ekkor"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Új piszkozat hozzáadása"
     ADDTYPE: "Új típus hozzáadása"
     CREATE: "Létrehozás"
@@ -36,7 +36,7 @@ hu:
     GO: "Mehet"
     NEWSLETTERS: "Hírlevelek"
     SELECTDRAFTS: "Válaszd ki a törlendő piszkozatokat, majd kattints a lentebbi gombra."
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Mégsem"
     ENTIRE: "Küldés az egész levelezési listának"
     ONLYNOT: "Küldés csak olyan embereknek, akiknek korábban nem került elküldésre"
@@ -44,11 +44,11 @@ hu:
     SENDTEST: "Teszt küldése ide:"
     WELCOME1: "Üdvözlünk"
     WELCOME2: "hírlevél adminisztrátori részében. Kérünk, válassz egy mappát a bal oldalról."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Válassz egy piszkozatot a bal oldalon, vagy "
     CHOOSEDRAFT2: "hozz létre egyet"
     CHOOSESENT: "Kérünk, válassz ki egy elküldött elemet a bal oldali listából. "
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Megváltoztatott részletek száma: "
     IMPORTED: "Új importált tagok:"
     IMPORTNEW: "Importált új tagok"
@@ -56,12 +56,12 @@ hu:
     SKIPPED: "A kihagyott elemek:"
     TIME: "Eltelt idő:"
     UPDATED: "Frissített tagok:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Tartalom:"
     NO: "Mégse"
     RECIMPORTED: "Címzettek importálási helye: "
     YES: "Megerősítés"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Dátum"
     EMAIL: "E-mail"
     FN: "Keresztnév"

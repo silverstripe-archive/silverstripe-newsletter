@@ -14,20 +14,20 @@ fi:
     SENDING: "Lähetetään sähköpostia..."
     SENTTESTTO: "Lähetä testi jnk.:"
     SHOWCONTENTS: "Näytä sisältö"
-  NewsletterAdmin_BouncedList.ss:
+  NewsletterAdmin_BouncedList_ss:
     EMADD: "Sähköpostiosoite"
     HAVEBOUNCED: "Takaisin kimmonneet sähköpostit"
     NOBOUNCED: "Lähetetyt sähköpostit eivät ole kimmonneet takaisin."
     UNAME: "Käyttäjänimi"
-  NewsletterAdmin_SiteTree.ss:
+  NewsletterAdmin_SiteTree_ss:
     DRAFTS: "Luonnokset"
     MAILLIST: "Sähköpostilista"
     SENT: "Lähetetyt kohdat"
-  NewsletterAdmin_UnsubscribedList.ss:
+  NewsletterAdmin_UnsubscribedList_ss:
     NOUNSUB: "Kukaan ei ole lopettanut tämän uutiskirjeen tilaamista."
     UNAME: "Käyttäjänimi"
     UNSUBON: "Tilaus peruttu"
-  NewsletterAdmin_left.ss:
+  NewsletterAdmin_left_ss:
     ADDDRAFT: "Lisää uusi luonnos"
     ADDTYPE: "Lisää uusi tyyppi"
     CREATE: "Luo"
@@ -36,7 +36,7 @@ fi:
     GO: "Siirry"
     NEWSLETTERS: "Uutiskirjeet"
     SELECTDRAFTS: "Valitse poistettavat luonnokset ja paina alla olevaa nappia"
-  NewsletterAdmin_right.ss:
+  NewsletterAdmin_right_ss:
     CANCEL: "Peruuta"
     ENTIRE: "Lähetä koko sähköpostilistalle"
     ONLYNOT: "Lähetä ainoastaan niille, joille ei ole aikaisemmin lähetetty"
@@ -44,11 +44,11 @@ fi:
     SENDTEST: "Lähetä testi jnk:"
     WELCOME1: "Tervetuloa ohjelman"
     WELCOME2: "uutiskirjeen hallintaosioon. Valitse kansio vasemmalta."
-  NewsletterList.ss:
+  NewsletterList_ss:
     CHOOSEDRAFT1: "Valitse luonnos vasemmalta tai"
     CHOOSEDRAFT2: "lisää uusi"
     CHOOSESENT: "Valitse lähetettävä asia vasemmalta."
-  Newsletter_RecipientImportField.ss:
+  Newsletter_RecipientImportField_ss:
     CHANGED: "Muutoksien lukumäärä:"
     IMPORTED: "Seuraavat jäsenet tuotiin:"
     IMPORTNEW: "Uusia jäseniä tuotiin"
@@ -56,12 +56,12 @@ fi:
     SKIPPED: "Ohitetut tietueet:"
     TIME: "Aikaa kulunut:"
     UPDATED: "Päivitetyt jäsenet:"
-  Newsletter_RecipientImportField_Table.ss:
+  Newsletter_RecipientImportField_Table_ss:
     CONTENTSOF: "Sisältö:"
     NO: "Peruuta"
     RECIMPORTED: "Vastaannottajat tuotu paikasta"
     YES: "Vahvista"
-  Newsletter_SentStatusReport.ss:
+  Newsletter_SentStatusReport_ss:
     DATE: "Päivämäärä"
     EMAIL: "Sähköposti"
     FN: "Etunimi"

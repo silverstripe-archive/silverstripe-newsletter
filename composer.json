@@ -15,11 +15,11 @@
 	],
 	"require":
 	{
-		"silverstripe/framework": "3.*,<3.2",
+		"silverstripe/framework": "3.0.*",
 		"composer/installers": "*",
 		"silverstripe/messagequeue": "*",
 		"silverstripe/gridfieldajaxrefresh": "*",
-		"silverstripe/cms": "3.*"
+		"silverstripe/cms": "3.0.*"
 	},
 	"autoload": {
 		"classmap": ["tests/behat/"]

@@ -106,9 +106,9 @@
 														<h5>We confirm that you have subscribed to:
 														</h5>
 														<ul>
-															<% control MailingLists %>
+															<% loop MailingLists %>
 																<li>$Title</li>
-															<% end_control %>
+															<% end_loop %>
 														</ul>
 													<% end_if %>
 												</div>

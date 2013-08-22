@@ -8,11 +8,11 @@
  */
 class NewsletterAdmin extends ModelAdmin {
 
-	static $url_segment = 'newsletter';
-	static $menu_title = 'Newsletter';
-	static $menu_icon = 'newsletter/images/newsletter-icon.png';
+	private static $url_segment = 'newsletter';
+	private static $menu_title = 'Newsletter';
+	private static $menu_icon = 'newsletter/images/newsletter-icon.png';
 
-	public static $managed_models = array(
+	private static $managed_models = array(
 		"Newsletter" => array('title' => 'Newsletters'),
 		"Newsletter_Sent" => array('title' => 'Sent Newsletters'),
 		"MailingList" => array('title' => 'Mailing Lists'),

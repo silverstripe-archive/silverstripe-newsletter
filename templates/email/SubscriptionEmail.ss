@@ -22,18 +22,18 @@
 		
 		 <% if MemberInfoSection %>The following data was submitted:<br />
 			<ul>
-				<% control MemberInfoSection %>
+				<% loop MemberInfoSection %>
 				<li><% if Title %>$Title<% else %>$Name<% end_if %>: $EmailalbeValue</li>
-				<% end_control %>
+				<% end_loop %>
 			</ul>
 		<% end_if %>
 		
 		<% if Newsletters %>
 			<p>You're subscribed to the following mailing lists:</p>
 			<ul>
-				<% control Newsletters %>
+				<% loop Newsletters %>
 					<li>$Title</li>
-				<% end_control %>
+				<% end_loop %>
 			</ul>
 		<% end_if %>
 		

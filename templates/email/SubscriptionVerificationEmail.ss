@@ -113,16 +113,16 @@
 														<h5>Once your email address is verified, you will be subscribed to our mailing lists:
 														</h5>
 														<ul>
-															<% control MailingLists %>
+															<% loop MailingLists %>
 																<li>$Title</li>
-															<% end_control %>
+															<% end_loop %>
 														</ul>
 
 														<% if MemberInfoSection %><h5>With submitted data:</h5>
 															<ul>
-																<% control MemberInfoSection %>
+																<% loop MemberInfoSection %>
 																<li><% if Title %>$Title<% else %>$Name<% end_if %>: $EmailalbeValue</li>
-																<% end_control %>
+																<% end_loop %>
 															</ul>
 														<% end_if %>
 

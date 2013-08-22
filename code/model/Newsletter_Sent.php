@@ -11,6 +11,6 @@
  */
 class Newsletter_Sent extends Newsletter {
 
-	static $singular_name = "Sent Newsletters";
-	static $plural_name = "Sent Newsletters";
+	private static $singular_name = "Sent Newsletters";
+	private static $plural_name = "Sent Newsletters";
 }

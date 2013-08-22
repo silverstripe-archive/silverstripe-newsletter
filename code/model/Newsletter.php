@@ -8,7 +8,7 @@
  */
 class Newsletter extends DataObject implements CMSPreviewable{
 
-	static $db = array(
+	private static $db = array(
 		"Status"				=> "Enum('Draft, Sending, Sent', 'Draft')",
 		"Subject"				=> "Varchar(255)",
 		"Content"				=> "HTMLText",
@@ -18,27 +18,27 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		"RenderTemplate"		=> "Varchar",
 	);
 
-	static $has_many = array(
+	private static $has_many = array(
 		"SendRecipientQueue"	=> "SendRecipientQueue",
 		"TrackedLinks"			=> "Newsletter_TrackedLink"
 	);
 
-	static $many_many = array(
+	private static $many_many = array(
 		"MailingLists"			=> "MailingList"
 	);
 
-	static $searchable_fields = array(
+	private static $searchable_fields = array(
 		"Subject",
 		"Content",
 		"SendFrom",
 		"SentDate"
 	);
 
-	static $default_sort = array(
+	private static $default_sort = array(
 		"LastEdited DESC"
 	);
 
-	static $summary_fields = array(
+	private static $summary_fields = array(
 		"Subject",
 		"SentDate",
 		"Status"
@@ -444,17 +444,17 @@ class Newsletter extends DataObject implements CMSPreviewable{
  */
 class Newsletter_TrackedLink extends DataObject {
 	
-	static $db = array(
+	private static $db = array(
 		'Original' => 'Varchar(255)',
 		'Hash' => 'Varchar(100)',
 		'Visits' => 'Int'
 	);
 	
-	static $has_one = array(
+	private static $has_one = array(
 		'Newsletter' => 'Newsletter'
 	);
 
-	static $summary_fields = array(
+	private static $summary_fields = array(
 		"Newsletter.Subject" => "Newsletter",
 		"Original" => "Link URL",
 		"Visits" => "Visit Counts"

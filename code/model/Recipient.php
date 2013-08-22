@@ -8,7 +8,7 @@
  */
 class Recipient extends DataObject {
 
-	static $db = array(
+	private static $db = array(
 		'Email'					=> "Varchar(255)",
 		'FirstName'				=> "Varchar(255)",
 		'MiddleName'			=> "Varchar(255)",
@@ -28,19 +28,19 @@ class Recipient extends DataObject {
 	);
 
 	// a newsletter recipient could belong to many mailing lists.
-	static $belongs_many_many = array(
+	private static $belongs_many_many = array(
 		'MailingLists'			=> 'MailingList',
 	);
-	static $has_many = array(
+	private static $has_many = array(
 		'SendRecipientQueue' => 'SendRecipientQueue',
 	);
 
-	static $indexes = array(
+	private static $indexes = array(
 		'Email'					=> true,
 		'ReceivedCount'			=> true,
 	);
 
-	static $default_sort = '"FirstName", "Surname"';
+	private static $default_sort = '"FirstName", "Surname"';
 
 	/**
 	 *
@@ -49,7 +49,7 @@ class Recipient extends DataObject {
 	 * with definition for different searching algorithms
 	 * (LIKE, FULLTEXT) and default FormFields to construct a searchform.
 	 */
-	static $searchable_fields = array(
+	private static $searchable_fields = array(
 		'FirstName',
 		'MiddleName',
 		'Surname',
@@ -59,7 +59,7 @@ class Recipient extends DataObject {
 		'Verified',
 	);
 
-	static $summary_fields = array(
+	private static $summary_fields = array(
 		'FirstName'			=> 'First Name',
 		'Surname'			=> 'Last Name',
 		'Email'				=> 'Email',

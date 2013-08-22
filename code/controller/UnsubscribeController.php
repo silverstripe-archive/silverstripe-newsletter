@@ -10,7 +10,7 @@ class UnsubscribeController extends Page_Controller {
 	
 	static public $days_unsubscribe_link_alive = 30;
 
-	public static $allowed_actions = array(
+	private static $allowed_actions = array(
 		'index',
 		'done',
 		'undone',

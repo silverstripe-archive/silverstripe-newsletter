@@ -8,7 +8,7 @@
  * unsubscribed from a {@link MailingList}.
  */
 class UnsubscribeRecord extends DataObject {
-	static $has_one = array(
+	private static $has_one = array(
 		'MailingList' => 'MailingList',
 		'Recipient' => 'Recipient'
 	);

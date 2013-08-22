@@ -9,7 +9,7 @@
 
 class UnsubscriptionPage extends Page {
 
-	static $defaults = array(
+	private static $defaults = array(
 		'Content' => 'Enter your email address and we will send you an email with an unsubscribe link'
 	);
 }

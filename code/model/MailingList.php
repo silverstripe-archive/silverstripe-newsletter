@@ -9,29 +9,29 @@
 class MailingList extends DataObject {
 
 	/* the database fields */
-	static $db = array(
+	private static $db = array(
 		'Title'					=> "Varchar",
 	);
 
 	/* a mailing list could contains many newsletter recipients */
-	static $many_many = array(
+	private static $many_many = array(
 		'Recipients'			=> "Recipient",
 	);
 
-	static $belongs_many_many = array(
+	private static $belongs_many_many = array(
 		'Newsletters'			=> "Newsletter",
 	);
 
-	static $singular_name = 'Mailinglist';
+	private static $singular_name = 'Mailinglist';
 
-	static $plural_name = 'Mailinglists';
+	private static $plural_name = 'Mailinglists';
 
-	static $summary_fields = array(
+	private static $summary_fields = array(
 		'Title',
 		'ActiveRecipients.Count'
 	);
 
-	static $searchable_fields = array(
+	private static $searchable_fields = array(
 		'Title'
 	);
 

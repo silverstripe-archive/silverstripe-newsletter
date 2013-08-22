@@ -1,13 +1,15 @@
 <?php
-
-Class UnsubscribeTest extends SapphireTest{
+class UnsubscribeTest extends SapphireTest{
+	
 	static $fixture_file = 'newsletter/tests/unit/UnsubscribeTest.yml';
+	
 	static $page;
 	
-	function SetUp(){
-		parent::SetUp();
+	function setUp(){
+		parent::setUp();
+		
 		self::$page = new UnsubscribeController();
-		ContentNegotiator::disable();
+		Config::inst()->update('ContentNegotiator', 'enabled', false);
 	}
 	
 	function testIndexWithAutoLoginHashAndNewsletterType(){

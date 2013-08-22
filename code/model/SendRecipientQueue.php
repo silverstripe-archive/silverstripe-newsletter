@@ -11,24 +11,24 @@ class SendRecipientQueue extends DataObject {
 	 *	Status has 4 possible values: "Sent", (mail() returned TRUE), "Failed" (mail() returned FALSE),
 	 * 	"Bounced" ({@see $email_bouncehandler}), or "BlackListed" (sending to is disabled).
 	 */
-	static $db = array(
+	private static $db = array(
 		"Status" => "Enum('Scheduled, InProgress, Sent, Failed, Bounced, BlackListed', 'Scheduled')",
 		"RetryCount" => "Int(0)"    //number of times this email got "stuck" in the queue
 	);
 
-	static $has_one = array(
+	private static $has_one = array(
 		"Newsletter" => "Newsletter",
 		"Recipient" => "Recipient"
 	);
 
-	static $summary_fields = array(
+	private static $summary_fields = array(
 		"Status",
 		"Recipient.Email",
 		"RetryCount",
 		"LastEdited",
 	);
 
-	static $default_sort = array(
+	private static $default_sort = array(
 		'LastEdited DESC'
 	);
 

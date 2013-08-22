@@ -9,7 +9,7 @@
 
 class SubscriptionPage extends Page {
 	
-	static $db = array(
+	private static $db = array(
 		'Fields' => 'Text',
 		'Required' => 'Text',
 		'CustomisedHeading' => 'Text',
@@ -23,14 +23,14 @@ class SubscriptionPage extends Page {
 		"OnCompleteMessage" => "HTMLText",
 	);
 	
-	static $defaults = array(
+	private static $defaults = array(
 		'Fields' => 'Email',
 		'SubmissionButtonText' => 'Submit'
 	);
 
-	static $singular_name = 'Newsletter Subscription Page';
+	private static $singular_name = 'Newsletter Subscription Page';
 
-	static $plural_name = 'Newsletter Subscription Pages';
+	private static $plural_name = 'Newsletter Subscription Pages';
 
 	static public $days_verification_link_alive = 2;
 
@@ -200,7 +200,7 @@ class SubscriptionPage extends Page {
  */
 class SubscriptionPage_Controller extends Page_Controller {
 
-	public static $allowed_actions = array(
+	private static $allowed_actions = array(
 		'index',
 		'subscribeverify',
 		'submitted',

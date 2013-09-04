@@ -86,6 +86,12 @@ class NewsletterEmail extends Email {
 					arsort($sorted);
 
 					foreach($sorted as $link => $length) {
+						// Don't replace anchor links
+						if ($link[0] == '#') {
+							$replacements[$link] = $link; // A null replacement
+							continue;
+						}
+						
 						$SQL_link = Convert::raw2sql($link);
 
 						$tracked = DataObject::get_one('Newsletter_TrackedLink',

@@ -11,6 +11,10 @@ class NewsletterGridFieldDetailForm extends GridFieldDetailForm {
 }
 
 class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRequest {
+	private static $allowed_actions = array(
+		'ItemEditForm',
+		'emailpreview',
+	);
 
 	public function updateCMSActions($actions) {
 		if (empty($this->record->Status) || $this->record->Status == "Draft") {

@@ -148,12 +148,16 @@ class NewsletterEmail extends Email {
 			}
 
 			if($static_base_url = self::get_static_base_url()) {
-				$orig_baseURL = Director::baseURL();
-				Director::setBaseURL($static_base_url);
+				$base_url_changed = true;
+				$base_url = Config::inst()->get('Director', 'alternate_base_url');
+				Config::inst()->update('Director', 'alternate_base_url', $static_base_url);
+			} else {
+				$base_url_changed = false;
 			}
 			$link =  Director::absoluteBaseURL() . "unsubscribe/index/".$this->recipient->ValidateHash."/$listIDs";
-			if(isset($orig_baseURL)) {
-				Director::setBaseURL($orig_baseURL);
+			if ($base_url_changed) {
+				// remove our alternative base URL
+				Config::inst()->update('Director', 'alternate_base_url', $base_url);
 			}
 
 			return $link;

@@ -214,7 +214,12 @@ class NewsletterSendController extends BuildTask {
 
 						//send out the mails
 						foreach($queueItems2 as $item) {
-							$item->send($newsletter, $recipientsMap[$item->RecipientID]);
+							try {
+								$item->send($newsletter, $recipientsMap[$item->RecipientID]);
+							} catch (Exception $e) {
+								$item->Status = 'Failed';
+								$item->write();
+							}
 						}
 					}
 

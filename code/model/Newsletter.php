@@ -52,6 +52,8 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		'MailingLists'
 	);
 
+	private static $field_labels = array();
+	
 	public function fieldLabels($includelrelations = true) {
 		$labels = parent::fieldLabels($includelrelations);
 

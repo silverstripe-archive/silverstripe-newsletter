@@ -55,7 +55,7 @@ class Recipient extends DataObject {
 		'Surname',
 		'Email',
 		'Blacklisted',
-		'MailingLists.Title'=> 'Mailing List',
+		'MailingLists.Title' => array('title' => 'Mailing List'),
 		'Verified',
 	);
 

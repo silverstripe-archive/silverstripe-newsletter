@@ -13,6 +13,13 @@ class NewsletterEmail extends Email {
 	protected $fakeRecipient;
 
 	/**
+	 * Should the link tracking be enabled.
+	 *
+	 * @var boolean
+	 */
+	private static $link_tracking_enabled = true;
+
+	/**
 	 * @var String
 	 */
 	protected static $static_base_url = null;
@@ -67,9 +74,10 @@ class NewsletterEmail extends Email {
 			$bodyViewer = new SSViewer_FromString($text);
 			$text = $bodyViewer->process($this->templateData());
 			
-			// find all the matches
-			if(!$this->fakeRecipient &&
-					preg_match_all("/<a\s[^>]*href=\"([^\"]*)\"[^>]*>(.*)<\/a>/siU", $text, $matches)) {
+			// Install link tracking by replacing existing links with "newsletterlink" and hash-based reference.
+			if($this->config()->link_tracking_enabled &&
+				!$this->fakeRecipient &&
+				preg_match_all("/<a\s[^>]*href=\"([^\"]*)\"[^>]*>(.*)<\/a>/siU", $text, $matches)) {
 
 				if(isset($matches[1]) && ($links = $matches[1])) {
 					

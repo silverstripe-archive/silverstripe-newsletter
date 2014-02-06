@@ -92,10 +92,10 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 	 * @param SS_HTTPRequest $request
 	 */
 	public function emailpreview(SS_HTTPRequest $request = null) {
-        $origState = Config::inst()->get('SSViewer', 'theme_enabled');
-        Config::inst()->update('SSViewer','theme_enabled',true);
+		$origState = Config::inst()->get('SSViewer', 'theme_enabled');
+		Config::inst()->update('SSViewer', 'theme_enabled', true);
 		$emailVar = $request->getVar('email');
-		
+
 		$recipient = new Recipient(Recipient::$test_data);
 		if ($request && !empty($emailVar)) {
 			$recipient->Email = Convert::raw2js($emailVar);
@@ -107,7 +107,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		$email = new NewsletterEmail($newsletter, $recipient, true);
 		$email->send();
 
-        Config::inst()->update('SSViewer','theme_enabled',$origState);
+		Config::inst()->update('SSViewer', 'theme_enabled', $origState);
 		return Controller::curr()->redirectBack();
 	}
 

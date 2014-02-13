@@ -13,4 +13,4 @@ before_script:
  - cd ~/builds/ss
 
 script: 
- - phpunit fulltextsearch/tests/
+ - phpunit newsletter/tests/

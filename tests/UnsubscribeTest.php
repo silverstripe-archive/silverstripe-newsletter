@@ -55,7 +55,7 @@ Class UnsubscribeTest extends SapphireTest{
 		$body1 = Director::test($url1)->getBody();
 		$body2 = Director::test($url2)->getBody();
 		$message1 = sprintf(_t('Unsubscribe.LINKSENTTO', "The unsubscribe link has been sent to %s"), 'normann1@silverstripe.com');
-		$message2 = sprintf(_t('Unsubscribe.LINKSENDERR', "Sorry, currently we have internal error, and can't send the unsubscribe link to %s"), 'normann1@silverstripe.com');
+		$message2 = str_replace("'","&#39;",sprintf(_t('Unsubscribe.LINKSENDERR', "Sorry, currently we have internal error, and can't send the unsubscribe link to %s"), 'normann1@silverstripe.com'));
 		$this->AssertContains($message1, $body1);
 		$this->AssertContains($message2, $body2);
 	}

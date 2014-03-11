@@ -14,7 +14,7 @@ en:
     SINGULARNAME: Mailinglist
   Newletter:
     TemplateExplanation1: 'You should make your own styled SilverStripe templates	make sure your templates have a$Body coded so the newletter''s content could be clearly located in your templates'
-    TemplateExplanation2: "Make sure your newsletter templates could be looked up in the dropdown list bellow by\n					either placing them under your theme directory,	e.g. themes/mytheme/templates/email/\n					"
+    TemplateExplanation2: "Make sure your newsletter templates could be looked up in the dropdown list below by\n					either placing them under your theme directory,	e.g. themes/mytheme/templates/email/\n					"
     TemplateExplanation3: "or under your project directory e.g. mysite/templates/email/\n					"
     TemplateExplanationTitle: 'Select a styled template (.ss template) that this newsletter renders with'
   Newsletter:

@@ -171,7 +171,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 					. '$Body coded so the newletter\'s content could be clearly located in your templates'
 				);
 				$explanation2 = _t("Newletter.TemplateExplanation2", 
-					"Make sure your newsletter templates could be looked up in the dropdown list bellow by
+					"Make sure your newsletter templates could be looked up in the dropdown list below by
 					either placing them under your theme directory,	e.g. themes/mytheme/templates/email/
 					");
 				$explanation3 = _t("Newletter.TemplateExplanation3", 

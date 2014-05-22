@@ -23,5 +23,8 @@ if (class_exists('MessageQueue')) {
 //SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH . '/logW.txt'), SS_Log::WARN);
 //SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH . '/logE.txt'), SS_Log::ERR);
 
+// A hack for behat, apparently - add guards to only start session for behat-required sections.
+if (strpos($_SERVER['REQUEST_URI'], 'newsletter-subscription')!==false ||
+	strpos($_SERVER['REQUEST_URI'], 'admin')!==false) {
 Session::start();
-
+}

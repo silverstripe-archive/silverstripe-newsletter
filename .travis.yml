@@ -12,14 +12,22 @@ matrix:
   include:
     - php: 5.4
       env: DB=MYSQL CORE_RELEASE=master
+    - php: 5.4
+      env: DB=MYSQL CORE_RELEASE=3.1 BEHAT_TEST=1
 
 before_script:
+ - composer self-update
+ - phpenv rehash
  - git clone git://github.com/silverstripe-labs/silverstripe-travis-support.git ~/travis-support
- - php ~/travis-support/travis_setup.php --source `pwd` --target ~/builds/ss
+ - "if [ \"$BEHAT_TEST\" = \"\" ]; then php ~/travis-support/travis_setup.php --source `pwd` --target ~/builds/ss; fi"
+ - "if [ \"$BEHAT_TEST\" = \"1\" ]; then php ~/travis-support/travis_setup.php --source `pwd` --target ~/builds/ss --require silverstripe/behat-extension; fi"
  - cd ~/builds/ss
+ - php ~/travis-support/travis_setup_selenium.php --if-env BEHAT_TEST
+ - php ~/travis-support/travis_setup_php54_webserver.php --if-env BEHAT_TEST
 
-script: 
- - phpunit newsletter/tests/
+script:
+ - "if [ \"$BEHAT_TEST\" = \"\" ]; then phpunit newsletter/tests; fi"
+ - "if [ \"$BEHAT_TEST\" = \"1\" ]; then vendor/bin/behat @newsletter; fi"
 
 branches:
   except:

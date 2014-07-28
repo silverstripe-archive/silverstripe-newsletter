@@ -9,7 +9,9 @@
 class NewsletterAdmin extends ModelAdmin {
 
 	private static $url_segment = 'newsletter';
+	
 	private static $menu_title = 'Newsletter';
+
 	private static $menu_icon = 'newsletter/images/newsletter-icon.png';
 
 	private static $managed_models = array(
@@ -19,14 +21,13 @@ class NewsletterAdmin extends ModelAdmin {
 		"Recipient" => array('title' => 'All Recipients')
 	);
 
-	/** 
-	 * @var array Array of template paths to check 
-	 */	
-	static $template_paths = null; //could be customised in _config.php
+	/**
+	 * @var array Array of template paths to check
+	 */
+	private static $template_paths = null; //could be customised in _config.php
 
 	public function init() {
 		parent::init();
-
 		Requirements::javascript(CMS_DIR . '/javascript/SilverStripeNavigator.js');
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/ActionOnConfirmation.js');
 		Requirements::css('newsletter/css/NewsletterAdmin.css');
@@ -60,7 +61,7 @@ class NewsletterAdmin extends ModelAdmin {
 	}
 
 	/**
-	 * looked-up the email template_paths. 
+	 * looked-up the email template_paths.
 	 * if not set, will look up both theme folder and project folder
 	 * in both cases, email folder exsits or Email folder exists
 	 * return an array containing all folders pointing to the bunch of email templates
@@ -68,43 +69,47 @@ class NewsletterAdmin extends ModelAdmin {
 	 * @return array
 	 */
 	public static function template_paths() {
-		if(!isset(self::$template_paths)) {
+		if($paths = Config::inst()->get("NewsletterAdmin", "template_paths")) {
+			if(is_string($paths)) {
+				$paths = array($paths);
+			}
+		}
+		else {
 			if(class_exists('SiteConfig') && ($config = SiteConfig::current_site_config()) && $config->Theme) {
 				$theme = $config->Theme;
-			} elseif(SSViewer::current_custom_theme()) {
+			}
+			elseif(SSViewer::current_custom_theme()) {
 				$theme = SSViewer::current_custom_theme();
-			} else if(SSViewer::current_theme()){
+			}
+			else if(SSViewer::current_theme()){
 				$theme = SSViewer::current_theme();
-			} else {
+			}
+			else {
 				$theme = false;
 			}
 
 			if($theme) {
 				if(file_exists("../".THEMES_DIR."/".$theme."/templates/email")){
-					self::$template_paths[] = THEMES_DIR."/".$theme."/templates/email";
+					$paths[] = THEMES_DIR."/".$theme."/templates/email";
 				}
-				
+
 				if(file_exists("../".THEMES_DIR."/".$theme."/templates/Email")){
-					self::$template_paths[] = THEMES_DIR."/".$theme."/templates/Email";
+					$paths[] = THEMES_DIR."/".$theme."/templates/Email";
 				}
 			}
 
 			$project = project();
-			
+
 			if(file_exists("../". $project . '/templates/email')){
-				self::$template_paths[] = $project . '/templates/email';
+				$paths[] = $project . '/templates/email';
 			}
-			
+
 			if(file_exists("../". $project . '/templates/Email')){
-				self::$template_paths[] = $project . '/templates/Email';
+				$paths[] = $project . '/templates/Email';
 			}
 		}
-		else {
-			if(is_string(self::$template_paths)) {
-				self::$template_paths = array(self::$template_paths);
-			}
-		}
-		return self::$template_paths;
+		Config::inst()->get("NewsletterAdmin", "template_paths", $paths);
+		return $paths;
 	}
 
 	public function getList() {

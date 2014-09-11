@@ -165,10 +165,9 @@ class NewsletterSendController extends BuildTask {
 				//try to clean up any stuck items
 				$this->cleanUpStalledQueue($newsletterID);
 
-				// Start a transaction, or if we are in MySQL, create a lock on the SendRecipientQueue table.
+				// Start a transaction
 				$conn = DB::getConn();
-				if ($conn instanceof MySQLDatabase) $conn->query('lock table SendRecipientQueue write');
-				else if (method_exists($conn, 'startTransaction')) $conn->startTransaction();
+				if($conn->supportsTransactions()) $conn->transactionStart();
 
 				$queueItemsList = array();
 				try {
@@ -184,13 +183,12 @@ class NewsletterSendController extends BuildTask {
 						$queueItemsList[] = $item->write();
 					}
 
-					// Commit transaction, or in MySQL just release the lock
-					if ($conn instanceof MySQLDatabase) $res = $conn->query('unlock tables');
-					else if (method_exists($conn, 'endTransaction')) $conn->endTransaction();
+					// Commit transaction
+					if($conn->supportsTransactions()) $conn->transactionEnd();
 				} catch (Exception $e) {
-					// Rollback, or in MySQL just release the lock
-					if ($conn instanceof MySQLDatabase) $res = $conn->query('unlock tables');
-					else if (method_exists($conn, 'transactionRollback')) $conn->transactionRollback();
+					
+					// Rollback
+					if($conn->supportsTransactions()) $conn->transactionRollback();
 
 					//retry the processing
 					$this->processQueueOnShutdown($newsletterID);

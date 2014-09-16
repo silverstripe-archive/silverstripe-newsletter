@@ -592,7 +592,7 @@ JS
 			$recipientData = DataObject::get_by_id("Recipient", $id)->toMap();
 		}
 		return $this->customise(array(
-    		'Title' => _t('Newsletter.SubscriptionSubmitted', 'Subscription Completed!'),
+    		'Title' => _t('Newsletter.SubscriptionCompleted', 'Subscription Completed!'),
     		'Content' => $this->customise($recipientData)->renderWith('SubscriptionCompleted'),
     	))->renderWith('Page');
 	}

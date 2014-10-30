@@ -392,7 +392,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	public function canDelete($member = null) {
 		$can = parent::canDelete($member);
 		if($this->Status !== 'Sending') return $can;
-		else return false;
+		else return Permission::check('ADMIN');
 	}
 
 

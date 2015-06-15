@@ -16,7 +16,7 @@ matrix:
       env: DB=MYSQL CORE_RELEASE=3.1 BEHAT_TEST=1
 
 before_script:
- - composer self-update
+ - composer self-update || true
  - phpenv rehash
  - git clone git://github.com/silverstripe-labs/silverstripe-travis-support.git ~/travis-support
  - "if [ \"$BEHAT_TEST\" = \"\" ]; then php ~/travis-support/travis_setup.php --source `pwd` --target ~/builds/ss; fi"

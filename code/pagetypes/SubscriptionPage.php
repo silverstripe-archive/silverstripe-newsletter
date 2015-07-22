@@ -293,7 +293,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 			new FormAction('doSubscribe', $buttonTitle)
 		);
 		
-		if(!empty($requiredFields)) $required = new RequiredFields($requiredFields);
+		if(!empty($requiredFields)) $required = new RequiredFields(array_keys($requiredFields));
 		else $required = null;
 		$form = new Form($this, "Form", $formFields, $actions, $required);
 		

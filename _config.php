@@ -1,7 +1,7 @@
 <?php
 /**
  * URL rules for the CMS module
- * 
+ *
  * @package newsletter
  */
 if(!(defined('NEWSLETTER_DIR'))){

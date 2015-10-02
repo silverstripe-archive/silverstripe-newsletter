@@ -15,10 +15,10 @@ class TrackLinkController extends ContentController {
 
 	function init() {
 		parent::init();
-		
+
 		if($params = $this->getURLParams()) {
 			if(isset($params['Hash']) && ($hash = Convert::raw2sql($params['Hash']))) {
-				
+
 				$link = DataObject::get_one('Newsletter_TrackedLink', "\"Hash\" = '$hash'");
 
 				if($link) {
@@ -26,15 +26,15 @@ class TrackLinkController extends ContentController {
 					if(!Cookie::get('ss-newsletter-link-'.$hash)) {
 						$link->Visits++;
 						$link->write();
-						
+
 						Cookie::set('ss-newsletter-link-'. $hash, true);
 					}
-					
+
 					return $this->redirect($link->Original, 301);
 				}
 			}
 		}
-		
+
 		return $this->httpError(404);
 	}
 }

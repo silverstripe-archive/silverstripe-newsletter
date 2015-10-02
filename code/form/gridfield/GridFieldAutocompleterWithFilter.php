@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @package  newsletter
  */
@@ -30,13 +30,13 @@ class GridFieldAutocompleterWithFilter extends GridFieldAddExistingAutocompleter
 	 * Returns a json array of a search results that can be used by for example Jquery.ui.autosuggestion
 	 *
 	 * @param GridField $gridField
-	 * @param SS_HTTPRequest $request 
+	 * @param SS_HTTPRequest $request
 	 * @return sting in JSON fromat
 	 */
 	public function doSearch($gridField, $request) {
 		$dataClass = $gridField->getList()->dataClass();
 		$allList = $this->searchList ? $this->searchList : DataList::create($dataClass);
-		
+
 		$searchFields = ($this->getSearchFields())
 			? $this->getSearchFields()
 			: $this->scaffoldSearchFields($dataClass);

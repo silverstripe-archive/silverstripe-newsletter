@@ -11,6 +11,6 @@ class RecipientTest extends SapphireTest {
 
 	public function testCanNotCreateDuplicateRecipient() {
 		$this->markTestIncomplete();
-	}	
+	}
 
 }

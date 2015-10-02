@@ -26,7 +26,7 @@ class NewsletterSendController extends BuildTask {
 	 * @var integer minutes after which we consider an "InProgress" item in the queue "stuck"
 	 */
 	static $stuck_timeout = 5;
-	
+
 	/**
 	 * @var integer number of times to retry sending email that get "stuck"
 	 */
@@ -36,7 +36,7 @@ class NewsletterSendController extends BuildTask {
 	 * @var integer seconds to wait between sending out email batches.
 	 * Caution: Currently implemented through PHP's sleep() function.
 	 * While the execution time limit is unset in the process,
-	 * it still means that any higher value (minutes/hours) 
+	 * it still means that any higher value (minutes/hours)
 	 * can lead to memory problems.
 	 */
 	static $throttle_batch_delay = 0;
@@ -57,7 +57,7 @@ class NewsletterSendController extends BuildTask {
 	 * Adds users to the queue for sending out a newsletter.
 	 * Processed all users that are CURRENTLY in the mailing lists associated with this MailingList and adds them
 	 * to the queue.
-	 * 
+	 *
 	 * @param $id The ID of the Newsletter DataObject to send
 	 */
 	function enqueue(Newsletter $newsletter) {
@@ -72,7 +72,7 @@ class NewsletterSendController extends BuildTask {
 					'Status' => array('Scheduled', 'InProgress')
 				));
 				if($existingQueue->exists()) continue;
-				
+
 				$queueItem = SendRecipientQueue::create();
 				$queueItem->NewsletterID = $newsletter->ID;
 				$queueItem->RecipientID = $recipientID;
@@ -91,11 +91,11 @@ class NewsletterSendController extends BuildTask {
 				"newsletter",
 				new MethodInvocationMessage('NewsletterSendController', "process_queue_invoke", $newsletterID)
 			);
-			
+
 			MessageQueue::consume_on_shutdown();
 		} else {
 			// Do the sending in real-time, if there is not MessageQueue to do it out-of-process.
-			// Caution: Will only send the first batch (see $items_to_batch_process), 
+			// Caution: Will only send the first batch (see $items_to_batch_process),
 			// needs to be continued manually afterwards, e.g. through the "restart queue processing"
 			// in the admin UI.
 			$this->processQueue($newsletterID);
@@ -186,7 +186,7 @@ class NewsletterSendController extends BuildTask {
 					// Commit transaction
 					if($conn->supportsTransactions()) $conn->transactionEnd();
 				} catch (Exception $e) {
-					
+
 					// Rollback
 					if($conn->supportsTransactions()) $conn->transactionRollback();
 

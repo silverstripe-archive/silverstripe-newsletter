@@ -19,9 +19,9 @@ class NewsletterAdmin extends ModelAdmin {
 		"Recipient" => array('title' => 'All Recipients')
 	);
 
-	/** 
-	 * @var array Array of template paths to check 
-	 */	
+	/**
+	 * @var array Array of template paths to check
+	 */
 	static $template_paths = null; //could be customised in _config.php
 
 	public function init() {
@@ -60,7 +60,7 @@ class NewsletterAdmin extends ModelAdmin {
 	}
 
 	/**
-	 * looked-up the email template_paths. 
+	 * looked-up the email template_paths.
 	 * if not set, will look up both theme folder and project folder
 	 * in both cases, email folder exsits or Email folder exists
 	 * return an array containing all folders pointing to the bunch of email templates
@@ -83,18 +83,18 @@ class NewsletterAdmin extends ModelAdmin {
 				if(file_exists("../".THEMES_DIR."/".$theme."/templates/email")){
 					self::$template_paths[] = THEMES_DIR."/".$theme."/templates/email";
 				}
-				
+
 				if(file_exists("../".THEMES_DIR."/".$theme."/templates/Email")){
 					self::$template_paths[] = THEMES_DIR."/".$theme."/templates/Email";
 				}
 			}
 
 			$project = project();
-			
+
 			if(file_exists("../". $project . '/templates/email')){
 				self::$template_paths[] = $project . '/templates/email';
 			}
-			
+
 			if(file_exists("../". $project . '/templates/Email')){
 				self::$template_paths[] = $project . '/templates/Email';
 			}

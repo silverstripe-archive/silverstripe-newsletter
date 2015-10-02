@@ -4,7 +4,7 @@
  */
 
 /**
- * Single newsletter instance. 
+ * Single newsletter instance.
  */
 class Newsletter extends DataObject implements CMSPreviewable{
 
@@ -53,7 +53,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	);
 
 	private static $field_labels = array();
-	
+
 	public function fieldLabels($includelrelations = true) {
 		$labels = parent::fieldLabels($includelrelations);
 
@@ -109,7 +109,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			new ReadonlyField('Status', $this->fieldLabel('Status')),
 			'Subject'
 		);
-		
+
 		$fields->removeByName("SentDate");
 		if ($this->Status == "Sent") {
 			$fields->addFieldToTab(
@@ -127,7 +127,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			->setValue(Email::getAdminEmail())
 			->setAttribute('placeholder', 'admin@example.org')
 			->setDescription(_t(
-				'Newsletter.ReplyToDesc', 
+				'Newsletter.ReplyToDesc',
 				'Any undeliverable emails will be collected in this mailbox'
 			));
 
@@ -136,8 +136,8 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		$fields->removeByName('TrackedLinks');
 
 		if($this->Status != 'Sent') {
-			$contentHelp = '<strong>' 
-				. _t('Newsletter.FormattingHelp', 'Formatting Help') 
+			$contentHelp = '<strong>'
+				. _t('Newsletter.FormattingHelp', 'Formatting Help')
 				. '</strong><br />';
 			$contentHelp .= '<ul>';
 			foreach($this->getAvailablePlaceholders() as $title => $description) {
@@ -152,45 +152,45 @@ class Newsletter extends DataObject implements CMSPreviewable{
 		$templateSource = $this->templateSource();
 		if(count($templateSource) > 1) {
 			$fields->replaceField(
-				"RenderTemplate", 
+				"RenderTemplate",
 				new DropdownField("RenderTemplate", _t('NewsletterAdmin.RENDERTEMPLATE',
-					'Template the newsletter render to'), 
+					'Template the newsletter render to'),
 				$templateSource)
-			);	
+			);
 
 			$explanationTitle = _t("Newletter.TemplateExplanationTitle",
 				"Select a styled template (.ss template) that this newsletter renders with"
 			);
 			$fields->insertBefore(
-				LiteralField::create("TemplateExplanationTitle", "<h5>$explanationTitle</h5>"), 
+				LiteralField::create("TemplateExplanationTitle", "<h5>$explanationTitle</h5>"),
 				"RenderTemplate"
 			);
 			if(!$this->ID) {
-				$explanation1 = _t("Newletter.TemplateExplanation1", 
+				$explanation1 = _t("Newletter.TemplateExplanation1",
 					'You should make your own styled SilverStripe templates	make sure your templates have a'
 					. '$Body coded so the newletter\'s content could be clearly located in your templates'
 				);
-				$explanation2 = _t("Newletter.TemplateExplanation2", 
+				$explanation2 = _t("Newletter.TemplateExplanation2",
 					"Make sure your newsletter templates could be looked up in the dropdown list below by
 					either placing them under your theme directory,	e.g. themes/mytheme/templates/email/
 					");
-				$explanation3 = _t("Newletter.TemplateExplanation3", 
+				$explanation3 = _t("Newletter.TemplateExplanation3",
 					"or under your project directory e.g. mysite/templates/email/
 					");
 				$fields->insertBefore(
-					LiteralField::create("TemplateExplanation1", "<p class='help'>$explanation1</p>"), 
+					LiteralField::create("TemplateExplanation1", "<p class='help'>$explanation1</p>"),
 					"RenderTemplate"
 				);
 				$fields->insertBefore(
 					LiteralField::create(
-						"TemplateExplanation2", 
+						"TemplateExplanation2",
 						"<p class='help'>$explanation2<br />$explanation3</p>"
-					), 
+					),
 					"RenderTemplate"
 				);
 			}
 		} else {
-			$fields->replaceField("RenderTemplate", 
+			$fields->replaceField("RenderTemplate",
 				new HiddenField('RenderTemplate', false, key($templateSource))
 			);
 		}
@@ -201,8 +201,8 @@ class Newsletter extends DataObject implements CMSPreviewable{
 
 			$fields->addFieldToTab("Root.Main",
 				new CheckboxSetField(
-					"MailingLists", 
-					_t('Newsletter.SendTo', "Send To", 'Selects mailing lists from set of checkboxes'), 
+					"MailingLists",
+					_t('Newsletter.SendTo', "Send To", 'Selects mailing lists from set of checkboxes'),
 					$mailinglists->map('ID', 'FullTitle')
 				)
 			);
@@ -253,7 +253,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 						sprintf(
 							'<a href="%s" class="ss-ui-button" data-icon="arrow-circle-double">%s</a>',
 							$restartLink,
-							_t('Newsletter.RestartQueue', 'Restart queue processing')	
+							_t('Newsletter.RestartQueue', 'Restart queue processing')
 						)
 					)
 				);
@@ -277,7 +277,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	}
 
 	/**
-	 * return array containing all possible email templates file name 
+	 * return array containing all possible email templates file name
 	 * under the folders of both theme and project specific folder.
 	 *
 	 * @return array
@@ -285,7 +285,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	public function templateSource(){
 		$paths = NewsletterAdmin::template_paths();
 
-		$templates = array( 
+		$templates = array(
 			"SimpleNewsletterTemplate" => _t('TemplateList.SimpleNewsletterTemplate', 'Simple Newsletter Template')
 		);
 
@@ -325,11 +325,11 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	public function getAvailablePlaceholders() {
 		return array(
 			'UnsubscribeLink' => _t(
-				'Newsletter.PlaceholderUnsub', 
+				'Newsletter.PlaceholderUnsub',
 				'Personalized link to unsubscribe from newsletter'
 			),
 			'AbsoluteBaseURL' => _t(
-				'Newsletter.PlaceholderAbsoluteUrl', 
+				'Newsletter.PlaceholderAbsoluteUrl',
 				'Absolute URL to the website'
 			),
 			'To' => _t(
@@ -398,7 +398,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 
 	function getContentBody(){
 		$content = $this->obj('Content');
-		
+
 		$this->extend("updateContentBody", $content);
 		return $content;
 	}
@@ -445,13 +445,13 @@ class Newsletter extends DataObject implements CMSPreviewable{
  * @package newsletter
  */
 class Newsletter_TrackedLink extends DataObject {
-	
+
 	private static $db = array(
 		'Original' => 'Varchar(255)',
 		'Hash' => 'Varchar(100)',
 		'Visits' => 'Int'
 	);
-	
+
 	private static $has_one = array(
 		'Newsletter' => 'Newsletter'
 	);
@@ -461,13 +461,13 @@ class Newsletter_TrackedLink extends DataObject {
 		"Original" => "Link URL",
 		"Visits" => "Visit Counts"
 	);
-	
+
 	/**
 	 * Generate a unique hash
 	 */
 	function onBeforeWrite() {
 		parent::onBeforeWrite();
-		
+
 		if(!$this->Hash) $this->Hash = md5(time() + rand());
 	}
 
@@ -479,7 +479,7 @@ class Newsletter_TrackedLink extends DataObject {
 	 */
 	function Link() {
 		if(!$this->Hash) $this->write();
-		
+
 		return 'newsletterlinks/'. $this->Hash;
 	}
 }

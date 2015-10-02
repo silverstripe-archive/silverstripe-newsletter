@@ -4,7 +4,7 @@
  */
 
 /**
- * Represents a specific containner of newsletter recipients 
+ * Represents a specific containner of newsletter recipients
  */
 class MailingList extends DataObject {
 
@@ -37,14 +37,14 @@ class MailingList extends DataObject {
 
 	public function fieldLabels($includelrelations = true) {
 		$labels = parent::fieldLabels($includelrelations);
-		
+
 		$labels["Title"] = _t('Newsletter.FieldTitle', "Title");
 		$labels["FullTitle"] = _t('Newsletter.FieldTitle', "Title");
 		$labels["ActiveRecipients.Count"] = _t('Newsletter.Recipients', "Recipients");
-		
+
 		return $labels;
 	}
-	
+
 	function getCMSFields() {
 		$fields = new FieldList();
 		$fields->push(new TabSet("Root", $mainTab = new Tab("Main")));
@@ -91,7 +91,7 @@ class MailingList extends DataObject {
 
 		$fields->addFieldToTab('Root.Main',new FieldGroup($recipientsGrid));
 		$this->extend("updateCMSFields", $fields);
-		
+
 		if(!$this->ID)
 			$fields->removeByName('Recipients');
 

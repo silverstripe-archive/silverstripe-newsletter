@@ -7,7 +7,7 @@
  * Create a form that a user can use to unsubscribe from a mailing list
  */
 class UnsubscribeController extends Page_Controller {
-	
+
 	static public $days_unsubscribe_link_alive = 30;
 
 	private static $allowed_actions = array(
@@ -51,7 +51,7 @@ class UnsubscribeController extends Page_Controller {
 			if($now <= $recipient->ValidateHashExpired) return $recipient;
 		}
 	}
-	
+
 	private function getMailingLists($recipient = null){
 		$siteConfig = DataObject::get_one("SiteConfig");
 		if($siteConfig->GlobalUnsubscribe){
@@ -129,11 +129,11 @@ class UnsubscribeController extends Page_Controller {
 				$content = sprintf(
 					_t('Newsletter.UNSUBSCRIBEFROMLISTSSUCCESS',
 						'<h3>Thank you, %s.</h3><br />You will no longer receive: %s.'),
-					$title, 
+					$title,
 					"<ul>".$listTitles."</ul>"
 				);
 			}else{
-				$content = 
+				$content =
 					_t('Newsletter.UNSUBSCRIBESUCCESS', 'Thank you.<br />You have been unsubscribed successfully');
 			}
 		}
@@ -151,7 +151,7 @@ class UnsubscribeController extends Page_Controller {
 	function resubscribe() {
 		if(isset($_POST['Hash']) && isset($_POST['UnsubscribeRecordIDs'])){
 			$recipient = DataObject::get_one(
-				'Recipient', 
+				'Recipient',
 				"\"ValidateHash\" = '" . Convert::raw2sql($_POST['Hash']) . "'"
 			);
 			$mailinglists = $this->getMailingListsByUnsubscribeRecords($_POST['UnsubscribeRecordIDs']);
@@ -184,11 +184,11 @@ class UnsubscribeController extends Page_Controller {
 			$content = sprintf(
 				_t('Newsletter.RESUBSCRIBEFROMLISTSSUCCESS',
 					'<h3>Thank you. %s!</h3><br />You have been resubscribed to: %s.'),
-				$title, 
+				$title,
 				"<ul>".$listTitles."</ul>"
 			);
 		}else{
-			$content = 
+			$content =
 				_t('Newsletter.RESUBSCRIBESUCCESS', 'Thank you.<br />You have been resubscribed successfully');
 		}
 

@@ -4,7 +4,7 @@
  *
  * @package newsletter
  */
-if(!(defined('NEWSLETTER_DIR'))){
+if(!(defined('NEWSLETTER_DIR'))) {
 	define('NEWSLETTER_DIR', basename(dirname(__FILE__)));
 }
 

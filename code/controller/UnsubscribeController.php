@@ -31,11 +31,11 @@ class UnsubscribeController extends Page_Controller {
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-validate/jquery.validate.min.js');
 	}
 
-	static public function set_days_unsubscribe_link_alive($days){
+	static public function set_days_unsubscribe_link_alive($days) {
 		self::$days_unsubscribe_link_alive = $days;
 	}
 
-	static public function get_days_unsubscribe_link_alive(){
+	static public function get_days_unsubscribe_link_alive() {
 		return self::$days_unsubscribe_link_alive;
 	}
 
@@ -43,7 +43,7 @@ class UnsubscribeController extends Page_Controller {
 		return "unsubscribe/$action";
 	}
 
-	private function getRecipient(){
+	private function getRecipient() {
 		$validateHash = Convert::raw2sql($this->urlParams['ValidateHash']);
 		if($validateHash) {
 			$recipient = Recipient::get()->filter("ValidateHash", $validateHash)->first();
@@ -52,9 +52,9 @@ class UnsubscribeController extends Page_Controller {
 		}
 	}
 
-	private function getMailingLists($recipient = null){
+	private function getMailingLists($recipient = null) {
 		$siteConfig = DataObject::get_one("SiteConfig");
-		if($siteConfig->GlobalUnsubscribe){
+		if($siteConfig->GlobalUnsubscribe) {
 			return $mailinglists = $recipient->MailingLists();
 		}else{
 			$mailinglistIDs = $this->urlParams['IDs'];
@@ -66,15 +66,15 @@ class UnsubscribeController extends Page_Controller {
 		}
 	}
 
-	private function getMailingListsByUnsubscribeRecords($recordIDs){
+	private function getMailingListsByUnsubscribeRecords($recordIDs) {
 		$recordIDs = explode(',', $recordIDs);
 		$unsubscribeRecords = DataList::create("UnsubscribeRecord")
 			->filter(array('ID' => $recordIDs));
 		$mailinglists = new ArrayList();
-		if($unsubscribeRecords->count()){
-			foreach($unsubscribeRecords as $record){
+		if($unsubscribeRecords->count()) {
+			foreach($unsubscribeRecords as $record) {
 				$list = DataObject::get_by_id("MailingList", $record->MailingListID);
-				if($list && $list->exists()){
+				if($list && $list->exists()) {
 					$mailinglists->push($list);
 				}
 			}
@@ -103,7 +103,7 @@ class UnsubscribeController extends Page_Controller {
 	function done() {
 		$unsubscribeRecordIDs = $this->urlParams['IDs'];
 		$hash = $this->urlParams['ID'];
-		if($unsubscribeRecordIDs){
+		if($unsubscribeRecordIDs) {
 			$fields = new FieldList(
 				new HiddenField("UnsubscribeRecordIDs", "", $unsubscribeRecordIDs),
 				new HiddenField("Hash", "", $hash),
@@ -119,7 +119,7 @@ class UnsubscribeController extends Page_Controller {
 			$form->setFormAction($this->Link('resubscribe'));
 			$mailinglists = $this->getMailingListsByUnsubscribeRecords($unsubscribeRecordIDs);
 
-			if($mailinglists && $mailinglists->count()){
+			if($mailinglists && $mailinglists->count()) {
 				$listTitles = "";
 				foreach($mailinglists as $list) {
 					$listTitles .= "<li>".$list->Title."</li>";
@@ -149,13 +149,13 @@ class UnsubscribeController extends Page_Controller {
     * Unsubscribe the user from the given lists.
     */
 	function resubscribe() {
-		if(isset($_POST['Hash']) && isset($_POST['UnsubscribeRecordIDs'])){
+		if(isset($_POST['Hash']) && isset($_POST['UnsubscribeRecordIDs'])) {
 			$recipient = DataObject::get_one(
 				'Recipient',
 				"\"ValidateHash\" = '" . Convert::raw2sql($_POST['Hash']) . "'"
 			);
 			$mailinglists = $this->getMailingListsByUnsubscribeRecords($_POST['UnsubscribeRecordIDs']);
-			if($recipient && $recipient->exists() && $mailinglists && $mailinglists->count()){
+			if($recipient && $recipient->exists() && $mailinglists && $mailinglists->count()) {
 				$recipient->MailingLIsts()->addMany($mailinglists);
 			}
 			$url = Director::absoluteBaseURL() . $this->RelativeLink('undone') . "/" . $_POST['Hash']. "/" .
@@ -170,11 +170,11 @@ class UnsubscribeController extends Page_Controller {
 		}
 	}
 
-	function undone(){
+	function undone() {
 		$recipient = $this->getRecipient();
 		$mailinglists = $this->getMailingLists($recipient);
 
-		if($mailinglists && $mailinglists->count()){
+		if($mailinglists && $mailinglists->count()) {
 			$listTitles = "";
 			foreach($mailinglists as $list) {
 				$listTitles .= "<li>".$list->Title."</li>";
@@ -199,8 +199,8 @@ class UnsubscribeController extends Page_Controller {
 	}
 
 	protected function unsubscribeFromLists($recipient, $lists, &$recordsIDs) {
-		if($lists && $lists->count()){
-			foreach($lists as $list){
+		if($lists && $lists->count()) {
+			foreach($lists as $list) {
 				$recipient->Mailinglists()->remove($list);
 				$unsubscribeRecord = new UnsubscribeRecord();
 				$unsubscribeRecord->unsubscribe($recipient, $list);
@@ -223,7 +223,7 @@ class UnsubscribeController extends Page_Controller {
 			$listIDs = implode(',',$lists);
 
 			$days = UnsubscribeController::get_days_unsubscribe_link_alive();
-			if($recipient->ValidateHash){
+			if($recipient->ValidateHash) {
 				$recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days));
 				$recipient->write();
 			}else{

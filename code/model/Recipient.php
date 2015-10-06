@@ -232,7 +232,7 @@ class Recipient extends DataObject {
 		return $f.$m.$s.$e;
 	}
 
-	public function getHashText(){
+	public function getHashText() {
 		return substr($this->ValidateHash, 0, 10)."******".substr($this->ValidateHash, -10);
 	}
 
@@ -260,13 +260,13 @@ class Recipient extends DataObject {
 		return $hash;
 	}
 
-	public function onBeforeDelete(){
+	public function onBeforeDelete() {
 		parent::onBeforeDelete();
 
 		//SendRecipientQueue
 		$queueditems = $this->SendRecipientQueue();
-		if($queueditems && $queueditems->exists()){
-			foreach($queueditems as $item){
+		if($queueditems && $queueditems->exists()) {
+			foreach($queueditems as $item) {
 				$item->delete();
 			}
 		}
@@ -278,8 +278,8 @@ class Recipient extends DataObject {
 	public function canDelete($member = null) {
 		$can = parent::canDelete($member);
 		$queueditems = $this->SendRecipientQueue();
-		if($queueditems->count()){
-			foreach($queueditems as $queueditem){
+		if($queueditems->count()) {
+			foreach($queueditems as $queueditem) {
 				$can = $can && !($queueditem->Status === 'Scheduled' && $queueditem->Status === 'InProgress');
 			}
 		}

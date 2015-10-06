@@ -34,11 +34,11 @@ class SubscriptionPage extends Page {
 
 	static public $days_verification_link_alive = 2;
 
-	static public function set_days_verification_link_alive($days){
+	static public function set_days_verification_link_alive($days) {
 		self::$days_verification_link_alive = $days;
 	}
 
-	static public function get_days_verification_link_alive(){
+	static public function get_days_verification_link_alive() {
 		return self::$days_verification_link_alive;
 	}
 
@@ -82,8 +82,8 @@ class SubscriptionPage extends Page {
 		$frontFields = singleton('Recipient')->getFrontEndFields()->dataFields();
 
 		$fieldCandidates = array();
-		if(count($frontFields)){
-			foreach($frontFields as $fieldName => $dataField){
+		if(count($frontFields)) {
+			foreach($frontFields as $fieldName => $dataField) {
 				$fieldCandidates[$fieldName]= $dataField->Title()?$dataField->Title():$dataField->Name();
 			}
 		}
@@ -190,7 +190,7 @@ class SubscriptionPage extends Page {
 	 * Email field is the member's identifier, and newsletters subscription is non-sense if no email is given
 	 * by the user, we should force that email to be checked and required.
 	 */
-	function getRequired(){
+	function getRequired() {
 		return (!$this->getField('Required')) ? '{"Email":"1"}' : $this->getField('Required');
 	}
 }
@@ -224,24 +224,24 @@ class SubscriptionPage_Controller extends Page_Controller {
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-validate/jquery.validate.min.js');
 	}
 
-	function Form(){
+	function Form() {
 		if($this->URLParams['Action'] === 'completed' || $this->URLParams['Action'] == 'submitted') return;
 		$dataFields = singleton('Recipient')->getFrontEndFields()->dataFields();
 
 		if($this->CustomLabel) $customLabel = Convert::json2array($this->CustomLabel);
 
 		$fields = array();
-		if($this->Fields){
+		if($this->Fields) {
 			$fields = explode(",",$this->Fields);
 		}
 
 		$recipientInfoSection = new CompositeField();
 
 		$requiredFields = Convert::json2array($this->Required);
-		if(!empty($fields)){
-			foreach($fields as $field){
-				if(isset($dataFields[$field]) && $dataFields[$field]){
-					if(is_a($dataFields[$field], "ImageField")){
+		if(!empty($fields)) {
+			foreach($fields as $field) {
+				if(isset($dataFields[$field]) && $dataFields[$field]) {
+					if(is_a($dataFields[$field], "ImageField")) {
 						if(isset($requiredFields[$field])) {
 							$title = $dataFields[$field]->Title()." * ";
 						}else{
@@ -252,13 +252,13 @@ class SubscriptionPage_Controller extends Page_Controller {
 						);
 					}else{
 						if(isset($requiredFields[$field])) {
-							if(isset($customLabel[$field])){
+							if(isset($customLabel[$field])) {
 								$title = $customLabel[$field]." * ";
 							} else {
 								$title = $dataFields[$field]->Title(). " * ";
 							}
 						}else{
-							if(isset($customLabel[$field])){
+							if(isset($customLabel[$field])) {
 								$title = $customLabel[$field];
 							} else {
 								$title = $dataFields[$field]->Title();
@@ -276,11 +276,11 @@ class SubscriptionPage_Controller extends Page_Controller {
 		);
 		$recipientInfoSection->setID("MemberInfoSection");
 
-		if($this->MailingLists){
+		if($this->MailingLists) {
 			$mailinglists = DataObject::get("MailingList", "ID IN (".$this->MailingLists.")");
 		}
 
-		if(isset($mailinglists) && $mailinglists && $mailinglists->count()>1){
+		if(isset($mailinglists) && $mailinglists && $mailinglists->count()>1) {
 			$newsletterSection = new CompositeField(
 				new LabelField("Newsletters", _t("SubscriptionPage.To", "Subscribe to:"), 4),
 				new CheckboxSetField("NewsletterSelection","", $mailinglists, $mailinglists->getIDList())
@@ -301,11 +301,11 @@ class SubscriptionPage_Controller extends Page_Controller {
 		$FormName = $form->FormName();
 		$validationMessage = Convert::json2array($this->ValidationMessage);
 
-		if(!empty($requiredFields)){
+		if(!empty($requiredFields)) {
 			$jsonRuleArray = array();
 			$jsonMessageArray = array();
-			foreach($requiredFields as $field => $true){
-				if($true){
+			foreach($requiredFields as $field => $true) {
+				if($true) {
 					if(isset($validationMessage[$field]) && $validationMessage[$field]) {
 						$error = $validationMessage[$field];
 					}else{
@@ -356,7 +356,7 @@ JS;
 (function($) {
 	jQuery(document).ready(function() {
 		$("#$FormName").validate({
-			errorPlacement: function(error, element){
+			errorPlacement: function(error, element) {
 				error.insertAfter(element);
 			},
 			focusCleanup: true,
@@ -395,7 +395,7 @@ JS
 	 *
 	 * @return Redirection
 	 */
-	function doSubscribe($data, $form, $request){
+	function doSubscribe($data, $form, $request) {
 
 		//filter weird characters
 		$data['Email'] = preg_replace("/[^a-zA-Z0-9\._\-@]/","",$data['Email']);
@@ -416,7 +416,7 @@ JS
 		$recipient->write();
 
 		$days = self::get_days_verification_link_alive();
-		if($recipient->ValidateHash){
+		if($recipient->ValidateHash) {
 			$recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days));   //extend the expiry date
 			//default 2 days for validating
 			$recipient->write();
@@ -426,11 +426,11 @@ JS
 
 		$mailinglists = new ArrayList();
 
-		if(isset($data["NewsletterSelection"])){
-			foreach($data["NewsletterSelection"] as $listID){
+		if(isset($data["NewsletterSelection"])) {
+			foreach($data["NewsletterSelection"] as $listID) {
 				$mailinglist = DataObject::get_by_id("MailingList", $listID);
 
-				if($mailinglist && $mailinglist->exists()){
+				if($mailinglist && $mailinglist->exists()) {
 					//remove recipient from unsubscribe if needed
 					//$this->removeUnsubscribe($newsletterType,$recipient);
 
@@ -443,9 +443,9 @@ JS
 			// recipient needs to be added to the related mailling list.
 
 			if($this->MailingLists && ($listIDs = explode(",",$this->MailingLists))) {
-				foreach($listIDs as $listID){
+				foreach($listIDs as $listID) {
 					$mailinglist = DataObject::get_by_id("MailingList", $listID);
-					if($mailinglist && $mailinglist->exists()){
+					if($mailinglist && $mailinglist->exists()) {
 						//remove recipient from unsubscribe records if the recipient
 						// unsubscribed from mailing list before
 						//$this->removeUnsubscribe($mailingList,$recipient);
@@ -461,9 +461,9 @@ JS
 
 		$recipientInfoSection = $form->Fields()->fieldByName('MemberInfoSection')->FieldList();
 		$emailableFields = new FieldList();
-		if($recipientInfoSection){
-			foreach($recipientInfoSection as $field){
-				if(is_array($field->Value()) && is_a($field, 'SimpleImageField')){
+		if($recipientInfoSection) {
+			foreach($recipientInfoSection as $field) {
+				if(is_array($field->Value()) && is_a($field, 'SimpleImageField')) {
 					$funcName = $field->Name();
 					$value = $recipient->$funcName()->CMSThumbnail()->Tag();
 					$field->EmailalbeValue = $value;
@@ -502,8 +502,8 @@ JS
 		$this->redirect($url);
 	}
 
-	function submitted(){
-		if($id = $this->urlParams['ID']){
+	function submitted() {
+		if($id = $this->urlParams['ID']) {
 			$recipientData = DataObject::get_by_id("Recipient", $id)->toMap();
 		}
 
@@ -527,7 +527,7 @@ JS
 	function subscribeverify() {
 		if($hash = $this->urlParams['ID']) {
 			$recipient = DataObject::get_one("Recipient", "\"ValidateHash\" = '".Convert::raw2sql($hash)."'");
-			if($recipient && $recipient->exists()){
+			if($recipient && $recipient->exists()) {
 				$now = date('Y-m-d H:i:s');
 				if($now <= $recipient->ValidateHashExpired) {
 					$recipient->Verified = true;
@@ -548,7 +548,7 @@ JS
             			'SiteConfig' => $this->SiteConfig(),
 					);
 					//send notification email
-					if($this->SendNotification){
+					if($this->SendNotification) {
 						$email = new Email();
 						$email->setTo($recipient->Email);
 						$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
@@ -567,7 +567,7 @@ JS
 					$this->redirect($url);
 				}
 			}
-			if($recipient && $recipient->exists()){
+			if($recipient && $recipient->exists()) {
 				$recipientData = $recipient->toMap();
 			}else{
 				$recipientData = array();
@@ -588,7 +588,7 @@ JS
 	}
 
 	function completed() {
-		if($id = $this->urlParams['ID']){
+		if($id = $this->urlParams['ID']) {
 			$recipientData = DataObject::get_by_id("Recipient", $id)->toMap();
 		}
 		return $this->customise(array(

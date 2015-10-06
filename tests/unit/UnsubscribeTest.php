@@ -5,14 +5,14 @@ class UnsubscribeTest extends SapphireTest{
 
 	static $page;
 
-	function setUp(){
+	function setUp() {
 		parent::setUp();
 
 		self::$page = new UnsubscribeController();
 		Config::inst()->update('ContentNegotiator', 'enabled', false);
 	}
 
-	function testIndexWithAutoLoginHashAndNewsletterType(){
+	function testIndexWithAutoLoginHashAndNewsletterType() {
 		$this->markTestIncomplete();
 
 		// $member = $this->objFromFixture("Member", "normann1");
@@ -30,7 +30,7 @@ class UnsubscribeTest extends SapphireTest{
 		// $this->assertFalse($member->inGroup($group));
 	}
 
-	function testIndexWithAutoLoginHash(){
+	function testIndexWithAutoLoginHash() {
 		$this->markTestIncomplete();
 
 		// $member = $this->objFromFixture("Member", "normann1");
@@ -40,7 +40,7 @@ class UnsubscribeTest extends SapphireTest{
 		// $this->assertContains($form->forTemplate(), $body);
 	}
 
-	function testIndex(){
+	function testIndex() {
 		$this->markTestIncomplete();
 
 		// $url = 'unsubscribe/index';
@@ -49,7 +49,7 @@ class UnsubscribeTest extends SapphireTest{
 		// $this->assertContains($form->forTemplate(), $body);
 	}
 
-	function testDoneMessage(){
+	function testDoneMessage() {
 		$this->markTestIncomplete();
 
 		// $url1 = 'unsubscribe/done/94l4ee9ib8kkw3s08k8wwcs4g/1';
@@ -72,7 +72,7 @@ class UnsubscribeTest extends SapphireTest{
 		// $this->AssertContains($message2, $body2);
 	}
 
-	function testLinksent(){
+	function testLinksent() {
 		$this->markTestIncomplete();
 
 		// $url1 = 'unsubscribe/linksent?SendEmail=normann1@silverstripe.com';
@@ -94,7 +94,7 @@ class UnsubscribeTest extends SapphireTest{
 		// $this->AssertContains($message2, $body2);
 	}
 
-	function testSendMeUnsubscribeLink(){
+	function testSendMeUnsubscribeLink() {
 		$this->markTestIncomplete();
 	}
 

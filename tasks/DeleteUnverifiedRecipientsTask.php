@@ -6,7 +6,7 @@ class DeleteUnverifiedRecipientsTask extends DailyTask{
 	public function process() {
 		$start = 0;
 		$total = 0;
-		while($deleted = $this->delete_trunk($start)){
+		while($deleted = $this->delete_trunk($start)) {
 			$total = $total + $deleted;
 			$start = $start + self::$trunk_length;
 			if($deleted < self::$trunk_length) break;
@@ -14,7 +14,7 @@ class DeleteUnverifiedRecipientsTask extends DailyTask{
 		echo "totally ".$total." recipients deleted";
 	}
 
-	public function delete_trunk($offset){
+	public function delete_trunk($offset) {
 		set_time_limit(18000);
 		ini_set('memory_limit','512M');
 
@@ -25,8 +25,8 @@ class DeleteUnverifiedRecipientsTask extends DailyTask{
 			->limit(self::$trunk_length, $offset);
 
 		$count = $objects->count();
-		if($count){
-			foreach($objects as $object){
+		if($count) {
+			foreach($objects as $object) {
 				if($object->canDelete()) {
 					$object->delete();
 				}

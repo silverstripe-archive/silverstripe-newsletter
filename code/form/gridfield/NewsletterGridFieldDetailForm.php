@@ -43,7 +43,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		return $actions;
 	}
 
-	public function ItemEditForm(){
+	public function ItemEditForm() {
 		$form = parent::ItemEditForm();
 		// Do these action update only when the current record is_a newsletter
 		if($this->record && $this->record instanceof Newsletter) {
@@ -119,7 +119,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		}
 	}
 
-	public function doSaveAsNew($data, $form){
+	public function doSaveAsNew($data, $form) {
 		$originalID = $data['NEWSLETTER_ORIGINAL_ID'];
 		$origNewsletter = DataObject::get_by_id("Newsletter", $originalID);
 		$controller = Controller::curr();
@@ -139,7 +139,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 			//save once to get the new Newsletter created so as to add to mailing list
 			$newNewsletter->write($showDebug = false,$forceInsert = true);
 			$origMailinglists = $origNewsletter->MailingLists();
-			if($origMailinglists && $origMailinglists->count()){
+			if($origMailinglists && $origMailinglists->count()) {
 				$newNewsletter->MailingLists()->addMany($origMailinglists);
 			}
 			Newsletter::set_validation_enabled(true);
@@ -166,7 +166,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 					return $controller->redirectBack();
 				}
 			));
-			if($controller->getRequest()->isAjax()){
+			if($controller->getRequest()->isAjax()) {
 				$controller->getRequest()->addHeader('X-Pjax', 'CurrentForm');
 			}
 			return $responseNegotiator->respond($controller->getRequest());
@@ -181,7 +181,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		return Controller::curr()->redirect($link);
 	}
 
-	public function doSend($data, $form){
+	public function doSend($data, $form) {
 		//copied from parent
 		$new_record = $this->record->ID == 0;
 		$controller = Controller::curr();
@@ -201,7 +201,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 					return $controller->redirectBack();
 				}
 			));
-			if($controller->getRequest()->isAjax()){
+			if($controller->getRequest()->isAjax()) {
 				$controller->getRequest()->addHeader('X-Pjax', 'CurrentForm');
 			}
 			return $responseNegotiator->respond($controller->getRequest());
@@ -236,7 +236,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 		}
 	}
 
-	public function preview($data){
+	public function preview($data) {
 		return $this->record->render();
 	}
 }

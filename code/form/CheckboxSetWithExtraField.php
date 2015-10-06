@@ -29,7 +29,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 		parent::__construct($name, $title, $source, $value, $form);
 	}
 
-	function setCellDisabled($cellDisabled){
+	function setCellDisabled($cellDisabled) {
 		$this->cellDisabled = $cellDisabled;
 	}
 
@@ -112,8 +112,8 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 
 			$header = "<thead><tr><th></th>";
 			$footer = "<tfoot><tr><td></td>";
-			if(!empty($this->extra)){
-				foreach($this->extra as $label=>$type){
+			if(!empty($this->extra)) {
+				foreach($this->extra as $label=>$type) {
 					$fieldLabel = FormField::name_to_label($label);
 					$header .= "<th>$fieldLabel</th>";
 					$footer .= "<td>$fieldLabel</td>";
@@ -155,17 +155,17 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 					type=\"checkbox\" value=\"$key\"$checked $disabled class=\"checkbox\" /> $value
 				</td>";
 
-				if(!empty($this->extraValue)){
-					foreach($this->extraValue as $label => $val){
+				if(!empty($this->extraValue)) {
+					foreach($this->extraValue as $label => $val) {
 						if($val)
 						$extraValue[$label] = Convert::json2array($val);
 					}
 				}
 
-				if(!empty($this->extra)){
-					foreach($this->extra as $label => $fieldType){
+				if(!empty($this->extra)) {
+					foreach($this->extra as $label => $fieldType) {
 						$value = "";
-						if(isset($extraValue[$label][$key])){
+						if(isset($extraValue[$label][$key])) {
 							$value = $extraValue[$label][$key];
 						}
 						$dbField = DBField::create_field($fieldType, $value, $this->name."[".$key."][".$label."]");
@@ -196,7 +196,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 		$value = ArrayLib::invert($this->value);
 		if(isset($value) && is_array($value)) {
 			foreach($value as $key=>$items) {
-				foreach($items as $k=>$v){
+				foreach($items as $k=>$v) {
 					if($v)
 					$filtered[$key][$k] = str_replace(", ", "{comma}", $v);
 				}
@@ -222,19 +222,19 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 			$record->$fieldname()->setByIDList($idList);
 		} elseif($fieldname && $record) {
 			if($value) {
-				if(is_array($value)) foreach($value as $k => $items){
-					if(is_array($items)) foreach($items as $key => $val){
-						if(!$val){
+				if(is_array($value)) foreach($value as $k => $items) {
+					if(is_array($items)) foreach($items as $key => $val) {
+						if(!$val) {
 							unset($value[$k][$key]);
 						}else{
-							if($k == 'Value'){
+							if($k == 'Value') {
 								$value[$k][$key] = str_replace(", ", "{comma}", $val);
 							}
 						}
 					}
 				}
-				foreach($value as $k => $v){
-					if($k == 'Value'){
+				foreach($value as $k => $v) {
+					if($k == 'Value') {
 						$record->$fieldname = implode(",", $v);
 					}else{
 						$record->$k = Convert::array2json($v);
@@ -246,7 +246,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 		}
 	}
 
-	function setValue($value, $obj = null){
+	function setValue($value, $obj = null) {
 		// If we're not passed a value directly, we can look for it in a relation method on the object passed as a
 		// second arg
 		if(!$value && $obj && $obj instanceof DataObject && $obj->hasMethod($this->name)) {
@@ -262,15 +262,15 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 		// fields apparing in the right order.
 		$sortedSource = array();
 		$sourceKeys = array_keys($this->source);
-		foreach($this->value as $item){
-			if(in_array($item, $sourceKeys)){
+		foreach($this->value as $item) {
+			if(in_array($item, $sourceKeys)) {
 				$sortedSource[$item] = $this->source[$item];
 			}
 		}
 		$this->source = array_merge($sortedSource, $this->source);
-		if(count($this->extra)){
-			foreach($this->extra as $field => $type){
-				if($obj && isset($obj->$field)){
+		if(count($this->extra)) {
+			foreach($this->extra as $field => $type) {
+				if($obj && isset($obj->$field)) {
 					$this->extraValue[$field] = $obj->$field;
 				}
 			}

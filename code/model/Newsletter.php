@@ -195,7 +195,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			);
 		}
 
-		if($this && $this->exists()){
+		if($this && $this->exists()) {
 			$fields->removeByName("MailingLists");
 			$mailinglists = MailingList::get();
 
@@ -282,19 +282,19 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	 *
 	 * @return array
 	 */
-	public function templateSource(){
+	public function templateSource() {
 		$paths = NewsletterAdmin::template_paths();
 
 		$templates = array(
 			"SimpleNewsletterTemplate" => _t('TemplateList.SimpleNewsletterTemplate', 'Simple Newsletter Template')
 		);
 
-		if(isset($paths) && is_array($paths)){
+		if(isset($paths) && is_array($paths)) {
 			$absPath = Director::baseFolder();
 			if( $absPath{strlen($absPath)-1} != "/" )
 				$absPath .= "/";
 
-			foreach($paths as $path){
+			foreach($paths as $path) {
 				$path = $absPath.$path;
 
 
@@ -305,9 +305,9 @@ class Newsletter extends DataObject implements CMSPreviewable{
 					// read all files in the directory
 					while(($templateFile = readdir($templateDir)) !== false) {
 						// *.ss files are templates
-						if( preg_match( '/(.*)\.ss$/', $templateFile, $match )){
+						if( preg_match( '/(.*)\.ss$/', $templateFile, $match )) {
 							// only grab those haveing $Body coded
-							if(strpos("\$Body", file_get_contents($path."/".$templateFile)) === false){
+							if(strpos("\$Body", file_get_contents($path."/".$templateFile)) === false) {
 								$templates[$match[1]] = preg_replace('/_?([A-Z])/', " $1", $match[1]);
 							}
 
@@ -396,7 +396,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	}
 
 
-	function getContentBody(){
+	function getContentBody() {
 		$content = $this->obj('Content');
 
 		$this->extend("updateContentBody", $content);
@@ -417,19 +417,19 @@ class Newsletter extends DataObject implements CMSPreviewable{
 			'/EditForm/field/Newsletter/item/', $this->ID, 'edit');
 	}
 
-	public function onBeforeDelete(){
+	public function onBeforeDelete() {
 		parent::onBeforeDelete();
 
 		$queueditems = $this->SendRecipientQueue();
-		if($queueditems && $queueditems->exists()){
-			foreach($queueditems as $item){
+		if($queueditems && $queueditems->exists()) {
+			foreach($queueditems as $item) {
 				$item->delete();
 			}
 		}
 
 		$trackedLinks = $this->TrackedLinks();
-		if($trackedLinks && $trackedLinks->exists()){
-			foreach($trackedLinks as $link){
+		if($trackedLinks && $trackedLinks->exists()) {
+			foreach($trackedLinks as $link) {
 				$link->delete();
 			}
 		}

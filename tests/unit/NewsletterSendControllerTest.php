@@ -5,7 +5,7 @@ class NewsletterSendControllerTest extends SapphireTest {
 	static $fixture_file = "newsletter/tests/unit/Base.yml";
 
 	/** Test sending of all newsletters */
-	function testEnqueue(){
+	function testEnqueue() {
 		$newsletters = array();
 		$newsletters[] = $this->objFromFixture('Newsletter','daily');
 		$newsletters[] = $this->objFromFixture('Newsletter','monthly');

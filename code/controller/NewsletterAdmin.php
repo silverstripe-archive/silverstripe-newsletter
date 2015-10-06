@@ -73,29 +73,29 @@ class NewsletterAdmin extends ModelAdmin {
 				$theme = $config->Theme;
 			} elseif(SSViewer::current_custom_theme()) {
 				$theme = SSViewer::current_custom_theme();
-			} else if(SSViewer::current_theme()){
+			} else if(SSViewer::current_theme()) {
 				$theme = SSViewer::current_theme();
 			} else {
 				$theme = false;
 			}
 
 			if($theme) {
-				if(file_exists("../".THEMES_DIR."/".$theme."/templates/email")){
+				if(file_exists("../".THEMES_DIR."/".$theme."/templates/email")) {
 					self::$template_paths[] = THEMES_DIR."/".$theme."/templates/email";
 				}
 
-				if(file_exists("../".THEMES_DIR."/".$theme."/templates/Email")){
+				if(file_exists("../".THEMES_DIR."/".$theme."/templates/Email")) {
 					self::$template_paths[] = THEMES_DIR."/".$theme."/templates/Email";
 				}
 			}
 
 			$project = project();
 
-			if(file_exists("../". $project . '/templates/email')){
+			if(file_exists("../". $project . '/templates/email')) {
 				self::$template_paths[] = $project . '/templates/email';
 			}
 
-			if(file_exists("../". $project . '/templates/Email')){
+			if(file_exists("../". $project . '/templates/Email')) {
 				self::$template_paths[] = $project . '/templates/Email';
 			}
 		}
@@ -109,7 +109,7 @@ class NewsletterAdmin extends ModelAdmin {
 
 	public function getList() {
 		$list = parent::getList();
-		if ($this->modelClass == "Newsletter" || $this->modelClass == "Newsletter_Sent" ){
+		if ($this->modelClass == "Newsletter" || $this->modelClass == "Newsletter_Sent" ) {
 			if ($this->modelClass == "Newsletter") {
 				$statusFilter = array("Draft", "Sending");
 

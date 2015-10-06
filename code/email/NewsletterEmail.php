@@ -28,12 +28,12 @@ class NewsletterEmail extends Email {
 		self::$static_base_url = $url;
 	}
 
-	static public function get_static_base_url(){
+	static public function get_static_base_url() {
 		if(!self::$static_base_url) {
 			global $_FILE_TO_URL_MAPPING;
-			if (!empty($_FILE_TO_URL_MAPPING) && !empty($_FILE_TO_URL_MAPPING[BASE_PATH])){
+			if (!empty($_FILE_TO_URL_MAPPING) && !empty($_FILE_TO_URL_MAPPING[BASE_PATH])) {
 				$baseurl = $_FILE_TO_URL_MAPPING[BASE_PATH];
-				if(strpos($baseurl, -1) !== "/"){
+				if(strpos($baseurl, -1) !== "/") {
 					$baseurl .= "/";
 				}
 				self::$static_base_url = $baseurl;
@@ -138,8 +138,8 @@ class NewsletterEmail extends Email {
 		return $this->newsletter;
 	}
 
-	function UnsubscribeLink(){
-		if($this->recipient && !$this->fakeRecipient){
+	function UnsubscribeLink() {
+		if($this->recipient && !$this->fakeRecipient) {
 			//the unsubscribe link is for all MaillingLists that the Recipient is subscribed to, intersected with a
 			//list of all MaillingLists to which the Email was sent
 			$recipientLists = $this->recipient->MailingLists()->column('ID');
@@ -148,7 +148,7 @@ class NewsletterEmail extends Email {
 
 			$listIDs = implode(',',$lists);
 			$days = UnsubscribeController::get_days_unsubscribe_link_alive();
-			if($this->recipient->ValidateHash){
+			if($this->recipient->ValidateHash) {
 				$this->recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days));
 				$this->recipient->write();
 			}else{

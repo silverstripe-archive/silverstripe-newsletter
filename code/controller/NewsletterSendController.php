@@ -121,7 +121,7 @@ class NewsletterSendController extends BuildTask {
 
 		$stuckCount = $stuckQueueItems->count();
 		if ($stuckCount  > 0) {
-			foreach($stuckQueueItems as $item){
+			foreach($stuckQueueItems as $item) {
 				if ($item->RetryCount < self::$retry_limit) {
 					$item->RetryCount = $item->RetryCount + 1;
 					$item->Status = "Scheduled";    //retry the item
@@ -136,7 +136,7 @@ class NewsletterSendController extends BuildTask {
 		return $stuckCount;
 	}
 
-	static function process_queue_invoke($newsletterID){
+	static function process_queue_invoke($newsletterID) {
 		$nsc = NewsletterSendController::inst();
 		$nsc->processQueue($newsletterID);
 	}
@@ -144,7 +144,7 @@ class NewsletterSendController extends BuildTask {
 	/**
 	 * Start the processing with a build task
 	 */
-	public function run($request){
+	public function run($request) {
 		$newsletterID = $request->getVar('newsletter');
 		if (!empty($newsletterID) && is_numeric($newsletterID)) {
 			$nsc = self::inst();
@@ -156,7 +156,7 @@ class NewsletterSendController extends BuildTask {
 		}
 	}
 
-	function processQueue($newsletterID){
+	function processQueue($newsletterID) {
 		set_time_limit(0);  //no time limit for running process
 
 		if (!empty($newsletterID)) {
@@ -178,7 +178,7 @@ class NewsletterSendController extends BuildTask {
 							->limit(self::$items_to_batch_process);
 
 					//set them all to "in process" at once
-					foreach($queueItems as $item){
+					foreach($queueItems as $item) {
 						$item->Status = 'InProgress';
 						$queueItemsList[] = $item->write();
 					}

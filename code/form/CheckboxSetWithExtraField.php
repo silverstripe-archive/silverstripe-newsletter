@@ -4,14 +4,14 @@
  */
 
 class CheckboxSetWithExtraField extends CheckboxSetField{
-	
+
 	public $extra = array();
 	public $extraValue = array();
-	
+
 	// can be two-D array eg. array("Email"=>arrray("Value","Reqired"));
 	public $cellDisabled = array();
-	public $tragable = true; 
-	
+	public $tragable = true;
+
 	/**
 	 * Creates a new optionset field.
 	 * @param name The field name
@@ -32,7 +32,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	function setCellDisabled($cellDisabled){
 		$this->cellDisabled = $cellDisabled;
 	}
-	
+
 	/**
 	 * Sets the template to be rendered with
 	 */
@@ -41,14 +41,14 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 		Requirements::javascript(NEWSLETTER_DIR . '/thirdparty/jquery-tablednd/jquery.tablednd.0.7.min.js');
 		Requirements::javascript(NEWSLETTER_DIR . '/javascript/CheckboxSetWithExtraField.js');
 		Requirements::css(NEWSLETTER_DIR . '/css/CheckboxSetWithExtraField.css');
-		
+
 		return parent::FieldHolder($properties);
 	}
-	
+
 	/**
 	 * @todo Explain different source data that can be used with this field,
 	 * e.g. SQLMap, DataObjectSet or an array.
-	 * 
+	 *
 	 * @todo Should use CheckboxField FieldHolder rather than constructing own markup.
 	 */
 	public function Field($properties = array()) {
@@ -67,7 +67,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 				}
 			}
 		}
-		
+
 		// Source is not an array
 		if(!is_array($source) && !is_a($source, 'SQLMap')) {
 			if(is_array($values)) {
@@ -94,14 +94,14 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 				$items = str_replace('{comma}', ',', $items);
 			}
 		}
-			
+
 		if(is_array($source)) {
 			unset($source['']);
 		}
-		
+
 		$odd = 0;
 		$options = '';
-		
+
 		if ($source == null) {
 			$source = array();
 			$options = sprintf(
@@ -109,7 +109,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 				_t('Newsletter.NoOptions', 'No options available')
 			);
 		}else{
-			
+
 			$header = "<thead><tr><th></th>";
 			$footer = "<tfoot><tr><td></td>";
 			if(!empty($this->extra)){
@@ -119,16 +119,16 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 					$footer .= "<td>$fieldLabel</td>";
 				}
 			}
-				
+
 			//add a column for drag&drop icon
 			if($this->tragable) {
 				$header .= "<th></th>";
 				$footer .= "<td></td>";
 			}
-			
+
 			$header .= "</tr></thead>";
 			$footer .= "</tr></tfoot>";
-			
+
 			foreach($source as $index => $item) {
 				if(is_a($item, 'DataObject')) {
 					$key = $item->ID;
@@ -137,7 +137,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 					$key = $index;
 					$value = $item;
 				}
-			
+
 				$odd = ($odd + 1) % 2;
 				$extraClass = $odd ? 'odd' : 'even';
 				$extraClass .= ' val' . str_replace(' ', '', $key);
@@ -154,7 +154,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 				<input id=\"$itemID\" name=\"$this->name[$key][Value]\"
 					type=\"checkbox\" value=\"$key\"$checked $disabled class=\"checkbox\" /> $value
 				</td>";
-				
+
 				if(!empty($this->extraValue)){
 					foreach($this->extraValue as $label => $val){
 						if($val)
@@ -178,18 +178,18 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 					}
 				}
 				$options .= "<td class=\"dragHandle\"></td>";
-				$options .= "</tr>"; 
+				$options .= "</tr>";
 			}
 		}
-		
+
 		return "<table id=\"{$this->id()}\" class=\"optionset checkboxsetwithextrafield {$this->extraClass()}\">".
 				$header.$footer.$options."</table>\n";
 	}
-	
+
 	/**
-	 * Return the CheckboxSetField value as an array 
+	 * Return the CheckboxSetField value as an array
 	 * selected item keys.
-	 * 
+	 *
 	 * @return string
 	 */
 	function dataValue() {
@@ -201,14 +201,14 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 					$filtered[$key][$k] = str_replace(", ", "{comma}", $v);
 				}
 			}
-			
+
 			if(isset($filtered)) return Convert::array2json($filtered);
 			else return '';
 		}
-		
+
 		return '';
 	}
-	
+
 	function saveInto(DataObjectInterface $record) {
 		$fieldname = $this->name ;
 		$this->value['Email']['Value'] = 'Email';
@@ -245,7 +245,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 			}
 		}
 	}
-	
+
 	function setValue($value, $obj = null){
 		// If we're not passed a value directly, we can look for it in a relation method on the object passed as a
 		// second arg
@@ -257,7 +257,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 		}
 
 		parent::setValue($value, $obj);
-		
+
 		// We need to sort the fields according to the $value, so that the list of
 		// fields apparing in the right order.
 		$sortedSource = array();

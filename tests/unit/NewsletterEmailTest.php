@@ -10,15 +10,15 @@ class NewsletterEmailTest extends SapphireTest {
 	}
 
 	public function testTracksAbsoluteLinks() {
-		$this->markTestIncomplete();	
+		$this->markTestIncomplete();
 	}
 
 	public function testDoesNotDuplicateTrackingLinks() {
-		$this->markTestIncomplete();	
+		$this->markTestIncomplete();
 	}
 
 	public function createsUniqueUnsubscribeLink() {
-		$this->markTestIncomplete();		
+		$this->markTestIncomplete();
 	}
 
 }

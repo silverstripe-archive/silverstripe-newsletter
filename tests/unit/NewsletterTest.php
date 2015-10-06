@@ -10,11 +10,11 @@ class NewsletterTest extends SapphireTest {
 	}
 
 	public function testCanNotDeleteWhileSending() {
-		$this->markTestIncomplete();	
+		$this->markTestIncomplete();
 	}
 
 	public function testListsTemplatesFromCustomPath() {
-		$this->markTestIncomplete();		
+		$this->markTestIncomplete();
 	}
 
 }

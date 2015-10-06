@@ -34,7 +34,7 @@ class SendRecipientQueue extends DataObject {
 
 	public function fieldLabels($includelrelations = true) {
 		$labels = parent::fieldLabels($includelrelations);
-		
+
 		$labels["Status"] = _t('Newsletter.FieldStatus', "Status");
 		$labels["Recipient.Email"] = _t('Newsletter.FieldEmail', "Email");
 		$labels["RetryCount"] = _t('Newsletter.FieldRetryCount', "Retry Count");

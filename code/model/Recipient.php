@@ -102,7 +102,7 @@ class Recipient extends DataObject {
 	/**
 	 * The unique field used to identify this recipient.
 	 * Duplication will not be allowed for this feild.
-	 * 
+	 *
 	 * @var string
 	 */
 	protected static $unique_identifier_field = 'Email';
@@ -112,14 +112,14 @@ class Recipient extends DataObject {
 	 */
 	public function onBeforeWrite() {
 		// If a recipient with the same "unique identifier" already exists with a different ID, don't allow merging.
-		// Note: This does not a full replacement for safeguards in the controller layer (e.g. in a subscription form), 
+		// Note: This does not a full replacement for safeguards in the controller layer (e.g. in a subscription form),
 		// but rather a last line of defense against data inconsistencies.
 		$identifierField = self::$unique_identifier_field;
 		if($this->$identifierField) {
 			// Note: Same logic as Member_Validator class
 			$idClause = ($this->ID) ? sprintf(" AND \"Recipient\".\"ID\" <> %d", (int)$this->ID) : '';
 			$existingRecord = DataObject::get_one(
-				'Recipient', 
+				'Recipient',
 				sprintf(
 					"\"%s\" = '%s' %s",
 					$identifierField,
@@ -129,8 +129,8 @@ class Recipient extends DataObject {
 			);
 			if($existingRecord) {
 				throw new ValidationException(new ValidationResult(false, _t(
-					'Recipient.ValidationIdentifierFailed', 
-					'Can\'t overwrite existing recipient #{id} with identical identifier ({name} = {value}))', 
+					'Recipient.ValidationIdentifierFailed',
+					'Can\'t overwrite existing recipient #{id} with identical identifier ({name} = {value}))',
 					'Values in brackets show "fieldname = value", usually denoting an existing email address',
 					array(
 						'id' => $existingRecord->ID,
@@ -163,7 +163,7 @@ class Recipient extends DataObject {
 
 		if (!empty($this->ID)) {
 			$fields->addFieldToTab('Root.Main',
-				Object::create('CheckboxSetField', 
+				Object::create('CheckboxSetField',
 					'MailingLists',
 					$this->fieldLabel('MailingLists'),
 					MailingList::get()->map('ID', 'FullTitle')
@@ -181,7 +181,7 @@ class Recipient extends DataObject {
 				Object::create('CheckboxField', 'Blacklisted',$this->fieldLabel('Blacklisted'))
 					->setDescription(
 						_t(
-							'Newsletter.BlacklistedDesc', 
+							'Newsletter.BlacklistedDesc',
 							'Excluded from emails, either by automated process or manually. '
 							. 'An invalid address or undeliverable email will eventually result in blacklisting.'
 						)
@@ -189,14 +189,14 @@ class Recipient extends DataObject {
 				Object::create('ReadonlyField', 'ReceivedCount',$this->fieldLabel('ReceivedCount'))
 					->setDescription(
 						_t(
-							'Newsletter.ReceivedCountDesc', 
+							'Newsletter.ReceivedCountDesc',
 							'Number of emails sent without undeliverable errors. '
 							. 'Only one indication that an email has actually been received and read.'
 						)
 					)
 			)
 		);
-		
+
 		$this->extend('updateCMSFields', $fields);
 
 		return $fields;

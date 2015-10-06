@@ -1,35 +1,35 @@
 <?php
 class UnsubscribeTest extends SapphireTest{
-	
+
 	static $fixture_file = 'newsletter/tests/unit/UnsubscribeTest.yml';
-	
+
 	static $page;
-	
+
 	function setUp(){
 		parent::setUp();
-		
+
 		self::$page = new UnsubscribeController();
 		Config::inst()->update('ContentNegotiator', 'enabled', false);
 	}
-	
+
 	function testIndexWithAutoLoginHashAndNewsletterType(){
 		$this->markTestIncomplete();
 
 		// $member = $this->objFromFixture("Member", "normann1");
 		// $group = $this->objFromFixture("Group", 'newsletter1');
 		// $this->assertTrue($member->inGroup($group));
-		
+
 		// $url = 'unsubscribe/index/94l4ee9ib8kkw3s08k8wwcs4g/1';
 		// $response = Director::test($url);
 		// $baseurl = Director::absoluteBaseURL();
-		
+
 		// $this->assertEquals(
-		// 	$baseurl.'unsubscribe/done/94l4ee9ib8kkw3s08k8wwcs4g/1', 
+		// 	$baseurl.'unsubscribe/done/94l4ee9ib8kkw3s08k8wwcs4g/1',
 		// 	$response->getHeader('Location')
 		// );
 		// $this->assertFalse($member->inGroup($group));
 	}
-	
+
 	function testIndexWithAutoLoginHash(){
 		$this->markTestIncomplete();
 
@@ -39,7 +39,7 @@ class UnsubscribeTest extends SapphireTest{
 		// $form = new Unsubscribe_MailingListForm(self::$page, 'MailingListForm', $member);
 		// $this->assertContains($form->forTemplate(), $body);
 	}
-	
+
 	function testIndex(){
 		$this->markTestIncomplete();
 
@@ -48,7 +48,7 @@ class UnsubscribeTest extends SapphireTest{
 		// $form = new Unsubscribe_EmailAddressForm(self::$page, 'EmailAddressForm');
 		// $this->assertContains($form->forTemplate(), $body);
 	}
-	
+
 	function testDoneMessage(){
 		$this->markTestIncomplete();
 
@@ -59,19 +59,19 @@ class UnsubscribeTest extends SapphireTest{
 		// $body1 = Director::test($url1)->getBody();
 		// $body2 = Director::test($url2)->getBody();
 		// $message1 = sprintf(
-		// 	_t('Unsubscribe.REMOVESUCCESS', 'Thank you. %s will no longer receive the %s.'), 
-		// 	'normann1@silverstripe.com', 
+		// 	_t('Unsubscribe.REMOVESUCCESS', 'Thank you. %s will no longer receive the %s.'),
+		// 	'normann1@silverstripe.com',
 		// 	'Daily Newsletter'
 		// );
 		// $message2 = sprintf(
-		// 	_t('Unsubscribe.REMOVESUCCESS', 'Thank you. %s will no longer receive the %s.'), 
-		// 	'normann1@silverstripe.com', 
+		// 	_t('Unsubscribe.REMOVESUCCESS', 'Thank you. %s will no longer receive the %s.'),
+		// 	'normann1@silverstripe.com',
 		// 	'Daily Newsletter, Monthly Newsletter'
 		// );
 		// $this->AssertContains($message1, $body1);
 		// $this->AssertContains($message2, $body2);
 	}
-	
+
 	function testLinksent(){
 		$this->markTestIncomplete();
 
@@ -80,23 +80,23 @@ class UnsubscribeTest extends SapphireTest{
 		// $body1 = Director::test($url1)->getBody();
 		// $body2 = Director::test($url2)->getBody();
 		// $message1 = sprintf(
-		// 	_t('Unsubscribe.LINKSENTTO', "The unsubscribe link has been sent to %s"), 
+		// 	_t('Unsubscribe.LINKSENTTO', "The unsubscribe link has been sent to %s"),
 		// 	'normann1@silverstripe.com'
 		// );
 		// $message2 = sprintf(
 		// 	_t(
-		// 		'Unsubscribe.LINKSENDERR', 
+		// 		'Unsubscribe.LINKSENDERR',
 		// 		"Sorry, currently we have internal error, and can't send the unsubscribe link to %s"
-		// 	), 
+		// 	),
 		// 	'normann1@silverstripe.com'
 		// );
 		// $this->AssertContains($message1, $body1);
 		// $this->AssertContains($message2, $body2);
 	}
-	
+
 	function testSendMeUnsubscribeLink(){
 		$this->markTestIncomplete();
 	}
-	
+
 }
 ?>

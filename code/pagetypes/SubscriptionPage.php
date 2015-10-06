@@ -3,12 +3,12 @@
 /**
  * Page type for creating a page that contains a form that visitors can
  * use to subscript to mailing lists.
- * 
+ *
  * @package newsletter
  */
 
 class SubscriptionPage extends Page {
-	
+
 	private static $db = array(
 		'Fields' => 'Text',
 		'Required' => 'Text',
@@ -22,7 +22,7 @@ class SubscriptionPage extends Page {
 		'NotificationEmailFrom' => 'Varchar',
 		"OnCompleteMessage" => "HTMLText",
 	);
-	
+
 	private static $defaults = array(
 		'Fields' => 'Email',
 		'SubmissionButtonText' => 'Submit'
@@ -73,7 +73,7 @@ class SubscriptionPage extends Page {
 				_t('Newsletter.SUBSCRIPTIONFORMCONFIGURATION', "Subscription Form Configuration")
 			)
 		);
-		
+
 		$subscriptionTab->push(
 			new TextField('CustomisedHeading', 'Heading at the top of the form')
 		);
@@ -95,7 +95,7 @@ class SubscriptionPage extends Page {
 		//we should force that email to be checked and required.
 		//FisrtName should be checked as default, though it might not be required
 		$defaults = array("Email", "FirstName");
-				
+
 		$extra = array('CustomLabel'=>"Varchar","ValidationMessage"=>"Varchar","Required" =>"Boolean");
 		$extraValue = array(
 			'CustomLabel'=>$this->CustomLabel,
@@ -139,11 +139,11 @@ class SubscriptionPage extends Page {
 		$subscriptionTab->push(
 			$newsletterSelection
 		);
-		
+
 		$subscriptionTab->push(
 			new TextField("SubmissionButtonText", "Submit Button Text")
 		);
-		
+
 		$subscriptionTab->push(
 			new LiteralField(
 				'BottomTaskSelection',
@@ -163,31 +163,31 @@ class SubscriptionPage extends Page {
 		$subscriptionTab->push(
 			CompositeField::create(
 				new HiddenField(
-					"SendNotification", 
+					"SendNotification",
 					"Send Notification"
 				),
 				new TextField(
-					"NotificationEmailSubject", 
+					"NotificationEmailSubject",
 					_t('Newsletter.NotifSubject', "Notification Email Subject Line")
 				),
 				new TextField(
-					"NotificationEmailFrom", 
+					"NotificationEmailFrom",
 					_t('Newsletter.FromNotif', "From Email Address for Notification Email")
 				)
 			)->addExtraClass('SendNotificationControlledPanel')
 		);
-		
+
 		$subscriptionTab->push(
 			new HtmlEditorField(
-				'OnCompleteMessage', 
+				'OnCompleteMessage',
 				_t('Newsletter.OnCompletion', 'Message shown on subscription completion')
 			)
 		);
 		return $fields;
 	}
-	
+
 	/**
-	 * Email field is the member's identifier, and newsletters subscription is non-sense if no email is given 
+	 * Email field is the member's identifier, and newsletters subscription is non-sense if no email is given
 	 * by the user, we should force that email to be checked and required.
 	 */
 	function getRequired(){
@@ -207,15 +207,15 @@ class SubscriptionPage_Controller extends Page_Controller {
 		'completed',
 		'Form'
 	);
-	
+
 	/**
-	 * Load all the custom jquery needed to run the custom 
-	 * validation 
+	 * Load all the custom jquery needed to run the custom
+	 * validation
 	 */
 	public function init() {
 		parent::init();
 
-		
+
 		// block prototype validation
 		//Validator::set_javascript_validation_handler('none');
 		Requirements::css('newsletter/css/SubscriptionPage.css');
@@ -223,11 +223,11 @@ class SubscriptionPage_Controller extends Page_Controller {
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-validate/jquery.validate.min.js');
 	}
-	
+
 	function Form(){
 		if($this->URLParams['Action'] === 'completed' || $this->URLParams['Action'] == 'submitted') return;
 		$dataFields = singleton('Recipient')->getFrontEndFields()->dataFields();
-		
+
 		if($this->CustomLabel) $customLabel = Convert::json2array($this->CustomLabel);
 
 		$fields = array();
@@ -279,7 +279,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 		if($this->MailingLists){
 			$mailinglists = DataObject::get("MailingList", "ID IN (".$this->MailingLists.")");
 		}
-		
+
 		if(isset($mailinglists) && $mailinglists && $mailinglists->count()>1){
 			$newsletterSection = new CompositeField(
 				new LabelField("Newsletters", _t("SubscriptionPage.To", "Subscribe to:"), 4),
@@ -287,16 +287,16 @@ class SubscriptionPage_Controller extends Page_Controller {
 			);
 			$formFields->push($newsletterSection);
 		}
-		
+
 		$buttonTitle = $this->SubmissionButtonText;
 		$actions = new FieldList(
 			new FormAction('doSubscribe', $buttonTitle)
 		);
-		
+
 		if(!empty($requiredFields)) $required = new RequiredFields($requiredFields);
 		else $required = null;
 		$form = new Form($this, "Form", $formFields, $actions, $required);
-		
+
 		// using jQuery to customise the validation of the form
 		$FormName = $form->FormName();
 		$validationMessage = Convert::json2array($this->ValidationMessage);
@@ -315,7 +315,7 @@ class SubscriptionPage_Controller extends Page_Controller {
 							$label
 						);
 					}
-					
+
 					if($field === 'Email') {
 						$jsonRuleArray[] = $field.":{required: true, email: true}";
 						$message = <<<JSON
@@ -370,11 +370,11 @@ JS
 
 		return $form;
 	}
-	
+
 	/**
 	 *  unsubscribes a $member from $newsletterType
-	 *  	 
-	 */	 	
+	 *
+	 */
 	protected function removeUnsubscribe($newletterType,$member) {
 		//TODO NewsletterType deprecated
 		//TODO UnsubscribeRecord deprecated
@@ -382,9 +382,9 @@ JS
 				Convert::raw2sql($newletterType->ID)." AND MemberID = ".Convert::raw2sql($member->ID)."");
 		if($result && $result->exists()) {
 			$result->delete();
-		}		
+		}
 	}
-	
+
 	/**
 	 * Subscribes a given email address to the {@link NewsletterType} associated
 	 * with this page
@@ -396,52 +396,52 @@ JS
 	 * @return Redirection
 	 */
 	function doSubscribe($data, $form, $request){
-						
+
 		//filter weird characters
-		$data['Email'] = preg_replace("/[^a-zA-Z0-9\._\-@]/","",$data['Email']);		
-		
+		$data['Email'] = preg_replace("/[^a-zA-Z0-9\._\-@]/","",$data['Email']);
+
 		// check to see if member already exists
-		$recipient = false; 
-		
+		$recipient = false;
+
 		if(isset($data['Email'])) {
 			$recipient = DataObject::get_one('Recipient', "\"Email\" = '". Convert::raw2sql($data['Email']) . "'");
 		}
-		
+
 		if(!$recipient) {
 			$recipient = new Recipient();
 			$recipient->Verified = false;   //set new recipient as un-verified, if they subscribe through the website
 		}
-			
+
 		$form->saveInto($recipient);
 		$recipient->write();
-		
+
 		$days = self::get_days_verification_link_alive();
-		if($recipient->ValidateHash){ 
+		if($recipient->ValidateHash){
 			$recipient->ValidateHashExpired = date('Y-m-d H:i:s', time() + (86400 * $days));   //extend the expiry date
 			//default 2 days for validating
-			$recipient->write(); 
-		}else{ 
+			$recipient->write();
+		}else{
 			$recipient->generateValidateHashAndStore($days); //default 2 days for validating
 		}
 
 		$mailinglists = new ArrayList();
-		
+
 		if(isset($data["NewsletterSelection"])){
 			foreach($data["NewsletterSelection"] as $listID){
 				$mailinglist = DataObject::get_by_id("MailingList", $listID);
-				
+
 				if($mailinglist && $mailinglist->exists()){
 					//remove recipient from unsubscribe if needed
 					//$this->removeUnsubscribe($newsletterType,$recipient);
-					
+
 					$mailinglists->push($mailinglist);
 					$recipient->MailingLists()->add($mailinglist);
 				}
 			}
 		} else {
-			// if the page has associate with one newsletter type, it won't appear in front form, but the 
+			// if the page has associate with one newsletter type, it won't appear in front form, but the
 			// recipient needs to be added to the related mailling list.
-			
+
 			if($this->MailingLists && ($listIDs = explode(",",$this->MailingLists))) {
 				foreach($listIDs as $listID){
 					$mailinglist = DataObject::get_by_id("MailingList", $listID);
@@ -451,14 +451,14 @@ JS
 						//$this->removeUnsubscribe($mailingList,$recipient);
 						$mailinglists->push($mailinglist);
 						$recipient->MailingLists()->add($mailinglist);
-					}	
+					}
 				}
 			}
 			else {
 				user_error('No Newsletter type selected to subscribe to', E_USER_WARNING);
 			}
 		}
-		
+
 		$recipientInfoSection = $form->Fields()->fieldByName('MemberInfoSection')->FieldList();
 		$emailableFields = new FieldList();
 		if($recipientInfoSection){
@@ -478,7 +478,7 @@ JS
 			'FirstName' => $recipient->FirstName,
             'MemberInfoSection' => $emailableFields,
             'MailingLists' => $mailinglists,
-            'SubscriptionVerificationLink' => 
+            'SubscriptionVerificationLink' =>
             	Controller::join_links($this->Link('subscribeverify'), "/".$recipient->ValidateHash),
             'HashText' => substr($recipient->ValidateHash, 0, 10)."******".substr($recipient->ValidateHash, -10),
 			'SiteConfig' => $this->SiteConfig(),
@@ -490,31 +490,31 @@ JS
 		$email->setTo($recipient->Email);
 		$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
         $email->setFrom($from);
-		$email->setTemplate('SubscriptionVerificationEmail'); 
+		$email->setTemplate('SubscriptionVerificationEmail');
         $email->setSubject(_t(
-        	'Newsletter.VerifySubject', 
+        	'Newsletter.VerifySubject',
         	"Thanks for subscribing to our mailing lists, please verify your email"
         ));
         $email->populateTemplate( $templateData );
         $email->send();
-		
+
 		$url = $this->Link('submitted')."/".$recipient->ID;
 		$this->redirect($url);
 	}
-	
+
 	function submitted(){
 		if($id = $this->urlParams['ID']){
 			$recipientData = DataObject::get_by_id("Recipient", $id)->toMap();
 		}
 
 		$daysExpired = SubscriptionPage::get_days_verification_link_alive();
-		$recipientData['SubscritionSubmittedContent2'] = 
+		$recipientData['SubscritionSubmittedContent2'] =
 			 sprintf(
 			 	_t(
 			 		'Newsletter.SubscritionSubmittedContent2',
 			 		'The verification link will be valid for %s days. If you did not mean to subscribe, '
 			 		. 'simply ignore the verification email'
-			 	), 
+			 	),
 			 	$daysExpired
 			);
 
@@ -538,11 +538,11 @@ JS
 
 					$recipient->write();
 					$mailingLists = $recipient->MailingLists();
-					$ids = implode(",", $mailingLists->getIDList());	
+					$ids = implode(",", $mailingLists->getIDList());
 					$templateData = array(
 						'FirstName' => $recipient->FirstName,
             			'MailingLists' => $mailingLists,
-            			'UnsubscribeLink' => 
+            			'UnsubscribeLink' =>
             				Director::BaseURL(). "unsubscribe/index/".$recipient->ValidateHash."/".$ids,
             			'HashText' => $recipient->getHashText(),
             			'SiteConfig' => $this->SiteConfig(),
@@ -553,7 +553,7 @@ JS
 						$email->setTo($recipient->Email);
 						$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
 						$email->setFrom($from);
-						$email->setTemplate('SubscriptionConfirmationEmail'); 
+						$email->setTemplate('SubscriptionConfirmationEmail');
         				$email->setSubject(_t(
         					'Newsletter.ConfirmSubject',
         					"Confirmation of your subscription to our mailing lists"
@@ -574,12 +574,12 @@ JS
 			}
 
 			$daysExpired = SubscriptionPage::get_days_verification_link_alive();
-			$recipientData['VerificationExpiredContent1'] = 
+			$recipientData['VerificationExpiredContent1'] =
 				 sprintf(_t('Newsletter.VerificationExpiredContent1',
 				 	'The verification link is only validate for %s days.'), $daysExpired);
 
 			return $this->customise(array(
-	    		'Title' => _t('Newsletter.VerificationExpired', 
+	    		'Title' => _t('Newsletter.VerificationExpired',
 	    			'The verification link has been expired'),
 	    		'Content' => $this->customise($recipientData)->renderWith('VerificationExpired'),
 	    	))->renderWith('Page');

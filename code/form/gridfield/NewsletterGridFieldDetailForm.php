@@ -61,7 +61,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 
 	/**
 	 * Used for preview controls
-	 * 
+	 *
 	 * @return ArrayData
 	 */
 	public function getSilverStripeNavigator() {
@@ -93,7 +93,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 	 */
 	public function emailpreview(SS_HTTPRequest $request = null) {
 		$emailVar = $request->getVar('email');
-		
+
 		$recipient = new Recipient(Recipient::$test_data);
 		if ($request && !empty($emailVar)) {
 			$recipient->Email = Convert::raw2js($emailVar);

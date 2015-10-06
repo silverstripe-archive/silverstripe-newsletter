@@ -117,7 +117,7 @@ class Recipient extends DataObject {
 		$identifierField = self::$unique_identifier_field;
 		if($this->$identifierField) {
 			// Note: Same logic as Member_Validator class
-			$idClause = ($this->ID) ? sprintf(" AND \"Recipient\".\"ID\" <> %d", (int)$this->ID) : '';
+			$idClause = ($this->ID) ? sprintf(" AND \"Recipient\".\"ID\" <> %d", (int) $this->ID) : '';
 			$existingRecord = DataObject::get_one(
 				'Recipient',
 				sprintf(

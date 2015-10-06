@@ -98,7 +98,7 @@ class UnsubscribeController extends Page_Controller {
 				'Content' => _t('Newsletter.INVALIDUNSUBSCRIBECONTENT', 'This unsubscribe link is invalid')
 			))->renderWith('Page');
 		}
-    }
+	}
 
 	function done() {
 		$unsubscribeRecordIDs = $this->urlParams['IDs'];
@@ -145,9 +145,9 @@ class UnsubscribeController extends Page_Controller {
 		))->renderWith('Page');
 	}
 
-   /**
-    * Unsubscribe the user from the given lists.
-    */
+	/**
+	* Unsubscribe the user from the given lists.
+	*/
 	function resubscribe() {
 		if(isset($_POST['Hash']) && isset($_POST['UnsubscribeRecordIDs'])) {
 			$recipient = DataObject::get_one(
@@ -188,14 +188,16 @@ class UnsubscribeController extends Page_Controller {
 				"<ul>".$listTitles."</ul>"
 			);
 		}else{
-			$content =
-				_t('Newsletter.RESUBSCRIBESUCCESS', 'Thank you.<br />You have been resubscribed successfully');
+			$content =_t(
+				'Newsletter.RESUBSCRIBESUCCESS',
+				'Thank you.<br />You have been resubscribed successfully.'
+			);
 		}
 
-    	return $this->customise(array(
-    		'Title' => _t('Newsletter.RESUBSCRIBED', 'Resubscribed'),
-    		'Content' => $content,
-    	))->renderWith('Page');
+		return $this->customise(array(
+			'Title' => _t('Newsletter.RESUBSCRIBED', 'Resubscribed'),
+			'Content' => $content,
+		))->renderWith('Page');
 	}
 
 	protected function unsubscribeFromLists($recipient, $lists, &$recordsIDs) {
@@ -232,24 +234,29 @@ class UnsubscribeController extends Page_Controller {
 
 			$templateData = array(
 				'FirstName' => $recipient->FirstName,
-                'UnsubscribeLink' =>
-                    Director::absoluteBaseURL() . "unsubscribe/index/".$recipient->ValidateHash."/$listIDs"
-            );
+				'UnsubscribeLink' =>
+					Director::absoluteBaseURL() . "unsubscribe/index/" . $recipient->ValidateHash . "/$listIDs"
+			);
 			//send unsubscribe link email
 			$email = new Email();
 			$email->setTo($recipient->Email);
 			$from = Email::getAdminEmail();
 			$email->setFrom($from);
 			$email->setTemplate('UnsubscribeLinkEmail');
-            $email->setSubject(_t(
-                'Newsletter.ConfirmUnsubscribeSubject',
-                "Confirmation of your unsubscribe request"
-            ));
-            $email->populateTemplate( $templateData );
-            $email->send();
+			$email->setSubject(_t(
+				'Newsletter.ConfirmUnsubscribeSubject',
+				'Confirmation of your unsubscribe request'
+			));
+			$email->populateTemplate( $templateData );
+			$email->send();
 
-			$form->sessionMessage(_t('Newsletter.GoodEmailMessage',
-				'You have been sent an email containing an unsubscribe link'), "good");
+			$form->sessionMessage(
+				_t(
+					'Newsletter.GoodEmailMessage',
+					'You have been sent an email containing an unsubscribe link'
+				),
+				'good'
+			);
 		} else {
 			//not found Recipient, just reload the form
 			$form->sessionMessage(_t('Newsletter.BadEmailMessage','Email address not found'), "bad");

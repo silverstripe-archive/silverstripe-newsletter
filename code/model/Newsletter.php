@@ -410,7 +410,7 @@ class Newsletter extends DataObject implements CMSPreviewable{
 	}
 
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function CMSEditLink() {
 		return Controller::join_links(singleton('NewsletterAdmin')->Link('Newsletter'),
@@ -475,7 +475,7 @@ class Newsletter_TrackedLink extends DataObject {
 	 * Return the full link to the hashed url, not the
 	 * actual link location
 	 *
-	 * @return String
+	 * @return string
 	 */
 	function Link() {
 		if(!$this->Hash) $this->write();

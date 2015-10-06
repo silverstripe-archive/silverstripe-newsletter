@@ -18,22 +18,22 @@
 class NewsletterSendController extends BuildTask {
 
 	/**
-	 * @var integer number of emails to send out in "batches" to avoid spin up costs
+	 * @var int number of emails to send out in "batches" to avoid spin up costs
 	 */
 	static $items_to_batch_process = 50;
 
 	/**
-	 * @var integer minutes after which we consider an "InProgress" item in the queue "stuck"
+	 * @var int minutes after which we consider an "InProgress" item in the queue "stuck"
 	 */
 	static $stuck_timeout = 5;
 
 	/**
-	 * @var integer number of times to retry sending email that get "stuck"
+	 * @var int number of times to retry sending email that get "stuck"
 	 */
 	static $retry_limit = 4;
 
 	/**
-	 * @var integer seconds to wait between sending out email batches.
+	 * @var int seconds to wait between sending out email batches.
 	 * Caution: Currently implemented through PHP's sleep() function.
 	 * While the execution time limit is unset in the process,
 	 * it still means that any higher value (minutes/hours)
@@ -110,7 +110,7 @@ class NewsletterSendController extends BuildTask {
 	 * will eventually stop re-scheduling items if their retry count gets too high, indicating such a problem.
 	 *
 	 * @param $newsletterID
-	 * @return Int the number of stuck items re-added to the queue
+	 * @return int the number of stuck items re-added to the queue
 	 */
 	function cleanUpStalledQueue($newsletterID) {
 		$stuckQueueItems = SendRecipientQueue::get()->filter(array(

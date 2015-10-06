@@ -20,7 +20,7 @@ class NewsletterEmail extends Email {
 	private static $link_tracking_enabled = true;
 
 	/**
-	 * @var String
+	 * @var string
 	 */
 	protected static $static_base_url = null;
 

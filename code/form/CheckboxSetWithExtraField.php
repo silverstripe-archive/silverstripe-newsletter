@@ -22,8 +22,15 @@ class CheckboxSetWithExtraField extends CheckboxSetField{
 	 * @param extraValue The current extraValues
 	 * @param form The parent form
 	 */
-	function __construct($name, $title = "", $source = array(), $extra=array(), $value = "", $extraValue=array(),
-             $form = null) {
+	function __construct(
+		$name,
+		$title = "",
+		$source = array(),
+		$extra = array(),
+		$value = "",
+		$extraValue = array(),
+		$form = null
+	) {
 		if(!empty($extra)) $this->extra = $extra;
 		if(!empty($extraValue)) $this->extraValue = $extraValue;
 		parent::__construct($name, $title, $source, $value, $form);

@@ -20,7 +20,7 @@ class SubscriptionPage extends Page {
 		'SendNotification' => 'Boolean',
 		'NotificationEmailSubject' => 'Varchar',
 		'NotificationEmailFrom' => 'Varchar',
-		"OnCompleteMessage" => "HTMLText",
+		'OnCompleteMessage' => 'HTMLText',
 	);
 
 	private static $defaults = array(
@@ -476,27 +476,27 @@ JS
 		}
 		$templateData = array(
 			'FirstName' => $recipient->FirstName,
-            'MemberInfoSection' => $emailableFields,
-            'MailingLists' => $mailinglists,
-            'SubscriptionVerificationLink' =>
-            	Controller::join_links($this->Link('subscribeverify'), "/".$recipient->ValidateHash),
-            'HashText' => substr($recipient->ValidateHash, 0, 10)."******".substr($recipient->ValidateHash, -10),
+			'MemberInfoSection' => $emailableFields,
+			'MailingLists' => $mailinglists,
+			'SubscriptionVerificationLink' =>
+				Controller::join_links($this->Link('subscribeverify'), "/".$recipient->ValidateHash),
+			'HashText' => substr($recipient->ValidateHash, 0, 10)."******".substr($recipient->ValidateHash, -10),
 			'SiteConfig' => $this->SiteConfig(),
 			'DaysExpired' => SubscriptionPage::get_days_verification_link_alive(),
-        );
+		);
 
-        //Send Verification Email
+		//Send Verification Email
 		$email = new Email();
 		$email->setTo($recipient->Email);
 		$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
-        $email->setFrom($from);
+		$email->setFrom($from);
 		$email->setTemplate('SubscriptionVerificationEmail');
-        $email->setSubject(_t(
-        	'Newsletter.VerifySubject',
-        	"Thanks for subscribing to our mailing lists, please verify your email"
-        ));
-        $email->populateTemplate( $templateData );
-        $email->send();
+		$email->setSubject(_t(
+			'Newsletter.VerifySubject',
+			"Thanks for subscribing to our mailing lists, please verify your email"
+		));
+		$email->populateTemplate( $templateData );
+		$email->send();
 
 		$url = $this->Link('submitted')."/".$recipient->ID;
 		$this->redirect($url);
@@ -519,9 +519,9 @@ JS
 			);
 
 		return $this->customise(array(
-    		'Title' => _t('Newsletter.SubscriptionSubmitted', 'Subscription submitted!'),
-    		'Content' => $this->customise($recipientData)->renderWith('SubscriptionSubmitted'),
-    	))->renderWith('Page');
+			'Title' => _t('Newsletter.SubscriptionSubmitted', 'Subscription submitted!'),
+			'Content' => $this->customise($recipientData)->renderWith('SubscriptionSubmitted'),
+		))->renderWith('Page');
 	}
 
 	function subscribeverify() {
@@ -541,11 +541,11 @@ JS
 					$ids = implode(",", $mailingLists->getIDList());
 					$templateData = array(
 						'FirstName' => $recipient->FirstName,
-            			'MailingLists' => $mailingLists,
-            			'UnsubscribeLink' =>
-            				Director::BaseURL(). "unsubscribe/index/".$recipient->ValidateHash."/".$ids,
-            			'HashText' => $recipient->getHashText(),
-            			'SiteConfig' => $this->SiteConfig(),
+						'MailingLists' => $mailingLists,
+						'UnsubscribeLink' =>
+							Director::BaseURL(). "unsubscribe/index/".$recipient->ValidateHash."/".$ids,
+						'HashText' => $recipient->getHashText(),
+						'SiteConfig' => $this->SiteConfig(),
 					);
 					//send notification email
 					if($this->SendNotification) {
@@ -554,13 +554,13 @@ JS
 						$from = $this->NotificationEmailFrom?$this->NotificationEmailFrom:Email::getAdminEmail();
 						$email->setFrom($from);
 						$email->setTemplate('SubscriptionConfirmationEmail');
-        				$email->setSubject(_t(
-        					'Newsletter.ConfirmSubject',
-        					"Confirmation of your subscription to our mailing lists"
-        				));
+						$email->setSubject(_t(
+							'Newsletter.ConfirmSubject',
+							"Confirmation of your subscription to our mailing lists"
+						));
 
-        				$email->populateTemplate( $templateData );
-        				$email->send();
+						$email->populateTemplate( $templateData );
+						$email->send();
 					}
 
 					$url = $this->Link('completed')."/".$recipient->ID;
@@ -579,10 +579,12 @@ JS
 				 	'The verification link is only validate for %s days.'), $daysExpired);
 
 			return $this->customise(array(
-	    		'Title' => _t('Newsletter.VerificationExpired',
-	    			'The verification link has been expired'),
-	    		'Content' => $this->customise($recipientData)->renderWith('VerificationExpired'),
-	    	))->renderWith('Page');
+				'Title' => _t(
+					'Newsletter.VerificationExpired',
+					'The verification link has been expired'
+				),
+				'Content' => $this->customise($recipientData)->renderWith('VerificationExpired'),
+			))->renderWith('Page');
 
 		}
 	}
@@ -592,8 +594,8 @@ JS
 			$recipientData = DataObject::get_by_id("Recipient", $id)->toMap();
 		}
 		return $this->customise(array(
-    		'Title' => _t('Newsletter.SubscriptionCompleted', 'Subscription Completed!'),
-    		'Content' => $this->customise($recipientData)->renderWith('SubscriptionCompleted'),
-    	))->renderWith('Page');
+			'Title' => _t('Newsletter.SubscriptionCompleted', 'Subscription Completed!'),
+			'Content' => $this->customise($recipientData)->renderWith('SubscriptionCompleted'),
+		))->renderWith('Page');
 	}
 }

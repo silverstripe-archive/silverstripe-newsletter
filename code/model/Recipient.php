@@ -155,8 +155,8 @@ class Recipient extends DataObject {
 			'Root.Main',
 			array(
 				Object::create('TextField', 'Salutation',$this->fieldLabel('Salutation')),
-				Object::create('TextField', 'FirstName',$this->fieldLabel('First Name')),
-				Object::create('TextField', 'MiddleName',$this->fieldLabel('Middle Name')),
+				Object::create('TextField', 'FirstName',$this->fieldLabel('FirstName')),
+				Object::create('TextField', 'MiddleName',$this->fieldLabel('MiddleName')),
 				Object::create('TextField', 'Surname',$this->fieldLabel('Surname'))
 			)
 		);

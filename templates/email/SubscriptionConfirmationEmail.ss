@@ -101,7 +101,7 @@
 											<td valign="top" class="bodyContent" sytle="border-collapse:collapse;">
 												<div sytle="color:#000000;font-family:'Lucida Sans Unicode',sans-serif,Verdana,Arial;font-size:13pt;line-height:140%;text-align:left;">
 													<p>Dear $FirstName,</p>
-													
+
 													<% if MailingLists %>
 														<h5>We confirm that you have subscribed to:
 														</h5>

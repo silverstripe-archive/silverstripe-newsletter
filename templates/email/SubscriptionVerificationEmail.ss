@@ -108,7 +108,7 @@
 													</p>
 													<p>This link will be valid for $DaysExpired days. If you didn't mean to subscribe, simply ignore this email.
 													</p>
-													
+
 													<% if MailingLists %>
 														<h5>Once your email address is verified, you will be subscribed to our mailing lists:
 														</h5>

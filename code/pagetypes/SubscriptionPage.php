@@ -399,7 +399,10 @@ JS
 
 		//filter weird characters
 		$data['Email'] = preg_replace("/[^a-zA-Z0-9\._\-@]/","",$data['Email']);
-
+		if (filter_var($data['Email'], FILTER_VALIDATE_EMAIL) === false) {
+			$form->addErrorMessage("Email", "Please enter a valid email", "bad");
+			return $this->redirectBack();
+		}
 		// check to see if member already exists
 		$recipient = false;
 

@@ -397,15 +397,16 @@ JS
 	 */
 	function doSubscribe($data, $form, $request) {
 
-		//filter weird characters
-		$data['Email'] = preg_replace("/[^a-zA-Z0-9\._\-@]/","",$data['Email']);
+		if (!isset($data['Email'])) {
+			$form->addErrorMessage('Email', _t('Newsletter.ValidEmail', 'Please enter your email address'));
+			return $this->redirectBack();
+		} else if (!Email::is_valid_address($data['Email'])) {
+			$form->addErrorMessage('Email', _t('Newsletter.InvalidEmailAddress', '"{field}" field is invalid', array('field' => 'Email')));
+			return $this->redirectBack();
+		}
 
 		// check to see if member already exists
-		$recipient = false;
-
-		if(isset($data['Email'])) {
-			$recipient = DataObject::get_one('Recipient', "\"Email\" = '". Convert::raw2sql($data['Email']) . "'");
-		}
+		$recipient = Recipient::get()->find('Email', $data['Email']);
 
 		if(!$recipient) {
 			$recipient = new Recipient();

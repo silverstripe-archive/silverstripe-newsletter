@@ -351,6 +351,8 @@ $emailAddrMsg<span></span></span>"
 JS;
 		}
 
+                $this->extend('updateForm', $form);
+
 		// set the custom script for this form
 		Requirements::customScript(<<<JS
 (function($) {

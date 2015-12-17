@@ -11,30 +11,31 @@
  * This controller then determines the correct location for that hashcode and redirects
  * the user to the webpage
  */
-class TrackLinkController extends ContentController {
+class TrackLinkController extends ContentController
+{
 
-	function init() {
-		parent::init();
+    public function init()
+    {
+        parent::init();
 
-		if($params = $this->getURLParams()) {
-			if(isset($params['Hash']) && ($hash = Convert::raw2sql($params['Hash']))) {
+        if ($params = $this->getURLParams()) {
+            if (isset($params['Hash']) && ($hash = Convert::raw2sql($params['Hash']))) {
+                $link = DataObject::get_one('Newsletter_TrackedLink', "\"Hash\" = '$hash'");
 
-				$link = DataObject::get_one('Newsletter_TrackedLink', "\"Hash\" = '$hash'");
+                if ($link) {
+                    // check for them visiting this link before
+                    if (!Cookie::get('ss-newsletter-link-'.$hash)) {
+                        $link->Visits++;
+                        $link->write();
 
-				if($link) {
-					// check for them visiting this link before
-					if(!Cookie::get('ss-newsletter-link-'.$hash)) {
-						$link->Visits++;
-						$link->write();
+                        Cookie::set('ss-newsletter-link-'. $hash, true);
+                    }
 
-						Cookie::set('ss-newsletter-link-'. $hash, true);
-					}
+                    return $this->redirect($link->Original, 301);
+                }
+            }
+        }
 
-					return $this->redirect($link->Original, 301);
-				}
-			}
-		}
-
-		return $this->httpError(404);
-	}
+        return $this->httpError(404);
+    }
 }

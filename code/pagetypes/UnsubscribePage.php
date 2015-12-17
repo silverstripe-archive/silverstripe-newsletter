@@ -7,16 +7,19 @@
  * @package newsletter
  */
 
-class UnsubscriptionPage extends Page {
+class UnsubscriptionPage extends Page
+{
 
-	private static $defaults = array(
-		'Content' => 'Enter your email address and we will send you an email with an unsubscribe link'
-	);
+    private static $defaults = array(
+        'Content' => 'Enter your email address and we will send you an email with an unsubscribe link'
+    );
 }
 
-class UnsubscriptionPage_Controller extends Page_Controller {
+class UnsubscriptionPage_Controller extends Page_Controller
+{
 
-	function Form() {
-		return $this->renderWith('UnsubscribeRequestForm');
-	}
+    public function Form()
+    {
+        return $this->renderWith('UnsubscribeRequestForm');
+    }
 }

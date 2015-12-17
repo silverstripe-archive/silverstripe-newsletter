@@ -5,23 +5,23 @@ define('SS_ENVIRONMENT_TYPE', 'dev');
 
 /* Database connection */
 $db = getenv('TESTDB');
-switch($db) {
+switch ($db) {
 case "PGSQL";
-	define('SS_DATABASE_CLASS', 'PostgreSQLDatabase');
-	define('SS_DATABASE_USERNAME', 'postgres');
-	define('SS_DATABASE_PASSWORD', '');
-	break;
+    define('SS_DATABASE_CLASS', 'PostgreSQLDatabase');
+    define('SS_DATABASE_USERNAME', 'postgres');
+    define('SS_DATABASE_PASSWORD', '');
+    break;
 
 case "MYSQL":
-	define('SS_DATABASE_CLASS', 'MySQLDatabase');
-	define('SS_DATABASE_USERNAME', 'root');
-	define('SS_DATABASE_PASSWORD', '');
-	break;
+    define('SS_DATABASE_CLASS', 'MySQLDatabase');
+    define('SS_DATABASE_USERNAME', 'root');
+    define('SS_DATABASE_PASSWORD', '');
+    break;
 
 default:
-	define('SS_DATABASE_CLASS', 'SQLitePDODatabase');
-	define('SS_DATABASE_USERNAME', 'root');
-	define('SS_DATABASE_PASSWORD', '');
+    define('SS_DATABASE_CLASS', 'SQLitePDODatabase');
+    define('SS_DATABASE_USERNAME', 'root');
+    define('SS_DATABASE_PASSWORD', '');
 }
 
 echo SS_DATABASE_CLASS;

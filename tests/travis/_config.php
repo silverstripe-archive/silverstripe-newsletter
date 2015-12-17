@@ -19,4 +19,6 @@ MySQLDatabase::set_connection_charset('utf8');
 SSViewer::set_theme('simple');
 
 // Enable nested URLs for this site (e.g. page/sub-page/)
-if(class_exists('SiteTree')) SiteTree::enable_nested_urls();
+if (class_exists('SiteTree')) {
+    SiteTree::enable_nested_urls();
+}

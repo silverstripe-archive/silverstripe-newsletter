@@ -121,11 +121,11 @@ class UnsubscribeController extends Page_Controller
                 new HiddenField("UnsubscribeRecordIDs", "", $unsubscribeRecordIDs),
                 new HiddenField("Hash", "", $hash),
                 new LiteralField("ResubscribeText",
-                    "Click the \"Resubscribe\" if you unsubscribed by accident and want to re-subscribe")
+                    _t('Newsletter.ResubscribeText', 'Click the "Resubscribe" if you unsubscribed by accident and want to re-subscribe'))
             );
 
             $actions = new FieldList(
-                new FormAction("resubscribe", "Resubscribe")
+                new FormAction("resubscribe", _t('Newsletter.ResubscribeButton', 'Resubscribe'))
             );
 
             $form = new Form($this, "ResubscribeForm", $fields, $actions);

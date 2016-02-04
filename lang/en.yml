@@ -70,9 +70,11 @@ en:
     PlaceholderTo: 'Recipient email address'
     PlaceholderUnsub: 'Personalized link to unsubscribe from newsletter'
     PleaseEnter: 'Please enter your %s field'
+    ResubscribeButton: 'Resubscribe'
     RESUBSCRIBED: Resubscribed
     RESUBSCRIBEFROMLISTSSUCCESS: '<h3>Thank you. %s!</h3><br />You have been resubscribed to: %s.'
     RESUBSCRIBESUCCESS: 'Thank you.<br />You have been resubscribed successfully'
+    ResubscribeText: 'Click the "Resubscribe" if you unsubscribed by accident and want to re-subscribe'
     ReceivedCountDesc: 'Number of emails sent without undeliverable errors. Only one indication that an email has actually been received and read.'
     Recipients: Recipients
     RelationRequired: 'Select at least one "{relation}"'

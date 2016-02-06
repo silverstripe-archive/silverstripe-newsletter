@@ -152,7 +152,7 @@ class UnsubscribeController extends Page_Controller
         }
 
         return $this->customise(array(
-            'Title' => _t('UNSUBSCRIBEDTITLE', 'Unsubscribed'),
+            'Title' => _t('Newsletter.UNSUBSCRIBEDTITLE', 'Unsubscribed'),
             'Content' => $content,
             'Form' => $form
         ))->renderWith('Page');

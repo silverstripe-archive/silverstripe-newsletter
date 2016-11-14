@@ -415,10 +415,10 @@ JS
     public function doSubscribe($data, $form, $request)
     {
         if (!isset($data['Email'])) {
-            $form->addErrorMessage('Email', _t('Newsletter.ValidEmail', 'Please enter your email address'));
+            $form->addErrorMessage('Email', _t('Newsletter.ValidEmail', 'Please enter your email address'), 'error');
             return $this->redirectBack();
         } elseif (!Email::is_valid_address($data['Email'])) {
-            $form->addErrorMessage('Email', _t('Newsletter.InvalidEmailAddress', '"{field}" field is invalid', array('field' => 'Email')));
+            $form->addErrorMessage('Email', _t('Newsletter.InvalidEmailAddress', '"{field}" field is invalid', array('field' => 'Email')), 'error');
             return $this->redirectBack();
         }
 

@@ -307,7 +307,7 @@ class SubscriptionPage_Controller extends Page_Controller
         );
 
         if (!empty($requiredFields)) {
-            $required = new RequiredFields($requiredFields);
+            $required = new RequiredFields(array_keys($requiredFields));
         } else {
             $required = null;
         }

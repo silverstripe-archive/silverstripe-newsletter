@@ -307,4 +307,49 @@ class CheckboxSetWithExtraField extends CheckboxSetField
         }
         return $this;
     }
+    
+    
+    /**
+     * Validate this field
+     *
+     * @param Validator $validator
+     * @return bool
+     */
+    public function validate($validator) {
+        $values = $this->value;
+        if (!$values) {
+            return true;
+        }
+        $sourceArray = $this->getSourceAsArray();
+        $values = array_keys($values);
+        $validValues = array_keys($sourceArray);
+        if (is_array($values)) {
+            if (!array_intersect($validValues, $values)) {
+                $validator->validationError(
+                    $this->name,
+                    _t(
+                        'CheckboxSetField.SOURCE_VALIDATION',
+                        "Please select a value within the list provided. '{value}' is not a valid option",
+                        array('value' => implode(' and ', $values))
+                    ),
+                    "validation"
+                );
+                return false;
+            }
+        } else {
+            if (!in_array($this->value, $validValues)) {
+                $validator->validationError(
+                    $this->name,
+                    _t(
+                        'CheckboxSetField.SOURCE_VALIDATION',
+                        "Please select a value within the list provided. '{value}' is not a valid option",
+                        array('value' => $this->value)
+                    ),
+                    "validation"
+                );
+                return false;
+            }
+        }
+        return true;
+    }
 }

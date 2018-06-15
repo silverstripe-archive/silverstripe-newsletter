@@ -1,6 +1,6 @@
-SiteConfig:
+SilverStripe/SiteConfig/SiteConfig:
   extensions:
-    - NewsletterSiteConfig
+    - SilverStripe\Newsletter\NewsletterSiteConfigExtension
 ContentController:
   extensions:
     - NewsletterContentControllerExtension

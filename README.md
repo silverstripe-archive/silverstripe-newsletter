@@ -1,6 +1,6 @@
 # SilverStripe Newsletter Module
 
-[![Build Status](https://secure.travis-ci.org/silverstripe-labs/silverstripe-newsletter.png?branch=master)](https://travis-ci.org/silverstripe-labs/silverstripe-newsletter)
+[![Build Status](https://secure.travis-ci.org/silverstripe-archive/silverstripe-newsletter.png?branch=master)](https://travis-ci.org/silverstripe-labs/silverstripe-newsletter)
 
 ## Introduction
 
@@ -48,8 +48,8 @@ Newsletter templates are standard SilverStripe templates, with a few extra place
  * `Recipient.Email`
  * `Now`: Current date and time (format e.g. with $Now.Nice)
 
-Templates are created in `mysite/templates/email`. So for example, 
-if you created `Newsletter.ss` inside `mysite/templates/email` 
+Templates are created in `mysite/templates/email`. So for example,
+if you created `Newsletter.ss` inside `mysite/templates/email`
 then the system will recognise this new file  and let you select it in the dropdown.
 You'll find a default template with minimal styling in `newsletter/templates/email/SimpleNewsletterTemplate.ss`.
 
@@ -57,7 +57,7 @@ Template paths are configurable:
 
 	:::php
 	NewsletterAdmin::$template_paths = "themes/mytemplate/templates/email";
-	
+
 ## Usage
 
 ### Mailinglists and Recipients
@@ -97,7 +97,7 @@ is installed (highly recommended), these batches are further queued up
 If this process ever fails for any reason, you can call this manually as a build task:
 
 	/dev/tasks/NewsletterSendController?newsletter=<newsletter-id>
- 
+
 You can use the following static variables to configure the `NewsletterSendController`:
 
  * `$items_to_batch_process`: Number of emails to send out in "batches" to avoid spin up costs
@@ -113,7 +113,7 @@ Its important to keep your mailing list clean of recipients which
 permanently deny delivery, in terms of decreasing the likelyhood
 that your outgoing mail is classified as spam by other parties.
 
-The `Recipient` model has `BouncedCount` and `Blacklisted` properties to track this. 
+The `Recipient` model has `BouncedCount` and `Blacklisted` properties to track this.
 By default, this has to be handled manually by the recipient of your
 "reply-to" address as configured through the newsletter admin UI.
 This mailbox should be regularly scanned for bouned emails,
@@ -130,9 +130,9 @@ That means that you cannot create a regular Page using either of those URLs.
 
 ## User Guide
 
- 
+
 This guide has been created to help you send newsletters using SilverStripe.
-The module is an addition to the content management system 
+The module is an addition to the content management system
 that allows administrative users to send bulk emails.
 
 To access the module's administration interface, open the "Newsletter" section in the main CMS menu.
@@ -169,7 +169,7 @@ available for subscription.
 ### Creating a Newsletter
 
 Newsletters are the individual messages sent out to one or more mailinglists.
-A newsletter is initially created as a draft until it is sent.  
+A newsletter is initially created as a draft until it is sent.
 You can add content, images and links to a draft newsletter, very similar to how
 you would interact with page content in the CMS.
 Newsletters can be saved for proofing and testing before you attempt a mass mail out.
@@ -185,7 +185,7 @@ Once you're happy with the newsletter, send it out by pressing "Send".
 Make sure to select at least one mailinglist.
 If the sending process is started, the newsletter moves to the "Sent Newsletters" tab.
 Note that each newsletter can only be sent once. To send it again, create a copy
-through the "Save as new..." action. 
+through the "Save as new..." action.
 
 You can track the sending process in the "Sent To" tab when viewing a newsletter.
 Depending on the size of your mailinglist, it can take a couple of minutes
@@ -193,7 +193,7 @@ or even hours for the process to complete.
 
 ### Bounced Emails and Blacklisted Recipients
 
-A bounced email is an email which could not be delivered because the email was incorrect, 
+A bounced email is an email which could not be delivered because the email was incorrect,
 or doesn’t exist. The number of bounces can be tracked on each recipient.
 In most setups, somebody at your organization will need to go through the bounce emails every couple of days
 and manually remove invalid addresses, by checking the "Blacklisted" button.

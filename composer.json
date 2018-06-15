@@ -1,27 +1,41 @@
-{
+w{
 	"name": "silverstripe/newsletter",
 	"description": "Newsletter module allows a backend CMS users send newsleters to different mailling lists, manage mailling lists and recipients in the lislling list, reading statistics about each newsletter sent, customise a newsletter subscrition form. Site users can subscribe to and unsubscribe from the mailing lists",
-	"type": "silverstripe-module",
+	"type": "silverstripe-vendormodule",
 	"keywords": ["silverstripe","newsletters","email","edm","mail","newsletter","mass-email"],
-	"authors": [
-	{
+	"authors": [{
 		"name": "Normann Lou",
 		"email": "normann@silverstripe.com"
-	},
-	{
+	}, {
 		"name": "Julian Seidenberg",
 		"email": "julian@silverstripe.com"
-	}
-	],
-	"require":
-	{
-		"silverstripe/framework": "~3.1",
+	}],
+	"require": {
 		"silverstripe/messagequeue": "*",
 		"silverstripe/gridfieldajaxrefresh": "*",
-		"silverstripe/cms": "~3.1"
+		"silverstripe/cms": "~4"
 	},
-	"autoload": {
-		"classmap": ["tests/behat/"]
-	},
-	"minimum-stability": "dev"
+    "require-dev": {
+        "phpunit/PHPUnit": "~4.8"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        },
+        "expose": [
+            "client"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "SilverStripe\\Newsletter\\": "src/",
+            "SilverStripe\\Newsletter\\Tests\\": "tests/unit/"
+        }
+    },
+    "scripts": {
+        "lint": "phpcs src/ tests/unit/",
+        "lint-clean": "phpcbf src/ tests/unit/"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

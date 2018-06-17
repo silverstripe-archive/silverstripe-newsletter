@@ -1,11 +1,13 @@
 <?php
 
+namespace SilverStripe\Newsletter\Tests;
+
+use SilverStripe\Dev\SapphireTest;
+
 class NewsletterSendControllerTest extends SapphireTest
 {
+    private static $fixture_file = "Base.yml";
 
-    public static $fixture_file = "newsletter/tests/unit/Base.yml";
-
-    /** Test sending of all newsletters */
     public function testEnqueue()
     {
         $newsletters = array();

@@ -1,10 +1,10 @@
-SilverStripe/SiteConfig/SiteConfig:
+SilverStripe\SiteConfig\SiteConfig:
   extensions:
-    - SilverStripe\Newsletter\NewsletterSiteConfigExtension
-ContentController:
+    - SilverStripe\Newsletter\Extensions\NewsletterSiteConfigExtension
+SilverStripe\CMS\Controllers\ContentController:
   extensions:
-    - NewsletterContentControllerExtension
-Director:
+    - SilverStripe\Newsletter\Extensions\NewsletterContentControllerExtension
+SilverStripe\Control\Director:
   rules:
-    'newsletterlinks/$Hash': 'TrackLinkController'
-    'unsubscribe//$Action/$ValidateHash/$IDs': 'UnsubscribeController'
+    'newsletterlinks/$Hash': 'SilverStripe\Newsletter\Control\TrackLinkController'
+    'unsubscribe//$Action/$ValidateHash/$IDs': 'SilverStripe\Newsletter\Control\UnsubscribeController'

@@ -1,7 +1,8 @@
 <?php
-/**
- * @package newsletter
- */
+
+namespace SilverStripe\Newsletter\Tests;
+
+use SilverStripe\Dev\SapphireTest;
 
 class RecipientTest extends SapphireTest
 {

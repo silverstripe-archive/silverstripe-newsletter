@@ -2,8 +2,13 @@
 
 namespace SilverStripe\Newsletter\Form;
 
+use SilverStripe\ORM\ArrayLib;
 use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\FormField;
 use SilverStripe\ORM\DataObjectInterface;
+use SilverStripe\View\Requirements;
+use SilverStripe\Core\Convert;
+use SilverStripe\ORM\FieldType\DBField;
 
 class CheckboxSetWithExtraField extends CheckboxSetField
 {
@@ -53,10 +58,9 @@ class CheckboxSetWithExtraField extends CheckboxSetField
      */
     public function FieldHolder($properties = array())
     {
-        Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
-        Requirements::javascript(NEWSLETTER_DIR . '/thirdparty/jquery-tablednd/jquery.tablednd.0.7.min.js');
-        Requirements::javascript(NEWSLETTER_DIR . '/javascript/CheckboxSetWithExtraField.js');
-        Requirements::css(NEWSLETTER_DIR . '/css/CheckboxSetWithExtraField.css');
+        Requirements::javascript('silverstripe/newsletter:client/thirdparty/jquery-tablednd/jquery.tablednd.0.7.min.js');
+        Requirements::javascript('silverstripe/newsletter:client/javascript/CheckboxSetWithExtraField.js');
+        Requirements::css('silverstripe/newsletter:client/css/CheckboxSetWithExtraField.css');
 
         return parent::FieldHolder($properties);
     }
@@ -237,8 +241,10 @@ class CheckboxSetWithExtraField extends CheckboxSetField
         $this->value['Email']['Value'] = 'Email';
         $this->value['Email']['Required'] = 1;
         $value = ArrayLib::invert($this->value);
-        if ($fieldname && $record && ($record->has_many($fieldname) || $record->many_many($fieldname))) {
+
+        if ($fieldname && $record && $record->hasMethod($fieldname)) {
             $idList = array();
+
             if ($value) {
                 foreach ($value['Value'] as $id => $bool) {
                     if ($bool) {
@@ -247,7 +253,7 @@ class CheckboxSetWithExtraField extends CheckboxSetField
                 }
             }
             $record->$fieldname()->setByIDList($idList);
-        } elseif ($fieldname && $record) {
+        } else if ($fieldname && $record) {
             if ($value) {
                 if (is_array($value)) {
                     foreach ($value as $k => $items) {
@@ -294,11 +300,15 @@ class CheckboxSetWithExtraField extends CheckboxSetField
         // fields apparing in the right order.
         $sortedSource = array();
         $sourceKeys = array_keys($this->source);
-        foreach ($this->value as $item) {
-            if (in_array($item, $sourceKeys)) {
-                $sortedSource[$item] = $this->source[$item];
+
+        if ($this->value) {
+            foreach ($this->value as $item) {
+                if (in_array($item, $sourceKeys)) {
+                    $sortedSource[$item] = $this->source[$item];
+                }
             }
         }
+
         $this->source = array_merge($sortedSource, $this->source);
         if (count($this->extra)) {
             foreach ($this->extra as $field => $type) {

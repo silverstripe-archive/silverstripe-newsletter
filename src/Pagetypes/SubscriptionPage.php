@@ -4,11 +4,19 @@ namespace SilverStripe\Newsletter\Pagetypes;
 
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\TextField;
+use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\CompositeField;
+use SilverStripe\Forms\HTMLEditor\HtmlEditorField;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Newsletter\Model\Recipient;
+use SilverStripe\Newsletter\Model\MailingList;
+use SilverStripe\Newsletter\Form\CheckboxSetWithExtraField;
 use Page;
 
 class SubscriptionPage extends Page
 {
-
     private static $db = [
         'Fields' => 'Text',
         'Required' => 'Text',
@@ -23,10 +31,10 @@ class SubscriptionPage extends Page
         'OnCompleteMessage' => 'HTMLText',
     ];
 
-    private static $defaults = array(
+    private static $defaults = [
         'Fields' => 'Email',
         'SubmissionButtonText' => 'Submit'
-    );
+    ];
 
     private static $singular_name = 'Newsletter Subscription Page';
 
@@ -183,8 +191,9 @@ class SubscriptionPage extends Page
     }
 
     /**
-     * Email field is the member's identifier, and newsletters subscription is non-sense if no email is given
-     * by the user, we should force that email to be checked and required.
+     * Email field is the member's identifier, and newsletters subscription is
+     * non-sense if no email is given by the user, we should force that email
+     * to be checked and required.
      */
     public function getRequired()
     {

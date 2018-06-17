@@ -1,4 +1,4 @@
--<?php
+<?php
 
 namespace SilverStripe\Newsletter\Control\Email;
 

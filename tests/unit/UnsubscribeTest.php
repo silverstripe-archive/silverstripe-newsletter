@@ -1,8 +1,16 @@
 <?php
+
+namespace SilverStripe\Newsletter\Tests;
+
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Newsletter\Control\UnsubscribeController;
+use SilverStripe\Security\Member;
+use SilverStripe\Control\Director;
+use SilverStripe\Security\Group;
+
 class UnsubscribeTest extends SapphireTest
 {
-
-    public static $fixture_file = 'newsletter/tests/unit/UnsubscribeTest.yml';
+    private static $fixture_file = 'newsletter/tests/unit/UnsubscribeTest.yml';
 
     public static $page;
 
@@ -16,21 +24,21 @@ class UnsubscribeTest extends SapphireTest
 
     public function testIndexWithAutoLoginHashAndNewsletterType()
     {
-        $this->markTestIncomplete();
+        $member = $this->objFromFixture(Member::class, "normann1");
+        $group = $this->objFromFixture(Group::class, 'newsletter1');
 
-        // $member = $this->objFromFixture("Member", "normann1");
-        // $group = $this->objFromFixture("Group", 'newsletter1');
-        // $this->assertTrue($member->inGroup($group));
+        $this->assertTrue($member->inGroup($group));
 
-        // $url = 'unsubscribe/index/94l4ee9ib8kkw3s08k8wwcs4g/1';
-        // $response = Director::test($url);
-        // $baseurl = Director::absoluteBaseURL();
+        $url = 'unsubscribe/index/94l4ee9ib8kkw3s08k8wwcs4g/1';
+        $response = Director::test($url);
+        $baseurl = Director::absoluteBaseURL();
 
-        // $this->assertEquals(
-        // 	$baseurl.'unsubscribe/done/94l4ee9ib8kkw3s08k8wwcs4g/1',
-        // 	$response->getHeader('Location')
-        // );
-        // $this->assertFalse($member->inGroup($group));
+        $this->assertEquals(
+        	$baseurl.'unsubscribe/done/94l4ee9ib8kkw3s08k8wwcs4g/1',
+        	$response->getHeader('Location')
+        );
+
+        $this->assertFalse($member->inGroup($group));
     }
 
     public function testIndexWithAutoLoginHash()

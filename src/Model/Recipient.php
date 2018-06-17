@@ -16,6 +16,7 @@ class Recipient extends DataObject
         'FirstName' => "Varchar(255)",
         'MiddleName' => "Varchar(255)",
         'Surname' => "Varchar(255)",
+        'GUID' => 'Varchar(255)',
         'Salutation' => "Varchar(255)",
         'BouncedCount' => "Int",
         'Blacklisted' => "Boolean",
@@ -48,7 +49,9 @@ class Recipient extends DataObject
         'Surname',
         'Email',
         'Blacklisted',
-        'MailingLists.Title' => array('title' => 'Mailing List'),
+        'MailingLists.Title' => [
+            'title' => 'Mailing List'
+        ],
         'Verified',
     ];
 
@@ -107,6 +110,7 @@ class Recipient extends DataObject
         // Note: This does not a full replacement for safeguards in the controller layer (e.g. in a subscription form),
         // but rather a last line of defense against data inconsistencies.
         $identifierField = self::$unique_identifier_field;
+
         if ($this->$identifierField) {
             // Note: Same logic as Member_Validator class
             $idClause = ($this->ID) ? sprintf(" AND \"Recipient\".\"ID\" <> %d", (int) $this->ID) : '';
@@ -131,6 +135,10 @@ class Recipient extends DataObject
                     )
                 )));
             }
+        }
+
+        if (!$this->GUID) {
+            $this->GUID = md5($id .'-'. time());
         }
 
         parent::onBeforeWrite();

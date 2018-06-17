@@ -24,6 +24,7 @@ class MailingList extends DataObject
 {
     private static $db = [
         'Title' => "Varchar",
+        'Public' => 'Boolean'
     ];
 
     private static $many_many = [
@@ -63,6 +64,7 @@ class MailingList extends DataObject
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
+
         $fields->removeByName('FileTracking');
         $fields->removeByName('LinkTracking');
 

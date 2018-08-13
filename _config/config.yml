@@ -1,10 +1,21 @@
-SiteConfig:
+---
+name: silverstripe-newsletter
+---
+SilverStripe\SiteConfig\SiteConfig:
   extensions:
-    - NewsletterSiteConfig
-ContentController:
+    - SilverStripe\Newsletter\Extensions\NewsletterSiteConfigExtension
+SilverStripe\CMS\Controllers\ContentController:
   extensions:
-    - NewsletterContentControllerExtension
-Director:
+    - SilverStripe\Newsletter\Extensions\NewsletterContentControllerExtension
+SilverStripe\Control\Director:
   rules:
-    'newsletterlinks/$Hash': 'TrackLinkController'
-    'unsubscribe//$Action/$ValidateHash/$IDs': 'UnsubscribeController'
+    'newsletterlinks/$Hash': 'SilverStripe\Newsletter\Control\TrackLinkController'
+    'viewnewsletteronline/$ID!/$Hash!': 'SilverStripe\Newsletter\Control\NewsletterViewController'
+    'unsubscribe//$Action/$ValidateHash/$IDs': 'SilverStripe\Newsletter\Control\UnsubscribeController'
+SilverStripe\Newsletter\Control\NewsletterAdmin:
+  extra_requirements_javascript:
+    - 'silverstripe/newsletter:client/javascript/NewsletterAdminEmailPreview.js'
+SilverStripe\View\SSViewer:
+  themes:
+    - '$default'
+    - 'silverstripe/newsletter:newsletter'

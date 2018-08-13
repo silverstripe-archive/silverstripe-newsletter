@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0
+
+ * Upgrade to SilverStripe 4
+ * Rewrite queuing system from `silverstripe\messagequeue` to `symbiote\silverstripe-queuedjobs`
+ * Module fixes and tidy ups
+
 ## 1.0.0
 
  * The `NewsletterType` model is obsolete, there's no distinction between "newsletters"

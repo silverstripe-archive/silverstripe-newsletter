@@ -1,28 +1,48 @@
 <?php
-/**
- * @package newsletter
- */
 
+namespace SilverStripe\Newsletter\Tests;
+
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Newsletter\Model\Newsletter;
+use SilverStripe\Newsletter\Model\Recipient;
+use SilverStripe\Newsletter\Control\Email\NewsletterEmail;
+
+/**
+ *
+ */
 class NewsletterEmailTest extends SapphireTest
 {
+    protected static $fixture_file = "Base.yml";
 
-    public function testTracksRelativeLinks()
+    /**
+     *
+     */
+    public function testConstructor()
     {
-        $this->markTestIncomplete();
+        $newsletter = $this->objFromFixture(Newsletter::class, 'all');
+        $recipient = $this->objFromFixture(Recipient::class, 'normann1');
+        $email = new NewsletterEmail($newsletter, $recipient);
+        $data = $email->getData();
+
+        $this->assertEquals($newsletter->Subject, $data['Subject']);
     }
 
-    public function testTracksAbsoluteLinks()
+    /**
+     *
+     */
+    public function testCreatesUniqueUnsubscribeLink()
     {
-        $this->markTestIncomplete();
-    }
+        $newsletter = $this->objFromFixture(Newsletter::class, 'all');
+        $recipient = $this->objFromFixture(Recipient::class, 'normann1');
+        $email = new NewsletterEmail($newsletter, $recipient);
 
-    public function testDoesNotDuplicateTrackingLinks()
-    {
-        $this->markTestIncomplete();
-    }
+        $recipient2 = $this->objFromFixture(Recipient::class, 'normann2');
+        $email2 = new NewsletterEmail($newsletter, $recipient2);
 
-    public function createsUniqueUnsubscribeLink()
-    {
-        $this->markTestIncomplete();
+        $this->assertContains('unsubscribe/index', $email->UnsubscribeLink());
+        $this->assertNotEquals(
+            $email->UnsubscribeLink(),
+            $email2->UnsubscribeLink()
+        );
     }
 }

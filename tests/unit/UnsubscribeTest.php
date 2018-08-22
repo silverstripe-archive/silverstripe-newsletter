@@ -33,6 +33,7 @@ class UnsubscribeTest extends FunctionalTest
         $this->assertTrue($list->Recipients()->find('ID', $member->ID)->exists());
 
         $response = $this->get($this->page->Link('index/'. $hash .'/'. $list->ID));
+        $this->assertEquals(302, $response->getStatusCode());
         $this->assertContains(
             'unsubscribe/done/'. $hash .'/'. $list->ID,
             $response->getHeader('Location')

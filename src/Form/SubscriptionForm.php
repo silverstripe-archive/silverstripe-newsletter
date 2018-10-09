@@ -18,6 +18,13 @@ class SubscriptionForm extends Form
     {
         $fields = singleton(Recipient::class)->getFrontEndFields()->dataFields();
 
+        if ($fields && is_array($fields)) {
+            $fields = new FieldList($fields);
+        }
+        else if (!$fields || $fields instanceof FieldList) {
+            $fields = new FieldList();
+        }
+
         if ($controller->MailingLists) {
             $mailinglists = MailingList::get()->filter('ID', explode(',', $controller->MailingLists));
         } else {

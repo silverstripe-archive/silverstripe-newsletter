@@ -1,4 +1,4 @@
-Recipient:
+SilverStripe\Newsletter\Model\Recipient:
   normann1:
     Email: normann1@silverstripe.com
   normann2:
@@ -11,43 +11,51 @@ Recipient:
     Email: stuck1@silverstripe.com
   stuck2:
     Email: stuck2@silverstripe.com
-MailingList:
+SilverStripe\Newsletter\Model\MailingList:
   ml1:
     Title: mailing list 1
-    Recipients: =>Recipient.normann1, =>Recipient.julian1
+    Recipients:
+      - =>SilverStripe\Newsletter\Model\Recipient.normann1
+      - =>SilverStripe\Newsletter\Model\Recipient.julian1
   ml2:
     Title: mailing list 2
-    Recipients: =>Recipient.normann2, =>Recipient.julian2
+    Recipients:
+      - =>SilverStripe\Newsletter\Model\Recipient.normann2
+      - =>SilverStripe\Newsletter\Model\Recipient.julian2
   mlall:
     Title: mailing list all
-    Recipients: =>Recipient.normann2, =>Recipient.julian2, =>Recipient.normann1, =>Recipient.julian1
-Newsletter:
+    Recipients:
+      - =>SilverStripe\Newsletter\Model\Recipient.normann2
+      - =>SilverStripe\Newsletter\Model\Recipient.julian2
+      - =>SilverStripe\Newsletter\Model\Recipient.normann1
+      - =>SilverStripe\Newsletter\Model\Recipient.julian1
+SilverStripe\Newsletter\Model\Newsletter:
   daily:
     Subject: Daily Newsletter
     Content: blah blah blah
     SendFrom: newsletter1@silverstripe.com
     ReplyTo: newsletter1+1@silverstripe.com
-    MailingLists: =>MailingList.ml1
+    MailingLists: =>SilverStripe\Newsletter\Model\MailingList.ml1
   monthly:
     SendFrom: newsletter2@silverstripe.com
     ReplyTo: newsletter2+2@silverstripe.com
     Subject: Monthly Newsletter
     Content: more more more
-    MailingLists: =>MailingList.ml2
+    MailingLists: =>SilverStripe\Newsletter\Model\MailingList.ml2
   all:
     SendFrom: newsletterall@silverstripe.com
     ReplyTo: newsletterall+all@silverstripe.com
     Subject: All Recipients Newsletter
     Content: notice to everyone!
-    MailingLists: =>MailingList.mlall
-SendRecipientQueue:
+    MailingLists: =>SilverStripe\Newsletter\Model\MailingList.mlall
+SilverStripe\Newsletter\Model\SendRecipientQueue:
   stuck1:
     Status: InProgress
     RetryCount: 0
-    Newsletter: =>Newsletter.monthly
-    Recipient: =>Recipient.stuck1
+    Newsletter: =>SilverStripe\Newsletter\Model\Newsletter.monthly
+    Recipient: =>SilverStripe\Newsletter\Model\Recipient.stuck1
   stuck2:
     Status: InProgress
     RetryCount: 19532342 #high enough retry count that it shouldn't try re-sending
-    Newsletter: =>Newsletter.monthly
-    Recipient: =>Recipient.stuck2
+    Newsletter: =>SilverStripe\Newsletter\Model\Newsletter.monthly
+    Recipient: =>SilverStripe\Newsletter\Model\Recipient.stuck2

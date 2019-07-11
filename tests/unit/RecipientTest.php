@@ -1,18 +1,24 @@
 <?php
-/**
- * @package newsletter
- */
+
+namespace SilverStripe\Newsletter\Tests;
+
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Newsletter\Model\Recipient;
 
 class RecipientTest extends SapphireTest
 {
+    protected static $fixture_file = "Base.yml";
 
-    public function testCanNotDeleteWithExistingQueue()
+    /**
+     * @expectedException SilverStripe\ORM\ValidationException
+     */
+    public function testOnBeforeWrite()
     {
-        $this->markTestIncomplete();
-    }
+        $recipient = $this->objFromFixture(Recipient::class, 'normann1');
 
-    public function testCanNotCreateDuplicateRecipient()
-    {
-        $this->markTestIncomplete();
+        $close = Recipient::create();
+        $close->Email = 'normann1@silverstripe.com';
+
+        $close->write();
     }
 }

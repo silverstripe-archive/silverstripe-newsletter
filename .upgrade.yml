@@ -1,0 +1,12 @@
+mappings:
+  NewsletterAdmin: SilverStripe\Newsletter\Control\NewsletterAdmin
+  TrackLinkController: SilverStripe\Newsletter\Control\TrackLinkController
+  UnsubscribeController: SilverStripe\Newsletter\Control\UnsubscribeController
+  NewsletterEmail: SilverStripe\Newsletter\Control\Email\NewsletterEmail
+  MailingList: SilverStripe\Newsletter\Model\MailingList
+  Newsletter: SilverStripe\Newsletter\Model\Newsletter
+  Newsletter_Sent: SilverStripe\Newsletter\Model\Newsletter
+  Newsletter_TrackedLink: SilverStripe\Newsletter\Model\NewsletterTrackedLink
+  Recipient: SilverStripe\Newsletter\Model\Recipient
+  SendRecipientQueue: SilverStripe\Newsletter\Model\SendRecipientQueue
+  UnsubscribeRecord: SilverStripe\Newsletter\Model\UnsubscribeRecord

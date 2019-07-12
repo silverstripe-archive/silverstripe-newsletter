@@ -7,7 +7,7 @@
 This module requires `silverstripe/cms` and `symbiote/silverstripe-queuedjobs` 
 and is compatible with SilverStripe 4.
 
-    composer require silverstripe\newsletter "2.x-dev"
+    composer require silverstripe/newsletter "2.x-dev"
 
 ## Introduction
 

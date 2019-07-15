@@ -8,10 +8,9 @@ use SilverStripe\BehatExtension\Context\LoginContext;
 use SilverStripe\BehatExtension\Context\EmailContext;
 use SilverStripe\Framework\Test\Behaviour\CmsFormsContext;
 use SilverStripe\Framework\Test\Behaviour\CmsUiContext;
-
-// PHPUnit
-require_once 'PHPUnit/Autoload.php';
-require_once 'PHPUnit/Framework/Assert/Functions.php';
+use SilverStripe\Newsletter\Pagetypes\SubscriptionPage;
+use SilverStripe\Newsletter\Model\MailingList;
+use SilverStripe\Newsletter\Model\Recipient;
 
 /**
  * Features context
@@ -43,10 +42,10 @@ class FeatureContext extends SilverStripeContext
      */
     public function thenEmailShouldBeSubscribedToMailinglist($email, $mailinglistTitle)
     {
-        $recipient = \Recipient::get()->filter('Email', $email)->First();
+        $recipient = Recipient::get()->filter('Email', $email)->First();
         assertNotNull($recipient, 'Could not find Recipient with ' . $email);
 
-        $mailinglist = \MailingList::get()->filter('Title', $mailinglistTitle)->First();
+        $mailinglist = MailingList::get()->filter('Title', $mailinglistTitle)->First();
         assertNotNull($mailinglist, 'Could not find MailingList with ' . $mailinglistTitle);
 
         assertContains($mailinglistTitle, $recipient->MailingLists()->column('Title'));
@@ -57,7 +56,7 @@ class FeatureContext extends SilverStripeContext
      */
     public function theNewsletterSubscriptionForIsVerified($email, $shouldOrNot = '')
     {
-        $recipient = \Recipient::get()->filter('Email', $email)->First();
+        $recipient = Recipient::get()->filter('Email', $email)->First();
         assertNotNull($recipient, 'Could not find Recipient with ' . $email);
 
         $assertion = ($shouldOrNot == 'should') ? 'assertTrue' : 'assertFalse';
@@ -69,10 +68,10 @@ class FeatureContext extends SilverStripeContext
      */
     public function iAddTheMailinglistToThePage($mailinglistTitle, $pageUrl)
     {
-        $mailinglist = \MailingList::get()->filter('Title', $mailinglistTitle)->First();
+        $mailinglist = MailingList::get()->filter('Title', $mailinglistTitle)->First();
         assertNotNull($mailinglist, 'Could not find MailingList with ' . $mailinglistTitle);
 
-        $page = \SubscriptionPage::get()->filter('URLSegment', $pageUrl)->First();
+        $page = SubscriptionPage::get()->filter('URLSegment', $pageUrl)->First();
         assertNotNull($page);
 
         $lists = $page->MailingLists ? explode(',', $page->MailingLists) : array();

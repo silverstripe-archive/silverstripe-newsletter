@@ -8,7 +8,7 @@ use SilverStripe\Forms\HeaderField;
 use SilverStripe\Newsletter\Model\Recipient;
 use SilverStripe\Newsletter\Model\MailingList;
 use SilverStripe\Forms\CompositeField;
-use SilverStripe\Core\Convert;
+use SilverStripe\Newsletter\Pagetypes\SubscriptionPage;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Control\Email\Email;
 

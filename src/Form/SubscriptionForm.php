@@ -4,7 +4,9 @@ namespace SilverStripe\Newsletter\Form;
 
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
-use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\FileField;
+use SilverStripe\Forms\RequiredFields;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\Newsletter\Model\Recipient;
 use SilverStripe\Newsletter\Model\MailingList;
 use SilverStripe\Forms\CompositeField;
@@ -46,11 +48,7 @@ class SubscriptionForm extends Form
             new FormAction('doSubscribe', $buttonTitle)
         );
 
-        if (!empty($requiredFields)) {
-            $required = new RequiredFields(array_keys(array_filter($requiredFields)));
-        } else {
-            $required = null;
-        }
+        $required = new RequiredFields(['Email']);
 
         parent::__construct($controller, $name, $fields, $actions, $required);
     }
@@ -94,13 +92,10 @@ class SubscriptionForm extends Form
                 $mailinglist = MailingList::get()->byId($listID);
 
                 if ($mailinglist && $mailinglist->exists()) {
-                    //remove recipient from subscribe if needed
-                    $unsubscribed = UnsubscribeRecord::get()->filter(
-                        [
-                        'MemberID' => $member->ID,
+                    $unsubscribed = UnsubscribeRecord::get()->filter([
+                        'RecipientIDs' => $recipient->ID,
                         'MailingListID' => $listID
-                        ]
-                    );
+                    ]);
 
                     foreach ($unsubscribed as $unsub) {
                         $unsub->delete();
@@ -112,12 +107,12 @@ class SubscriptionForm extends Form
             }
         }
 
-        $recipientInfoSection = $form->Fields()->fieldByName('MemberInfoSection')->FieldList();
-
+        $recipientInfoSection = $form->Fields();
         $emailableFields = new FieldList();
+
         if ($recipientInfoSection) {
             foreach ($recipientInfoSection as $field) {
-                if (is_array($field->Value()) && is_a($field, 'SimpleImageField')) {
+                if (is_array($field->Value()) && is_a($field, FileField::class)) {
                     $funcName = $field->Name();
                     $value = $recipient->$funcName()->CMSThumbnail()->Tag();
                     $field->EmailalbeValue = $value;

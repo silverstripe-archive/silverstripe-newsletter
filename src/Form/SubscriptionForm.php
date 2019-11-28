@@ -164,7 +164,9 @@ class SubscriptionForm extends Form
         $email = Email::create();
         $email->setTo($data['Email']);
 
-        $from = ($this->controller->NotificationEmailFrom) ? $this->controller->NotificationEmailFrom : Email::config()->get('admin_email');
+        $from = ($this->controller->NotificationEmailFrom)
+            ? $this->controller->NotificationEmailFrom
+            : Email::config()->get('admin_email');
 
         $email->setFrom($from);
         $email->setHTMLTemplate('SubscriptionVerificationEmail');

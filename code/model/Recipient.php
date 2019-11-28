@@ -158,16 +158,16 @@ class Recipient extends DataObject
         $fields->addFieldsToTab(
             'Root.Main',
             array(
-                Object::create('TextField', 'Salutation', $this->fieldLabel('Salutation')),
-                Object::create('TextField', 'FirstName', $this->fieldLabel('First Name')),
-                Object::create('TextField', 'MiddleName', $this->fieldLabel('Middle Name')),
-                Object::create('TextField', 'Surname', $this->fieldLabel('Surname'))
+                SS_Object::create('TextField', 'Salutation', $this->fieldLabel('Salutation')),
+                SS_Object::create('TextField', 'FirstName', $this->fieldLabel('First Name')),
+                SS_Object::create('TextField', 'MiddleName', $this->fieldLabel('Middle Name')),
+                SS_Object::create('TextField', 'Surname', $this->fieldLabel('Surname'))
             )
         );
 
         if (!empty($this->ID)) {
             $fields->addFieldToTab('Root.Main',
-                Object::create('CheckboxSetField',
+                SS_Object::create('CheckboxSetField',
                     'MailingLists',
                     $this->fieldLabel('MailingLists'),
                     MailingList::get()->map('ID', 'FullTitle')
@@ -177,12 +177,12 @@ class Recipient extends DataObject
         $fields->addFieldsToTab(
             'Root.Main',
             array(
-                Object::create('ReadonlyField', 'BouncedCount', $this->fieldLabel('BouncedCount')),
-                Object::create('CheckboxField', 'Verified', $this->fieldLabel('Verified'))
+                SS_Object::create('ReadonlyField', 'BouncedCount', $this->fieldLabel('BouncedCount')),
+                SS_Object::create('CheckboxField', 'Verified', $this->fieldLabel('Verified'))
                     ->setDescription(
                         _t('Newsletter.VerifiedDesc', 'Has this user verified his subscription?')
                     ),
-                Object::create('CheckboxField', 'Blacklisted', $this->fieldLabel('Blacklisted'))
+                SS_Object::create('CheckboxField', 'Blacklisted', $this->fieldLabel('Blacklisted'))
                     ->setDescription(
                         _t(
                             'Newsletter.BlacklistedDesc',
@@ -190,7 +190,7 @@ class Recipient extends DataObject
                             . 'An invalid address or undeliverable email will eventually result in blacklisting.'
                         )
                     ),
-                Object::create('ReadonlyField', 'ReceivedCount', $this->fieldLabel('ReceivedCount'))
+                SS_Object::create('ReadonlyField', 'ReceivedCount', $this->fieldLabel('ReceivedCount'))
                     ->setDescription(
                         _t(
                             'Newsletter.ReceivedCountDesc',

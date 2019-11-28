@@ -19,6 +19,10 @@ if (class_exists('MessageQueue')) {
 	));
 }
 
+if (!class_exists('SS_Object')) {
+	class_alias('Object', 'SS_Object');
+}
+
 //SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH . '/logN.txt'), SS_Log::NOTICE);
 //SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH . '/logW.txt'), SS_Log::WARN);
 //SS_Log::add_writer(new SS_LogFileWriter(BASE_PATH . '/logE.txt'), SS_Log::ERR);

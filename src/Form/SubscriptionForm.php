@@ -13,6 +13,7 @@ use SilverStripe\Forms\CompositeField;
 use SilverStripe\Newsletter\Pagetypes\SubscriptionPage;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Control\Email\Email;
+use SilverStripe\SiteConfig\SiteConfig;
 
 class SubscriptionForm extends Form
 {
@@ -136,7 +137,7 @@ class SubscriptionForm extends Form
             'MailingLists' => $mailinglists,
             'SubscriptionVerificationLink' => $verify,
             'HashText' => substr($recipient->ValidateHash, 0, 10)."******".substr($recipient->ValidateHash, -10),
-            'SiteConfig' => $this->SiteConfig(),
+            'SiteConfig' => SiteConfig::current_site_config(),
             'DaysExpired' => SubscriptionPage::config()->get('days_verification_link_alive'),
         );
 
@@ -157,7 +158,7 @@ class SubscriptionForm extends Form
     protected function sendEmailConfirmation($data)
     {
         $email = Email::create();
-        $email->setTo($data->Email);
+        $email->setTo($data['Email']);
 
         $from = ($this->controller->NotificationEmailFrom) ? $this->controller->NotificationEmailFrom : Email::getAdminEmail();
 

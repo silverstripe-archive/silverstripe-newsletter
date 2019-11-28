@@ -9,10 +9,7 @@ use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\HiddenField;
-use SilverStripe\Forms\ReadonlyTransformation;
 use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\Forms\CheckboxSetField;
 use SilverStripe\Forms\GridField\GridFieldConfig;
@@ -26,7 +23,7 @@ use SilverStripe\Control\Director;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTP;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\View\Requirements;
+use SilverStripe\Forms\GridField\GridFieldButtonRow;
 use SilverStripe\View\SSViewer;
 use SilverStripe\View\ArrayData;
 use SilverStripe\Newsletter\Control\NewsletterAdmin;
@@ -281,6 +278,8 @@ class Newsletter extends DataObject implements CMSPreviewable
                         new GridFieldPageCount(),
                         new GridFieldPaginator(30)
                     );
+
+                    $gridFieldConfig->addComponent( new GridFieldButtonRow('before') );
 
                     $sendRecipientGrid = GridField::create(
                         'SendRecipientQueue',

@@ -14,6 +14,7 @@ use SilverStripe\Newsletter\Model\Recipient;
 use SilverStripe\Newsletter\Model\MailingList;
 use SilverStripe\Newsletter\Form\CheckboxSetWithExtraField;
 use Page;
+use SilverStripe\Newsletter\Control\NewsletterAdmin;
 
 class SubscriptionPage extends Page
 {
@@ -138,7 +139,7 @@ class SubscriptionPage extends Page
                     'You haven\'t defined any mailing list yet, please go to '
                     . '<a href=\"%s\">the newsletter administration area</a> '
                     . 'to define a mailing list.',
-                    singleton('NewsletterAdmin')->Link()
+                    singleton(NewsletterAdmin::class)->Link()
                 )
             )
         );

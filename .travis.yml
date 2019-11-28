@@ -4,33 +4,31 @@ dist: trusty
 
 env:
   global:
-    - TRAVIS_NODE_VERSION="10"
-    - SS_BASE_URL="http://localhost:8080/"
-    - SS_ENVIRONMENT_TYPE="dev"
+    - COMPOSER_ROOT_VERSION=3.0.x-dev
 
 matrix:
   include:
-    - php: '7.1'
-      env: DB=MYSQL RECIPE_VERSION=4.2.x-dev PHPUNIT_TEST=1 PHPCS_TEST=1
-    - php: '7.1'
-      env: DB=PGSQL RECIPE_VERSION=4.3.x-dev PHPUNIT_COVERAGE_TEST=1
-    - php: '7.2'
-      env: DB=MYSQL RECIPE_VERSION=4.4.x-dev PHPUNIT_TEST=1
-    - php: '7.3'
-      env: DB=MYSQL RECIPE_VERSION=4.x-dev PHPUNIT_TEST=1
+    # - php: 7.3
+    #   env: DB=MYSQL INSTALLER_VERSION=4.4.x-dev PHPCS_TEST=1 PHPUNIT_TEST=1
+    - php: 7.3
+      env: DB=MYSQL INSTALLER_VERSION=4.4.x-dev PHPUNIT_TEST=1
+    - php: 7.3
+      env: DB=PGSQL INSTALLER_VERSION=4.4.x-dev PHPUNIT_TEST=1
+    - php: 7.3
+      env: DB=MYSQL INSTALLER_VERSION=4.4.x-dev PHPUNIT_COVERAGE_TEST=1
 
 before_script:
-  # Init PHP
   - phpenv rehash
   - phpenv config-rm xdebug.ini || true
-
-  # Install composer dependencies
+  - echo 'memory_limit = 3096M' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - export PATH=~/.composer/vendor/bin:$PATH
   - composer validate
-  - if [[ $DB == PGSQL ]]; then composer require silverstripe/postgresql:2.1.x-dev --no-update; fi
-  - composer require --no-update silverstripe/recipe-cms:"$RECIPE_VERSION" silverstripe/recipe-testing:^1
-  - composer install --prefer-dist --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
- 
+  - if [[ $DB == PGSQL ]]; then composer require silverstripe/postgresql:^2.2 --no-update; fi
+  - composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
+  - composer require --no-update silverstripe/installer:$INSTALLER_VERSION
+  - if [[ $PHPCS_TEST ]]; then composer require squizlabs/php_codesniffer:^3 --prefer-dist --no-interaction --no-progress --no-suggest -o; fi
+
 script:
   - if [[ $PHPUNIT_TEST ]]; then vendor/bin/phpunit; fi
-  - if [[ $PHPUNIT_COVERAGE_TEST ]]; then phpdbg -qrr vendor/bin/phpunit --coverage-clover=coverage.xml tests; fi
-  - if [[ $PHPCS_TEST ]]; then vendor/bin/phpcs src/ tests/; fi
+  - if [[ $PHPUNIT_COVERAGE_TEST ]]; then phpdbg -qrr vendor/bin/phpunit --coverage-clover=coverage.xml; fi
+  - if [[ $PHPCS_TEST ]]; then vendor/bin/phpcs -s src/ tests/; fi

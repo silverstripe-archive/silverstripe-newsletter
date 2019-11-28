@@ -71,12 +71,10 @@ class SubscriptionPageController extends PageController
                 $daysExpired
             );
 
-        return $this->customise(
-            array(
+        return $this->customise([
             'Title' => _t('Newsletter.SubscriptionSubmitted', 'Subscription submitted!'),
-            'Content' => $this->customise($recipientData)->renderWith('SubscriptionSubmitted'),
-            )
-        )->renderWith('Page');
+            'Content' => $this->customise($recipientData)->renderWith('Includes/SubscriptionSubmitted'),
+        ])->renderWith('Page');
     }
 
     public function subscribeverify()

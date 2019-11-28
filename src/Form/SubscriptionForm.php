@@ -2,6 +2,8 @@
 
 namespace SilverStripe\Newsletter\Form;
 
+use Exception;
+use Psr\Log\LoggerInterface;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\FileField;
@@ -13,7 +15,9 @@ use SilverStripe\Forms\CompositeField;
 use SilverStripe\Newsletter\Pagetypes\SubscriptionPage;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Control\Email\Email;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\SiteConfig\SiteConfig;
+use SilverStripe\View\ArrayData;
 
 class SubscriptionForm extends Form
 {
@@ -160,10 +164,10 @@ class SubscriptionForm extends Form
         $email = Email::create();
         $email->setTo($data['Email']);
 
-        $from = ($this->controller->NotificationEmailFrom) ? $this->controller->NotificationEmailFrom : Email::getAdminEmail();
+        $from = ($this->controller->NotificationEmailFrom) ? $this->controller->NotificationEmailFrom : Email::config()->get('admin_email');
 
         $email->setFrom($from);
-        $email->setTemplate('SubscriptionVerificationEmail');
+        $email->setHTMLTemplate('SubscriptionVerificationEmail');
         $email->setSubject(
             _t(
                 'Newsletter.VerifySubject',
@@ -171,10 +175,13 @@ class SubscriptionForm extends Form
             )
         );
 
-        $email->populateTemplate($data);
-
+        $email->setData(new ArrayData($data));
         $this->extend('updateEmailConfirmation', $email);
 
-        $email->send();
+        try {
+            $email->send();
+        } catch (Exception $e) {
+            Injector::inst()->create(LoggerInterface::class)->error($e);
+        }
     }
 }

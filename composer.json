@@ -1,6 +1,7 @@
 {
     "name": "silverstripe/newsletter",
     "description": "Newsletter module allows a backend CMS users send newsletters to different mailing lists",
+    "license": "BSD-3-Clause",
     "type": "silverstripe-vendormodule",
     "keywords": ["silverstripe","newsletters","email","edm","mail","newsletter","mass-email"],
     "authors": [{
@@ -16,7 +17,7 @@
         "silverstripe/vendor-plugin": "^1.0"
     },
     "require-dev": {
-        "phpunit/PHPUnit": "~4.8"
+        "phpunit/phpunit": "~4.8"
     },
     "extra": {
         "branch-alias": {

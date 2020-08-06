@@ -279,7 +279,7 @@ class Newsletter extends DataObject implements CMSPreviewable
                         new GridFieldPaginator(30)
                     );
 
-                    $gridFieldConfig->addComponent( new GridFieldButtonRow('before') );
+                    $gridFieldConfig->addComponent(new GridFieldButtonRow('before'));
 
                     $sendRecipientGrid = GridField::create(
                         'SendRecipientQueue',
@@ -333,7 +333,7 @@ class Newsletter extends DataObject implements CMSPreviewable
 
         if (isset($paths) && is_array($paths)) {
             $absPath = Director::baseFolder();
-            if ($absPath{strlen($absPath)-1} != "/") {
+            if ($absPath[strlen($absPath)-1] != "/") {
                 $absPath .= "/";
             }
 

@@ -1,1 +1,5 @@
 .sass-cache
+/vendor/
+*.log
+.env
+.idea

@@ -28,7 +28,7 @@ class NewsletterGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_Item
 
         if (empty($this->record->Status) || $this->record->Status == "Draft") {
             // save draft button
-            $actions->fieldByName("action_doSave")
+            $actions->fieldByName("MajorActions.action_doSave")
                 ->setTitle(_t('Newsletter.SAVE', "Save"))
                 ->removeExtraClass('ss-ui-action-constructive')
                 ->setAttribute('data-icon', 'addpage');

@@ -1,6 +1,6 @@
 {
-    "name": "silverstripe/newsletter",
-    "description": "Newsletter module allows a backend CMS users send newsletters to different mailing lists",
+    "name": "spliffs/silverstripe-newsletter",
+    "description": "Fork from 'silverstripe/newsletter' for Silverstripe CMS ^4.5: Newsletter module allows a backend CMS users send newsletters to different mailing lists",
     "license": "BSD-3-Clause",
     "type": "silverstripe-vendormodule",
     "keywords": ["silverstripe","newsletters","email","edm","mail","newsletter","mass-email"],
@@ -10,9 +10,12 @@
     }, {
         "name": "Julian Seidenberg",
         "email": "julian@silverstripe.com"
+    }, {
+        "name": "Spliff Splendor",
+        "email": "Soliff.Splendor@gmail.com"
     }],
     "require": {
-        "silverstripe/cms": "^4@dev",
+        "silverstripe/cms": "^4.5",
         "symbiote/silverstripe-queuedjobs": "^4",
         "silverstripe/vendor-plugin": "^1.0"
     },

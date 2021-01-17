@@ -56,6 +56,10 @@ class SubscriptionForm extends Form
         $required = new RequiredFields(['Email']);
 
         parent::__construct($controller, $name, $fields, $actions, $required);
+        
+        if ($this->hasMethod('enableSpamProtection') {
+            $this->enableSpamProtection();
+        }
     }
 
      /**

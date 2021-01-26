@@ -57,7 +57,7 @@ class SubscriptionForm extends Form
 
         parent::__construct($controller, $name, $fields, $actions, $required);
         
-        if ($this->hasMethod('enableSpamProtection') {
+        if ($this->hasMethod('enableSpamProtection')) {
             $this->enableSpamProtection();
         }
     }

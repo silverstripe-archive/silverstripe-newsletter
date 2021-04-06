@@ -170,6 +170,8 @@ class Recipient extends DataObject
         $fields->makeFieldReadonly('ValidateHashExpired');
         $fields->makeFieldReadonly('Verified');
 
+        $this->extend("updateRecipientFields", $fields);
+
         return $fields;
     }
 

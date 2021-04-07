@@ -158,6 +158,10 @@ class Recipient extends DataObject
 
     public function getCMSFields()
     {
+        $this->beforeUpdateCMSFields(function ($fields) {
+            $fields->makeFieldReadonly('Verified');
+        });
+
         $fields = parent::getCMSFields();
 
         $fields->removeByName('FileTracking');
@@ -168,7 +172,6 @@ class Recipient extends DataObject
         $fields->makeFieldReadonly('ReceivedCount');
         $fields->makeFieldReadonly('ValidateHash');
         $fields->makeFieldReadonly('ValidateHashExpired');
-        $fields->makeFieldReadonly('Verified');
 
         return $fields;
     }
